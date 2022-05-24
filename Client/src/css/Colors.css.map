@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "Colors.css"
+}
