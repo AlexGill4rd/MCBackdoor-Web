@@ -1,0 +1,9 @@
+@import '../../../globalscss/Functions.scss';
+@import '../../../globalscss/Colors.scss';
+
+.serverpage-container{
+    width: 100vw;
+    min-height: 100vh;
+
+    @include centerFlex(center, center, column);
+}

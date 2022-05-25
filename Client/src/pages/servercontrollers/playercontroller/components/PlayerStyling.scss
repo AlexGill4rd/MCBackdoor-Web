@@ -1,0 +1,45 @@
+@import '../../../../globalscss/Functions.scss';
+@import '../../../../globalscss/Colors.scss';
+
+.playertab{
+    width: 100%;
+    height: 45px;
+
+    border-radius: 7px;
+    padding: 0 20px;
+    margin: 10px 0;
+
+    background-color: white;
+    cursor: pointer;
+
+    @include centerFlex(center, center, row);
+    transition: background-color 100ms ease-in-out;
+    &:hover{
+        background-color: rgb(243, 243, 243);
+    }
+    &-icon{
+        width: 30px;
+        height: 30px;
+
+        margin: 10px 0;
+        img{
+            width: 100%;
+            height: 100%;
+
+            border-radius: 7px;
+
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            object-fit: cover;
+        }
+    }
+    &-playername{
+        font-size: 1em;
+    }
+    &-verticalline{
+        width: 30px;
+        height: 100%;
+        @include centerFlex(center, center, row);
+    }
+}

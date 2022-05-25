@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,UAAU,CAAA;EACN,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,IAAI;ECJhB,OAAO,EAAE,IAAI;EACb,cAAc,EDK0B,GAAG;ECJ3C,eAAe,EDIK,UAAU;ECH9B,WAAW,EDGqB,MAAM;CAQzC;;AAPI,AAAD,eAAM,CAAA;EACF,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;CACf;;AACA,AAAD,qBAAY,CAAA;EACR,SAAS,EAAE,GAAG;CACjB",
+    "sources": [
+        "../pages/servercontrollers/playercontroller/components/PlayerStyle.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "PlayerStyle.css"
+}

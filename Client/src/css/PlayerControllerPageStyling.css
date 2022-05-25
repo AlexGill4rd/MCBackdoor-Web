@@ -1,0 +1,39 @@
+.controller-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.controller-players {
+  width: 600px;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
+  padding: 20px;
+  background-color: #3180E8;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.controller-features {
+  width: 350px;
+  max-height: 100%;
+  overflow-y: scroll;
+  padding: 20px;
+  background-color: #235DA8;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.controller-panel {
+  width: calc(100% - 950px);
+  min-height: 100%;
+}
+/*# sourceMappingURL=PlayerControllerPageStyling.css.map */

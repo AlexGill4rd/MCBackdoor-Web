@@ -1,0 +1,65 @@
+@import '../../../globalscss/Functions.scss';
+@import '../../../globalscss/Colors.scss';
+
+.controller{
+    &-container{
+        width: 100vw;
+        height: 100vh;
+
+        @include centerFlex(flex-start, center, row);
+    }
+    &-players{
+        width: 600px;
+        min-height: 100vh;
+        max-height: 100vh;
+        
+        overflow-y: scroll;
+
+        padding: 20px;
+
+        background-color: $blue-1;
+
+        @include centerFlex(flex-start, center, column);
+        &-header{
+            height: 30px;
+            width: 100%;
+
+            border-bottom: 1px solid $blue-3;
+            @include centerFlex(flex-start, center, row);
+            &-icon{
+                height: 100%;
+                width: auto;
+
+                font-size: 1.5em;
+                margin-right: 10px;
+            }
+            &-playercount{
+                width: 400px;
+                height: auto;
+            }
+            &-back{
+                width: calc(100% - 400px - 29px);
+                text-decoration: none;
+                color: white;
+                text-align: right;
+            }
+        }
+        &-list{
+            height: calc(100% - 30px);
+        }
+    }
+    &-features{
+        width: 350px;
+        max-height: 100%;
+        overflow-y: scroll;
+        
+        padding: 20px;
+
+        background-color: $blue-2;
+        @include centerFlex(flex-start, center, column);
+    }
+    &-panel{
+        width: calc(100% - 950px);
+        min-height: 100%;
+    }
+}

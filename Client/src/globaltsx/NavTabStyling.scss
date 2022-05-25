@@ -1,0 +1,29 @@
+@import '../globalscss/Functions.scss';
+@import '../globalscss/Colors.scss';
+
+.navtab-button{
+    width: 250px;
+    height: 250px;
+    
+    background-color: $yellow-2;
+    border-radius: 100%;
+    @include centerFlex(center, center, column);
+    margin: 0 50px;
+    padding: 20px;
+    text-align: center;
+
+    cursor: pointer;
+    transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
+    &:hover{
+        transform: scale(1.05);
+    }
+    &-title{
+        text-decoration: none;
+        color: black;
+        font-size: 1.5em;   
+    }
+    &-description{
+        color: #313131;
+        font-size: 1em;   
+    }
+}

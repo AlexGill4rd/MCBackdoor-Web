@@ -1,0 +1,50 @@
+@import '../../../../globalscss/Functions.scss';
+@import '../../../../globalscss/Colors.scss';
+
+.servertab{
+    width: 800px;
+    min-height: 50px;
+
+    border-radius: 6px;
+    background-color: $yellow-1;
+
+    padding: 5px 20px;
+    margin: 10px 0;
+
+    @include centerFlex(space-between, center, row);
+    &:hover{
+        background-color: $yellow-2;
+    }
+    &-id{
+        width: 20px;
+        height: 100%;
+        @include centerFlex(center, center, row);
+    }
+    &-image{
+        width: 35px;
+        height: 35px;
+        @include centerFlex(center, center, row);
+    }
+    &-ip{
+        width: 240px;
+        height: 100%;
+        @include centerFlex(center, center, row);
+    }
+    &-beheren{
+        width: 200px;
+        height: 30px;
+        @include centerFlex(center, center, row);
+    }
+    &-state{
+        width: 15px;
+        height: 15px;
+        @include centerFlex(center, center, row);
+    }
+    &-verticalline{
+        width: 10px;
+        height: 20px;
+    }
+    a{
+        text-decoration: none;
+    }
+}

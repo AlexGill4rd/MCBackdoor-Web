@@ -1,0 +1,29 @@
+.feature-button {
+  width: 100%;
+  height: auto;
+  padding: 7px 20px;
+  margin: 10px 0;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 100ms ease-in-out;
+}
+
+.feature-button-title {
+  color: #235DA8;
+}
+
+.feature-button-description {
+  font-size: 0.7em;
+  color: #a8a8a8;
+  text-align: center;
+}
+
+.feature-button:hover {
+  background-color: #d7f2ff;
+}
+/*# sourceMappingURL=FeatureButtonStyle.css.map */

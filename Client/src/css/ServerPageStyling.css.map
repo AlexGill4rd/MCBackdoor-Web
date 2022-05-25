@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,qBAAqB,CAAA;EACjB,KAAK,EAAE,KAAK;EACZ,UAAU,EAAE,KAAK;ECJjB,OAAO,EAAE,IAAI;EACb,cAAc,EDKsB,MAAM;ECJ1C,eAAe,EDIK,MAAM;ECH1B,WAAW,EDGiB,MAAM;CACrC",
+    "sources": [
+        "../pages/serverpage/styling/ServerPageStyling.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "ServerPageStyling.css"
+}

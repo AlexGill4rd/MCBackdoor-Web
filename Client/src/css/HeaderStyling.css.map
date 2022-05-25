@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,OAAO,CAAA;EACH,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,IAAI;ECJZ,OAAO,EAAE,IAAI;EACb,cAAc,EDKsB,MAAM;ECJ1C,eAAe,EDIK,MAAM;ECH1B,WAAW,EDGiB,MAAM;EAClC,QAAQ,EAAE,KAAK;CAQlB;;AAPI,AAAD,aAAO,CAAA;EACH,SAAS,EAAE,GAAG;CACjB;;AARL,AASI,OATG,CASH,CAAC,CAAA;EACG,eAAe,EAAE,IAAI;EACrB,KAAK,EAAE,KAAK;CACf",
+    "sources": [
+        "../globaltsx/HeaderStyling.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "HeaderStyling.css"
+}

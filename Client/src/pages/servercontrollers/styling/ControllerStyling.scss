@@ -1,0 +1,14 @@
+.controller{
+    &-container{
+        width: 100vw;
+        height: 100vh;
+    }
+    &-features{
+        width: 400px;
+        min-height: 100%;
+    }
+    &-panel{
+        width: calc(100% - 400px);
+        min-height: 100%;
+    }
+}
