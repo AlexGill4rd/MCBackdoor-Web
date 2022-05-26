@@ -1,0 +1,14 @@
+@import '/src/globalscss/Functions.scss';
+@import '/src/globalscss/Colors.scss';
+
+.panel-header{
+    width: 100%;
+    height: 40px;
+
+    @include centerFlex(center, center, column);
+}
+.panel-line{
+    width: 50%;
+    height: 1px;
+    border-bottom: 1px solid $blue-1;
+}

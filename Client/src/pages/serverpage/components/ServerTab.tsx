@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 import React, { useState } from 'react';
 
 import { FaCheckCircle } from "react-icons/fa";
@@ -7,19 +7,29 @@ import { Link } from 'react-router-dom';
 
 import './styling/ServerTab.scss';
 
-function ServerTab(props: {serverImage: string, serverName: string, serverState: boolean, serverID: number}){
-    const [serverImage, setServerImage] = useState(props.serverImage);
-    const [serverName, setServerName] = useState(props.serverName);
-    const [serverState, setServerState] = useState(props.serverState);
-    const [serverID, setServerID] = useState(props.serverID);
+function ServerTab(props: {server: any;}){
+    const [serverImage, setServerImage] = useState(props.server.Image);
+    const [serverName, setServerName] = useState(props.server.Name);
+    const [serverState, setServerState] = useState(props.server.State);
+    const [serverID, setServerID] = useState(props.server.id);
+    const [serverMOTD, setServerMOTD] = useState(props.server.MOTD);
+    const [serverMax, setServerMax] = useState(props.server.MaxPlayers);
+    const [serverOnlineP, setServerOnlineP] = useState(props.server.OnlinePlayers);
+    const [serverVersion, setServerVersion] = useState(props.server.Version);
 
     return (
         <div className="servertab">
             <div className='servertab-id'>{serverID}</div>
             <div className='servertab-verticalline'>|</div>
-            <div className='servertab-image'><img src={serverImage} /></div>
+            <Tooltip title={serverVersion}>
+                <div className='servertab-image'><img src={serverImage} /></div>
+            </Tooltip>
             <div className='servertab-verticalline'>|</div>
-            <div className='servertab-ip'>{serverName}</div>
+            <Tooltip title={serverMOTD}>
+                <div className='servertab-ip'>{serverName}</div>
+            </Tooltip>
+            <div className='servertab-verticalline'>|</div>
+            <div className='servertab-players'>{serverOnlineP + " / " + serverMax}</div>
             <div className='servertab-verticalline'>|</div>
             <Link to={'/controller/servers/' + serverID}>
                 <Button className='servertab-beheren' variant="contained" >

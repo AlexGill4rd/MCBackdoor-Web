@@ -60,6 +60,10 @@
     }
     &-panel{
         width: calc(100% - 950px);
-        min-height: 100%;
+        height: 100%;
+
+        padding: 30px;
+
+        @include centerFlex(space-between, center, column);
     }
 }

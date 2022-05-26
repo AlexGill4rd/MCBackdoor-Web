@@ -1,0 +1,42 @@
+.operatorpanel-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.operatorpanel-buttons {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.operatorpanel-buttons-button {
+  width: 200px;
+  height: 200px;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+
+.operatorpanel-buttons-button p {
+  font-size: 4em;
+}
+
+.operatorpanel-buttons-button:hover {
+  transform: scale(1.05);
+}
+/*# sourceMappingURL=OperatorPanelStyle.css.map */

@@ -38,9 +38,7 @@ app.post('/servers', function (req, res) {
 app.post('/server/get', function (req, res) {
   let token = req.body.token;
   let serverid = req.body.serverid;
-  console.log(serverid)
   if (token === token){
-    console.log(token)
     let sql = 'SELECT * FROM servers WHERE id = ?';
       connection.query(sql, [serverid],(error, results) => {
         if (error) throw error;
@@ -59,13 +57,20 @@ app.post('/minecraft/player', function (req, res) {
   let playerUUID = mojangAPI.getUUID(playerName);
   let playerImage = mojangAPI.getPlayerHeadByName(playerName);
 
-  mojangAPI.getUUID("KoningDerKoekjes").then( response => {
-    playerUUID = response.id;
-    mojangAPI.getPlayerHeadByName("KoningDerKoekjes").then( response => {
-      playerImage = response;
-      res.send(JSON.stringify({playerName: playerName, playerUUID: playerUUID, playerImage: playerImage}));
+  let sql = 'SELECT * FROM players WHERE Displayname = ?';
+  connection.query(sql, [playerName],(error, results) => {
+    if (error) throw error;
+    if (results.length > 0){
+      res.send(JSON.stringify(results[0]));
       res.end();
-    });
+    }else{
+      mojangAPI.getPlayerHeadByName(playerName).then( response => {
+        playerImage = response;
+
+        res.send(JSON.stringify(player));
+        res.end();
+      });
+    }
   });
 });
 app.listen(PORT, () => {
