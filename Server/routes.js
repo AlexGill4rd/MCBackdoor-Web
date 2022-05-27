@@ -24,10 +24,10 @@ const connection = mysql.createPool({
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.post('/servers', function (req, res) {
+app.post('/servers/get', function (req, res) {
     let token = req.body.token;
     if (token === token){
-        let sql = 'SELECT * FROM servers ORDER BY InjectedDate';
+        let sql = 'SELECT * FROM servers ORDER BY id';
         connection.query(sql ,(error, results) => {
           if (error) throw error;
           res.send(results);

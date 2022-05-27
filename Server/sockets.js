@@ -78,18 +78,18 @@ io.on('connection', socket => {
                 connection.query(sqlFind, [data.Name],(error, results) => {
                     if (error) throw error;
                     if (results.length > 0){
-                        let sqlUpdate = 'UPDATE servers SET Image=?,State=?,MaxPlayers=? WHERE Name=?';
-                        connection.query(sqlUpdate, [JSON.stringify("Image", data.Image), data.State, data.MaxPlayers, data.Name] ,(error, results) => {
+                        let sqlUpdate = 'UPDATE servers SET Image=?,MOTD=?,State=?,MaxPlayers=?,Version=? WHERE Name=?';
+                        connection.query(sqlUpdate, [JSON.stringify({"Image": data.Image}), data.MOTD, data.State, data.MaxPlayers, data.Version, data.Name] ,(error, results) => {
                             if (error) throw error;
                             console.log("Server Updated: " + data.Name);
-                            io.emit("server:active-server", data);
+                            io.emit("server:update-servers", data);
                         }); 
                     }else{
-                        let sqlInsert = 'INSERT INTO servers (id, Image, Name, State, MaxPlayers, InjectedDate) VALUES (?,?,?,?,?,CURRENT_TIMESTAMP)';
-                        connection.query(sqlInsert, [data.id, JSON.stringify("Image", data.Image), data.Name, data.State, data.MaxPlayers] ,(error, results) => {
+                        let sqlInsert = 'INSERT INTO servers (id, Image, Name, MOTD, State, MaxPlayers, Version, InjectedDate) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP)';
+                        connection.query(sqlInsert, [data.id, JSON.stringify({"Image": data.Image}), data.Name, data.MOTD, data.State, data.MaxPlayers, data.Version] ,(error, results) => {
                             if (error) throw error;
                             console.log("Server toegevoegd: " + data.Name);
-                            io.emit("server:active-server", data);
+                            io.emit("server:update-servers", data);
                         });   
                     }
                 });
@@ -102,7 +102,7 @@ io.on('connection', socket => {
         connection.query(sqlUpdate, [data.State, data.Name] ,(error) => {
             if (error) throw error;
             console.log("Server closed: " + data.Name);
-            io.emit("server:server-disconnect", data);
+            io.emit("server:update-servers", data);
         }); 
     });
 });
