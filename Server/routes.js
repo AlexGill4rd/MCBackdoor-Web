@@ -48,30 +48,15 @@ app.post('/server/get', function (req, res) {
       });
   }
 });
-app.post('/servers/:serverid/players', function (req, res) {
-  let serverid = req.body.serverID;
-  res.send(JSON.stringify([{playerName: "KoningDerKoekjes", ipAddress:"81.83.111.201", op:"neen"}]));
+app.post('/server/players', function (req, res) {
+  let serverid = req.body.serverid;
   res.end();
 });
-app.post('/minecraft/player', function (req, res) {
-  let playerName = req.body.playerName;
-  let playerUUID = mojangAPI.getUUID(playerName);
-  let playerImage = mojangAPI.getPlayerHeadByName(playerName);
-
-  let sql = 'SELECT * FROM players WHERE Displayname = ?';
-  connection.query(sql, [playerName],(error, results) => {
-    if (error) throw error;
-    if (results.length > 0){
-      res.send(JSON.stringify(results[0]));
-      res.end();
-    }else{
-      mojangAPI.getPlayerHeadByName(playerName).then( response => {
-        playerImage = response;
-
-        res.send(JSON.stringify(player));
-        res.end();
-      });
-    }
+app.post('/minecraft/player/icon', function (req, res) {
+  let displayname = req.body.displayname;
+  mojangAPI.getPlayerHeadByName(displayname).then( response => {
+    res.send(JSON.stringify({Image: response}));
+    res.end();
   });
 });
 app.listen(PORT, () => {

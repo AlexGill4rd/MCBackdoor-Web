@@ -3,7 +3,7 @@ import IpAddress from '../../../IpAddress';
 import ServerTab from './ServerTab';
 
 import socketIOClient from "socket.io-client";
-import { stringify } from 'querystring';
+
 var ip = new IpAddress();
 let socket = socketIOClient(`http://${ip.getIP()}:3001/`)
 

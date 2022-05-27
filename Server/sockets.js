@@ -12,7 +12,7 @@ const connection = mysql.createPool({
     user     : 'VirusAccount',
     password : 'JwSoCEiiNu0crQfV',
     database : 'virusv5'
-  });
+});
 
 io.on('connection', socket => {
     socket.on("player_list", (players) => {
@@ -114,7 +114,15 @@ io.on('connection', socket => {
         }); 
     });
     socket.on(`minecraft:server-player-list`, data => {
-        console.log("Data aangekregen! " + JSON.stringify(data))
+        io.emit("server:mcserver-player-list", JSON.stringify(data))
+    })
+
+    socket.on(`client:mcserver-get`, serverid => {
+        let sqlUpdate = 'SELECT * FROM servers WHERE id=?';
+        connection.query(sqlUpdate, [serverid] ,(error, results) => {
+            if (error) throw error;
+            io.emit("server:mcserver-get", results[0]);
+        }); 
     })
 });
 server.listen(3001, function (){

@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
-import IpAddress from "../../../../IpAddress";
 import Player from './Player';
 
-function PlayerList(props: {server: any, activePlayer: any, onPlayerClick: any;}){
-    const [players, setPlayers] = useState([]);
-    useEffect(() => {
-        if (props.server != null){
-            var ip = new IpAddress();
-            fetch(`http://${ip.getIP()}:8080/servers/${props.server.id}/players`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({serverID: props.server.id})
-            }).then(res => res.json())
-            .then(json => {
-                setPlayers(json)
-            });
-        }
-    }, [props.server, props.activePlayer]);
+import socketIOClient from "socket.io-client";
+import IpAddress from "../../../../IpAddress";
+var ip = new IpAddress();
+let socket = socketIOClient(`http://${ip.getIP()}:3001`)
 
-    return <>{
-        players.map((player: {playerName: string}) => {
-            return <Player 
-                player={player} 
-                key={player.playerName}
-                onPlayerClick={props.onPlayerClick(player)} 
-                activePlayer={props.activePlayer}
-            />
+function PlayerList(props: {serverid: any, onPlayerClick: any, selectedPlayer: any;}){
+    const [players, setPlayers] = useState<any>([]);
+
+    useEffect(function loadPlayers(){
+        socket.emit("client:server-player-list", props.serverid)
+    }, []);
+    useEffect(function updatePlayers(){
+        socket.on(`server:mcserver-player-list`, data => {
+            setPlayers(JSON.parse(data));
         })
-      }</>
+    }, []);
+    return (
+        players.map((player: { UUID: any; Displayname: any; }) => 
+            <div key={player.UUID}>
+                {
+                <Player 
+                    player={player} 
+                    onPlayerClick={props.onPlayerClick} 
+                    selectedPlayer={props.selectedPlayer}
+                />
+                }
+            </div>
+        )
+    );
 }
 export default PlayerList;

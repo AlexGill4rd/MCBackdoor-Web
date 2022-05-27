@@ -4,48 +4,46 @@ import IpAddress from "../../../../IpAddress";
 
 import './PlayerStyling.scss';
 
-function Player(props: {player: any, onPlayerClick: any, activePlayer: any;}){
-    const [playerUUID, setPlayerUUID] = useState<any>(" ");
-    const [playerImage, setPlayerImage] = useState<any>();
+function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
     const [background, setBackground] = useState<string>("white");
+    const player = props.player;
 
-    useEffect(() => {
-        if (playerUUID === " "){
-            var ip = new IpAddress();
-            fetch(`http://${ip.getIP()}:8080/minecraft/player`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({playerName: props.player.playerName})
-            }).then(res => res.json())
-            .then(json => {
-                setPlayerUUID(json.playerUUID);
-                setPlayerImage(json.playerImage);            
-            });
-        }
-        if (props.activePlayer != null){
-            if (props.activePlayer.playerName === props.player.playerName){
+    useEffect(function loadPlayerIcon() {
+        var ip = new IpAddress();
+        fetch(`http://${ip.getIP()}:8080/minecraft/player/icon`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({displayname: player.Displayname})
+        }).then(res => res.json())
+        .then(json => {
+            player.Image = json.Image
+        });
+    }, [props.selectedPlayer]);
+    useEffect(function updateBackground(){
+        if (props.selectedPlayer != null){
+            console.log(props.selectedPlayer.Displayname)
+            if (props.selectedPlayer.Displayname === player.Displayname){
                 if (background === "lime"){
                     setBackground("white");
                     props.onPlayerClick(null)
                 }else setBackground("lime");
             }else setBackground("white");
         }else setBackground("white");
-        
-    }, [props.activePlayer]);
+    }, [props.selectedPlayer]);
     return (
-        <div className="playertab" style={{backgroundColor: background}} onClick={() => props.onPlayerClick(props.player)}>
-            <div className="playertab-icon"><img src={playerImage} /></div>
+        <div className="playertab" style={{backgroundColor: background}} onClick={() => props.onPlayerClick(player)}>
+            <div className="playertab-icon"><img src={player.Image} /></div>
             <div className='playertab-verticalline'>|</div>
-            <Tooltip title={"UUID: " + playerUUID}>
-                <div className="playertab-playername">{props.player.playerName}</div>
+            <Tooltip title={"UUID: " + player.UUID}>
+                <div className="playertab-playername">{player.Displayname}</div>
             </Tooltip>
             <div className='playertab-verticalline'>|</div>
             <Tooltip title='Player operator status'>
-                <div className="playertab-status">OP: {props.player.op}</div>
+                <div className="playertab-status">OP: {player.Op}</div>
             </Tooltip> 
             <div className='playertab-verticalline'>|</div>
             <Tooltip title='Het publiek IP van de speler'>
-                <div className="playertab-ip">Ip: {props.player.ipAddress}</div>
+                <div className="playertab-ip">Ip: {player.Ip}</div>
             </Tooltip> 
         </div>
     );
