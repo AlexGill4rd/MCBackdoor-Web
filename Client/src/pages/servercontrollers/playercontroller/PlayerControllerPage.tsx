@@ -17,8 +17,19 @@ function PlayerControllerPage(){
     const { serverid } = useParams();
     const [loadedPanel, setLoadedPanel] = useState(null);
     const [activePlayer, setActivePlayer] = useState(null);
+
     const [server, setServer] = useState<any>(null);
-    const [players, setPlayers] = useState<any>(null);
+    const [players, setPlayers] = useState<any>([]);
+
+    useEffect(function loadPlayers(){
+        socket.emit("client:server-player-list", serverid)
+    }, []);
+    useEffect(function updatePlayers(){
+        socket.on(`minecraft:server-player-list`, data => {
+            console.log(data)
+            setPlayers(data);
+        })
+    }, []);
 
     useEffect(() => {
         socket.emit("client:active-players", server.Name)

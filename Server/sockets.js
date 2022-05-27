@@ -59,7 +59,7 @@ io.on('connection', socket => {
             timeout: 1000 * 5,
             enableSRV: true
         };
-        util.status(data.Name, 25565, options)
+        util.status(data.Name, data.Port, options)
         .then((result) => {
             data.MOTD = result.motd.clean;
             data.MaxPlayers = result.players.max;
@@ -85,8 +85,8 @@ io.on('connection', socket => {
                             io.emit("server:update-servers", data);
                         }); 
                     }else{
-                        let sqlInsert = 'INSERT INTO servers (id, Image, Name, MOTD, State, MaxPlayers, Version, InjectedDate) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP)';
-                        connection.query(sqlInsert, [data.id, JSON.stringify({"Image": data.Image}), data.Name, data.MOTD, data.State, data.MaxPlayers, data.Version] ,(error, results) => {
+                        let sqlInsert = 'INSERT INTO servers (id, Image, Name, MOTD, State, MaxPlayers, Version, InjectedDate, JsonData) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)';
+                        connection.query(sqlInsert, [data.id, JSON.stringify({"Image": data.Image}), (data.Name + ":" + data.Port), data.MOTD, data.State, data.MaxPlayers, data.Version, JSON.stringify(data)] ,(error, results) => {
                             if (error) throw error;
                             console.log("Server toegevoegd: " + data.Name);
                             io.emit("server:update-servers", data);
@@ -105,6 +105,17 @@ io.on('connection', socket => {
             io.emit("server:update-servers", data);
         }); 
     });
+
+    socket.on("client:server-player-list", serverid => {
+        let sqlUpdate = 'SELECT * FROM servers WHERE id=?';
+        connection.query(sqlUpdate, [serverid] ,(error, results) => {
+            if (error) throw error;
+            io.emit("server:server-player-list", results[0].Name);
+        }); 
+    });
+    socket.on(`minecraft:server-player-list`, data => {
+        console.log("Data aangekregen! " + JSON.stringify(data))
+    })
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")

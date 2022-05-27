@@ -14,9 +14,10 @@ function ServerTab(props: {server: any;}){
     const [serverID, setServerID] = useState(props.server.id);
     const [serverMOTD, setServerMOTD] = useState(props.server.MOTD);
     const [serverMax, setServerMax] = useState(props.server.MaxPlayers);
-    const [serverOnlineP, setServerOnlineP] = useState(props.server.OnlinePlayers);
     const [serverVersion, setServerVersion] = useState(props.server.Version);
-    
+    const [serverJsonData, setServerJsonData] = useState(props.server.JsonData);
+    const [serverOnlinePlayers, setServerOnlineP] = useState(serverJsonData.OnlinePlayers);
+
     useEffect(function updateData(){
         setServerImage(JSON.parse(props.server.Image).Image)
         setServerName(props.server.Name)
@@ -24,8 +25,9 @@ function ServerTab(props: {server: any;}){
         setServerID(props.server.id)
         setServerMOTD(props.server.MOTD)
         setServerMax(props.server.MaxPlayers)
-        setServerOnlineP(props.server.OnlinePlayers)
+        setServerOnlineP(JSON.parse(props.server.JsonData).OnlinePlayers)
         setServerVersion(props.server.Version)
+        setServerJsonData(JSON.parse(props.server.JsonData))
     }, [props.server]);
 
     return (
@@ -40,7 +42,7 @@ function ServerTab(props: {server: any;}){
                 <div className='servertab-ip'>{serverName}</div>
             </Tooltip>
             <div className='servertab-verticalline'>|</div>
-            <div className='servertab-players'>{serverOnlineP === undefined ? "- / " + serverMax : serverOnlineP + " / " + serverMax}</div>
+            <div className='servertab-players'>{serverOnlinePlayers === undefined ? "- / " + serverMax : serverOnlinePlayers + " / " + serverMax}</div>
             
             {serverState === 1 ?
                 <>
