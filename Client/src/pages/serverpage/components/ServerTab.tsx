@@ -37,7 +37,7 @@ function ServerTab(props: {server: any;}){
                 </Button>
             </Link>
             <div className='servertab-verticalline'>|</div>
-            {serverState ?
+            {serverState === true ?
                 <div className='servertab-state' style={{color: 'lime'}}><FaCheckCircle /></div> :
                 <div className='servertab-state' style={{color: 'red'}}><FaMinusCircle /></div>
             }

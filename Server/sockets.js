@@ -15,10 +15,6 @@ const connection = mysql.createPool({
   });
 
 io.on('connection', socket => {
-    socket.on("client:get-server", function () {
-        io.emit("server:get-server");
-    });
-
     socket.on("player_list", (players) => {
         players.forEach(player => {
             let sql = 'SELECT * FROM players WHERE Displayname = ?';
@@ -55,6 +51,9 @@ io.on('connection', socket => {
         io.emit("server:active-players", players)
     });
 
+    socket.on("client:get-servers", function () {
+        io.emit("server:get-server");
+    });
     socket.on('minecraft:active-server', (data) => {
         const options = {
             timeout: 1000 * 5,
@@ -67,10 +66,44 @@ io.on('connection', socket => {
             data.OnlinePlayers = result.players.online;
             data.Image = result.favicon;
             data.Version = result.version.name;
-            io.emit("server:active-server", data);
+
+            var id = 0;
+            let idSQL = 'SELECT * FROM servers';
+            connection.query(idSQL ,(error, counter) => {
+                if (error) throw error;
+                id = counter.length;
+                data.id = id;
+
+                let sqlFind = 'SELECT * FROM servers WHERE Name = ?';
+                connection.query(sqlFind, [data.Name],(error, results) => {
+                    if (error) throw error;
+                    if (results.length > 0){
+                        let sqlUpdate = 'UPDATE servers SET Image=?,State=?,MaxPlayers=? WHERE Name=?';
+                        connection.query(sqlUpdate, [JSON.stringify("Image", data.Image), data.State, data.MaxPlayers, data.Name] ,(error, results) => {
+                            if (error) throw error;
+                            console.log("Server Updated: " + data.Name);
+                            io.emit("server:active-server", data);
+                        }); 
+                    }else{
+                        let sqlInsert = 'INSERT INTO servers (id, Image, Name, State, MaxPlayers, InjectedDate) VALUES (?,?,?,?,?,CURRENT_TIMESTAMP)';
+                        connection.query(sqlInsert, [data.id, JSON.stringify("Image", data.Image), data.Name, data.State, data.MaxPlayers] ,(error, results) => {
+                            if (error) throw error;
+                            console.log("Server toegevoegd: " + data.Name);
+                            io.emit("server:active-server", data);
+                        });   
+                    }
+                });
+            })
         })
         .catch((error) => console.error(error));
-        
+    });
+    socket.on('minecraft:server-disconnect', (data) => {
+        let sqlUpdate = 'UPDATE servers SET State=? WHERE Name = ?';
+        connection.query(sqlUpdate, [data.State, data.Name] ,(error) => {
+            if (error) throw error;
+            console.log("Server closed: " + data.Name);
+            io.emit("server:server-disconnect", data);
+        }); 
     });
 });
 server.listen(3001, function (){
