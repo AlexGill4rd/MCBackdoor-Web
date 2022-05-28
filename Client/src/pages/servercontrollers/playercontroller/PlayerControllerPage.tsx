@@ -10,7 +10,10 @@ import { FaUsers } from 'react-icons/fa';
 import IpAddress from '../../../IpAddress';
 
 import socketIOClient from "socket.io-client";
-import { json } from 'stream/consumers';
+import GamemodePanel from './features/panels/GamemodePanel';
+import CrashPanel from './features/panels/CrashPanel';
+import KickPanel from './features/panels/KickPanel';
+import TeleportPanel from './features/panels/TeleportPanel';
 var ip = new IpAddress();
 let socket = socketIOClient(`http://${ip.getIP()}:3001`)
 
@@ -37,7 +40,6 @@ function PlayerControllerPage(){
     }
     function handlePlayerClick(player: any){
         setSelectedPlayer(player);
-        console.log("ja")
     }
     return (
         <div className="controller-container">
@@ -58,10 +60,10 @@ function PlayerControllerPage(){
             </div>
             <div className="controller-features">
                 <FeatureButton title='Operator' description="Instellingen voor het beheren van de operator status van de speler" onClick={() => handleFeatureClick(<OperatorPanel player={selectedPlayer} />)} />
-                <FeatureButton title='Gamemode' description="Pas de gamemode aan van de speler" onClick={() => handleFeatureClick(OperatorPanel)} />
-                <FeatureButton title='Crash' description="Laat de speler zijn client crashen" onClick={() => handleFeatureClick(OperatorPanel)} />
-                <FeatureButton title='Kick' description="Kick de speler van de server" onClick={() => handleFeatureClick(OperatorPanel)} />
-                <FeatureButton title='Teleport' description="Teleporteer de speler naar een bepaalde locatie" onClick={() => handleFeatureClick(OperatorPanel)} />
+                <FeatureButton title='Gamemode' description="Pas de gamemode aan van de speler" onClick={() => handleFeatureClick(<GamemodePanel player={selectedPlayer} />)} />
+                <FeatureButton title='Crash' description="Laat de speler zijn client crashen" onClick={() => handleFeatureClick(<CrashPanel player={selectedPlayer} />)} />
+                <FeatureButton title='Kick' description="Kick de speler van de server" onClick={() => handleFeatureClick(<KickPanel player={selectedPlayer} />)} />
+                <FeatureButton title='Teleport' description="Teleporteer de speler naar een bepaalde locatie" onClick={() => handleFeatureClick(<TeleportPanel player={selectedPlayer} Address={server.Address} />)} />
                 <FeatureButton title='Whitelist' description="Pas de whitelist status van de speler aan" onClick={() => handleFeatureClick(OperatorPanel)} />
                 <FeatureButton title='Clear Inventory' description="Verwijder al de items in de speler zijn inventaris" onClick={() => handleFeatureClick(OperatorPanel)} />
                 <FeatureButton title='Kill' description="Vermoord de speler" onClick={() => handleFeatureClick(OperatorPanel)} />
@@ -76,10 +78,11 @@ function PlayerControllerPage(){
                 <FeatureButton title='Auto Kicker' description="Zorgt ervoor dat de speler niet meer in staat is de server te joinen. Hij zal telkens gekicked worden." onClick={() => handleFeatureClick(OperatorPanel)} />
             </div>
             <div className="controller-panel">
-                {loadedPanel != null && selectedPlayer != null ?
-                loadedPanel :
-                <>Selecteer een speler</>    
-            }
+                {
+                    loadedPanel != null && selectedPlayer != null ?
+                    loadedPanel : //Laadt panel in
+                    <>Selecteer een speler</> //Laad panel niet in, maar geef instructie
+                }
             </div>
         </div>
     );

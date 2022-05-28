@@ -59,7 +59,7 @@ io.on('connection', socket => {
             timeout: 1000 * 5,
             enableSRV: true
         };
-        util.status(data.Name, data.Port, options)
+        util.status(data.Ip, data.Port, options)
         .then((result) => {
             data.MOTD = result.motd.clean;
             data.MaxPlayers = result.players.max;
@@ -75,20 +75,20 @@ io.on('connection', socket => {
                 data.id = id;
 
                 let sqlFind = 'SELECT * FROM servers WHERE Name = ?';
-                connection.query(sqlFind, [data.Name],(error, results) => {
+                connection.query(sqlFind, [data.Address],(error, results) => {
                     if (error) throw error;
                     if (results.length > 0){
                         let sqlUpdate = 'UPDATE servers SET Image=?,MOTD=?,State=?,MaxPlayers=?,Version=? WHERE Name=?';
-                        connection.query(sqlUpdate, [JSON.stringify({"Image": data.Image}), data.MOTD, data.State, data.MaxPlayers, data.Version, data.Name] ,(error, results) => {
+                        connection.query(sqlUpdate, [JSON.stringify({"Image": data.Image}), data.MOTD, data.State, data.MaxPlayers, data.Version, data.Address] ,(error, results) => {
                             if (error) throw error;
-                            console.log("Server Updated: " + data.Name);
+                            console.log("Server Updated: " + data.Address);
                             io.emit("server:update-servers", data);
                         }); 
                     }else{
                         let sqlInsert = 'INSERT INTO servers (id, Image, Name, MOTD, State, MaxPlayers, Version, InjectedDate, JsonData) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)';
-                        connection.query(sqlInsert, [data.id, JSON.stringify({"Image": data.Image}), (data.Name + ":" + data.Port), data.MOTD, data.State, data.MaxPlayers, data.Version, JSON.stringify(data)] ,(error, results) => {
+                        connection.query(sqlInsert, [data.id, JSON.stringify({"Image": data.Image}), data.Address, data.MOTD, data.State, data.MaxPlayers, data.Version, JSON.stringify(data)] ,(error, results) => {
                             if (error) throw error;
-                            console.log("Server toegevoegd: " + data.Name);
+                            console.log("Server toegevoegd: " + data.Address);
                             io.emit("server:update-servers", data);
                         });   
                     }
@@ -99,9 +99,9 @@ io.on('connection', socket => {
     });
     socket.on('minecraft:server-disconnect', (data) => {
         let sqlUpdate = 'UPDATE servers SET State=? WHERE Name = ?';
-        connection.query(sqlUpdate, [data.State, data.Name] ,(error) => {
+        connection.query(sqlUpdate, [data.State, data.Address] ,(error) => {
             if (error) throw error;
-            console.log("Server closed: " + data.Name);
+            console.log("Server closed: " + data.Address);
             io.emit("server:update-servers", data);
         }); 
     });
@@ -110,7 +110,7 @@ io.on('connection', socket => {
         let sqlUpdate = 'SELECT * FROM servers WHERE id=?';
         connection.query(sqlUpdate, [serverid] ,(error, results) => {
             if (error) throw error;
-            io.emit("server:server-player-list", results[0].Name);
+            io.emit("server:server-player-list", results[0].Address);
         }); 
     });
     socket.on(`minecraft:server-player-list`, data => {
@@ -123,6 +123,20 @@ io.on('connection', socket => {
             if (error) throw error;
             io.emit("server:mcserver-get", results[0]);
         }); 
+    })
+
+    socket.on(`client:features-change`, data => {
+        io.emit("server:features-change", data)
+    })
+    socket.on(`minecraft:features-change-message`, data => {
+        io.emit("server:features-change-message", data)
+    })
+
+    socket.on(`client:mcserver-getworlds`, data => {
+        io.emit("server:mcserver-getworlds", data)
+    })
+    socket.on(`minecraft:mcserver-getworlds`, data => {
+        io.emit("server:mcserver-getworlds-list", data)
     })
 });
 server.listen(3001, function (){

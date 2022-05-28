@@ -1,0 +1,46 @@
+@import "../../../../../globalscss/Functions.scss";
+@import "../../../../../globalscss/Colors.scss";
+
+.teleportpanel-container{
+    width: 100%;
+    height: calc(100% - 40px);
+
+    @include centerFlex(center, center, column);
+}
+.teleportpanel-form{
+    width: 90%;
+    height: auto;
+
+    @include centerFlex(center, center, column);
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
+    input[type=text], select{
+        width: 100%;
+        padding: 8px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: center;
+    }
+    &-button{
+        width: 100%;
+        height: auto;
+        background-color: $blue-3;
+
+        color: white;
+        border-radius: 7px;
+
+        padding: 8px 20px;
+
+        @include centerFlex(center, center, column);
+        p{
+            font-size: 4em;
+        }
+        cursor: pointer;
+        transition: transform 200ms ease-in-out;
+        &:hover{
+            transform: scale(1.05);
+        }
+    }
+}
