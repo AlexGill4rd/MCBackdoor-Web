@@ -13,9 +13,14 @@ const connection = mysql.createPool({
     password : 'JwSoCEiiNu0crQfV',
     database : 'virusv5'
 });
-
+let serverSockets = [];
 io.on('connection', socket => {
-    socket.on("player_list", (players) => {
+
+    socket.on("minecraft:connect", (address) => {
+        socket.join(server);
+        serverSockets.push(address);
+    });
+    socket.on(`minecraft:player-list-update`, players => {
         players.forEach(player => {
             let sql = 'SELECT * FROM players WHERE Displayname = ?';
             connection.query(sql, [player.Displayname] ,(error, results) => {
@@ -26,24 +31,23 @@ io.on('connection', socket => {
                         if (error) throw error;
                     });
                 }else{
-                    mojangAPI.getPlayerHeadByName(player.Displayname).then( playerImage => {
-                        var id = 0;
-                        let idSQL = 'SELECT COUNT(*) FROM players';
-                        connection.query(idSQL ,(error, results) => {
-                            if (error) throw error;
-                            id = results;
-                        });
-                        let sql2 = 'INSERT INTO players (id, Displayname, UUID, Image, Op, Health, IP, XpLevel) VALUES (?,?,?,?,?,?,?,?)';
-                        connection.query(sql2, [id, player.Displayname, player.UUID, playerImage, player.Op, player.Health, player.Ip, player.XpLevel] ,(error, results) => {
-                            if (error) throw error;
-                            console.log("Player added: " + player.Displayname);
-                        }); 
+                    var id = 0;
+                    let idSQL = 'SELECT * FROM servers';
+                    connection.query(idSQL ,(error, results) => {
+                        if (error) throw error;
+                        id = results.length;
                     });
+                    let sql2 = 'INSERT INTO players (id, Displayname, UUID, Op, Health, IP, XpLevel) VALUES (?,?,?,?,?,?,?)';
+                    connection.query(sql2, [id, player.Displayname, player.UUID, player.Op, player.Health, player.Ip, player.XpLevel] ,(error, results) => {
+                        if (error) throw error;
+                        console.log("Player added: " + player.Displayname);
+                    }); 
                 }
             });
         });
         io.emit("server:player_update");
-    });
+    })
+
     socket.on("client:active-players", (server) => {
         io.emit("server:active-players", server)
     });
@@ -110,7 +114,7 @@ io.on('connection', socket => {
         let sqlUpdate = 'SELECT * FROM servers WHERE id=?';
         connection.query(sqlUpdate, [serverid] ,(error, results) => {
             if (error) throw error;
-            io.emit("server:server-player-list", results[0].Address);
+            socket.to(results[0].Name).emit("server:server-player-list");
         }); 
     });
     socket.on(`minecraft:server-player-list`, data => {

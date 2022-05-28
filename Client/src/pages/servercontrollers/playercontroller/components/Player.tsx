@@ -6,7 +6,8 @@ import './PlayerStyling.scss';
 
 function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
     const [background, setBackground] = useState<string>("white");
-    const [player, setPlayer] = useState(props.player);
+    const [player, setPlayer] = useState<any>(props.player);
+    const [icon, setIcon] = useState<any>();
 
     useEffect(function loadPlayerIcon() {
         var ip = new IpAddress();
@@ -16,7 +17,7 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
             body: JSON.stringify({displayname: player.Displayname})
         }).then(res => res.json())
         .then(json => {
-            player.Image = json.Image
+            setIcon(json.Image)
         });
     }, []);
     useEffect(function updateBackground(){
@@ -40,7 +41,7 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
     }
     return (
         <div className="playertab noselect" style={{backgroundColor: background}} onClick={onPlayerClick}>
-            <div className="playertab-icon"><img src={player.Image} /></div>
+            <div className="playertab-icon"><img src={icon} /></div>
             <div className='playertab-verticalline'>|</div>
             <Tooltip title={"UUID: " + player.UUID}>
                 <div className="playertab-playername">{player.Displayname}</div>
