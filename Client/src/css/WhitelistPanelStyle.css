@@ -1,0 +1,53 @@
+.whitelistpanel-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.whitelistpanel-form {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.whitelistpanel-form input[type=text], .whitelistpanel-form select {
+  width: 100%;
+  padding: 8px 20px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.whitelistpanel-form-button {
+  width: 100%;
+  height: auto;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+
+.whitelistpanel-form-button p {
+  font-size: 4em;
+}
+
+.whitelistpanel-form-button:hover {
+  transform: scale(1.05);
+}
+/*# sourceMappingURL=WhitelistPanelStyle.css.map */

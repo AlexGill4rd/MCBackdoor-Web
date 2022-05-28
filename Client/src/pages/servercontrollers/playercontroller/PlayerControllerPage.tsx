@@ -14,6 +14,7 @@ import GamemodePanel from './features/panels/GamemodePanel';
 import CrashPanel from './features/panels/CrashPanel';
 import KickPanel from './features/panels/KickPanel';
 import TeleportPanel from './features/panels/TeleportPanel';
+import WhitelistPanel from './features/panels/WhitelistPanel';
 var ip = new IpAddress();
 let socket = socketIOClient(`http://${ip.getIP()}:3001`)
 
@@ -64,7 +65,7 @@ function PlayerControllerPage(){
                 <FeatureButton title='Crash' description="Laat de speler zijn client crashen" onClick={() => handleFeatureClick(<CrashPanel player={selectedPlayer} />)} />
                 <FeatureButton title='Kick' description="Kick de speler van de server" onClick={() => handleFeatureClick(<KickPanel player={selectedPlayer} />)} />
                 <FeatureButton title='Teleport' description="Teleporteer de speler naar een bepaalde locatie" onClick={() => handleFeatureClick(<TeleportPanel player={selectedPlayer} Address={server.Address} />)} />
-                <FeatureButton title='Whitelist' description="Pas de whitelist status van de speler aan" onClick={() => handleFeatureClick(OperatorPanel)} />
+                <FeatureButton title='Whitelist' description="Pas de whitelist status van de speler aan" onClick={() => handleFeatureClick(<WhitelistPanel player={selectedPlayer} />)} />
                 <FeatureButton title='Clear Inventory' description="Verwijder al de items in de speler zijn inventaris" onClick={() => handleFeatureClick(OperatorPanel)} />
                 <FeatureButton title='Kill' description="Vermoord de speler" onClick={() => handleFeatureClick(OperatorPanel)} />
                 <FeatureButton title='Ban' description="Verban de speler van de server" onClick={() => handleFeatureClick(OperatorPanel)} />
