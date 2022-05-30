@@ -13,9 +13,9 @@
     cursor: pointer;
 
     @include centerFlex(center, center, row);
-    transition: background-color 100ms ease-in-out;
+    transition: transform 100ms ease-in-out;
     &:hover{
-        background-color: rgb(243, 243, 243);
+        transform: scale(1.03);
     }
     &-icon{
         width: 30px;
@@ -41,5 +41,14 @@
         width: 30px;
         height: 100%;
         @include centerFlex(center, center, row);
+    }
+    &-ip{
+        padding: 3px 5px;
+        border-radius: 7px;
+        transition: color 100ms ease-in-out,background-color 100ms ease-in-out;
+        &:hover{
+            background-color: $blue-1;
+            color: white;
+        }
     }
 }

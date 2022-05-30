@@ -10,11 +10,11 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  transition: background-color 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
 }
 
 .playertab:hover {
-  background-color: #f3f3f3;
+  transform: scale(1.03);
 }
 
 .playertab-icon {
@@ -44,5 +44,16 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.playertab-ip {
+  padding: 3px 5px;
+  border-radius: 7px;
+  transition: color 100ms ease-in-out,background-color 100ms ease-in-out;
+}
+
+.playertab-ip:hover {
+  background-color: #3180E8;
+  color: white;
 }
 /*# sourceMappingURL=PlayerStyling.css.map */
