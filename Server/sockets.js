@@ -27,8 +27,10 @@ let serverSockets = new Map();
 io.on('connection', socket => {
     socket.emit("connection-succes");
     socket.on("minecraft:connect", (address) => {
-        serverSockets.set(address, socket.id);
-        sendMessage("Server Is Verbonden!", address);
+        if (!serverSockets.get(address)){
+            serverSockets.set(address, socket.id);
+            sendMessage("Server Is Verbonden!", address);
+        }
     });
     socket.on("client:get-server-logs", (address) => {
         let getLogs = 'SELECT * FROM serverlogging WHERE Servername = ? ORDER BY Date ASC';
@@ -81,6 +83,7 @@ io.on('connection', socket => {
             timeout: 1000 * 5,
             enableSRV: true
         };
+        console.log(data)
         util.status(data.Ip, data.Port, options)
         .then((result) => {
             data.MOTD = result.motd.clean;
@@ -123,6 +126,7 @@ io.on('connection', socket => {
         connection.query(sqlUpdate, [data.State, data.Address] ,(error) => {
             if (error) throw error;
             sendMessage("De server is gesloten!", data.Address);
+            serverSockets.delete(data.Address);
             io.emit("server:update-servers", data);
         }); 
     });
