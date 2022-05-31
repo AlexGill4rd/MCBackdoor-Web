@@ -7,16 +7,13 @@ import OperatorPanel from './features/panels/OperatorPanel';
 import './PlayerControllerPageStyling.scss';
 
 import { FaUsers } from 'react-icons/fa';
-import IpAddress from '../../../IpAddress';
 
-import socketIOClient from "socket.io-client";
 import GamemodePanel from './features/panels/GamemodePanel';
 import CrashPanel from './features/panels/CrashPanel';
 import KickPanel from './features/panels/KickPanel';
 import TeleportPanel from './features/panels/TeleportPanel';
 import WhitelistPanel from './features/panels/WhitelistPanel';
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
+import { socket } from '../../../socket/socket';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
@@ -24,8 +21,6 @@ function PlayerControllerPage(){
 
     const [server, setServer] = useState<any>([]);
     const [selectedPlayer, setSelectedPlayer] = useState<any>(null);
-
-
 
     useEffect(function loadServer(){
         socket.emit("client:mcserver-get", serverid)

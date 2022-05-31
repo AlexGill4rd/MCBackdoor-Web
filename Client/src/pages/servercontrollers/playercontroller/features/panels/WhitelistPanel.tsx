@@ -2,11 +2,8 @@ import { Tooltip } from '@mui/material';
 
 import './WhitelistPanelStyle.scss';
 
-import socketIOClient from "socket.io-client";
-import IpAddress from '../../../../../IpAddress';
-import { ChangeEvent, useEffect, useState } from 'react';
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
+import { useEffect, useState } from 'react';
+import { socket } from '../../../../../socket/socket';
 
 function WhitelistPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false);

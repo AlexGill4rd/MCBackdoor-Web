@@ -1,11 +1,7 @@
-import { Key, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import IpAddress from '../../../IpAddress';
+import { socket } from '../../../socket/socket';
 import ServerTab from './ServerTab';
-
-import socketIOClient from "socket.io-client";
-
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001/`)
 
 function ServerList(){
     const [servers, setServers] = useState<any>([]);

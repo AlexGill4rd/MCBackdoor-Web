@@ -2,11 +2,8 @@ import { Tooltip } from '@mui/material';
 
 import './TeleportPanelStyle.scss';
 
-import socketIOClient from "socket.io-client";
-import IpAddress from '../../../../../IpAddress';
-import { useEffect, useRef, useState } from 'react';
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
+import { useEffect, useState } from 'react';
+import { socket } from '../../../../../socket/socket';
 
 function TeleportPanel(props: {player: any, Address: string;}){
     const [error, setError] = useState<boolean>(false);

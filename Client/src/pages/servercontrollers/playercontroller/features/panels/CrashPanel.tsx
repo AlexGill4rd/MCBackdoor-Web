@@ -2,11 +2,8 @@ import { Tooltip } from '@mui/material';
 import './OperatorPanelStyle.scss';
 import './PanelStyle.scss';
 
-import socketIOClient from "socket.io-client";
-import IpAddress from '../../../../../IpAddress';
 import { useEffect, useState } from 'react';
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
+import { socket } from '../../../../../socket/socket';
 
 function CrashPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false)
