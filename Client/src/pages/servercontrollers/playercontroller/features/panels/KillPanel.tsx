@@ -20,6 +20,7 @@ function KillPanel(props: {player: any;}){
             Feature: "kill",
             Message: deathNote
         }
+        setDeathNote("");
         socket.emit("client:features-change", data);
     }
     useEffect(function listenMessages(){
@@ -47,7 +48,7 @@ function KillPanel(props: {player: any;}){
             <div className='panel-line'></div>
             <div className='killpanel-container'>
                 <form className='killpanel-form'>
-                        <input type="text" onChange={handleDeathNoteChange} placeholder="Geef de deathnote mee..." />
+                        <input type="text" onChange={handleDeathNoteChange} placeholder="Geef de deathnote mee..." value={deathNote} />
                         <Tooltip title='Zet de speler zijn health op 0' onClick={() => killPlayer()}>
                             <div className='killpanel-form-button'><FaSkull style={{marginRight: 10}} />Vermoord speler</div>
                         </Tooltip>

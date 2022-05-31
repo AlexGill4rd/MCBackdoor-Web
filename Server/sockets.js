@@ -92,6 +92,7 @@ io.on('connection', socket => {
             sendMessage("De server is gesloten!", data.Address);
             serverSockets.delete(data.Address);
             io.emit("server:update-servers", data);
+            io.emit("server:disable-server", data);
         }); 
     });
 
