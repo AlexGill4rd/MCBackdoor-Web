@@ -16,7 +16,7 @@ function sendMessage(message, servername){
     let insertLog = 'INSERT INTO serverlogging (Date, Message, Servername) VALUES (CURRENT_TIMESTAMP,?,?)';
     connection.query(insertLog, [message, servername] ,(error, results) => {
         if (error) throw error;
-        let getLogs = 'SELECT * FROM serverlogging WHERE Servername = ? ORDER BY Date ASC';
+        let getLogs = 'SELECT * FROM serverlogging WHERE Servername = ? ORDER BY Date ASC LIMIT 50';
         connection.query(getLogs, [servername] ,(error, results) => {
             if (error) throw error;
             io.emit("server:update-logging", results);
@@ -25,12 +25,12 @@ function sendMessage(message, servername){
 }
 let serverSockets = new Map();
 io.on('connection', socket => {
-    socket.emit("connection-succes");
+    socket.emit("connection-success");
     socket.on("minecraft:connect", (address) => {
-        if (!serverSockets.get(address)){
+        if (!serverSockets.get(address) || address != null){
             serverSockets.set(address, socket.id);
             sendMessage("Server Is Verbonden!", address);
-        }
+        }else console.log("Probleem bij server connection")
     });
     socket.on("client:get-server-logs", (address) => {
         let getLogs = 'SELECT * FROM serverlogging WHERE Servername = ? ORDER BY Date ASC';
@@ -83,7 +83,6 @@ io.on('connection', socket => {
             timeout: 1000 * 5,
             enableSRV: true
         };
-        console.log(data)
         util.status(data.Ip, data.Port, options)
         .then((result) => {
             data.MOTD = result.motd.clean;

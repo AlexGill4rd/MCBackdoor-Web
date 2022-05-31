@@ -48,10 +48,6 @@ app.post('/server/get', function (req, res) {
       });
   }
 });
-app.post('/server/players', function (req, res) {
-  let serverid = req.body.serverid;
-  res.end();
-});
 app.post('/minecraft/player/icon', function (req, res) {
   let displayname = req.body.displayname;
   mojangAPI.getPlayerHeadByName(displayname).then( response => {
