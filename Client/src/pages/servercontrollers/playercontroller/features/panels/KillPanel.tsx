@@ -1,21 +1,24 @@
 import { Tooltip } from '@mui/material';
 import './PanelStyle.scss';
 
-import './CrashPanelStyle.scss';
+import './KillPanelStyle.scss';
 
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-import { FaCarCrash } from 'react-icons/fa';
+import { FaSkull } from 'react-icons/fa';
 
-function CrashPanel(props: {player: any;}){
+function KillPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false)
     const [message, setMessage] = useState<string>("");
+    const [deathNote, setDeathNote] = useState<string>("");
 
-    function crashPlayer(){
+
+    function killPlayer(){
         var data = {
             Player: props.player,
-            Feature: "crash"
+            Feature: "kill",
+            Message: deathNote
         }
         socket.emit("client:features-change", data);
     }
@@ -33,18 +36,22 @@ function CrashPanel(props: {player: any;}){
                 setMessage("");
         }, 5000)
     }
+    function handleDeathNoteChange (e: any) {
+        setDeathNote(e.target.value);
+    }
     return (
         <>
             <div className='panel-header'>
-                Crash Panel - {props.player.Displayname}
+                Kill Panel - {props.player.Displayname}
             </div>
             <div className='panel-line'></div>
-            <div className='crashpanel-container'>
-                <div className='crashpanel-buttons'>
-                    <Tooltip title='Laat de speler zijn client crashen' onClick={() => crashPlayer()}>
-                        <div className='crashpanel-buttons-button'><FaCarCrash />Crash speler</div>
-                    </Tooltip>
-                </div>
+            <div className='killpanel-container'>
+                <form className='killpanel-form'>
+                        <input type="text" onChange={handleDeathNoteChange} placeholder="Geef de deathnote mee..." />
+                        <Tooltip title='Zet de speler zijn health op 0' onClick={() => killPlayer()}>
+                            <div className='killpanel-form-button'><FaSkull style={{marginRight: 10}} />Vermoord speler</div>
+                        </Tooltip>
+                </form>
                 {error ? 
                 <div className='message' style={{color: 'red'}}>{message}</div> :  
                  <div className='message' style={{color: "lime"}}>{message}</div>
@@ -55,4 +62,4 @@ function CrashPanel(props: {player: any;}){
         </>
     );
 }
-export default CrashPanel;
+export default KillPanel;
