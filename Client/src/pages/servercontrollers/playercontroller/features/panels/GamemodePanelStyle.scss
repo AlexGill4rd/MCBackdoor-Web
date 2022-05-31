@@ -1,0 +1,34 @@
+@import "../../../../../globalscss/Functions.scss";
+@import "../../../../../globalscss/Colors.scss";
+
+.gamemodepanel-container{
+    width: 100%;
+    height: calc(100% - 40px);
+
+    @include centerFlex(center, center, column);
+}
+.gamemodepanel-buttons{
+    width: 100%;
+    height: auto;
+    @include centerFlex(center, center, column);
+    &-button{
+        width: 400px;
+        height: auto;
+        background-color: $blue-3;
+
+        color: white;
+        border-radius: 7px;
+        margin: 20px;
+        padding: 10px 20px;
+
+        @include centerFlex(center, center, column);
+        p{
+            font-size: 4em;
+        }
+        cursor: pointer;
+        transition: transform 200ms ease-in-out;
+        &:hover{
+            transform: scale(1.05);
+        }
+    }
+}

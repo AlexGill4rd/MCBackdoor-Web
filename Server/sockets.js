@@ -40,41 +40,6 @@ io.on('connection', socket => {
         }); 
         
     });
-    socket.on(`minecraft:player-list-update`, players => {
-        players.forEach(player => {
-            let sql = 'SELECT * FROM players WHERE Displayname = ?';
-            connection.query(sql, [player.Displayname] ,(error, results) => {
-                if (error) throw error;
-                if(results.length > 0){
-                    let sql2 = 'UPDATE players SET Op=?,Health=?,IP=?,XpLevel=? WHERE Displayname = ?';
-                    connection.query(sql2, [player.Op, player.Health, player.Ip, player.XpLevel, player.Displayname] ,(error, results) => {
-                        if (error) throw error;
-                    });
-                }else{
-                    var id = 0;
-                    let idSQL = 'SELECT * FROM servers';
-                    connection.query(idSQL ,(error, results) => {
-                        if (error) throw error;
-                        id = results.length;
-                    });
-                    let sql2 = 'INSERT INTO players (id, Displayname, UUID, Op, Health, IP, XpLevel) VALUES (?,?,?,?,?,?,?)';
-                    connection.query(sql2, [id, player.Displayname, player.UUID, player.Op, player.Health, player.Ip, player.XpLevel] ,(error, results) => {
-                        if (error) throw error;
-                        sendMessage("Nieuwe speler toegevoegd!", serverSockets.get(socket.id));
-                    }); 
-                }
-            });
-        });
-        io.emit("server:player_update");
-    })
-
-    socket.on("client:active-players", (server) => {
-        io.emit("server:active-players", server)
-    });
-    socket.on("minecraft:active-players", (players) => {
-        io.emit("server:active-players", players)
-    });
-
     socket.on("client:get-servers", function () {
         io.emit("server:get-server");
     });
@@ -134,8 +99,8 @@ io.on('connection', socket => {
         let sqlUpdate = 'SELECT * FROM servers WHERE id=?';
         connection.query(sqlUpdate, [serverid] ,(error, results) => {
             if (error) throw error;
-            sendMessage("Serverlist opgevraagd!", results[0].Name);
-            socket.to(results[0].Name).emit("server:server-player-list");
+            sendMessage("Serverlist opgevraagd! SocketID: " + serverSockets.get(results[0].Name), results[0].Name);
+            io.to(serverSockets.get(results[0].Name)).emit("server:server-player-list");
         }); 
     });
     socket.on(`minecraft:server-player-list`, data => {
