@@ -28,7 +28,7 @@ function LogginControllerPage(){
         })
     }, []);
     useEffect(() => {
-        divRef.current?.scrollIntoView({ behavior: 'smooth' });
+        divRef.current?.scrollIntoView({ behavior: 'auto' });
     }, [messages]);
     return (
         <div className="logging-container">

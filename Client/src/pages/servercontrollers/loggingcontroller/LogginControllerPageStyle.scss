@@ -10,12 +10,12 @@
 .logging-panel{
     width: 90%;
     height: 80%;
-
-    @include centerFlex(flex-start, flex-start, column);
+    
     padding: 20px;
     background-color: rgb(32, 32, 32);
     border-radius: 10px;
 
+    @include centerFlex(flex-end, flex-start, column);
     &-message-container{
         width: 100%;
         height: auto;
