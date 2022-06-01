@@ -9,6 +9,7 @@ import { socket } from '../../../../../socket/socket';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import frLocale from 'date-fns/locale/fr';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -27,7 +28,7 @@ function BanPanel(props: {player: any;}){
             Player: props.player,
             Feature: "ban",
             Message: banMessage,
-            To: banDuration
+            To: new Date(banDuration + " UTC")?.toISOString()
         }
         socket.emit("client:features-change", data);
     }
@@ -59,8 +60,8 @@ function BanPanel(props: {player: any;}){
             </div>
             <div className='panel-line'></div>
             <div className='banpanel-container'>
-                <FormControl sx={{width: "60%"}}>
-                    <TextField id="standard-basic" onChange={handleMessageChange} label="Ban message" variant="standard" value={banMessage} />
+                <form className='banpanel-form'>
+                    <TextField className='banpanel-form-messagebox' id="standard-basic" onChange={handleMessageChange} label="Ban message" variant="standard" value={banMessage} />
                     <RadioGroup className='banpanel-mid'
                         row
                         aria-labelledby="demo-radio-buttons-group-label"
@@ -72,22 +73,22 @@ function BanPanel(props: {player: any;}){
                         <FormControlLabel value="duration" control={<Radio />} label="Time Banned" />
                         
                         {typeBan === "duration" ?
-                            <FormControlLabel control={
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={frLocale} >
                                     <DateTimePicker
                                         minDate={new Date()}
                                         InputProps={{ sx: { 
-                                            width: "200px"
+                                            width: "200px",
                                          } }}
                                         renderInput={(props) => <TextField {...props} />}
                                         label="DateTimePicker"
+                                        inputFormat="dd/MM/yyyy hh:mm"
                                         value={banDuration}
                                         onChange={(newValue) => {
                                         setBanDuration(newValue);
                                         }}
                                     />
                                 </LocalizationProvider>
-                            } label="" /> :
+                             :
                             <></>
                         }
                     </RadioGroup>
@@ -95,7 +96,7 @@ function BanPanel(props: {player: any;}){
                     variant="outlined"
                     sx={{ width: "100%"} } onClick={banPlayer}>Speler Verbannen</Button>
 
-                </FormControl>
+                </form>
                 {error ? 
                 <div className='message' style={{color: 'red'}}>{message}</div> :  
                  <div className='message' style={{color: "lime"}}>{message}</div>

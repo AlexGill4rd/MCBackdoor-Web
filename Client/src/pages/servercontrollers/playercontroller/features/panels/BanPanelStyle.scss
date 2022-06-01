@@ -10,21 +10,16 @@
 .banpanel-mid{
     margin: 20px 0;
 }
-.banpanel-form{
-    width: 90%;
+.banpanel-form {
+    width: 60%;
     height: auto;
 
     @include centerFlex(center, center, column);
     flex-wrap: wrap;
     box-sizing: border-box;
 
-    input[type=text], select{
+    &-messagebox{
         width: 100%;
-        padding: 8px 20px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        text-align: center;
     }
     &-button{
         width: 100%;

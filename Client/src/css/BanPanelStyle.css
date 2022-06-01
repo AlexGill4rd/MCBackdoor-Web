@@ -12,7 +12,7 @@
 }
 
 .banpanel-form {
-  width: 90%;
+  width: 60%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -22,13 +22,8 @@
   box-sizing: border-box;
 }
 
-.banpanel-form input[type=text], .banpanel-form select {
+.banpanel-form-messagebox {
   width: 100%;
-  padding: 8px 20px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  text-align: center;
 }
 
 .banpanel-form-button {
