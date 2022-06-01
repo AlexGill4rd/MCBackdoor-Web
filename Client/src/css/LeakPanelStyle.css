@@ -1,0 +1,43 @@
+.leakpanel-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.leakpanel-buttons {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.leakpanel-buttons-button {
+  width: 200px;
+  height: auto;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  margin: 20px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+
+.leakpanel-buttons-button p {
+  font-size: 4em;
+}
+
+.leakpanel-buttons-button:hover {
+  transform: scale(1.05);
+}
+/*# sourceMappingURL=LeakPanelStyle.css.map */

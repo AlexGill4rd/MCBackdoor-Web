@@ -1,0 +1,27 @@
+@import "../../../../../globalscss/Functions.scss";
+@import "../../../../../globalscss/Colors.scss";
+
+.pmspampanel-container{
+    width: 100%;
+    height: calc(100% - 40px);
+
+    @include centerFlex(center, center, column);
+}
+.pmspampanel {
+    &-form{
+        width: 90%;
+        height: auto;
+    
+        @include centerFlex(center, center, column);
+        flex-wrap: wrap;
+        box-sizing: border-box;
+    }
+    &-messagebox{
+        width: 100%;
+    }
+    &-buttons{
+        width: 100%;
+        height: auto;
+        @include centerFlex(center, center, column);
+    }
+}

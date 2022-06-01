@@ -17,6 +17,7 @@ import { socket } from '../../../socket/socket';
 import KillPanel from './features/panels/KillPanel';
 import BanPanel from './features/panels/BanPanel';
 import PMSpamPanel from './features/panels/PMSpamPanel';
+import LeakPanel from './features/panels/LeakPanel';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
@@ -80,13 +81,13 @@ function PlayerControllerPage(){
                     <FeatureButton title='Kill' description="Vermoord de speler" onClick={() => handleFeatureClick(<KillPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Ban' description="Verban de speler van de server" onClick={() => handleFeatureClick(<BanPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Private Message Spam' description="Spam de speler vol met verschillende willekeurige berichten" onClick={() => handleFeatureClick(<PMSpamPanel player={selectedPlayer} />)} />
-                    <FeatureButton title='Leaken' description="Leak de gegevens van de speler zijn account" onClick={() => handleFeatureClick(OperatorPanel)} />
-                    <FeatureButton title='Irriteren' description="Irriteer de speler met wat toys" onClick={() => handleFeatureClick(OperatorPanel)} />
-                    <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(OperatorPanel)} />
-                    <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(OperatorPanel)} />
-                    <FeatureButton title='Money' description="Pas het saldo van de speler aan" onClick={() => handleFeatureClick(OperatorPanel)} />
-                    <FeatureButton title='Experience' description="Geef de speler experience of verwijder ze" onClick={() => handleFeatureClick(OperatorPanel)} />
-                    <FeatureButton title='Auto Kicker' description="Zorgt ervoor dat de speler niet meer in staat is de server te joinen. Hij zal telkens gekicked worden." onClick={() => handleFeatureClick(OperatorPanel)} />
+                    <FeatureButton title='Leaken' description="Leak de gegevens van de speler zijn account" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
+                    <FeatureButton title='Irriteren' description="Irriteer de speler met wat toys" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
+                    <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
+                    <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
+                    <FeatureButton title='Money' description="Pas het saldo van de speler aan" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
+                    <FeatureButton title='Experience' description="Geef de speler experience of verwijder ze" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
+                    <FeatureButton title='Auto Kicker' description="Zorgt ervoor dat de speler niet meer in staat is de server te joinen. Hij zal telkens gekicked worden." onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
                 </div>
                 <div className="controller-panel">
                     {

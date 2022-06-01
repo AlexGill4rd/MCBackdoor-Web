@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,sBAAsB,CAAA;EAClB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,iBAAiB;ECJzB,OAAO,EAAE,IAAI;EACb,cAAc,EDKsB,MAAM;ECJ1C,eAAe,EDIK,MAAM;ECH1B,WAAW,EDGiB,MAAM;CACrC;;AAEI,AAAD,iBAAM,CAAA;EACF,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,IAAI;ECXhB,OAAO,EAAE,IAAI;EACb,cAAc,EDY0B,MAAM;ECX9C,eAAe,EDWS,MAAM;ECV9B,WAAW,EDUqB,MAAM;EAClC,SAAS,EAAE,IAAI;EACf,UAAU,EAAE,UAAU;CACzB;;AACA,AAAD,uBAAY,CAAA;EACR,KAAK,EAAE,IAAI;CACd;;AACA,AAAD,oBAAS,CAAA;EACL,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;ECtBhB,OAAO,EAAE,IAAI;EACb,cAAc,EDsB0B,MAAM;ECrB9C,eAAe,EDqBS,MAAM;ECpB9B,WAAW,EDoBqB,MAAM;CACrC",
+    "sources": [
+        "../pages/servercontrollers/playercontroller/features/panels/PMSpamPanelStyle.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "PMSpamPanelStyle.css"
+}

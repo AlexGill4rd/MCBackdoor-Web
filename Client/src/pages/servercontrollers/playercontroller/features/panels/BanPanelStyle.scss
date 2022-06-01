@@ -11,13 +11,13 @@
     margin: 20px 0;
 }
 .banpanel-form {
-    width: 60%;
+    width: 90%;
     height: auto;
 
     @include centerFlex(center, center, column);
     flex-wrap: wrap;
     box-sizing: border-box;
-
+    
     &-messagebox{
         width: 100%;
     }
