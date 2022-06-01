@@ -61,7 +61,7 @@ function PlayerControllerPage(){
                     </div>
                     <div className="controller-players-list">
                         <PlayerList 
-                            serverid={serverid} 
+                            server={server} 
                             onPlayerClick={handlePlayerClick} 
                             selectedPlayer={selectedPlayer} /> 
                     </div>
