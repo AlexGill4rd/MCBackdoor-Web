@@ -19,9 +19,9 @@ import BanPanel from './features/panels/BanPanel';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
-    const [loadedPanel, setLoadedPanel] = useState<any>();
+    const [loadedPanel, setLoadedPanel] = useState<any>(null);
 
-    const [server, setServer] = useState<any>([]);
+    const [server, setServer] = useState<any>({});
     const [selectedPlayer, setSelectedPlayer] = useState<any>(null);
 
     useEffect(function loadServer(){
@@ -45,6 +45,9 @@ function PlayerControllerPage(){
     }
     function handlePlayerClick(player: any){
         setSelectedPlayer(player);
+        if (player === null){
+            setLoadedPanel(null);
+        }
     }
     if(server === null){
         return <Navigate to='/controller/servers' />
@@ -86,7 +89,7 @@ function PlayerControllerPage(){
                 </div>
                 <div className="controller-panel">
                     {
-                        loadedPanel != null && selectedPlayer != null ?
+                        loadedPanel !== null && selectedPlayer !== null ?
                         loadedPanel : //Laadt panel in
                         <>Selecteer een speler</> //Laad panel niet in, maar geef instructie
                     }

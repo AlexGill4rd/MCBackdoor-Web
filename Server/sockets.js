@@ -128,13 +128,9 @@ io.on('connection', socket => {
         }); 
     });
 
-    socket.on("client:server-player-list", serverid => {
-        let sqlUpdate = 'SELECT * FROM servers WHERE id=?';
-        connection.query(sqlUpdate, [serverid] ,(error, results) => {
-            if (error) throw error;
-            sendMessage("Serverlist opgevraagd! SocketID: " + serverSockets.get(results[0].Name), results[0].Name);
-            io.to(serverSockets.get(results[0].Name)).emit("server:server-player-list");
-        }); 
+    socket.on("client:server-player-list", servername => {
+        sendMessage("Serverlist opgevraagd! SocketID: " + servername, servername);
+        io.to(serverSockets.get(servername)).emit("server:server-player-list");
     });
     socket.on(`minecraft:server-player-list`, data => {
         io.emit("server:mcserver-player-list", JSON.stringify(data))
