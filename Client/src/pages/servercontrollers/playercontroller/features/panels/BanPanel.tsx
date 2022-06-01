@@ -47,6 +47,7 @@ function BanPanel(props: {player: any;}){
     }
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTypeBan((event.target as HTMLInputElement).value);
+        setBanDuration(null);
     };
     function handleMessageChange (e: any) {
       setBanMessage(e.target.value);

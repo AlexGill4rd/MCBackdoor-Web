@@ -94,6 +94,7 @@ io.on('connection', socket => {
                     let sql2 = 'UPDATE players SET IP=?,Op=? WHERE Displayname = ?';
                     connection.query(sql2, [player.Ip, player.Op, player.Displayname] ,(error, results) => {
                         if (error) throw error;
+                        io.emit("server:player-update", player)
                     });
                 }else{
                     var id = 0;
@@ -102,15 +103,19 @@ io.on('connection', socket => {
                         if (error) throw error;
                         id = results.length;
                     });
-                    let sql2 = 'INSERT INTO players (id, Displayname, UUID, IP, Op) VALUES (?,?,?,?,?)';
-                    connection.query(sql2, [id, player.Displayname, player.UUID, player.Ip, player.Op] ,(error, results) => {
-                        if (error) throw error;
-                        console.log("Player added: " + player.Displayname);
-                    }); 
+                    mojangAPI.getPlayerHeadByName(player.Displayname).then( response => {
+                        let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP, Op) VALUES (?,?,?,?,?,?)';
+                        player.Icon = response;
+                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Op] ,(error, results) => {
+                            if (error) throw error;
+                            console.log("Player added: " + player.Displayname);
+                            io.emit("server:player-update", player)
+                        }); 
+                    });
+
                 }
             });
         });
-        io.emit("server:player_update");
     })
     socket.on('minecraft:server-disconnect', (data) => {
         let sqlUpdate = 'UPDATE servers SET State=? WHERE Name = ?';
