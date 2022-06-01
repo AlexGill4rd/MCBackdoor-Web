@@ -16,6 +16,7 @@ import WhitelistPanel from './features/panels/WhitelistPanel';
 import { socket } from '../../../socket/socket';
 import KillPanel from './features/panels/KillPanel';
 import BanPanel from './features/panels/BanPanel';
+import PMSpamPanel from './features/panels/PMSpamPanel';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
@@ -78,7 +79,7 @@ function PlayerControllerPage(){
                     <FeatureButton title='Whitelist' description="Pas de whitelist status van de speler aan" onClick={() => handleFeatureClick(<WhitelistPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Kill' description="Vermoord de speler" onClick={() => handleFeatureClick(<KillPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Ban' description="Verban de speler van de server" onClick={() => handleFeatureClick(<BanPanel player={selectedPlayer} />)} />
-                    <FeatureButton title='Private Message Spam' description="Spam de speler vol met verschillende willekeurige berichten" onClick={() => handleFeatureClick(OperatorPanel)} />
+                    <FeatureButton title='Private Message Spam' description="Spam de speler vol met verschillende willekeurige berichten" onClick={() => handleFeatureClick(<PMSpamPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Leaken' description="Leak de gegevens van de speler zijn account" onClick={() => handleFeatureClick(OperatorPanel)} />
                     <FeatureButton title='Irriteren' description="Irriteer de speler met wat toys" onClick={() => handleFeatureClick(OperatorPanel)} />
                     <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(OperatorPanel)} />
