@@ -1,0 +1,49 @@
+{
+	"name": "minecraft-server-util",
+	"version": "5.2.9",
+	"description": "A Node.js library for Minecraft servers that can retrieve status, perform queries, and RCON into servers.",
+	"main": "dist/index.js",
+	"typings": "dist/index.d.ts",
+	"scripts": {
+		"prepublishOnly": "npm run clean && npm run build && npm run lint",
+		"build": "tsc",
+		"clean": "rimraf dist/",
+		"lint": "eslint ."
+	},
+	"keywords": [
+		"minecraft",
+		"java",
+		"bedrock",
+		"server",
+		"status",
+		"ping",
+		"query",
+		"rcon",
+		"vote",
+		"votifier"
+	],
+	"author": "Jacob Gunther",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^17.0.2",
+		"@typescript-eslint/eslint-plugin": "^5.8.0",
+		"@typescript-eslint/parser": "^5.8.0",
+		"eslint": "^8.5.0",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.5.4"
+	},
+	"engines": {
+		"node": ">=10.0.0"
+	},
+	"bugs": {
+		"url": "https://github.com/PassTheMayo/minecraft-server-util"
+	},
+	"repository": {
+		"url": "https://github.com/PassTheMayo/minecraft-server-util",
+		"type": "git"
+	},
+	"homepage": "https://passthemayo.gitbook.io/minecraft-server-util/",
+	"dependencies": {
+		"minecraft-motd-util": "^1.1.9"
+	}
+}
