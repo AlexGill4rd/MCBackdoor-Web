@@ -21,6 +21,11 @@ function ServerControllerHomePage(){
                 description='Bekijk de verschillende extra instellingen' 
                 path={'/controller/servers/edit/extra/' + serverid}
             />
+            <NavTab 
+                title='Logging Panel' 
+                description='Bekijk het netwerk verkeer van de server' 
+                path={'/controller/servers/logging/' + serverid}
+            />
         </div>
     </div>
     );

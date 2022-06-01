@@ -1,19 +1,28 @@
 import { useEffect, useState } from "react";
+import { socket } from "../../../../socket/socket";
 import Player from './Player';
 
-import socketIOClient from "socket.io-client";
-import IpAddress from "../../../../IpAddress";
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
-
-function PlayerList(props: {serverid: any, onPlayerClick: any, selectedPlayer: any;}){
+function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any;}){
     const [players, setPlayers] = useState<any>([]);
+    const [validSelected, setValidSelected] = useState<boolean>(false);
 
     useEffect(function loadPlayers(){
-        socket.emit("client:server-player-list", props.serverid)
-    }, []);
+        if (props.server.Address !== undefined){
+            socket.emit("client:server-player-list", props.server.Address);
+        }
+    }, [props.server]);
     useEffect(function updatePlayers(){
         socket.on(`server:mcserver-player-list`, data => {
+            JSON.parse(data).map((player: { Displayname: any; }) => {
+                if (props.selectedPlayer !== null){
+                    if (player.Displayname === props.selectedPlayer.Displayname){
+                        setValidSelected(true);
+                    }
+                }
+            });
+            if (!validSelected){
+                props.onPlayerClick(null);
+            }
             setPlayers(JSON.parse(data));
         })
     }, []);

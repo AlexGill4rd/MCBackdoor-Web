@@ -1,0 +1,42 @@
+.gamemodepanel-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gamemodepanel-buttons {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gamemodepanel-buttons-button {
+  width: 400px;
+  height: auto;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  margin: 20px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+
+.gamemodepanel-buttons-button p {
+  font-size: 4em;
+}
+
+.gamemodepanel-buttons-button:hover {
+  transform: scale(1.05);
+}
+/*# sourceMappingURL=GamemodePanelStyle.css.map */

@@ -2,11 +2,8 @@ import { Tooltip } from '@mui/material';
 import './OperatorPanelStyle.scss';
 import './KickPanelStyle.scss';
 
-import socketIOClient from "socket.io-client";
-import IpAddress from '../../../../../IpAddress';
-import { ChangeEvent, useEffect, useState } from 'react';
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
+import { useEffect, useState } from 'react';
+import { socket } from '../../../../../socket/socket';
 
 function KickPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false);

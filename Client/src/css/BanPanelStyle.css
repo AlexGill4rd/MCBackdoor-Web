@@ -1,0 +1,51 @@
+.banpanel-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.banpanel-mid {
+  margin: 20px 0;
+}
+
+.banpanel-form {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.banpanel-form-messagebox {
+  width: 100%;
+}
+
+.banpanel-form-button {
+  width: 100%;
+  height: auto;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  padding: 8px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+
+.banpanel-form-button p {
+  font-size: 4em;
+}
+
+.banpanel-form-button:hover {
+  transform: scale(1.05);
+}
+/*# sourceMappingURL=BanPanelStyle.css.map */

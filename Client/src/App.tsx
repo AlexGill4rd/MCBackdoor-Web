@@ -9,6 +9,7 @@ import ServerControllerPage from './pages/servercontrollers/servercontroller/Ser
 import ExtraControllerPage from './pages/servercontrollers/extracontroller/ExtraControllerPage';
 
 import './globalscss/FancyScrollbar.scss';
+import LogginControllerPage from './pages/servercontrollers/loggingcontroller/LogginControllerPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/controller/servers/edit/player/:serverid' element={<PlayerControllerPage />} />
         <Route path='/controller/servers/edit/server/:serverid' element={<ServerControllerPage />} />
         <Route path='/controller/servers/edit/extra/:serverid' element={<ExtraControllerPage />} />
+        <Route path='/controller/servers/logging/:serverid' element={<LogginControllerPage />} />
 
       </Routes>
     </>

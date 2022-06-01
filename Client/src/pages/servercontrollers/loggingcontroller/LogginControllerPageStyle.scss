@@ -1,0 +1,38 @@
+@import '../../../globalscss/Functions.scss';
+@import '../../../globalscss/Colors.scss';
+
+.logging-container{
+    width: 100vw;
+    height: 100vh;
+    
+    @include centerFlex(center, center, column);
+}
+.logging-panel{
+    width: 90%;
+    height: 80%;
+    
+    padding: 20px;
+    background-color: rgb(32, 32, 32);
+    border-radius: 10px;
+
+    @include centerFlex(flex-end, flex-start, column);
+    &-message-container{
+        width: 100%;
+        height: auto;
+        overflow-y: auto;
+        &-message{
+            width: 100%;
+            height: auto;
+            color: rgb(214, 214, 214);
+
+            padding: 7px 20px;
+            margin-bottom: 13px;
+            border-radius: 7px;
+
+            background-color: rgb(41, 41, 41);
+            &-date{
+                color: white;
+            }
+        }
+    }
+}

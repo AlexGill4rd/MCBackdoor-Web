@@ -1,0 +1,33 @@
+.pmspampanel-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pmspampanel-form {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.pmspampanel-messagebox {
+  width: 100%;
+}
+
+.pmspampanel-buttons {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/*# sourceMappingURL=PMSpamPanelStyle.css.map */

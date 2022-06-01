@@ -48,14 +48,11 @@ app.post('/server/get', function (req, res) {
       });
   }
 });
-app.post('/server/players', function (req, res) {
-  let serverid = req.body.serverid;
-  res.end();
-});
 app.post('/minecraft/player/icon', function (req, res) {
-  let displayname = req.body.displayname;
-  mojangAPI.getPlayerHeadByName(displayname).then( response => {
-    res.send(JSON.stringify({Image: response}));
+  let sql = 'SELECT * FROM players WHERE Displayname = ?';
+  connection.query(sql, [req.body.Displayname],(error, results) => {
+    if (error) throw error;
+    res.send(results[0].Icon);
     res.end();
   });
 });

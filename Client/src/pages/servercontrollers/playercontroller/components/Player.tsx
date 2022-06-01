@@ -14,10 +14,10 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
         fetch(`http://${ip.getIP()}:8080/minecraft/player/icon`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({displayname: player.Displayname})
-        }).then(res => res.json())
-        .then(json => {
-            setIcon(json.Image)
+            body: JSON.stringify({Displayname: player.Displayname})
+        }).then(res => res.text())
+        .then(text => {
+            setIcon(text)
         });
     }, []);
     useEffect(function updateBackground(){

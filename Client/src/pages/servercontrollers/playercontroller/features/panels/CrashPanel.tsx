@@ -1,12 +1,12 @@
 import { Tooltip } from '@mui/material';
-import './OperatorPanelStyle.scss';
 import './PanelStyle.scss';
 
-import socketIOClient from "socket.io-client";
-import IpAddress from '../../../../../IpAddress';
+import './CrashPanelStyle.scss';
+
 import { useEffect, useState } from 'react';
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
+import { socket } from '../../../../../socket/socket';
+
+import { FaCarCrash } from 'react-icons/fa';
 
 function CrashPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false)
@@ -36,13 +36,13 @@ function CrashPanel(props: {player: any;}){
     return (
         <>
             <div className='panel-header'>
-                Gamemode Panel - {props.player.Displayname}
+                Crash Panel - {props.player.Displayname}
             </div>
             <div className='panel-line'></div>
-            <div className='operatorpanel-container'>
-                <div className='operatorpanel-buttons'>
+            <div className='crashpanel-container'>
+                <div className='crashpanel-buttons'>
                     <Tooltip title='Laat de speler zijn client crashen' onClick={() => crashPlayer()}>
-                        <div className='operatorpanel-buttons-button'>Crash speler</div>
+                        <div className='crashpanel-buttons-button'><FaCarCrash />Crash speler</div>
                     </Tooltip>
                 </div>
                 {error ? 

@@ -1,12 +1,14 @@
 import { Tooltip } from '@mui/material';
-import './OperatorPanelStyle.scss';
-import './PanelStyle.scss';
 
-import socketIOClient from "socket.io-client";
-import IpAddress from '../../../../../IpAddress';
+import './GamemodePanelStyle.scss';
+
 import { useEffect, useState } from 'react';
-var ip = new IpAddress();
-let socket = socketIOClient(`http://${ip.getIP()}:3001`)
+import { socket } from '../../../../../socket/socket';
+
+import { FaRegLightbulb } from 'react-icons/fa';
+import { FaHandsHelping } from 'react-icons/fa';
+import { FaRegEye } from 'react-icons/fa';
+import { FaBaby } from 'react-icons/fa';
 
 function GamemodePanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false)
@@ -40,19 +42,19 @@ function GamemodePanel(props: {player: any;}){
                 Gamemode Panel - {props.player.Displayname}
             </div>
             <div className='panel-line'></div>
-            <div className='operatorpanel-container'>
-                <div className='operatorpanel-buttons'>
+            <div className='gamemodepanel-container'>
+                <div className='gamemodepanel-buttons'>
                     <Tooltip title='Verander de gamemode van de speler naar creative' onClick={() => setPlayerGamemode("creative")}>
-                        <div className='operatorpanel-buttons-button'>Gamemode Creative</div>
+                        <div className='gamemodepanel-buttons-button'><FaRegLightbulb />Gamemode Creative</div>
                     </Tooltip>
                     <Tooltip title='Verander de gamemode van de speler naar survival' onClick={() => setPlayerGamemode("survival")}>
-                        <div className='operatorpanel-buttons-button'>Gamemode Survival</div>
+                        <div className='gamemodepanel-buttons-button'><FaHandsHelping />Gamemode Survival</div>
                     </Tooltip>
                     <Tooltip title='Verander de gamemode van de speler naar spectator' onClick={() => setPlayerGamemode("spectator")}>
-                        <div className='operatorpanel-buttons-button'>Gamemode Spectator</div>
+                        <div className='gamemodepanel-buttons-button'><FaRegEye />Gamemode Spectator</div>
                     </Tooltip>
                     <Tooltip title='Verander de gamemode van de speler naar adventure' onClick={() => setPlayerGamemode("adventure")}>
-                        <div className='operatorpanel-buttons-button'>Gamemode Adventure</div>
+                        <div className='gamemodepanel-buttons-button'><FaBaby />Gamemode Adventure</div>
                     </Tooltip>
                 </div>
                 {error ? 
