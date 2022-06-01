@@ -85,6 +85,33 @@ io.on('connection', socket => {
         })
         .catch((error) => console.error(error));
     });
+    socket.on(`minecraft:player-list-update`, players => {
+        players.forEach(player => {
+            let sql = 'SELECT * FROM players WHERE Displayname = ?';
+            connection.query(sql, [player.Displayname] ,(error, results) => {
+                if (error) throw error;
+                if(results.length > 0){
+                    let sql2 = 'UPDATE players SET IP=?,Op=? WHERE Displayname = ?';
+                    connection.query(sql2, [player.Ip, player.Op, player.Displayname] ,(error, results) => {
+                        if (error) throw error;
+                    });
+                }else{
+                    var id = 0;
+                    let idSQL = 'SELECT * FROM servers';
+                    connection.query(idSQL ,(error, results) => {
+                        if (error) throw error;
+                        id = results.length;
+                    });
+                    let sql2 = 'INSERT INTO players (id, Displayname, UUID, IP, Op) VALUES (?,?,?,?,?)';
+                    connection.query(sql2, [id, player.Displayname, player.UUID, player.Ip, player.Op] ,(error, results) => {
+                        if (error) throw error;
+                        console.log("Player added: " + player.Displayname);
+                    }); 
+                }
+            });
+        });
+        io.emit("server:player_update");
+    })
     socket.on('minecraft:server-disconnect', (data) => {
         let sqlUpdate = 'UPDATE servers SET State=? WHERE Name = ?';
         connection.query(sqlUpdate, [data.State, data.Address] ,(error) => {
