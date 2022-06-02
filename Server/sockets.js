@@ -157,6 +157,13 @@ io.on('connection', socket => {
     socket.on(`minecraft:mcserver-getworlds`, data => {
         io.emit("server:mcserver-getworlds-list", data)
     })
+
+    socket.on("client:player-data", data => {
+        io.to(serverSockets.get(data.Servername)).emit("server:features-change", data);
+    });
+    socket.on("minecraft:player-data", data => {
+        io.emit("server:player-data-mc", data);
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")
