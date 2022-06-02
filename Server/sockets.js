@@ -83,7 +83,7 @@ io.on('connection', socket => {
                 });
             })
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.log("Data van server niet kunnen ophalen!"));
     });
     socket.on(`minecraft:player-list-update`, players => {
         players.forEach(player => {
