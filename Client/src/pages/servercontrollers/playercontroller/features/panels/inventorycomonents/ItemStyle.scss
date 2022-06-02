@@ -1,0 +1,14 @@
+@import "../../../../../../globalscss/Functions.scss";
+@import "../../../../../../globalscss/Colors.scss";
+
+$itemsize: 50px;
+.item{
+    width: $itemsize;
+    height: $itemsize;
+
+    margin: 2px;
+    padding: 3px;
+    border: 1px solid rgb(160, 160, 160);
+
+    @include centerFlex(center, center, column);
+}

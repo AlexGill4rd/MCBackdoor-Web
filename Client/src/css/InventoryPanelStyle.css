@@ -1,0 +1,53 @@
+.inventorypanel-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inventorypanel-selection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.inventorypanel-selection-button {
+  width: 200px;
+  height: auto;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  margin: 20px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+
+.inventorypanel-selection-button p {
+  font-size: 4em;
+}
+
+.inventorypanel-selection-button:hover {
+  transform: scale(1.05);
+}
+
+.inventorypanel-inventory-current {
+  width: calc($slotwidth * 9);
+  height: calc($slotwidth * 4);
+  margin-bottom: 20px;
+}
+
+.inventorypanel-inventory-set {
+  width: calc($slotwidth * 9);
+  height: calc($slotwidth * 4);
+}
+/*# sourceMappingURL=InventoryPanelStyle.css.map */
