@@ -4,9 +4,27 @@
   margin: 2px;
   padding: 3px;
   border: 1px solid #a0a0a0;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  transition: transform 100ms ease-in-out;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}
+
+.item-amount {
+  margin: calc($itemsize - 10px) 0 0 calc($itemsize - 10px);
+  position: absolute;
+}
+
+.item-tooltip {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
 }
 /*# sourceMappingURL=ItemStyle.css.map */

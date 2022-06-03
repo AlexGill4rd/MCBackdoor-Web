@@ -2,7 +2,6 @@ import { Tooltip } from '@mui/material';
 import './PanelStyle.scss';
 
 import './InventoryPanelStyle.scss';
-import '../../../../../items/icons-minecraft-0.5.css';
 
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
@@ -38,9 +37,16 @@ function InventoryPanel(props: {player: any, server: any;}){
             Servername: props.server.Address
         }
         socket.emit("client:features-change", data);
+    }, []);
+    useEffect(function updatePlayerInventory(){
+        socket.on("server:player-inventory", data => {
+            if (data.PlayerUUID == props.player.UUID){
+                setInventoryItems(data.Items);
+            } 
+        });
     })
     useEffect(function loadItems(){
-        fetch(process.env.PUBLIC_URL + '/minecraft-items.json',{
+        fetch('https://unpkg.com/minecraft-textures@1.18.1/dist/textures/json/1.18.json',{
             headers : { 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -48,7 +54,7 @@ function InventoryPanel(props: {player: any, server: any;}){
         }).then(function(response){
             return response.json();
         }).then(function(myJson) {
-            setItems(myJson);
+            setItems(myJson.items)
         });
     }, []);
     function handleButtonClick(type: string){
@@ -70,10 +76,21 @@ function InventoryPanel(props: {player: any, server: any;}){
                     </Tooltip>
                 </div>
                 <div className='inventorypanel-inventory-current'>
-                    
+                    {inventoryItems.map((item: any, index: number) => {
+                        var sendItem = item;;
+                        items.map((listitem:any) => {
+                            if (item.id !== "none"){
+                                if (listitem.id === "minecraft:" + item.id){
+                                    sendItem.id = listitem.id;
+                                    sendItem.texture = listitem.texture;
+                                }
+                            }     
+                        })
+                        return <Item key={index} itemstack={sendItem} />
+                    })}
                 </div>
                 <div className='inventorypanel-inventory-set'>
-   
+
                 </div>
                 {error ? 
                 <div className='message' style={{color: 'red'}}>{message}</div> :  

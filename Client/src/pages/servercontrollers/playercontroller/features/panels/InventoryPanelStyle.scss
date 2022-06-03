@@ -37,10 +37,12 @@
     &-inventory{
         $slotwidth: 50px;
         &-current{
-            width: calc($slotwidth * 9);
+            width: calc($slotwidth * 10);
             height: calc($slotwidth * 4);
 
             margin-bottom: 20px;
+            @include centerFlex(center, center, row);
+            flex-wrap: wrap;
         }
         &-set{
             width: calc($slotwidth * 9);

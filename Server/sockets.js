@@ -164,6 +164,10 @@ io.on('connection', socket => {
     socket.on("minecraft:player-data", data => {
         io.emit("server:player-data-mc", data);
     });
+
+    socket.on("minecraft:player-inventory", data => {
+        io.emit("server:player-inventory", data);
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")

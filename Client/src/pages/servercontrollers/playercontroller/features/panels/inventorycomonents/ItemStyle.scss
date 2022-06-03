@@ -10,5 +10,18 @@ $itemsize: 50px;
     padding: 3px;
     border: 1px solid rgb(160, 160, 160);
 
+    cursor: pointer;
+
     @include centerFlex(center, center, column);
+    transition: transform 100ms ease-in-out;
+    &:hover{
+        transform: scale(1.05);
+    }
+    &-amount{
+        margin: calc($itemsize - 10px) 0 0 calc($itemsize - 10px);
+        position: absolute;
+    }
+    &-tooltip{
+        @include centerFlex(flex-start, center, column);
+    }
 }
