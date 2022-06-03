@@ -27,4 +27,30 @@
   justify-content: flex-start;
   align-items: center;
 }
+
+.item-menu-buttons {
+  padding: 0 5px;
+  background-color: white;
+  border: 1px solid silver;
+  color: black;
+}
+
+.item-menu-button {
+  margin: 10px 0;
+  padding: 3px 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.item-menu-button:hover {
+  background-color: #e2e2e2;
+}
+
+.item-menu-button span {
+  margin-left: 8px;
+}
 /*# sourceMappingURL=ItemStyle.css.map */

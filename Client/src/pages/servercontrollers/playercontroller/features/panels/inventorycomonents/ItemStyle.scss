@@ -24,4 +24,26 @@ $itemsize: 50px;
     &-tooltip{
         @include centerFlex(flex-start, center, column);
     }
+    &-menu{
+        &-buttons{
+            padding: 0 5px;
+            background-color: white;
+            border: 1px solid rgb(192, 192, 192);
+            color: black;
+        }
+        &-button{
+            margin: 10px 0;
+            padding: 3px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+
+            @include centerFlex(flex-start, center, row);
+            &:hover{
+                background-color: rgb(226, 226, 226);
+            }
+            span{
+                margin-left: 8px;
+            }
+        }
+    }
 }
