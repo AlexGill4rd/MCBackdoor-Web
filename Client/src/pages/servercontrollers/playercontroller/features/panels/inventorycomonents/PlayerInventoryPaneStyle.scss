@@ -3,10 +3,12 @@
 
 .inventory-panel{
     $slotwidth: 50px;
-    width: calc($slotwidth * 9 + 36px);
-    max-height: calc($slotwidth * 5 + 20px);
-    overflow-y: auto;
+    width: calc($slotwidth * 10);
+    height: calc($slotwidth * 5);
 
-    @include centerFlex(center, center, row);
-    flex-wrap: wrap;
+    &-items{
+
+        @include centerFlex(center, center, row);
+        flex-wrap: wrap;
+    }
 }

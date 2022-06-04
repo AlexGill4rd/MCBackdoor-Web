@@ -32,9 +32,6 @@ io.on('connection', socket => {
             sendMessage("Server Is Verbonden!", address);
         }else console.log("Probleem bij server connection")
     });
-    socket.on("client:connect-to-server", (servername) => {
-        socket.join(servername);
-    });
     socket.on("client:get-server-logs", (address) => {
         let getLogs = 'SELECT * FROM serverlogging WHERE Servername = ? ORDER BY Date ASC';
         connection.query(getLogs, [address] ,(error, results) => {
@@ -172,12 +169,23 @@ io.on('connection', socket => {
         io.emit("server:player-inventory", data);
     });
 
+    //SAVED ITEM SECTION
     socket.on("client:saved-items", servername => {
         let sqlGet = 'SELECT * FROM saveditems';
         connection.query(sqlGet ,(error, results) => {
             if (error) throw error;
-            io.to(servername).emit("server:saved-items", results);
+            socket.emit("server:saved-items", results);
         }); 
+    });
+    socket.on("client:save-item", saveitem => {
+        let sqlInsert = 'INSERT INTO saveditems (Servername, Itemstack, Player, Datum) VALUES (?,?,?,CURRENT_TIMESTAMP)';
+        connection.query(sqlInsert, [saveitem.Servername, JSON.stringify(saveitem.Itemstack), JSON.stringify(saveitem.Player)],(error, results) => {
+            if (error) throw error;
+            io.emit("client:saved-items", saveitem.Servername);
+        }); 
+    });
+    socket.on("client:saved-item-action", data => {
+        io.emit("server:saved-item-action", data);
     });
 });
 server.listen(3001, function (){

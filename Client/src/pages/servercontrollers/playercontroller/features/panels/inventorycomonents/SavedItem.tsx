@@ -7,32 +7,29 @@ import { FaEdit } from 'react-icons/fa';
 
 import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
+import { useState } from 'react';
 
 function SavedItem(props: {item: any, handleItemClick: any;}){
-
-    if (props.item === null || props.item.texture === undefined){
+    const [itemstack, setItemstack] = useState<any>(JSON.parse(props.item.Itemstack))
+    if (props.item === null){
         return (
             <div className="item"></div>
         );
     }else{
         return (
-            <div>
-                <Menu menuButton={
-                    <Tooltip placement="top" title={<div className='item-title'>{"Item Name: " + props.item.itemstack.Displayname}</div>}>
-                        <div className="item">
-                            <img style={{width: 50, height: 50}} src={props.item.itemstack.texture} />
-                            <span className='item-amount'>{props.item.itemstack.Amount}</span>
-                        </div>
-                    </Tooltip>
-                }>
-                    <MenuHeader>Optie's</MenuHeader>
-                    <MenuItem className='item-context-button' onClick={() => props.handleItemClick("give", props.item.itemstack)}><FaLocationArrow /><span>Give Item</span></MenuItem>
-                    <MenuItem className='item-context-button' onClick={() => props.handleItemClick("edit", props.item.itemstack)}><FaEdit /><span>Edit item</span></MenuItem>
-                    <MenuDivider />
-                    <MenuHeader>Delete</MenuHeader>
-                    <MenuItem className='item-context-button' onClick={() => props.handleItemClick("remove", props.item.itemstack)}><FaTrash /><span>Remove Item</span></MenuItem>
-                </Menu>
-            </div>
+            <Menu className='item-contextmenu' menuButton={
+                <Tooltip placement="top" title={<div className='item-title'>{"Item Name: " + itemstack.Displayname}</div>}>
+                    <div className="item">
+                        <img style={{width: 50, height: 50}} src={itemstack.texture} />
+                        <span className='item-amount'>{itemstack.Amount}</span>
+                    </div>
+                </Tooltip>
+            }>
+                <MenuHeader>Optie's</MenuHeader>
+                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("give", itemstack)}><FaLocationArrow /><span>Give Item</span></MenuItem>
+                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("edit", itemstack)}><FaEdit /><span>Edit item</span></MenuItem>
+                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("remove", itemstack)}><FaTrash /><span>Remove Item</span></MenuItem>
+            </Menu>
         );
     }
 }

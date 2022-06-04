@@ -30,8 +30,7 @@ function InventoryPanel(props: {player: any, server: any;}){
     const [inventoryType, setInventoryType] = useState<string | null>(null)
     const [inventoryItems, setInventoryItems] = useState<any>([]);
     const [items, setItems] = useState<any>([]);
-    const [savedItems, setSavedItems] = useState<any>([]);
-
+    
     useEffect(function loadInventories(){
         var data = {
             Player: props.player,
@@ -79,7 +78,7 @@ function InventoryPanel(props: {player: any, server: any;}){
                 Player: props.player,
                 Datum: new Date()
             }
-            setSavedItems((savedItems: any) => [...savedItems, saveItem])
+            socket.emit("client:save-item", saveItem);
             setInfoMessage("Je hebt het item opgeslagen!");
         }else{
             socket.emit("client:features-change", data);

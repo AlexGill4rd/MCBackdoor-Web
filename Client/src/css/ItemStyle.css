@@ -9,11 +9,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: transform 100ms ease-in-out;
+  transition: background-color 100ms ease-in-out;
 }
 
-.item:hover {
-  transform: scale(1.05);
+.item:hover:hover {
+  background-color: #e7e7e7;
+}
+
+.item-contextmenu {
+  position: absolute;
+  z-index: 10;
 }
 
 .item-context-button span {

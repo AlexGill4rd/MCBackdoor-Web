@@ -7,9 +7,10 @@ import './SavedItemsPaneStyle.scss';
 
 function SavedItemsPane(props: {player: any;}){
 
-    const [savedItems, setSavedItems] = useState<any[] | null>(null);
+    const [savedItems, setSavedItems] = useState<any[] | null>([]);
 
     useEffect(function loadSavedItems(){
+        console.log(props.player.Servername)
         socket.emit("client:saved-items", props.player.Servername);
     }, []);
     useEffect(function updateSavedItems(){
@@ -19,26 +20,24 @@ function SavedItemsPane(props: {player: any;}){
     }, []);
 
     function handleItemClick(type: string, itemstack: any){
-        if (type === "give"){
-            console.log("Give item:")
-            console.log(itemstack);
-        }else if (type === "edit"){
-            console.log("Edit item:")
-            console.log(itemstack);
-        }else if (type === "remove"){
-            console.log("Remove item:")
-            console.log(itemstack);
+        var data = {
+            Itemstack: itemstack,
+            Player: props.player,
+            Type: type
         }
+        socket.emit("client:saved-item-action", data);
     }
 
     if (savedItems === null){
         return <>Geen items opgeslagen op dit moment!</>
     }else{
         return (
-            <div className='saveditems-panel'>
-                {savedItems.map((item: any, index: number) => {
-                    return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
-                })}
+            <div className='inventory-panel'>
+                <div className="inventory-panel-items">
+                    {savedItems.map((item: any, index: number) => {
+                        return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
+                    })}
+                </div>
             </div>
         );
     }

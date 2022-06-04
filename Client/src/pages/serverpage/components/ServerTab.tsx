@@ -52,7 +52,7 @@ function ServerTab(props: {server: any;}){
             {serverState === 1 ?
                 <>
                     <div className='servertab-verticalline'>|</div>
-                    <Link to={'/controller/servers/' + serverID} onClick={handleServerConnect}>
+                    <Link to={'/controller/servers/' + serverID}>
                         <Button className='servertab-beheren' variant="contained" >
                             Beheren
                         </Button>

@@ -18,7 +18,7 @@ function Item(props: {itemstack: any, inventoryAction: any;}){
     }else{
         return (
             <div>
-                <Menu menuButton={
+                <Menu className='item-contextmenu' menuButton={
                     <Tooltip placement="top" title={<div className='item-tooltip'><div className='item-title'>{"Item Name: " + props.itemstack.Displayname}</div><div className='item-lore'>{props.itemstack.Lore === "none" || props.itemstack.Lore === undefined ? <></> : "Item Lore: " + props.itemstack.Lore}</div></div>}>
                         <div className="item">
                             <img style={{width: 50, height: 50}} src={props.itemstack.texture} />
