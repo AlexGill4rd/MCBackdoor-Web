@@ -22,6 +22,7 @@
             border-radius: 7px;
             margin: 20px;
             padding: 20px 0;
+            text-align: center;
 
             @include centerFlex(center, center, column);
             p{
@@ -32,21 +33,6 @@
             &:hover{
                 transform: scale(1.05);
             }
-        }
-    }
-    &-inventory{
-        $slotwidth: 50px;
-        &-current{
-            width: calc($slotwidth * 10);
-            height: calc($slotwidth * 4);
-
-            margin-bottom: 20px;
-            @include centerFlex(center, center, row);
-            flex-wrap: wrap;
-        }
-        &-set{
-            width: calc($slotwidth * 9);
-            height: calc($slotwidth * 4);
         }
     }
 }

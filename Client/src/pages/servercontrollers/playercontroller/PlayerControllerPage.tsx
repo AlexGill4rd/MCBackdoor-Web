@@ -38,9 +38,12 @@ function PlayerControllerPage(){
     }, []);
     useEffect(function checkServerStatus(){
         socket.on(`server:disable-server`, data => {
-            if (data.Address === server.Address){
+            if (data === null || data.Address === null || server === null || server.Address === null){
+                setServer(null);
+            }else if (data.Address === server.Address){
                 if (data.State == false)setServer(null);
             }
+            
         })
     }, [server]);
     function handleFeatureClick(panelName: any) {

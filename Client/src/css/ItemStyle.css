@@ -16,6 +16,14 @@
   transform: scale(1.05);
 }
 
+.item-context-button span {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .item-amount {
   margin: calc($itemsize - 10px) 0 0 calc($itemsize - 10px);
   position: absolute;
@@ -48,9 +56,5 @@
 
 .item-menu-button:hover {
   background-color: #e2e2e2;
-}
-
-.item-menu-button span {
-  margin-left: 8px;
 }
 /*# sourceMappingURL=ItemStyle.css.map */

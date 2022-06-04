@@ -1,0 +1,11 @@
+.saveditems-panel {
+  width: calc($slotwidth * 9 + 36px);
+  max-height: calc($slotwidth * 9 + 36px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/*# sourceMappingURL=SavedItemsPaneStyle.css.map */

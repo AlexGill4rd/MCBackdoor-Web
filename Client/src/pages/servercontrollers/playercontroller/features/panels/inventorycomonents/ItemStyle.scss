@@ -17,6 +17,14 @@ $itemsize: 50px;
     &:hover{
         transform: scale(1.05);
     }
+    &-context{
+        &-button{
+            span{
+                margin-left: 10px;
+                @include centerFlex(center, center, row);
+            }
+        }       
+    }
     &-amount{
         margin: calc($itemsize - 10px) 0 0 calc($itemsize - 10px);
         position: absolute;
@@ -40,9 +48,6 @@ $itemsize: 50px;
             @include centerFlex(flex-start, center, row);
             &:hover{
                 background-color: rgb(226, 226, 226);
-            }
-            span{
-                margin-left: 8px;
             }
         }
     }

@@ -32,6 +32,9 @@ io.on('connection', socket => {
             sendMessage("Server Is Verbonden!", address);
         }else console.log("Probleem bij server connection")
     });
+    socket.on("client:connect-to-server", (servername) => {
+        socket.join(servername);
+    });
     socket.on("client:get-server-logs", (address) => {
         let getLogs = 'SELECT * FROM serverlogging WHERE Servername = ? ORDER BY Date ASC';
         connection.query(getLogs, [address] ,(error, results) => {
@@ -167,6 +170,14 @@ io.on('connection', socket => {
 
     socket.on("minecraft:player-inventory", data => {
         io.emit("server:player-inventory", data);
+    });
+
+    socket.on("client:saved-items", servername => {
+        let sqlGet = 'SELECT * FROM saveditems';
+        connection.query(sqlGet ,(error, results) => {
+            if (error) throw error;
+            io.to(servername).emit("server:saved-items", results);
+        }); 
     });
 });
 server.listen(3001, function (){

@@ -1,0 +1,12 @@
+@import "../../../../../../globalscss/Functions.scss";
+@import "../../../../../../globalscss/Colors.scss";
+
+.inventory-panel{
+    $slotwidth: 50px;
+    width: calc($slotwidth * 9 + 36px);
+    max-height: calc($slotwidth * 5 + 20px);
+    overflow-y: auto;
+
+    @include centerFlex(center, center, row);
+    flex-wrap: wrap;
+}

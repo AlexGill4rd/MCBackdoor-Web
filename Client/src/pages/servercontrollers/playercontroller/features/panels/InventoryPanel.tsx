@@ -5,8 +5,9 @@ import './InventoryPanelStyle.scss';
 
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
-
 import Item from './inventorycomonents/Item';
+import PlayerInventoryPane from './inventorycomonents/PlayerInventoryPane';
+import SavedItemsPane from './inventorycomonents/SavedItemsPane';
 
 function InventoryPanel(props: {player: any, server: any;}){
     const [error, setError] = useState<boolean>(false)
@@ -29,11 +30,13 @@ function InventoryPanel(props: {player: any, server: any;}){
     const [inventoryType, setInventoryType] = useState<string | null>(null)
     const [inventoryItems, setInventoryItems] = useState<any>([]);
     const [items, setItems] = useState<any>([]);
+    const [savedItems, setSavedItems] = useState<any>([]);
 
     useEffect(function loadInventories(){
         var data = {
             Player: props.player,
             Feature: "inventory",
+            Type: "get",
             Servername: props.server.Address
         }
         socket.emit("client:features-change", data);
@@ -60,6 +63,28 @@ function InventoryPanel(props: {player: any, server: any;}){
     function handleButtonClick(type: string){
         setInventoryType(type)
     }
+    function inventoryAction(action: string, slot: number, itemstack: any){
+        var data = {
+            Player: props.player,
+            Feature: "inventory",
+            Type: action,
+            Slot: slot,
+            Servername: props.server.Address,
+            Itemstack: itemstack
+        }
+        if (action === "save"){
+            var saveItem = {
+                Servername: props.server.Address,
+                Itemstack: itemstack,
+                Player: props.player,
+                Datum: new Date()
+            }
+            setSavedItems((savedItems: any) => [...savedItems, saveItem])
+            setInfoMessage("Je hebt het item opgeslagen!");
+        }else{
+            socket.emit("client:features-change", data);
+        }   
+    }
     return (
         <>
             <div className='panel-header'>
@@ -74,24 +99,13 @@ function InventoryPanel(props: {player: any, server: any;}){
                     <Tooltip title='Open de inventaris van de speler' onClick={() => handleButtonClick("enderchest")}>
                         <div className='inventorypanel-selection-button'>Ender Chest Inventory</div>
                     </Tooltip>
+                    <Tooltip title='Bekijk de opgeslagen items' onClick={() => handleButtonClick("saved")}>
+                        <div className='inventorypanel-selection-button'>Opgeslagen Items</div>
+                    </Tooltip>
                 </div>
-                <div className='inventorypanel-inventory-current'>
-                    {inventoryItems.map((item: any, index: number) => {
-                        var sendItem = item;;
-                        items.map((listitem:any) => {
-                            if (item.id !== "none"){
-                                if (listitem.id === "minecraft:" + item.id){
-                                    sendItem.id = listitem.id;
-                                    sendItem.texture = listitem.texture;
-                                }
-                            }     
-                        })
-                        return <Item key={index} itemstack={sendItem} />
-                    })}
-                </div>
-                <div className='inventorypanel-inventory-set'>
-
-                </div>
+                {inventoryType === "default" ? <PlayerInventoryPane items={inventoryItems} itemList={items} inventoryAction={inventoryAction} /> : <></>}
+                {inventoryType === "enderchest" ? <PlayerInventoryPane items={inventoryItems} itemList={items} inventoryAction={inventoryAction}  /> : <></>}
+                {inventoryType === "saved" ? <SavedItemsPane player={props.player} /> : <></>}
                 {error ? 
                 <div className='message' style={{color: 'red'}}>{message}</div> :  
                  <div className='message' style={{color: "lime"}}>{message}</div>

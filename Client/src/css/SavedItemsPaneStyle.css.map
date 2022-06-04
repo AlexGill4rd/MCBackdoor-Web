@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,iBAAiB,CAAA;EAEb,KAAK,EAAE,2BAA2B;EAClC,UAAU,EAAE,2BAA2B;EACvC,UAAU,EAAE,IAAI;ECNhB,OAAO,EAAE,IAAI;EACb,cAAc,EDOsB,GAAG;ECNvC,eAAe,EDMK,MAAM;ECL1B,WAAW,EDKiB,MAAM;EAClC,SAAS,EAAE,IAAI;CAClB",
+    "sources": [
+        "../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/SavedItemsPaneStyle.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "SavedItemsPaneStyle.css"
+}
