@@ -8,6 +8,18 @@
     @include centerFlex(center, center, column);
 }
 .inventorypanel{
+    width: 700px;
+    height: 327px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    @include centerFlex(center, flex-start, row);
+    &-items{
+        width: 100%;
+        height: auto;
+        @include centerFlex(center, center, row);
+        flex-wrap: wrap;
+    }
     &-selection{
         width: 100%;
         height: auto;

@@ -37,7 +37,9 @@ function SpelerDataPanel(props: {player: any, server: any;}){
     }, []);
     useEffect(function playerDataUpdate(){
         socket.on(`server:player-data-mc`, data => {
+            if (data.UUID !== props.player.UUID)return;
             setPlayerData(data);
+            setHearts([]);
             var fullhearts = Math.floor(Math.ceil(data.Health) / 2);
             var halfHearts = Math.ceil(data.Health) % 2;
             var heartsgone = (20 - Math.ceil(data.Health))/2;

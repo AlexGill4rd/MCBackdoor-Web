@@ -7,10 +7,9 @@ import './SavedItemsPaneStyle.scss';
 
 function SavedItemsPane(props: {player: any;}){
 
-    const [savedItems, setSavedItems] = useState<any[] | null>([]);
+    const [savedItems, setSavedItems] = useState<any | null>([]);
 
     useEffect(function loadSavedItems(){
-        console.log(props.player.Servername)
         socket.emit("client:saved-items", props.player.Servername);
     }, []);
     useEffect(function updateSavedItems(){
@@ -19,22 +18,21 @@ function SavedItemsPane(props: {player: any;}){
         });
     }, []);
 
-    function handleItemClick(type: string, itemstack: any){
+    function handleItemClick(type: string, id: number){
         var data = {
-            Itemstack: itemstack,
+            id: id,
             Player: props.player,
             Type: type,
             Feature: "item"
         }
         socket.emit("client:saved-item-action", data);
     }
-
-    if (savedItems === null){
+    if (savedItems?.length <= 0){
         return <>Geen items opgeslagen op dit moment!</>
     }else{
         return (
-            <div className='inventory-panel'>
-                <div className="inventory-panel-items">
+            <div className='inventorypanel'>
+                <div className="inventorypanel-items">
                     {savedItems.map((item: any, index: number) => {
                         return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
                     })}

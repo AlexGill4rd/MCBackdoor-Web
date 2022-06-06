@@ -12,7 +12,7 @@ $itemsize: 50px;
 
     cursor: pointer;
 
-    @include centerFlex(center, center, column);
+    @include centerFlex(flex-start, center, column);
     transition: background-color 100ms ease-in-out;
     &:hover{
         &:hover{
@@ -35,8 +35,7 @@ $itemsize: 50px;
         text-transform: capitalize;
     }
     &-amount{
-        margin: calc($itemsize - 10px) 0 0 calc($itemsize - 10px);
-        position: absolute;
+        margin: -12px 0 0 calc($itemsize - 10px);
     }
     &-tooltip{
         @include centerFlex(center, flex-start, column);

@@ -169,34 +169,52 @@ io.on('connection', socket => {
         io.emit("server:player-inventory", data);
     });
 
+    
     //SAVED ITEM SECTION
     socket.on("client:saved-items", servername => {
-        let sqlGet = 'SELECT * FROM saveditems';
+        let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
         connection.query(sqlGet ,(error, results) => {
             if (error) throw error;
             socket.emit("server:saved-items", results);
-        }); 
+        });      
     });
     socket.on("client:save-item", saveitem => {
-        let sqlInsert = 'INSERT INTO saveditems (Servername, Itemstack, Player, Datum) VALUES (?,?,?,CURRENT_TIMESTAMP)';
-        connection.query(sqlInsert, [saveitem.Servername, JSON.stringify(saveitem.Itemstack), JSON.stringify(saveitem.Player)],(error, results) => {
+        let slqGetLength = 'SELECT * FROM saveditems';
+        let id = 0;
+        connection.query(slqGetLength ,(error, results) => {
             if (error) throw error;
-            io.emit("client:saved-items", saveitem.Servername);
+            id = results.length;
+            let sqlInsert = 'INSERT INTO saveditems (id, Servername, Itemstack, Player, Datum) VALUES (?,?,?,?,CURRENT_TIMESTAMP)';
+            connection.query(sqlInsert, [id, saveitem.Servername, JSON.stringify(saveitem.Itemstack), JSON.stringify(saveitem.Player)],(error, results) => {
+                if (error) throw error;
+                let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
+        connection.query(sqlGet ,(error, results) => {
+            if (error) throw error;
+            socket.emit("server:saved-items", results);
+        });   
+            }); 
         }); 
     });
     socket.on("client:saved-item-action", data => {
-        console.log(data)
         if (data.Type === "remove"){
-            let sqlInsert = 'DELETE FROM saveditems WHERE Itemstack = ? LIMIT 1';
-            connection.query(sqlInsert, [JSON.stringify(data.Itemstack)],(error, results) => {
+            let sqlInsert = 'DELETE FROM saveditems WHERE id = ?';
+            connection.query(sqlInsert, [data.id],(error, results) => {
                 if (error) throw error;
-                io.emit("client:saved-items", data.Player.Servername);
+                let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
+        connection.query(sqlGet ,(error, results) => {
+            if (error) throw error;
+            socket.emit("server:saved-items", results);
+        });   
             }); 
         }else if (data.Type === "edit"){
             let sqlInsert = 'UPDATE saveditems SET Itemstack=? WHERE Itemstack=?';
             connection.query(sqlInsert, [data.Itemstack, data.PreviousItemstack],(error, results) => {
                 if (error) throw error;
-                io.emit("client:saved-items", data.Player.Servername);
+                let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
+        connection.query(sqlGet ,(error, results) => {
+            if (error) throw error;
+            socket.emit("server:saved-items", results);
+        });   
             }); 
         }else if (data.Type === "give"){
             io.to(serverSockets.get(data.Player.Servername)).emit("server:features-change", data);
