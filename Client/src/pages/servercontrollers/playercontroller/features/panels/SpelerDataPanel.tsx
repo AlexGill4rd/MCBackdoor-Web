@@ -42,7 +42,7 @@ function SpelerDataPanel(props: {player: any, server: any;}){
             setHearts([]);
             var fullhearts = Math.floor(Math.ceil(data.Health) / 2);
             var halfHearts = Math.ceil(data.Health) % 2;
-            var heartsgone = (20 - Math.ceil(data.Health))/2;
+            var heartsgone = Math.floor((20 - Math.ceil(data.Health))/2);
             for (var i = 0; i < fullhearts; i++){
                 setHearts((hearts: any) => [...hearts, "fullheart"])
             }
