@@ -23,7 +23,8 @@ function SavedItemsPane(props: {player: any;}){
         var data = {
             Itemstack: itemstack,
             Player: props.player,
-            Type: type
+            Type: type,
+            Feature: "item"
         }
         socket.emit("client:saved-item-action", data);
     }

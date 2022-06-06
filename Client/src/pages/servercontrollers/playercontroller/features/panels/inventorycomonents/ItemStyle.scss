@@ -31,12 +31,15 @@ $itemsize: 50px;
             }
         }       
     }
+    &-type{
+        text-transform: capitalize;
+    }
     &-amount{
         margin: calc($itemsize - 10px) 0 0 calc($itemsize - 10px);
         position: absolute;
     }
     &-tooltip{
-        @include centerFlex(flex-start, center, column);
+        @include centerFlex(center, flex-start, column);
     }
     &-menu{
         &-buttons{

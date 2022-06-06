@@ -1,0 +1,23 @@
+{
+  "name": "minechalk",
+  "version": "1.0.0",
+  "description": "A package to convert minecraft color codes to show in your console.",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "keywords": [
+    "minecraft",
+    "chalk",
+    "color",
+    "colour",
+    "minecraft",
+    "chalk"
+  ],
+  "author": "Luke Matison",
+  "license": "SEE LICENCE IN LICENCE.md",
+  "dependencies": {
+    "chalk": "^4.1.0"
+  }
+}

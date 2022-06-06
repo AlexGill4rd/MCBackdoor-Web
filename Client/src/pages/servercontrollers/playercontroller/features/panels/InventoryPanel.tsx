@@ -38,16 +38,26 @@ function InventoryPanel(props: {player: any, server: any;}){
             Type: "get",
             Servername: props.server.Address
         }
+        loadItems();
         socket.emit("client:features-change", data);
     }, []);
     useEffect(function updatePlayerInventory(){
         socket.on("server:player-inventory", data => {
-            if (data.PlayerUUID == props.player.UUID){
-                setInventoryItems(data.Items);
+            if (data.PlayerUUID === props.player.UUID){
+                var items:any = [];
+                data.Items.map((item: any) => {
+                    if (item.Empty === true)
+                        items.push(item);
+                    else{
+                        item.ItemstackJson = JSON.parse(item.ItemstackJson);
+                        items.push(item)
+                    }
+                })
+                setInventoryItems(items);
             } 
         });
     })
-    useEffect(function loadItems(){
+    async function loadItems(){
         fetch('https://unpkg.com/minecraft-textures@1.18.1/dist/textures/json/1.18.json',{
             headers : { 
                 'Content-Type': 'application/json',
@@ -58,7 +68,7 @@ function InventoryPanel(props: {player: any, server: any;}){
         }).then(function(myJson) {
             setItems(myJson.items)
         });
-    }, []);
+    };
     function handleButtonClick(type: string){
         setInventoryType(type)
     }

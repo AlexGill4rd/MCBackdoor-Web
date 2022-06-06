@@ -29,6 +29,10 @@
   align-items: center;
 }
 
+.item-type {
+  text-transform: capitalize;
+}
+
 .item-amount {
   margin: calc($itemsize - 10px) 0 0 calc($itemsize - 10px);
   position: absolute;
@@ -37,8 +41,8 @@
 .item-tooltip {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .item-menu-buttons {

@@ -185,7 +185,22 @@ io.on('connection', socket => {
         }); 
     });
     socket.on("client:saved-item-action", data => {
-        io.emit("server:saved-item-action", data);
+        console.log(data)
+        if (data.Type === "remove"){
+            let sqlInsert = 'DELETE FROM saveditems WHERE Itemstack = ? LIMIT 1';
+            connection.query(sqlInsert, [JSON.stringify(data.Itemstack)],(error, results) => {
+                if (error) throw error;
+                io.emit("client:saved-items", data.Player.Servername);
+            }); 
+        }else if (data.Type === "edit"){
+            let sqlInsert = 'UPDATE saveditems SET Itemstack=? WHERE Itemstack=?';
+            connection.query(sqlInsert, [data.Itemstack, data.PreviousItemstack],(error, results) => {
+                if (error) throw error;
+                io.emit("client:saved-items", data.Player.Servername);
+            }); 
+        }else if (data.Type === "give"){
+            io.to(serverSockets.get(data.Player.Servername)).emit("server:features-change", data);
+        }  
     });
 });
 server.listen(3001, function (){

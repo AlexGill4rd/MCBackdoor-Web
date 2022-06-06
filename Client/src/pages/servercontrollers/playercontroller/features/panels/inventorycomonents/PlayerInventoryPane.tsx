@@ -7,11 +7,10 @@ function PlayerInventoryPane(props: {items: any[], itemList: any[], inventoryAct
         <div className='inventory-panel'>
             <div className="inventory-panel-items">
                 {props.items.map((item: any, index: number) => {
-                    var sendItem = item;
+                    var sendItem = item.ItemstackJson;
                     props.itemList.map((listitem:any) => {
-                        if (item.id !== "none"){
-                            if (listitem.id === "minecraft:" + item.id){
-                                sendItem.id = listitem.id;
+                        if (!item.Empty){
+                            if (listitem.id === "minecraft:" + sendItem.type.toString().toLowerCase()){
                                 sendItem.texture = listitem.texture;
                             }
                         }     
