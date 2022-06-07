@@ -8,6 +8,7 @@ import { socket } from '../../../../../socket/socket';
 import Item from './inventorycomonents/Item';
 import PlayerInventoryPane from './inventorycomonents/PlayerInventoryPane';
 import SavedItemsPane from './inventorycomonents/SavedItemsPane';
+import EnderchestPane from './inventorycomonents/EnderchestPane';
 
 function InventoryPanel(props: {player: any, server: any;}){
     const [error, setError] = useState<boolean>(false)
@@ -29,6 +30,7 @@ function InventoryPanel(props: {player: any, server: any;}){
 
     const [inventoryType, setInventoryType] = useState<string | null>(null)
     const [inventoryItems, setInventoryItems] = useState<any>([]);
+    const [enderchestInventoryItems, setEnderchestInventoryItems] = useState<any>([]);
     const [items, setItems] = useState<any>([]);
     
     useEffect(function loadInventories(){
@@ -36,24 +38,47 @@ function InventoryPanel(props: {player: any, server: any;}){
             Player: props.player,
             Feature: "inventory",
             Type: "get",
-            Servername: props.server.Address
+            Servername: props.server.Address,
+            SocketID: socket.id
         }
+        console.log(data);
         loadItems();
         socket.emit("client:features-change", data);
     }, []);
     useEffect(function updatePlayerInventory(){
-        socket.on("server:player-inventory", data => {
+        socket.on("server:player-inventory-update", data => {
             if (data.PlayerUUID === props.player.UUID){
                 var items:any = [];
                 data.Items.map((item: any) => {
                     if (item.Empty === true)
                         items.push(item);
                     else{
-                        item.ItemstackJson = JSON.parse(item.ItemstackJson);
+                        try {
+                            item.ItemstackJson = JSON.parse(item.ItemstackJson);
+                        }catch (ignore){}    
                         items.push(item)
                     }
                 })
                 setInventoryItems(items);
+            } 
+        });
+    })
+    useEffect(function updatePlayerEnderchest(){
+        socket.on("server:player-enderchest-update", data => {
+            if (data.PlayerUUID === props.player.UUID){
+                var items:any = [];
+                //CONVERT ITEMSTACK STRING TO USEFULL JSON
+                data.Items.map((item: any) => {
+                    if (item.Empty === true)
+                        items.push(item);
+                    else{
+                        try {
+                            item.ItemstackJson = JSON.parse(item.ItemstackJson);
+                        }catch (ignore){}    
+                        items.push(item)
+                    }
+                })
+                setEnderchestInventoryItems(items);
             } 
         });
     })
@@ -64,8 +89,10 @@ function InventoryPanel(props: {player: any, server: any;}){
                 'Accept': 'application/json'
             }
         }).then(function(response){
+            console.log("f")
             return response.json();
         }).then(function(myJson) {
+            console.log(myJson.items)
             setItems(myJson.items)
         });
     };
@@ -73,6 +100,28 @@ function InventoryPanel(props: {player: any, server: any;}){
         setInventoryType(type)
     }
     function inventoryAction(action: string, slot: number, itemstack: any){
+        var data = {
+            Player: props.player,
+            Feature: "inventory",
+            Type: action,
+            Slot: slot,
+            Servername: props.server.Address,
+            Itemstack: itemstack
+        }
+        if (action === "save"){
+            var saveItem = {
+                Servername: props.server.Address,
+                Itemstack: itemstack,
+                Player: props.player,
+                Datum: new Date()
+            }
+            socket.emit("client:save-item", saveItem);
+            setInfoMessage("Je hebt het item opgeslagen!");
+        }else{
+            socket.emit("client:features-change", data);
+        }   
+    }
+    function enderChestAction(action: string, slot: number, itemstack: any){
         var data = {
             Player: props.player,
             Feature: "inventory",
@@ -113,7 +162,7 @@ function InventoryPanel(props: {player: any, server: any;}){
                     </Tooltip>
                 </div>
                 {inventoryType === "default" ? <PlayerInventoryPane items={inventoryItems} itemList={items} inventoryAction={inventoryAction} /> : <></>}
-                {inventoryType === "enderchest" ? <PlayerInventoryPane items={inventoryItems} itemList={items} inventoryAction={inventoryAction}  /> : <></>}
+                {inventoryType === "enderchest" ? <EnderchestPane items={enderchestInventoryItems} itemList={items} inventoryAction={enderChestAction}  /> : <></>}
                 {inventoryType === "saved" ? <SavedItemsPane player={props.player} /> : <></>}
                 {error ? 
                 <div className='message' style={{color: 'red'}}>{message}</div> :  

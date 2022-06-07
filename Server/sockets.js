@@ -24,6 +24,7 @@ function sendMessage(message, servername){
     }); 
 }
 let serverSockets = new Map();
+let clientSockets = new Map();
 io.on('connection', socket => {
     socket.emit("connection-success");
     socket.on("minecraft:connect", (address) => {
@@ -165,10 +166,14 @@ io.on('connection', socket => {
         io.emit("server:player-data-mc", data);
     });
 
+    //SOCKET TO SEND PLAYER INVENTORY DATA TO CLIENT
     socket.on("minecraft:player-inventory", data => {
-        io.emit("server:player-inventory", data);
+        io.to(data.SocketID).emit("server:player-inventory-update", data);
     });
-
+    //SOCKET TO SEND PLAYER ENDERCHEST DATA TO CLIENT
+    socket.on("minecraft:player-enderchest", data => {
+        io.to(data.SocketID).emit("server:player-enderchest-update", data);
+    });
     
     //SAVED ITEM SECTION
     socket.on("client:saved-items", servername => {
