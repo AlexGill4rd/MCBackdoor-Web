@@ -41,7 +41,6 @@ function InventoryPanel(props: {player: any, server: any;}){
             Servername: props.server.Address,
             SocketID: socket.id
         }
-        console.log(data);
         loadItems();
         socket.emit("client:features-change", data);
     }, []);
@@ -62,7 +61,7 @@ function InventoryPanel(props: {player: any, server: any;}){
                 setInventoryItems(items);
             } 
         });
-    })
+    }, []);
     useEffect(function updatePlayerEnderchest(){
         socket.on("server:player-enderchest-update", data => {
             if (data.PlayerUUID === props.player.UUID){
@@ -81,7 +80,7 @@ function InventoryPanel(props: {player: any, server: any;}){
                 setEnderchestInventoryItems(items);
             } 
         });
-    })
+    }, [])
     async function loadItems(){
         fetch('https://unpkg.com/minecraft-textures@1.18.1/dist/textures/json/1.18.json',{
             headers : { 
@@ -89,22 +88,25 @@ function InventoryPanel(props: {player: any, server: any;}){
                 'Accept': 'application/json'
             }
         }).then(function(response){
-            console.log("f")
             return response.json();
         }).then(function(myJson) {
-            console.log(myJson.items)
             setItems(myJson.items)
         });
     };
     function handleButtonClick(type: string){
         setInventoryType(type)
     }
-    function inventoryAction(action: string, slot: number, itemstack: any){
+    function inventoryAction(action: string, itemstack: any){
+        if (itemstack.Slot === undefined || itemstack === undefined){
+            setError(true);
+            setInfoMessage("Er is een fout opgetreden wij deze actie! Slot of itemstack = undefined");
+            return;
+        }
         var data = {
             Player: props.player,
             Feature: "inventory",
             Type: action,
-            Slot: slot,
+            Slot: itemstack.Slot,
             Servername: props.server.Address,
             Itemstack: itemstack
         }
@@ -117,31 +119,8 @@ function InventoryPanel(props: {player: any, server: any;}){
             }
             socket.emit("client:save-item", saveItem);
             setInfoMessage("Je hebt het item opgeslagen!");
-        }else{
-            socket.emit("client:features-change", data);
-        }   
-    }
-    function enderChestAction(action: string, slot: number, itemstack: any){
-        var data = {
-            Player: props.player,
-            Feature: "inventory",
-            Type: action,
-            Slot: slot,
-            Servername: props.server.Address,
-            Itemstack: itemstack
-        }
-        if (action === "save"){
-            var saveItem = {
-                Servername: props.server.Address,
-                Itemstack: itemstack,
-                Player: props.player,
-                Datum: new Date()
-            }
-            socket.emit("client:save-item", saveItem);
-            setInfoMessage("Je hebt het item opgeslagen!");
-        }else{
-            socket.emit("client:features-change", data);
-        }   
+        }else
+            socket.emit("client:features-change", data);  
     }
     return (
         <>
@@ -162,7 +141,7 @@ function InventoryPanel(props: {player: any, server: any;}){
                     </Tooltip>
                 </div>
                 {inventoryType === "default" ? <PlayerInventoryPane items={inventoryItems} itemList={items} inventoryAction={inventoryAction} /> : <></>}
-                {inventoryType === "enderchest" ? <EnderchestPane items={enderchestInventoryItems} itemList={items} inventoryAction={enderChestAction}  /> : <></>}
+                {inventoryType === "enderchest" ? <EnderchestPane items={enderchestInventoryItems} itemList={items} inventoryAction={inventoryAction}  /> : <></>}
                 {inventoryType === "saved" ? <SavedItemsPane player={props.player} /> : <></>}
                 {error ? 
                 <div className='message' style={{color: 'red'}}>{message}</div> :  

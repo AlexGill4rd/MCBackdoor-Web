@@ -12,6 +12,7 @@ function PlayerInventoryPane(props: {items: any[], itemList: any[], inventoryAct
                         if (!item.Empty){
                             if (listitem.id === "minecraft:" + sendItem.type.toString().toLowerCase()){
                                 sendItem.texture = listitem.texture;
+                                sendItem.Slot = item.Slot;
                             }
                         }     
                     })

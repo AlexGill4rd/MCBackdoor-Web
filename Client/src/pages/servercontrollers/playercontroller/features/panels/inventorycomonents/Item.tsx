@@ -8,6 +8,7 @@ import { FaSave } from 'react-icons/fa';
 
 import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
+import Draggable from 'react-draggable';
 
 function Item(props: {itemstack: any, inventoryAction: any;}){
     const mc = require('minechalk');
@@ -48,24 +49,25 @@ function Item(props: {itemstack: any, inventoryAction: any;}){
             </div>
         ]
         return (
-            <div>
-                <Menu className='item-contextmenu' menuButton={
-                    <Tooltip placement="top" title={tooltip}>
-                        <div className="item">
+            
+            <Menu className='item-contextmenu noselect' menuButton={
+                <Draggable grid={[54, 54]}>
+                    <Tooltip placement="top" title={tooltip}>  
+                        <div className="item noselect">
                             <img style={{width: 50, height: 50}} src={props.itemstack.texture} />
                             <span className='item-amount'>{props.itemstack.amount}</span>
-                        </div>
-                </Tooltip>
+                        </div>       
+                    </Tooltip>
+                </Draggable>
                 }>
-                    <MenuHeader>Optie's</MenuHeader>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("remove", props.itemstack.Slot)}><FaTrash /><span>Remove Item</span></MenuItem>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("duplicate", props.itemstack.Slot)}><FaCopy /><span>Duplicate item</span></MenuItem>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("drop", props.itemstack.Slot)}><FaQuidditch /><span>Drop Item</span></MenuItem>
-                    <MenuDivider />
-                    <MenuHeader>Opslaan</MenuHeader>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("save", props.itemstack.Slot, props.itemstack)}><FaSave /><span>Save Item</span></MenuItem>
-                </Menu>
-            </div>
+                <MenuHeader>Optie's</MenuHeader>
+                <MenuItem className='item-context-button' onClick={() => props.inventoryAction("remove", props.itemstack)}><FaTrash /><span>Remove Item</span></MenuItem>
+                <MenuItem className='item-context-button' onClick={() => props.inventoryAction("duplicate", props.itemstack)}><FaCopy /><span>Duplicate item</span></MenuItem>
+                <MenuItem className='item-context-button' onClick={() => props.inventoryAction("drop", props.itemstack)}><FaQuidditch /><span>Drop Item</span></MenuItem>
+                <MenuDivider />
+                <MenuHeader>Opslaan</MenuHeader>
+                <MenuItem className='item-context-button' onClick={() => props.inventoryAction("save", props.itemstack)}><FaSave /><span>Save Item</span></MenuItem>
+            </Menu>
         );
     }
 }

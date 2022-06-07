@@ -58,12 +58,12 @@ function EnderItem(props: {itemstack: any, inventoryAction: any;}){
                 </Tooltip>
                 }>
                     <MenuHeader>Optie's</MenuHeader>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("ender-remove", props.itemstack.Slot)}><FaTrash /><span>Remove Item</span></MenuItem>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("ender-duplicate", props.itemstack.Slot)}><FaCopy /><span>Duplicate item</span></MenuItem>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("ender-drop", props.itemstack.Slot)}><FaQuidditch /><span>Drop Item</span></MenuItem>
+                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("ender-remove", props.itemstack)}><FaTrash /><span>Remove Item</span></MenuItem>
+                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("ender-duplicate", props.itemstack)}><FaCopy /><span>Duplicate item</span></MenuItem>
+                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("ender-drop", props.itemstack)}><FaQuidditch /><span>Drop Item</span></MenuItem>
                     <MenuDivider />
                     <MenuHeader>Opslaan</MenuHeader>
-                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("save", props.itemstack.Slot, props.itemstack)}><FaSave /><span>Save Item</span></MenuItem>
+                    <MenuItem className='item-context-button' onClick={() => props.inventoryAction("save", props.itemstack)}><FaSave /><span>Save Item</span></MenuItem>
                 </Menu>
             </div>
         );

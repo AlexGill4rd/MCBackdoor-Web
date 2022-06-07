@@ -1,6 +1,7 @@
 import Item from "./Item";
 
 import './EnderchestPaneStyle.scss';
+import EnderItem from "./EnderItem";
 
 function EnderchestPane(props: {items: any[], itemList: any[], inventoryAction: any;}){
     return (
@@ -12,10 +13,11 @@ function EnderchestPane(props: {items: any[], itemList: any[], inventoryAction: 
                         if (!item.Empty){
                             if (listitem.id === "minecraft:" + sendItem.type.toString().toLowerCase()){
                                 sendItem.texture = listitem.texture;
+                                sendItem.Slot = item.Slot;
                             }
                         }     
                     })
-                    return <Item key={index} itemstack={sendItem} inventoryAction={props.inventoryAction} />
+                    return <EnderItem key={index} itemstack={sendItem} inventoryAction={props.inventoryAction} />
                 })}
             </div>
         </div>
