@@ -39,20 +39,21 @@ function SpelerDataPanel(props: {player: any, server: any;}){
     //UPDATE PLAYERDATA WHEN STATE OF SOMETHING CHANGES
     useEffect(function updatePlayerInfo(){
         socket.on(`server:player-data-${props.player.UUID}`, data => {
+            //SET PLAYER DATA
             setPlayerData(data);
+            //RESET HEARTS LIST (IMAGES)
             setHearts([]);
+            //CALCULATE HEARTS
             var fullhearts = Math.floor(Math.ceil(data.Health) / 2);
             var halfHearts = Math.ceil(data.Health) % 2;
             var heartsgone = Math.floor((20 - Math.ceil(data.Health))/2);
-            for (var i = 0; i < fullhearts; i++){
+            //ADD AMOUNT OF HEARTS TO ARRAY
+            for (var i = 0; i < fullhearts; i++)
                 setHearts((hearts: any) => [...hearts, "fullheart"])
-            }
-            for (var i = 0; i < halfHearts; i++){
+            for (var i = 0; i < halfHearts; i++)
                 setHearts((hearts: any) => [...hearts, "halfheart"])  
-            }
-            for (var i = 0; i < heartsgone; i++){
+            for (var i = 0; i < heartsgone; i++)
                 setHearts((hearts: any) => [...hearts, "emptyheart"])  
-            }
         })
     }, []);
     if (playerData === null){

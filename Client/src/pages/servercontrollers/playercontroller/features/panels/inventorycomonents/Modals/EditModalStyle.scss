@@ -19,7 +19,7 @@
         z-index: 1;
     }
     &-menu{
-        width: 300px;
+        width: 400px;
         height: 700px;
         background-color: white;
         padding: 20px;
@@ -31,11 +31,43 @@
             font-size: 1.3em;
             color: black;
             font-weight: bold;
+            margin: 20px 0;
         }
         &-kop{
             font-size: 1em;
-            margin: 5px 0;
+            padding: 10px 0 0 0;
             color: rgb(71, 71, 71);
+        }
+        form{
+            height: auto;
+            width: 100%;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 6px 20px;
+            margin: 5px 0 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        input[type=submit] {
+          width: 100%;
+          background-color: #4CAF50;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        &-lore{
+            &-options{
+                @include centerFlex(space-between, center, row);
+                flex-wrap: wrap;
+                button{
+                    width: 48%;
+                }
+            }
         }
     }
 }
