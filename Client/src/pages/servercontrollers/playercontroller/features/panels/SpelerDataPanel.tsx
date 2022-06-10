@@ -27,6 +27,7 @@ function SpelerDataPanel(props: {player: any, server: any;}){
                 setMessage("");
         }, 5000)
     }
+
     useEffect(function requestPlayerData(){
         var data = {
             Player: props.player,
@@ -35,9 +36,9 @@ function SpelerDataPanel(props: {player: any, server: any;}){
         }
         socket.emit("client:player-data", data);
     }, []);
-    useEffect(function playerDataUpdate(){
-        socket.on(`server:player-data-mc`, data => {
-            if (data.UUID !== props.player.UUID)return;
+    //UPDATE PLAYERDATA WHEN STATE OF SOMETHING CHANGES
+    useEffect(function updatePlayerInfo(){
+        socket.on(`server:player-data-${props.player.UUID}`, data => {
             setPlayerData(data);
             setHearts([]);
             var fullhearts = Math.floor(Math.ceil(data.Health) / 2);

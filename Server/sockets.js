@@ -158,11 +158,12 @@ io.on('connection', socket => {
         io.emit("server:mcserver-getworlds-list", data)
     })
 
+    //PLAYER DATA
     socket.on("client:player-data", data => {
         io.to(serverSockets.get(data.Servername)).emit("server:features-change", data);
     });
     socket.on("minecraft:player-data", data => {
-        io.emit("server:player-data-mc", data);
+        io.emit(`server:player-data-${data.UUID}`, data);
     });
 
     //SOCKET TO SEND PLAYER INVENTORY DATA TO CLIENT

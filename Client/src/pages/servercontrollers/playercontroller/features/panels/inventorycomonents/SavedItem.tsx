@@ -58,9 +58,9 @@ function SavedItem(props: {item: any, handleItemClick: any;}){
                 </Tooltip>
             }>
                 <MenuHeader>Optie's</MenuHeader>
-                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("give", props.item.id)}><FaLocationArrow /><span>Give Item</span></MenuItem>
-                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("edit", props.item.id)}><FaEdit /><span>Edit item</span></MenuItem>
-                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("remove", props.item.id)}><FaTrash /><span>Remove Item</span></MenuItem>
+                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("saved-give", props.item.id)}><FaLocationArrow /><span>Give Item</span></MenuItem>
+                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("saved-edit", props.item.id)}><FaEdit /><span>Edit item</span></MenuItem>
+                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("saved-remove", props.item.id)}><FaTrash /><span>Remove Item</span></MenuItem>
             </Menu>
         );
     }

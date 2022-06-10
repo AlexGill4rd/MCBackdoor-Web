@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../../../../../socket/socket";
+import EditItemModal from "./Modals/EditItemModal";
 
 import SavedItem from "./SavedItem";
 
@@ -8,6 +9,7 @@ import './SavedItemsPaneStyle.scss';
 function SavedItemsPane(props: {player: any;}){
 
     const [savedItems, setSavedItems] = useState<any | null>([]);
+    const [editModalIsOpen, setEditModalOpen] = useState<boolean>(false);
 
     useEffect(function loadSavedItems(){
         socket.emit("client:saved-items", props.player.Servername);
@@ -25,7 +27,12 @@ function SavedItemsPane(props: {player: any;}){
             Type: type,
             Feature: "item"
         }
-        socket.emit("client:saved-item-action", data);
+        if (type === "saved-edit"){
+            setEditModalOpen(true);
+        }else socket.emit("client:saved-item-action", data);
+    }
+    function handleEditModalClose(){
+        setEditModalOpen(false);
     }
     if (savedItems?.length <= 0){
         return <>Geen items opgeslagen op dit moment!</>
@@ -37,6 +44,7 @@ function SavedItemsPane(props: {player: any;}){
                         return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
                     })}
                 </div>
+                {editModalIsOpen && <EditItemModal onCancel={handleEditModalClose} />}
             </div>
         );
     }
