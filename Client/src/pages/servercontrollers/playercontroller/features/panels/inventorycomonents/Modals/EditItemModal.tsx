@@ -29,19 +29,23 @@ function EditItemModal(props: {onCancel: any}){
         setLore("");
     }
     function handleRemoveLore(){
-        selectedLores.map((line: string) => {
-            var splitted = line.split("_");
-            var value = splitted[0];
-            var valueIndex = splitted[1];
- 
-            setLores((lores: any) => lores.filter((loreline: string, index: number) => {
-                console.log(index.toString() + " - " + valueIndex)
-                console.log(loreline + " - " + value)
-                console.log("-------")
-                return index.toString() !== valueIndex || loreline !== value;
-            }));
+        var newLoreList: string[] = [];
+        lores.map((line: string, index: number) => {
+            var add = true;
+            selectedLores.map((selected: string) => {
+                var splitted = selected.split("_");
+                var value = splitted[0];
+                var valueIndex = splitted[1];
+                if (value === line && valueIndex === index.toString()){
+                    add = false;
+                }
+            })
+            if (add){
+                newLoreList.push(line);
+            }   
         });
         setSelectedLores([]);
+        setLores(newLoreList);
     }
     return (
         <div className="editmodal-container">
