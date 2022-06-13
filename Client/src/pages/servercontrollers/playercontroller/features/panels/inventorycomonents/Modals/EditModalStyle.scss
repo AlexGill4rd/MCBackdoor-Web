@@ -20,18 +20,17 @@
     }
     &-menu{
         width: 400px;
-        height: 700px;
+        height: auto;
         background-color: white;
         padding: 20px;
-        box-shadow: 2px 2px 3px black;
+        box-shadow: 2px 2px 3px rgb(0, 0, 0, 0.6);
 
         z-index: 2;
         @include centerFlex(flex-start, center, column);
         &-title{
             font-size: 1.3em;
             color: black;
-            font-weight: bold;
-            margin: 20px 0;
+            margin: 10px 0;
         }
         &-kop{
             font-size: 1em;

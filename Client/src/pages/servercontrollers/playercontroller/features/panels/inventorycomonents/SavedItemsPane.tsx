@@ -10,6 +10,7 @@ function SavedItemsPane(props: {player: any;}){
 
     const [savedItems, setSavedItems] = useState<any | null>([]);
     const [editModalIsOpen, setEditModalOpen] = useState<boolean>(false);
+    const [editItem, setEditItem] = useState<any>(null);
 
     useEffect(function loadSavedItems(){
         socket.emit("client:saved-items", props.player.Servername);
@@ -20,19 +21,31 @@ function SavedItemsPane(props: {player: any;}){
         });
     }, []);
 
-    function handleItemClick(type: string, id: number){
+    function handleItemClick(type: string, item: any){
         var data = {
-            id: id,
+            id: item.id,
             Player: props.player,
             Type: type,
             Feature: "item"
         }
         if (type === "saved-edit"){
+            setEditItem(item);
             setEditModalOpen(true);
         }else socket.emit("client:saved-item-action", data);
     }
     function handleEditModalClose(){
         setEditModalOpen(false);
+    }
+    function handleItemEdit(item: any){
+        var data = {
+            id: item.id,
+            Itemstack: item,
+            Type: "saved-edit"
+        }
+        socket.emit("client:saved-item-action", data);
+        socket.emit("client:saved-items", props.player.Servername);
+        handleEditModalClose();
+        setEditItem(null);
     }
     if (savedItems?.length <= 0){
         return <>Geen items opgeslagen op dit moment!</>
@@ -44,7 +57,7 @@ function SavedItemsPane(props: {player: any;}){
                         return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
                     })}
                 </div>
-                {editModalIsOpen && <EditItemModal onCancel={handleEditModalClose} />}
+                {editModalIsOpen && <EditItemModal item={editItem} onCancel={handleEditModalClose} onAccept={handleItemEdit} />}
             </div>
         );
     }

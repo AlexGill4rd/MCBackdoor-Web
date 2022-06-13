@@ -212,14 +212,8 @@ io.on('connection', socket => {
                 });   
             }); 
         }else if (data.Type === "saved-edit"){
-            let sqlInsert = 'UPDATE saveditems SET Itemstack=? WHERE Itemstack=?';
-            connection.query(sqlInsert, [data.Itemstack, data.PreviousItemstack],(error, results) => {
-                if (error) throw error;
-                let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
-                connection.query(sqlGet ,(error, results) => {
-                    if (error) throw error;
-                    socket.emit("server:saved-items", results);
-                });   
+            let sqlInsert = 'UPDATE saveditems SET Itemstack=? WHERE id=?';
+            connection.query(sqlInsert, [JSON.stringify(data.Itemstack), data.id] ,(error, results) => {
             }); 
         }else if (data.Type === "saved-give"){
             io.to(serverSockets.get(data.Player.Servername)).emit("server:features-change", data);
