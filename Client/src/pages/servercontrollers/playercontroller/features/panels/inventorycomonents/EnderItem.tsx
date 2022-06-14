@@ -8,6 +8,7 @@ import { FaSave } from 'react-icons/fa';
 
 import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
+import Enchanting from './Enchanting';
 
 function EnderItem(props: {itemstack: any, inventoryAction: any;}){
     const mc = require('minechalk');
@@ -50,12 +51,13 @@ function EnderItem(props: {itemstack: any, inventoryAction: any;}){
         return (
             <div>
                 <Menu className='item-contextmenu' menuButton={
-                    <Tooltip placement="top" title={tooltip}>
-                        <div className="item">
+                    <Tooltip placement="top" title={tooltip} disableInteractive>  
+                        <div className="item noselect">
+                            {props.itemstack.itemmeta !== undefined && props.itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
                             <img style={{width: 50, height: 50}} src={props.itemstack.texture} />
                             <span className='item-amount'>{props.itemstack.amount}</span>
-                        </div>
-                </Tooltip>
+                        </div>     
+                    </Tooltip>
                 }>
                     <MenuHeader>Optie's</MenuHeader>
                     <MenuItem className='item-context-button' onClick={() => props.inventoryAction("ender-remove", props.itemstack)}><FaTrash /><span>Remove Item</span></MenuItem>
