@@ -8,6 +8,7 @@ import { FaEdit } from 'react-icons/fa';
 import { Menu, MenuItem, MenuHeader } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import { useEffect, useState } from 'react';
+import Enchanting from './Enchanting';
 
 function SavedItem(props: {item: any, handleItemClick: any;}){
     const [tooltip, setTooltip] = useState<any>(null);
@@ -64,11 +65,12 @@ function SavedItem(props: {item: any, handleItemClick: any;}){
         const itemstack: any = JSON.parse(props.item.Itemstack)
         return (
             <Menu className='item-contextmenu' menuButton={
-                <Tooltip placement="top" title={tooltip} >
-                    <div className="item">
+                <Tooltip placement="top" title={tooltip} disableInteractive>  
+                    <div className="item noselect">
+                        {itemstack.itemmeta !== undefined && itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
                         <img style={{width: 50, height: 50}} src={itemstack.texture} />
                         <span className='item-amount'>{itemstack.amount}</span>
-                    </div>
+                    </div>       
                 </Tooltip>
             }>
                 <MenuHeader>Optie's</MenuHeader>

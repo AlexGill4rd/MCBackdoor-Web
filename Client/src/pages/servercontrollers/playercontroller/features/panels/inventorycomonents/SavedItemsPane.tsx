@@ -24,10 +24,13 @@ function SavedItemsPane(props: {player: any;}){
     function handleItemClick(type: string, item: any){
         var data = {
             id: item.id,
+            Itemstack: item.Itemstack,
+            Servername: props.player.Servername,
             Player: props.player,
             Type: type,
             Feature: "item"
         }
+        console.log(item);
         if (type === "saved-edit"){
             setEditItem(item);
             setEditModalOpen(true);

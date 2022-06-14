@@ -24,9 +24,11 @@ $itemsize: 50px;
     @include centerFlex(flex-start, center, column);
     transition: background-color 100ms ease-in-out;
     &:hover{
-        &:hover{
-            background-color: rgb(231, 231, 231);
-        }
+        background-color: rgb(236, 236, 236);
+    }
+    img{
+        z-index: 10;
+        position: relative;
     }
     &-contextmenu{
         position: absolute;

@@ -216,7 +216,7 @@ io.on('connection', socket => {
             connection.query(sqlInsert, [JSON.stringify(data.Itemstack), data.id] ,(error, results) => {
             }); 
         }else if (data.Type === "saved-give"){
-            io.to(serverSockets.get(data.Player.Servername)).emit("server:features-change", data);
+            io.to(serverSockets.get(data.Servername)).emit("server:features-change", data);
         }  
     });
 });

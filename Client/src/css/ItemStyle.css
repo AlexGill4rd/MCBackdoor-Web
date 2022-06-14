@@ -24,8 +24,13 @@
   transition: background-color 100ms ease-in-out;
 }
 
-.item:hover:hover {
-  background-color: #e7e7e7;
+.item:hover {
+  background-color: #ececec;
+}
+
+.item img {
+  z-index: 10;
+  position: relative;
 }
 
 .item-contextmenu {
