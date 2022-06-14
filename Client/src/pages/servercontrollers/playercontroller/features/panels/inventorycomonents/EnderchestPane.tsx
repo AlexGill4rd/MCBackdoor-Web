@@ -1,5 +1,3 @@
-import Item from "./Item";
-
 import './EnderchestPaneStyle.scss';
 import EnderItem from "./EnderItem";
 

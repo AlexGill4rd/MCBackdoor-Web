@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,YAAY,CAAA;EACR,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EAEZ,OAAO,EAAE,GAAG;ECNZ,OAAO,EAAE,IAAI;EACb,cAAc,EDO6B,GAAG;ECN9C,eAAe,EDMK,aAAa;ECLjC,WAAW,EDKwB,MAAM;EAKzC,MAAM,EAAE,OAAO;CAIlB;;AAfD,AAOI,YAPQ,CAOR,GAAG,CAAA;EACC,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;CACf;;AAVL,AAYI,YAZQ,AAYP,MAAM,CAAA;EACH,gBAAgB,EAAE,OAAkB;CACvC",
+    "sources": [
+        "../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/Modals/Components/EnchantmentStyle.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "EnchantmentStyle.css"
+}

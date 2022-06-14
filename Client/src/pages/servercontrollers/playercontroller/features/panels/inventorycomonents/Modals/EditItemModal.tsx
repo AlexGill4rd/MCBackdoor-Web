@@ -6,6 +6,7 @@ import { Button, FormControl, InputLabel, Select, Tooltip } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import Enchantment from './Components/Enchantment';
 
 function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     const [lore, setLore] = useState<string | null>(null);
@@ -13,6 +14,9 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     const [selectedLores, setSelectedLores] = useState<string[]>([]);
     const [itemstack, setItemstack] = useState<any>(JSON.parse(props.item.Itemstack));
     const [displayname, setDisplayname] = useState<any | null>(null);
+
+    const enchantments = ["PROTECTION_FIRE","DAMAGE_ALL","ARROW_FIRE","SOUL_SPEED","WATER_WORKER","ARROW_KNOCKBACK","LOYALTY","DEPTH_STRIDER","VANISHING_CURSE","DURABILITY","KNOCKBACK","LUCK","BINDING_CURSE","LOOT_BONUS_BLOCKS","PROTECTION_ENVIRONMENTAL","DIG_SPEED","MENDING","FROST_WALKER","LURE","LOOT_BONUS_MOBS","PIERCING","PROTECTION_EXPLOSIONS","DAMAGE_UNDEAD","MULTISHOT","FIRE_ASPECT","CHANNELING","SWEEPING_EDGE","THORNS","DAMAGE_ARTHROPODS","OXYGEN","RIPTIDE","SILK_TOUCH","QUICK_CHARGE","PROTECTION_PROJECTILE","IMPALING","PROTECTION_FALL","ARROW_DAMAGE","ARROW_INFINITE"];
+    const [shownEnchants, setShownEnchant] = useState<any[]>([]);
 
     useEffect(function loadInputData() {
         if (itemstack.itemmeta !== undefined){
@@ -74,6 +78,21 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
         editedItemstack.id = props.item.id;
         props.onAccept(editedItemstack);
     }
+    const [searchTerm, setSearchTerm] = useState<any>("");
+    function handleSearchChange(e: any) {
+        setSearchTerm(e.target.value)
+    }
+    useEffect(() => {
+        updateEnchants();
+    }, [searchTerm]);
+    function updateEnchants(){
+        setShownEnchant([]);
+        enchantments.map((enchant: string) => {
+            if (searchTerm === "" || enchant.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase())){
+                setShownEnchant((shownEnchants: any) => [...shownEnchants, enchant]);
+            }
+        })
+    }
     return (
         <div className="editmodal-container">
             <div className='editmodal-backdrop' onClick={() => props.onCancel()}></div>
@@ -112,6 +131,20 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                             </option>
                         ))}
                     </Select>
+                    <label className='editmodal-menu-kop'>Enchanting:</label>
+                    <input type="text" onChange={handleSearchChange} value={searchTerm} id="lsearch" name="search" placeholder="Zoek naar een enchant..." />
+                    <div className='editmodal-menu-enchanting'>
+                        <div className='editmodal-menu-enchanting-list'>
+                            <div className='editmodal-menu-enchanting-list-items'>
+                                {shownEnchants.map((ench: string, index: number) => {
+                                    return <Enchantment key={index} Name={ench} />
+                                })}
+                            </div>
+                        </div>
+                        <div className='editmodal-menu-enchanting-active'>
+
+                        </div>
+                    </div>
                     <Button 
                         onClick={handleEditClick} 
                         variant="contained" 
