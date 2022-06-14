@@ -27,9 +27,10 @@ $itemsize: 50px;
         background-color: rgb(236, 236, 236);
     }
     img{
-        z-index: 10;
+        z-index: 1;
         position: relative;
     }
+    
     &-contextmenu{
         position: absolute;
         z-index: 10;
@@ -49,6 +50,8 @@ $itemsize: 50px;
         margin: -12px 0 0 calc($itemsize - 10px);
     }
     &-tooltip{
+        z-index: 10;
+        position: relative;
         @include centerFlex(center, flex-start, column);
     }
     &-menu{
