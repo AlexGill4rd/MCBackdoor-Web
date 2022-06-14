@@ -11,7 +11,18 @@ import "@szhsin/react-menu/dist/index.css";
 import Enchanting from './Enchanting';
 
 function Item(props: {itemstack: any, inventoryAction: any;}){
-    const mc = require('minechalk');
+    var margin:string = "0px";
+
+    function stripColor(string: string){
+        var noColorString = "";
+        for (var i = 0; i < string.length; i++){
+            if (string[i] !== "§" && string[i-1] !== "§"){
+                noColorString += string[i];
+            }
+        }
+        return noColorString;
+    }
+
     if (props.itemstack === undefined){
         return (
             <div className="item"></div>
@@ -20,7 +31,7 @@ function Item(props: {itemstack: any, inventoryAction: any;}){
         var displayname:any;
         if (props.itemstack.itemmeta !== undefined){
             if (props.itemstack.itemmeta.displayname !== undefined){
-                displayname = <><span style={{color: "white"}}>Itemname: </span><span style={{ color: "rgb(200, 200, 200)" }}>{mc(props.itemstack.itemmeta.displayname)}</span></>;
+                displayname = <><span style={{color: "white"}}>Itemname: </span><span style={{ color: "rgb(200, 200, 200)" }}>{stripColor(props.itemstack.itemmeta.displayname)}</span></>;
             }
         }
         var type = <><span style={{color: "white"}}>Type: </span><span style={{ color: "rgb(200, 200, 200)" }}>{props.itemstack.type.replaceAll("_", " ").toString().toLowerCase()}</span></>;
@@ -42,14 +53,13 @@ function Item(props: {itemstack: any, inventoryAction: any;}){
                     {lore.length > 0 && <div>Lore:</div>}
                     {lore.map((line:string, index: number) => {
                             return (
-                            <div key={index} style={{color: "rgb(200, 200, 200)"}} className="item-lore-line"><span>{"- " + mc(line)}</span></div>
+                            <div key={index} style={{color: "rgb(200, 200, 200)"}} className="item-lore-line"><span>{"- " + stripColor(line)}</span></div>
                         );
                     })}
                 </div>
             </div>
         ]
-        return (
-            
+        return (    
             <Menu className='item-contextmenu noselect' menuButton={
                 <Tooltip placement="top" title={tooltip} disableInteractive>  
                     <div className="item noselect">
