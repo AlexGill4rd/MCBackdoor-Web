@@ -81,7 +81,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                 <div className='editmodal-menu-title'>Item Aanpassen - {itemstack.itemmeta === undefined || itemstack.itemmeta.displayname === undefined ? itemstack.type : itemstack.itemmeta.displayname}</div>
                 <FormControl>
                     <label className='editmodal-menu-kop'>Displayname:</label>
-                    <input type="text" value={displayname !== null && displayname} onChange={handleDisplaynameChange} id="lname" name="lastname" placeholder="Geef de displayname..." />
+                    <input type="text" value={displayname !== null ? displayname: ""} onChange={handleDisplaynameChange} id="lname" name="lastname" placeholder="Geef de displayname..." />
                     <label className='editmodal-menu-kop'>Lore:</label>
                     <input value={lore != null ? lore : ""} onChange={handleLoreChange} type="text" id="lname" name="lastname" placeholder="Geef een lore lijn in..." />
                     <div className='editmodal-menu-lore-options'>

@@ -10,18 +10,25 @@ import "@szhsin/react-menu/dist/index.css";
 import { useEffect, useState } from 'react';
 
 function SavedItem(props: {item: any, handleItemClick: any;}){
-    const [itemstack, setItemstack] = useState<any>(JSON.parse(props.item.Itemstack))
     const [tooltip, setTooltip] = useState<any>(null);
+    function stripColor(string: string){
+        var noColorString = "";
+        for (var i = 0; i < string.length; i++){
+            if (string[i] !== "§" && string[i-1] !== "§"){
+                noColorString += string[i];
+            }
+        }
+        return noColorString;
+    }
     useEffect(function updateItemstack() {
-        setItemstack(JSON.parse(props.item.Itemstack));
+        const itemstack: any = JSON.parse(props.item.Itemstack)
         if (props.item === null){
             setTooltip(null);
         }else{
-            const mc = require('minechalk');
             var displayname:any;
             if (itemstack.itemmeta !== undefined){
                 if (itemstack.itemmeta.displayname !== undefined){
-                    displayname = <><span style={{color: "white"}}>Itemname: </span><span style={{ color: "rgb(200, 200, 200)" }}>{mc(itemstack.itemmeta.displayname)}</span></>;
+                    displayname = <><span style={{color: "white"}}>Itemname: </span><span style={{ color: "rgb(200, 200, 200)" }}>{stripColor(itemstack.itemmeta.displayname)}</span></>;
                 }
             }
             var type = <><span style={{color: "white"}}>Type: </span><span style={{ color: "rgb(200, 200, 200)" }}>{itemstack.type.replaceAll("_", " ").toString().toLowerCase()}</span></>;
@@ -43,7 +50,7 @@ function SavedItem(props: {item: any, handleItemClick: any;}){
                         {lore.length > 0 && <div>Lore:</div>}
                         {lore.map((line:string, index: number) => {
                                 return (
-                                <div key={index} style={{color: "rgb(200, 200, 200)"}} className="item-lore-line"><span>{"- " + mc(line)}</span></div>
+                                <div key={index} style={{color: "rgb(200, 200, 200)"}} className="item-lore-line"><span>{"- " + stripColor(line)}</span></div>
                             );
                         })}
                     </div>
@@ -54,6 +61,7 @@ function SavedItem(props: {item: any, handleItemClick: any;}){
     if (tooltip == null){
         return <div className="item"></div>;
     }else {
+        const itemstack: any = JSON.parse(props.item.Itemstack)
         return (
             <Menu className='item-contextmenu' menuButton={
                 <Tooltip placement="top" title={tooltip} >
