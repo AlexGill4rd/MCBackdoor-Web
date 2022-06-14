@@ -83,7 +83,7 @@ io.on('connection', socket => {
                 });
             })
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.log("Data van server niet kunnen ophalen!"));
     });
     socket.on(`minecraft:player-list-update`, players => {
         players.forEach(player => {
@@ -157,6 +157,68 @@ io.on('connection', socket => {
     socket.on(`minecraft:mcserver-getworlds`, data => {
         io.emit("server:mcserver-getworlds-list", data)
     })
+
+    //PLAYER DATA
+    socket.on("client:player-data", data => {
+        io.to(serverSockets.get(data.Servername)).emit("server:features-change", data);
+    });
+    socket.on("minecraft:player-data", data => {
+        io.emit(`server:player-data-${data.UUID}`, data);
+    });
+
+    //SOCKET TO SEND PLAYER INVENTORY DATA TO CLIENT
+    socket.on("minecraft:player-inventory", data => {
+        io.emit("server:player-inventory-update", data);
+    });
+    //SOCKET TO SEND PLAYER ENDERCHEST DATA TO CLIENT
+    socket.on("minecraft:player-enderchest", data => {
+        io.emit("server:player-enderchest-update", data);
+    });
+    
+    //SAVED ITEM SECTION
+    socket.on("client:saved-items", servername => {
+        let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
+        connection.query(sqlGet ,(error, results) => {
+            if (error) throw error;
+            socket.emit("server:saved-items", results);
+        });      
+    });
+    socket.on("client:save-item", saveitem => {
+        let slqGetLength = 'SELECT * FROM saveditems';
+        let id = 0;
+        connection.query(slqGetLength ,(error, results) => {
+            if (error) throw error;
+            id = results.length;
+            let sqlInsert = 'INSERT INTO saveditems (id, Servername, Itemstack, Player, Datum) VALUES (?,?,?,?,CURRENT_TIMESTAMP)';
+            connection.query(sqlInsert, [id, saveitem.Servername, JSON.stringify(saveitem.Itemstack), JSON.stringify(saveitem.Player)],(error, results) => {
+                if (error) throw error;
+                let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
+        connection.query(sqlGet ,(error, results) => {
+            if (error) throw error;
+            socket.emit("server:saved-items", results);
+        });   
+            }); 
+        }); 
+    });
+    socket.on("client:saved-item-action", data => {
+        if (data.Type === "saved-remove"){
+            let sqlInsert = 'DELETE FROM saveditems WHERE id = ?';
+            connection.query(sqlInsert, [data.id],(error, results) => {
+                if (error) throw error;
+                let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
+                connection.query(sqlGet ,(error, results) => {
+                    if (error) throw error;
+                    socket.emit("server:saved-items", results);
+                });   
+            }); 
+        }else if (data.Type === "saved-edit"){
+            let sqlInsert = 'UPDATE saveditems SET Itemstack=? WHERE id=?';
+            connection.query(sqlInsert, [JSON.stringify(data.Itemstack), data.id] ,(error, results) => {
+            }); 
+        }else if (data.Type === "saved-give"){
+            io.to(serverSockets.get(data.Servername)).emit("server:features-change", data);
+        }  
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")

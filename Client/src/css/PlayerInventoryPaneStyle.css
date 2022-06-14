@@ -1,0 +1,13 @@
+.inventory-panel {
+  width: calc($slotwidth * 10);
+  height: calc($slotwidth * 5);
+}
+
+.inventory-panel-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/*# sourceMappingURL=PlayerInventoryPaneStyle.css.map */

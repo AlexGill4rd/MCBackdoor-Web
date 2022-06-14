@@ -5,6 +5,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaMinusCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
+import { socket } from "../../../socket/socket";
+
 import './styling/ServerTab.scss';
 
 function ServerTab(props: {server: any;}){
@@ -30,6 +32,9 @@ function ServerTab(props: {server: any;}){
         setServerJsonData(JSON.parse(props.server.JsonData))
     }, [props.server]);
 
+    function handleServerConnect(){
+        socket.emit("client:saved-items", serverName);
+    }
     return (
         <div className="servertab">
             <div className='servertab-id'>{serverID}</div>

@@ -26,18 +26,22 @@ function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any
             setPlayers(JSON.parse(data));
         })
     }, []);
-    return (
-        players.map((player: { UUID: any; Displayname: any; }) => 
-            <div key={player.UUID}>
-                {
-                <Player 
-                    player={player} 
-                    onPlayerClick={props.onPlayerClick} 
-                    selectedPlayer={props.selectedPlayer}
-                />
-                }
-            </div>
-        )
-    );
+    if (players.length <= 0){
+        return ("Geen spelers online!")
+    }else{
+        return (
+            players.map((player: { UUID: any; Displayname: any; }) => 
+                <div key={player.UUID}>
+                    {
+                    <Player 
+                        player={player} 
+                        onPlayerClick={props.onPlayerClick} 
+                        selectedPlayer={props.selectedPlayer}
+                    />
+                    }
+                </div>
+            )
+        );
+    }
 }
 export default PlayerList;

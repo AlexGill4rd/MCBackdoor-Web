@@ -1,6 +1,7 @@
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import IpAddress from "../../../../IpAddress";
+import { socket } from "../../../../socket/socket";
 
 import './PlayerStyling.scss';
 

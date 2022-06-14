@@ -1,0 +1,32 @@
+.enchanting-container {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  overflow: hidden;
+  z-index: 0;
+  border-radius: 5px;
+}
+
+.enchanting-line {
+  width: 500%;
+  height: 100%;
+  animation-name: loop;
+  animation-duration: 7s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  background-image: url("./enchanting.png");
+  background-repeat: repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.7;
+}
+
+@keyframes loop {
+  0% {
+    margin-left: 0px;
+  }
+  100% {
+    margin-left: -100px;
+  }
+}
+/*# sourceMappingURL=EnchantingStyle.css.map */
