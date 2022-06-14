@@ -17,6 +17,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
 
     const enchantments = ["PROTECTION_FIRE","DAMAGE_ALL","ARROW_FIRE","SOUL_SPEED","WATER_WORKER","ARROW_KNOCKBACK","LOYALTY","DEPTH_STRIDER","VANISHING_CURSE","DURABILITY","KNOCKBACK","LUCK","BINDING_CURSE","LOOT_BONUS_BLOCKS","PROTECTION_ENVIRONMENTAL","DIG_SPEED","MENDING","FROST_WALKER","LURE","LOOT_BONUS_MOBS","PIERCING","PROTECTION_EXPLOSIONS","DAMAGE_UNDEAD","MULTISHOT","FIRE_ASPECT","CHANNELING","SWEEPING_EDGE","THORNS","DAMAGE_ARTHROPODS","OXYGEN","RIPTIDE","SILK_TOUCH","QUICK_CHARGE","PROTECTION_PROJECTILE","IMPALING","PROTECTION_FALL","ARROW_DAMAGE","ARROW_INFINITE"];
     const [shownEnchants, setShownEnchant] = useState<any[]>([]);
+    const [addEnchants, setAddEnchants] = useState<any[]>([]);
 
     useEffect(function loadInputData() {
         if (itemstack.itemmeta !== undefined){
@@ -93,6 +94,48 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
             }
         })
     }
+    function handleEnchantAdd(enchantmentName: string) {
+        var existing = false;
+        var list:any = [];
+        addEnchants.map((enchant: any) => {
+            if (enchant.Enchantment === enchantmentName){
+                var data = {
+                    Enchantment: enchantmentName,
+                    Level: enchant.Level + 1
+                }
+                existing = true;
+                list.push(data);
+            }else{
+                list.push(enchant);
+            }
+        }); 
+        if (existing){
+            setAddEnchants(list);
+            return;
+        }
+        var data = {
+            Enchantment: enchantmentName,
+            Level: 1
+        }
+        if (data.Level === 1)
+            setAddEnchants((addEnchants: any) => [...addEnchants, data]);
+    }
+    function handleEnchantRemove(enchantmentName: string) {
+        var list:any = [];
+        addEnchants.map((enchant: any) => {
+            if (enchant.Enchantment === enchantmentName){
+                var data = {
+                    Enchantment: enchantmentName,
+                    Level: enchant.Level - 1
+                }
+                if (data.Level > 0){
+                    list.push(data);
+                }
+                
+            }else list.push(enchant);
+        }); 
+        setAddEnchants(list);
+    }
     return (
         <div className="editmodal-container">
             <div className='editmodal-backdrop' onClick={() => props.onCancel()}></div>
@@ -137,12 +180,16 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                         <div className='editmodal-menu-enchanting-list'>
                             <div className='editmodal-menu-enchanting-list-items'>
                                 {shownEnchants.map((ench: string, index: number) => {
-                                    return <Enchantment key={index} Name={ench} />
+                                    return <Enchantment key={index} Level={1} Name={ench} onClick={handleEnchantAdd} />
                                 })}
                             </div>
                         </div>
                         <div className='editmodal-menu-enchanting-active'>
-
+                            <div className='editmodal-menu-enchanting-active-items'>
+                                {addEnchants.map((ench: any, index: number) => {
+                                    return <Enchantment key={index} Level={ench.Level} Name={ench.Enchantment} onClick={handleEnchantRemove} />
+                                })}
+                            </div>
                         </div>
                     </div>
                     <Button 

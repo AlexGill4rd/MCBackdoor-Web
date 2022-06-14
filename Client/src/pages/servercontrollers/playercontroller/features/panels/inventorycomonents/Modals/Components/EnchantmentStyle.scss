@@ -16,4 +16,10 @@
     &:hover{
         background-color: rgb(243, 243, 243);
     }
+    &-level{
+        margin-left: 35px;
+        margin-top: 26px;
+        position: absolute;
+        font-weight: bold;
+    }
 }

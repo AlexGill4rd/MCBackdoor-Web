@@ -17,4 +17,11 @@
 .enchantment:hover {
   background-color: #f3f3f3;
 }
+
+.enchantment-level {
+  margin-left: 35px;
+  margin-top: 26px;
+  position: absolute;
+  font-weight: bold;
+}
 /*# sourceMappingURL=EnchantmentStyle.css.map */
