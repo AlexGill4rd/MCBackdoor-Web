@@ -1,0 +1,70 @@
+.annoy-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.annoy {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.annoy input[type=number] {
+  width: 100%;
+  padding: 8px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.annoy-items {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.annoy-items-list {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.annoy-button {
+  width: 100%;
+  height: auto;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  padding: 8px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+
+.annoy-button p {
+  font-size: 4em;
+}
+
+.annoy-button:hover {
+  transform: scale(1.05);
+}
+/*# sourceMappingURL=IrriterenPanelStyle.css.map */

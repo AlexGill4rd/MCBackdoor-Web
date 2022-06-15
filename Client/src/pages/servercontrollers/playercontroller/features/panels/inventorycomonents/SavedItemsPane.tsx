@@ -11,6 +11,7 @@ function SavedItemsPane(props: {player: any;}){
     const [savedItems, setSavedItems] = useState<any | null>([]);
     const [editModalIsOpen, setEditModalOpen] = useState<boolean>(false);
     const [editItem, setEditItem] = useState<any>(null);
+    const [shownItems, setShownItems] = useState<any | null>([]);
 
     useEffect(function loadSavedItems(){
         socket.emit("client:saved-items", props.player.Servername);
@@ -49,13 +50,36 @@ function SavedItemsPane(props: {player: any;}){
         handleEditModalClose();
         setEditItem(null);
     }
+    const [searchTerm, setSearchTerm] = useState<any>("");
+    function handleSearchChange(e: any) {
+        setSearchTerm(e.target.value)
+    }
+    useEffect(() => {
+        updateEnchants();
+    }, [searchTerm]);
+    useEffect(() => {
+        updateEnchants();
+    }, [savedItems]);
+    function updateEnchants(){
+        setShownItems([]);
+        savedItems.map((item: any) => {
+            var itemstack = JSON.parse(item.Itemstack);
+            if (searchTerm === "" || itemstack.type.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase())){
+                setShownItems((shownItems: any) => [...shownItems, item]);
+            }
+        })
+    }
     if (savedItems?.length <= 0){
         return <>Geen items opgeslagen op dit moment!</>
     }else{
         return (
             <div className='inventorypanel'>
+                <div className="inventorypanel-search">
+                    <label className='editmodal-menu-kop'>Zoek naar een item:</label>
+                    <input type="text" onChange={handleSearchChange} value={searchTerm} id="lsearch" name="search" placeholder="Zoek naar een item..." />
+                </div>
                 <div className="inventorypanel-items">
-                    {savedItems.map((item: any, index: number) => {
+                    {shownItems.map((item: any, index: number) => {
                         return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
                     })}
                 </div>

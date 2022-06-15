@@ -49,9 +49,9 @@
   width: 100%;
 }
 
-.editmodal-menu input[type=text] {
+.editmodal-menu input[type=text], .editmodal-menu input[type=number] {
   width: 100%;
-  padding: 6px 20px;
+  padding: 6px 10px;
   margin: 5px 0 5px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -68,6 +68,15 @@
   cursor: pointer;
 }
 
+.editmodal-menu-lore {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .editmodal-menu-lore-options {
   display: flex;
   flex-direction: row;
@@ -78,6 +87,15 @@
 
 .editmodal-menu-lore-options button {
   width: 48%;
+}
+
+.editmodal-menu-lore-text {
+  width: 73%;
+  overflow-y: scroll;
+}
+
+.editmodal-menu-lore-index {
+  width: 25%;
 }
 
 .editmodal-menu-enchanting {

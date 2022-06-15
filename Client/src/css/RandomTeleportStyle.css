@@ -1,0 +1,29 @@
+.randomteleport {
+  width: 130px;
+  height: 140px;
+  background-color: #3180E8;
+  text-align: center;
+  padding: 15px;
+  margin: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 70ms ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.randomteleport:hover {
+  background-color: #235DA8;
+}
+
+.randomteleport-title {
+  font-size: 1.1em;
+}
+
+.randomteleport-description {
+  font-size: 0.7em;
+  color: #cecece;
+}
+/*# sourceMappingURL=RandomTeleportStyle.css.map */

@@ -8,12 +8,22 @@
     @include centerFlex(center, center, column);
 }
 .inventorypanel{
-    width: 700px;
+    max-width: 700px;
     height: 327px;
 
     overflow-y: auto;
     overflow-x: hidden;
-    @include centerFlex(center, flex-start, row);
+    @include centerFlex(flex-start, center, column);
+    &-search{
+        text-align: center;
+        input[type=text] {
+            width: 100%;
+            padding: 6px 10px;
+            margin: 5px 0 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    }
     &-items{
         width: 100%;
         height: auto;

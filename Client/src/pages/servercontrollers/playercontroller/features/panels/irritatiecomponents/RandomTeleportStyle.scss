@@ -1,0 +1,28 @@
+@import "../../../../../../globalscss/Functions.scss";
+@import "../../../../../../globalscss/Colors.scss";
+
+.randomteleport{
+    width: 130px;
+    height: 140px;
+    background-color: $blue-1;
+
+    text-align: center;
+    padding: 15px;
+    margin: 10px;
+    color: white;
+
+    cursor: pointer;
+    transition: background-color 70ms ease-in-out;
+    &:hover{
+        background-color: $blue-2;
+    }
+
+    @include centerFlex(center, center, column);
+    &-title{
+        font-size: 1.1em;
+    }
+    &-description{
+        font-size: 0.7em;
+        color: rgb(206, 206, 206);
+    }
+}
