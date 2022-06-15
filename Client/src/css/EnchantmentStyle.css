@@ -1,0 +1,34 @@
+.enchantment {
+  width: 45px;
+  height: 45px;
+  padding: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.enchantment img {
+  width: 100%;
+  height: 100%;
+}
+
+.enchantment:hover {
+  background-color: #f3f3f3;
+}
+
+.enchantment-level {
+  width: 45px;
+  height: 45px;
+  margin-top: 26px;
+  font-weight: bold;
+  position: absolute;
+  top: -15px;
+  left: 0px;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 1px black;
+}
+/*# sourceMappingURL=EnchantmentStyle.css.map */

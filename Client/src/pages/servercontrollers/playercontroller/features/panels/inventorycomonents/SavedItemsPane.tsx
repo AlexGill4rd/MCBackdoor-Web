@@ -30,7 +30,6 @@ function SavedItemsPane(props: {player: any;}){
             Type: type,
             Feature: "item"
         }
-        console.log(item);
         if (type === "saved-edit"){
             setEditItem(item);
             setEditModalOpen(true);
