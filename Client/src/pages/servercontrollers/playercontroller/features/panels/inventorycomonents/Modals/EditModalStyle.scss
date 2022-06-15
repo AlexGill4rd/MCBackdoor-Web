@@ -19,7 +19,7 @@
         z-index: 1;
     }
     &-menu{
-        width: 400px;
+        width: 500px;
         height: auto;
         background-color: white;
         padding: 20px;
@@ -73,10 +73,10 @@
             margin-top: 10px;
             @include centerFlex(space-between, center, row);
             &-list{
-                width: 150px;
+                width: 43%;
                 height: 190px;
 
-                padding: 5px;
+                padding: 5px 5px 5px 2px;
 
                 border: 1px solid black;
                 @include centerFlex(space-between, flex-start, row);
@@ -92,10 +92,10 @@
                 }
             }
             &-active{
-                width: 150px;
+                width: 43%;
                 height: 190px;
 
-                padding: 5px;
+                padding: 5px 5px 5px 2px;
 
                 border: 1px solid black;
                 @include centerFlex(space-between, flex-start, row);
@@ -109,6 +109,13 @@
                     @include centerFlex(flex-start, flex-start, row);
                     flex-wrap: wrap;   
                 }
+            }
+            &-options{
+                button{
+                    width: 49%;
+                    height: auto
+                }
+                @include centerFlex(space-between, center, row);
             }
         }
     }

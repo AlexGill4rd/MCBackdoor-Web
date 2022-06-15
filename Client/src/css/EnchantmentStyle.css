@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  position: relative;
 }
 
 .enchantment img {
@@ -19,9 +20,15 @@
 }
 
 .enchantment-level {
-  margin-left: 35px;
+  width: 45px;
+  height: 45px;
   margin-top: 26px;
-  position: absolute;
   font-weight: bold;
+  position: absolute;
+  top: -15px;
+  left: 0px;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 1px black;
 }
 /*# sourceMappingURL=EnchantmentStyle.css.map */

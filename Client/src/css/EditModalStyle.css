@@ -19,7 +19,7 @@
 }
 
 .editmodal-menu {
-  width: 400px;
+  width: 500px;
   height: auto;
   background-color: white;
   padding: 20px;
@@ -89,9 +89,9 @@
 }
 
 .editmodal-menu-enchanting-list {
-  width: 150px;
+  width: 43%;
   height: 190px;
-  padding: 5px;
+  padding: 5px 5px 5px 2px;
   border: 1px solid black;
   display: flex;
   flex-direction: row;
@@ -113,9 +113,9 @@
 }
 
 .editmodal-menu-enchanting-active {
-  width: 150px;
+  width: 43%;
   height: 190px;
-  padding: 5px;
+  padding: 5px 5px 5px 2px;
   border: 1px solid black;
   display: flex;
   flex-direction: row;
@@ -134,5 +134,17 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+
+.editmodal-menu-enchanting-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editmodal-menu-enchanting-options button {
+  width: 49%;
+  height: auto;
 }
 /*# sourceMappingURL=EditModalStyle.css.map */

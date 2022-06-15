@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Enchantment from './Components/Enchantment';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
 function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     const [lore, setLore] = useState<string | null>(null);
@@ -76,6 +77,13 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
         if(editedItemstack.itemmeta.lore !== null){
             editedItemstack.itemmeta.lore = lores;
         }
+        if(editedItemstack.itemmeta.enchants !== null){
+            var enchantStringList:any[] = [];
+            addEnchants.map((enchant: any) => {
+                enchantStringList.push(enchant.Enchantment + ":" + enchant.Level);
+            })
+            editedItemstack.itemmeta.enchants = enchantStringList;
+        }
         editedItemstack.id = props.item.id;
         props.onAccept(editedItemstack);
     }
@@ -136,6 +144,36 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
         }); 
         setAddEnchants(list);
     }
+    function handleSetMaxEnchants() {
+        var list:any = [];
+        enchantments.map((enchant: string) => {
+            var data = {
+                Enchantment: enchant,
+                Level: 32767
+            }
+            list.push(data)
+        }); 
+        setAddEnchants(list);
+    }
+    function handleRemoveEnchants(){
+        setAddEnchants([]);
+    }
+    useEffect(function loadEnchantments(){
+        if (itemstack.itemmeta !== undefined){
+            if (itemstack.itemmeta.enchants !== undefined){
+                itemstack.itemmeta.enchants.map((enchant:string) => {
+                    var enchantSplitted = enchant.split(":");
+                    var enchantmentName = enchantSplitted[0];
+                    var enchantmentLevel = parseInt(enchantSplitted[1]);
+                    var data = {
+                        Enchantment: enchantmentName,
+                        Level: enchantmentLevel
+                    }
+                    setAddEnchants((addEnchants: any) => [...addEnchants, data]);
+                })
+            }
+        }
+    }, []);
     return (
         <div className="editmodal-container">
             <div className='editmodal-backdrop' onClick={() => props.onCancel()}></div>
@@ -184,6 +222,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                                 })}
                             </div>
                         </div>
+                        <CompareArrowsIcon sx={{width: "8%", height: "100%"}} />
                         <div className='editmodal-menu-enchanting-active'>
                             <div className='editmodal-menu-enchanting-active-items'>
                                 {addEnchants.map((ench: any, index: number) => {
@@ -191,6 +230,26 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                                 })}
                             </div>
                         </div>
+                    </div>
+                    <div className='editmodal-menu-enchanting-options'>
+                        <Button 
+                            onClick={handleSetMaxEnchants} 
+                            variant="contained" 
+                            startIcon={<EditIcon />}
+                            sx={{
+                                marginTop: '10px'
+                            }}>
+                                Maximize Enchant
+                        </Button>
+                        <Button 
+                            onClick={handleRemoveEnchants} 
+                            variant="contained" 
+                            startIcon={<EditIcon />}
+                            sx={{
+                                marginTop: '10px'
+                            }}>
+                                Remove Enchants
+                            </Button>
                     </div>
                     <Button 
                         onClick={handleEditClick} 
