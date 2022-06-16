@@ -91,3 +91,5 @@ More features to come but my hands can't type faster.
 
 ## Rules
 The plugin is made for educational purposes only. It is forbidden to use this in practice. I just made it to expand my knowledge. Because of this I decided to omit certain things so that it is not possible to use by a script kiddy.
+
+You can judge my code, but just keep in mind that this is made from 5 months of experience. Keep your judgment reasonable.
