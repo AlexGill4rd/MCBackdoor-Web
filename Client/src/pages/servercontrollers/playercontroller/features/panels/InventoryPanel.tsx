@@ -99,7 +99,7 @@ function InventoryPanel(props: {player: any, server: any;}){
     function inventoryAction(action: string, itemstack: any){
         if (itemstack.Slot === undefined || itemstack === undefined){
             setError(true);
-            setInfoMessage("Er is een fout opgetreden wij deze actie! Slot of itemstack = undefined");
+            setInfoMessage("Er is een fout opgetreden bij deze actie! Slot of itemstack = undefined");
             return;
         }
         var data = {

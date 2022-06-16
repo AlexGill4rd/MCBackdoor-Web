@@ -1,0 +1,21 @@
+@import '../../../../globalscss/Functions.scss';
+@import '../../../../globalscss/Colors.scss';
+
+.optionbutton{
+    width: 200px;
+    height: 150px;
+
+    background-color: $blue-2;
+    border: 1px solid $blue-3;
+    color: white;
+    padding: 15px 10px;
+    margin: 10px;
+
+    @include centerFlex(center, center, column);
+    &-title{
+        font-size: 1.1em;
+    }
+    &-description{
+        color: rgb(218, 218, 218);
+    }
+}

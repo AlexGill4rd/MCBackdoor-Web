@@ -52,8 +52,11 @@ app.post('/minecraft/player/icon', function (req, res) {
   let sql = 'SELECT * FROM players WHERE Displayname = ?';
   connection.query(sql, [req.body.Displayname],(error, results) => {
     if (error) throw error;
-    res.send(results[0].Icon);
+    if (results[0].Icon !== undefined){
+      res.send(results[0].Icon);
+    }
     res.end();
+    
   });
 });
 app.listen(PORT, () => {

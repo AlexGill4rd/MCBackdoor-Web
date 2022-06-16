@@ -19,6 +19,7 @@ import Top from './irritatiecomponents/Top';
 import Void from './irritatiecomponents/Void';
 import Vanish from './irritatiecomponents/Vanish';
 import SudoModal from './irritatiecomponents/Modals/SudoModal';
+import VanishPlayers from './irritatiecomponents/VanishPlayers';
 
 function IrriterenPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false);
@@ -107,6 +108,7 @@ function IrriterenPanel(props: {player: any;}){
                         <Top onClick={selectAction} />
                         <Void onClick={selectAction} />
                         <Vanish onClick={selectAction} />
+                        <VanishPlayers onClick={selectAction} />
                     </div>
                     <Tooltip title={"Voer al de geslecteerde acties uit!"}>
                         <Button onClick={sendActions} variant="contained" startIcon={<ArrowForwardIcon />}>

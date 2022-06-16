@@ -1,0 +1,22 @@
+.optionbutton {
+  width: 200px;
+  height: 150px;
+  background-color: #235DA8;
+  border: 1px solid #13335C;
+  color: white;
+  padding: 15px 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.optionbutton-title {
+  font-size: 1.1em;
+}
+
+.optionbutton-description {
+  color: #dadada;
+}
+/*# sourceMappingURL=OptionButtonStyle.css.map */

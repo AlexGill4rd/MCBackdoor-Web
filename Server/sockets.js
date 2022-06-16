@@ -92,24 +92,24 @@ io.on('connection', socket => {
                 if (error) throw error;
                 if(results.length > 0){
                     let sql2 = 'UPDATE players SET IP=?,Op=? WHERE Displayname = ?';
-                    connection.query(sql2, [player.Ip, player.Op, player.Displayname] ,(error, results) => {
+                    connection.query(sql2, [player.Ip, player.Op, player.Displayname] ,(error, resultsUpdate) => {
                         if (error) throw error;
-                        io.emit("server:player-update", player)
+                        io.emit(`server:player-update-${results[0].UUID}`, results[0])
                     });
                 }else{
                     var id = 0;
                     let idSQL = 'SELECT * FROM servers';
-                    connection.query(idSQL ,(error, results) => {
+                    connection.query(idSQL ,(error, results1) => {
                         if (error) throw error;
-                        id = results.length;
+                        id = results1.length;
                     });
                     mojangAPI.getPlayerHeadByName(player.Displayname).then( response => {
                         let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP, Op) VALUES (?,?,?,?,?,?)';
                         player.Icon = response;
-                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Op] ,(error, results) => {
+                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Op] ,(error, results2) => {
                             if (error) throw error;
                             console.log("Player added: " + player.Displayname);
-                            io.emit("server:player-update", player)
+                            io.emit(`server:player-update-${player.UUID}`, player)
                         }); 
                     });
 
@@ -124,7 +124,7 @@ io.on('connection', socket => {
             sendMessage("De server is gesloten!", data.Address);
             serverSockets.delete(data.Address);
             io.emit("server:update-servers", data);
-            io.emit("server:disable-server", data);
+            io.emit(`server:disable-server-${server.Address}`);
         }); 
     });
 

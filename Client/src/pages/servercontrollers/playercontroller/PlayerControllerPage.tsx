@@ -39,13 +39,8 @@ function PlayerControllerPage(){
         })
     }, []);
     useEffect(function checkServerStatus(){
-        socket.on(`server:disable-server`, data => {
-            if (data === null || data.Address === null || server === null || server.Address === null){
-                setServer(null);
-            }else if (data.Address === server.Address){
-                if (data.State == false)setServer(null);
-            }
-            
+        socket.on(`server:disable-server-${server.Address}`, () => {
+            setServer(null);     
         })
     }, [server]);
     function handleFeatureClick(panelName: any) {
@@ -53,6 +48,7 @@ function PlayerControllerPage(){
             setLoadedPanel(panelName);
     }
     function handlePlayerClick(player: any){
+        setLoadedPanel(null);
         setSelectedPlayer(player);
         if (player === null){
             setLoadedPanel(null);
@@ -93,7 +89,6 @@ function PlayerControllerPage(){
                     <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(<SpelerDataPanel player={selectedPlayer} server={server} />)} />
                     <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(<InventoryPanel player={selectedPlayer} server={server} />)} />
                     <FeatureButton title='Experience' description="Geef de speler experience of verwijder ze" onClick={() => handleFeatureClick(<ExperiencePanel player={selectedPlayer} />)} />
-                    <FeatureButton title='Auto Kicker' description="Zorgt ervoor dat de speler niet meer in staat is de server te joinen. Hij zal telkens gekicked worden." onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
                 </div>
                 <div className="controller-panel">
                     {
