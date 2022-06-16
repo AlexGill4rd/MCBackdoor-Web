@@ -51,11 +51,12 @@ function IrriterenPanel(props: {player: any;}){
     }
 
     //FUNCTIONS
-    function selectAction(action: string){
-        if (actions.includes(action))
-            setActions(actions.filter((action: any) => action !== action))
+    function selectAction(actionString: string){
+        if (actions.includes(actionString)){
+            setActions(actions.filter((action: any) => action !== actionString))
+        }
         else
-            setActions((actions: any) => [...actions, action]);
+            setActions((actions: any) => [...actions, actionString]);
     }
     useEffect(() => {
         console.log(actions)
