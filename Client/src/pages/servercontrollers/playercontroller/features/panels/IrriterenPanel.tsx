@@ -18,11 +18,11 @@ import Sudo from './irritatiecomponents/Sudo';
 import Top from './irritatiecomponents/Top';
 import Void from './irritatiecomponents/Void';
 import Vanish from './irritatiecomponents/Vanish';
+import SudoModal from './irritatiecomponents/Modals/SudoModal';
 
 function IrriterenPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
-    const [experience, setExperience] = useState<number>(0);
 
     const [actions, setActions] = useState<any[]>([]);
 
@@ -31,7 +31,11 @@ function IrriterenPanel(props: {player: any;}){
         var data = {
             Player: props.player,
             Feature: "irriteren",
-            Actions: actions
+            Actions: actions,
+            SudoCommand: ""
+        }
+        if (sudoMessage !== ""){
+            data.SudoCommand = sudoMessage;
         }
         socket.emit("client:features-change", data);
     }
@@ -52,15 +56,35 @@ function IrriterenPanel(props: {player: any;}){
 
     //FUNCTIONS
     function selectAction(actionString: string){
-        if (actions.includes(actionString)){
+        if (actions.includes(actionString))
             setActions(actions.filter((action: any) => action !== actionString))
-        }
         else
             setActions((actions: any) => [...actions, actionString]);
     }
-    useEffect(() => {
-        console.log(actions)
-    }, [actions])
+
+    //SUDO FUNCTIONS
+    const [sudoModalOpen, setSudoModalOpen] = useState<boolean>(false);
+    const [sudoSelected, setSudoSelected] = useState<boolean>(false);
+    const [sudoMessage, setSudoMessage] = useState<string>("");
+
+    function handleSudoClick(){
+        if (sudoMessage !== ""){
+            setSudoMessage("");
+            setSudoSelected(false);
+            selectAction("sudo-player");
+        }else
+            setSudoModalOpen(true);
+    }
+    function handleSetCommand(command: string){
+        setSudoMessage(command);
+        setSudoSelected(true);
+        setSudoModalOpen(false);
+        selectAction("sudo-player");
+    }
+    function handleModalClose(){
+        setSudoModalOpen(false);
+        setSudoSelected(false);
+    }
     return (
         <>
             <div className='panel-header'>
@@ -79,7 +103,7 @@ function IrriterenPanel(props: {player: any;}){
                         <Fire onClick={selectAction} />
                         <Freeze onClick={selectAction} />
                         <LowHealth onClick={selectAction} />
-                        <Sudo onClick={selectAction} />
+                        <Sudo onClick={handleSudoClick} selected={sudoSelected} message={sudoMessage} />
                         <Top onClick={selectAction} />
                         <Void onClick={selectAction} />
                         <Vanish onClick={selectAction} />
@@ -94,6 +118,7 @@ function IrriterenPanel(props: {player: any;}){
                 <div className='message' style={{color: 'red'}}>{message}</div> :  
                  <div className='message' style={{color: "lime"}}>{message}</div>
                  }
+                 {sudoModalOpen && <SudoModal onAccept={handleSetCommand} onCancel={handleModalClose} />}
             </div>
             
         </>

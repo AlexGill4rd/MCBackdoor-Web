@@ -20,10 +20,10 @@
         z-index: 5;
     }
     &-menu{
-        width: auto;
+        width: 450px;
         height: auto;
 
-        padding: 15px;
+        padding: 30px 20px;
         background-color: white;
         color: black;
 
@@ -37,7 +37,9 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             text-align: center;
-            margin-bottom: 15px;
+        }
+        &-title{
+            margin-bottom: 10px;
         }
     }
 }
