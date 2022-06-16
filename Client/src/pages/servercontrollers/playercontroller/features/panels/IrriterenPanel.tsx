@@ -6,6 +6,18 @@ import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 import Randomteleport from './irritatiecomponents/RandomTeleport';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ResetFoodLevel from './irritatiecomponents/ResetFoodLevel';
+import WebSpawn from './irritatiecomponents/WebSpawn';
+import HighSpeed from './irritatiecomponents/HighSpeed';
+import Earrape from './irritatiecomponents/Earrape';
+import Fire from './irritatiecomponents/Fire';
+import Freeze from './irritatiecomponents/Freeze';
+import Flip from './irritatiecomponents/Flip';
+import LowHealth from './irritatiecomponents/LowHealth';
+import Sudo from './irritatiecomponents/Sudo';
+import Top from './irritatiecomponents/Top';
+import Void from './irritatiecomponents/Void';
+import Vanish from './irritatiecomponents/Vanish';
 
 function IrriterenPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false);
@@ -58,12 +70,24 @@ function IrriterenPanel(props: {player: any;}){
                 <div className='annoy-items'>
                     <div className='annoy-items-list'>
                         <Randomteleport onClick={selectAction} />
+                        <ResetFoodLevel onClick={selectAction} />
+                        <Flip onClick={selectAction} />
+                        <WebSpawn onClick={selectAction} />
+                        <HighSpeed onClick={selectAction} />
+                        <Earrape onClick={selectAction} />
+                        <Fire onClick={selectAction} />
+                        <Freeze onClick={selectAction} />
+                        <LowHealth onClick={selectAction} />
+                        <Sudo onClick={selectAction} />
+                        <Top onClick={selectAction} />
+                        <Void onClick={selectAction} />
+                        <Vanish onClick={selectAction} />
                     </div>
                     <Tooltip title={"Voer al de geslecteerde acties uit!"}>
-                            <Button onClick={sendActions} variant="contained" startIcon={<ArrowForwardIcon />}>
-                                Voer acties uit
-                            </Button>
-                        </Tooltip>
+                        <Button onClick={sendActions} variant="contained" startIcon={<ArrowForwardIcon />}>
+                            Voer acties uit
+                        </Button>
+                    </Tooltip>
                 </div>
                 {error ? 
                 <div className='message' style={{color: 'red'}}>{message}</div> :  

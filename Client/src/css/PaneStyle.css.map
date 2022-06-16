@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,KAAK,CAAA;EACD,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,KAAK;EACb,gBAAgB,EEAX,OAAO;EFEZ,UAAU,EAAE,MAAM;EAClB,OAAO,EAAE,IAAI;EACb,MAAM,EAAE,IAAI;EACZ,KAAK,EAAE,KAAK;EAEZ,MAAM,EAAE,OAAO;EACf,UAAU,EAAE,iCAAiC;ECb7C,OAAO,EAAE,IAAI;EACb,cAAc,EDiBsB,MAAM;EChB1C,eAAe,EDgBK,MAAM;ECf1B,WAAW,EDeiB,MAAM;CAQrC;;AAxBD,AAYI,KAZC,AAYA,MAAM,CAAA;EACH,gBAAgB,EETf,OAAO;CFUX;;AAGA,AAAD,WAAO,CAAA;EACH,SAAS,EAAE,KAAK;CACnB;;AACA,AAAD,iBAAa,CAAA;EACT,SAAS,EAAE,KAAK;EAChB,KAAK,EAAE,OAAkB;CAC5B",
+    "sources": [
+        "../pages/servercontrollers/playercontroller/features/panels/irritatiecomponents/PaneStyle.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "PaneStyle.css"
+}

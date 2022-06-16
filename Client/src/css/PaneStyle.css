@@ -1,4 +1,4 @@
-.randomteleport {
+.pane {
   width: 130px;
   height: 140px;
   background-color: #3180E8;
@@ -14,16 +14,16 @@
   align-items: center;
 }
 
-.randomteleport:hover {
+.pane:hover {
   background-color: #235DA8;
 }
 
-.randomteleport-title {
+.pane-title {
   font-size: 1.1em;
 }
 
-.randomteleport-description {
+.pane-description {
   font-size: 0.7em;
   color: #cecece;
 }
-/*# sourceMappingURL=RandomTeleportStyle.css.map */
+/*# sourceMappingURL=PaneStyle.css.map */

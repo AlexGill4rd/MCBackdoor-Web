@@ -1,4 +1,4 @@
-import './RandomTeleportStyle.scss';
+import './PaneStyle.scss';
 
 import CachedIcon from '@mui/icons-material/Cached';
 import { useState } from 'react';
@@ -11,10 +11,10 @@ function Randomteleport(props: {onClick: any}){
         props.onClick("random-teleport")
     }
     return (
-        <div className="randomteleport" onClick={handleActionClick} style={selected ? {backgroundColor:"green"} : {backgroundColor:"#3180E8"}}>
+        <div className="pane" onClick={handleActionClick} style={selected ? {backgroundColor:"green"} : {backgroundColor:"#3180E8"}}>
             <CachedIcon />
-            <div className='randomteleport-title'>Random Teleport</div>
-            <div className='randomteleport-description'>Teleporteer de speler naar een willekeurige locatie</div>
+            <div className='pane-title'>Random Teleport</div>
+            <div className='pane-description'>Teleporteer de speler naar een willekeurige locatie</div>
         </div>
     );
 }

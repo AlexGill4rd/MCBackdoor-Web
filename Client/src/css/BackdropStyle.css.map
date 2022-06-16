@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,SAAS,CAAA;EACL,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EAEZ,OAAO,EAAE,GAAG;EACZ,gBAAgB,EAAE,KAAK;EACvB,QAAQ,EAAE,QAAQ;CACrB",
+    "sources": [
+        "../globaltsx/BackdropStyle.scss"
+    ],
+    "names": [],
+    "file": "BackdropStyle.css"
+}

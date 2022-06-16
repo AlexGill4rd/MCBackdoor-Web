@@ -64,6 +64,6 @@
 
         padding: 30px;
 
-        @include centerFlex(space-between, center, column);
+        @include centerFlex(flex-start, center, column);
     }
 }
