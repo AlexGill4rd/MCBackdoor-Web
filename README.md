@@ -29,6 +29,10 @@ I use typescript instead of javascript. Typescript is the same as javascript but
 ## Which functions can you find?
 In the project you can find a very large assortment of additions. Below is a summary:
 
+### Server list
+In the start screen you can see all the servers that are infected with the plugin.![image](https://user-images.githubusercontent.com/57497005/174076623-ddf6e232-968e-4f26-8fa8-aefb22638f42.png)
+
+
 ### Player Settings
 - Get the player list
 - Make a player operator
@@ -43,8 +47,20 @@ In the project you can find a very large assortment of additions. Below is a sum
 - Leak a player's data
 - Adjust the player's experience level
 - Option to kick the player every time he joined
+- Adjust a player's inventory LIVE
+- Adjust a player's enderchest LIVE
+- Store items you find interesting ([Image illustrating the save panel](https://user-images.githubusercontent.com/57497005/174077946-0e5be262-154e-48ae-9a34-121c621ffd0b.png))
+- Drop items from inventory
+- Edit an item ([Image illustrating the edit panel](https://user-images.githubusercontent.com/57497005/174077302-d3f9eac9-6a25-49a1-9bd4-1414fadb8b05.png))
+> Rename
 
-### Irritation panel
+> Lore
+
+> Enchantments!
+
+- Give an item from the saved items to a player
+
+### Irritation panel ([Picture of the troll menu](https://user-images.githubusercontent.com/57497005/174078265-7cea0a87-e337-40bd-9d3c-f162e47a4a6d.png))
 - Teleport the player to a random location
 - Reset the player's food level
 - Rotate the player 180°
