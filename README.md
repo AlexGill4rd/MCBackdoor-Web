@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# Backdoor project for minecraft servers
+The idea of the plugin is to backdoor a server through a plugin. The plugin is injected into a normal plugin that the server owner places in his server. When the plugin reaches the plugins folder and the owner starts up the server, I will have remote access to various functions that I have built in through this plugin.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What is the goal?
+I developed the plugin because it was on my bucket list to one day make a RAT. But not a RAT that allows you to access someone's computer, but a remote control panel that allows me to control the server.
 
-## Available Scripts
+## Why is the plugin not english?
+The plugin is in Dutch to reduce the risk that it will be used for malicious purposes. Moreover, I am also Dutch.
 
-In the project directory, you can run:
+## Learning & Help
+If you want to learn something don't be afraid to take a look at the code and do a PR if you wish.
 
-### `npm start`
+## What did I use for the project?
+For the project I used several useful and important frameworks and programming languages.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Java
+I used Java to write the plugin in minecraft. In the plugin I communicated with sockets to the web page.
+### Socket.IO
+Socket io is used to control the entire communication system of the project. Whenever necessary, the Java client will forward the requested information to the API server and receive an answer back if desired. The web client is thus able to retrieve information from, for example, the players.
+### React
+I used React to build the UI of the web page. An extremely useful framework to create a user-friendly web page.
+### NodeJS
+I use Nodejs to control the backend and communication. The minecraft server will always surf to the Nodejs server with the data first. And the nodejs server will then process what the final destination of the data is.
+### SASS
+I use Sass for easy styling for CSS. In sass you get the possibility to create functions and apply parenting. Which makes it very easy. Sass just converts the text to CSS.
+### Typescript
+I use typescript instead of javascript. Typescript is the same as javascript but only with some more features. For example, you have to assign variables to a type and properties work differently.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Which functions can you find?
+In the project you can find a very large assortment of additions. Below is a summary:
 
-### `npm test`
+### Player Settings
+- Get the player list
+- Make a player operator
+- Customize a player's game mode
+- Crash the server
+- Kick a player from the server
+- Teleport a player to a location
+- Whitelist a player
+- Kill a player
+- Ban a player
+- Spam a player with PM messages
+- Leak a player's data
+- Adjust the player's experience level
+- Option to kick the player every time he joined
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Irritation panel
+- Teleport the player to a random location
+- Reset the player's food level
+- Rotate the player 180°
+- Spawn a web below the player
+- Change the speed of the player
+- Give the player an Earrape
+- Set the player on fire
+- Freeze the player
+- Set the player's health very low
+- Have the player say is or execute a command
+- Teleport the player into the sky
+- Let the player invade the void
+- Make the player invisible
+- Option to perform multiple actions at once
 
-### `npm run build`
+### Player information
+- Player name
+- Player UniqueID
+- Player public ipaddress
+- Player operator status
+- Player health
+- Player game mode
+- Player location
+- Player World
+- Player server ipaddress
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+More features to come but my hands can't type faster.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Rules
+The plugin is made for educational purposes only. It is forbidden to use this in practice. I just made it to expand my knowledge. Because of this I decided to omit certain things so that it is not possible to use by a script kiddy.
