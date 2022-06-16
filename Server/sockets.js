@@ -223,6 +223,24 @@ io.on('connection', socket => {
     socket.on("minecraft:player-experience", data => {
         io.emit(`server:player-experience-${data.UUID}`, data);
     });
+
+    //CONSOLE SOCKETS
+    socket.on(`client:server-console-messages`, data => {
+        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Datum DESC LIMIT 100 ';
+        connection.query(sqlGet, [data.Address],(error, results) => {
+            if (error) throw error;
+            socket.emit(`server:server-console-messages-${data.Address}`, results);
+        }); 
+    });
+    socket.on(`minecraft:server-console-message-add`, data => {
+        console.log(data);
+        const date = new Date(data.Date);
+        let sqlGet = 'INSERT INTO consoles (Datum, Servername, Message, Type) VALUES (?,?,?,?)';
+        connection.query(sqlGet, [date, data.Servername, data.Message, data.Type],(error, results) => {
+            if (error) throw error;
+            socket.emit(`server:server-console-message-add-${data.Servername}`, results);
+        }); 
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")

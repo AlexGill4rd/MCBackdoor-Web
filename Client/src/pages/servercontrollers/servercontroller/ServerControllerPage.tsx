@@ -21,9 +21,11 @@ function ServerControllerPage(){
         })
     }, []);
     useEffect(function checkServerDisabled(){
-        socket.on(`server:disable-server-${server.Address}`, () => {
-            setServer(null);     
-        })
+        if (server !== null){
+            socket.on(`server:disable-server-${server.Address}`, () => {
+                setServer(null);     
+            })
+        }
     }, [server]);
     function handleOptionClick(selection: any){
         setSelectedOption(selection);
@@ -34,11 +36,48 @@ function ServerControllerPage(){
         return (
             <div className='servercontroller'>
                 <div className='servercontroller-options'>
+                    <div className='servercontroller-options-list'>
                     <OptionButton 
-                        Title='Server Console' 
-                        Description="Krijg de console van de server te zien waarmee je interactie's kunt doen" 
-                        onClick={() => handleOptionClick(<Console />)}
+                        Title='Dashboard' 
+                        Description="Het dashboard van de server met interessante functies en informatie" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
                     />
+                    <OptionButton 
+                        Title='Console' 
+                        Description="De console van de server waar al de logs binnen komen" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
+                    />
+                    <OptionButton 
+                        Title='Files' 
+                        Description="De files van de server die zich bevinden in de root folder van de server" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
+                    />
+                    <OptionButton 
+                        Title='Banned Players' 
+                        Description="Een lijst met de spelers die eerder verbannen zijn van de server" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
+                    />
+                    <OptionButton 
+                        Title='Whitelisted Players' 
+                        Description="Een lijst met de spelers dat gewhitelist zijn op de server" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
+                    />
+                    <OptionButton 
+                        Title='Plugins' 
+                        Description="Al de plugins van de server zijn plugin folder en hun informatie" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
+                    />
+                    <OptionButton 
+                        Title='Worlds' 
+                        Description="De werelden waaruit de server bestaadt en hun informatie" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
+                    />
+                    <OptionButton 
+                        Title='Broadcasting' 
+                        Description="Optie om over de server een broadcast te doen" 
+                        onClick={() => handleOptionClick(<Console Server={server} />)}
+                    />
+                    </div>
                 </div>
                 <div className='servercontroller-panel'>
                     {selectedOption === null ? <>Geen Optie geselecteerd!</> : selectedOption}

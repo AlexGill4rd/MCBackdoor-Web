@@ -1,0 +1,34 @@
+@import '../../../../globalscss/Functions.scss';
+@import '../../../../globalscss/Colors.scss';
+
+.console{
+    width: 100%;
+    height: 100%;
+
+    @include centerFlex(center, center, column);
+    &-container{
+        width: 85%;
+        height: 60%;
+
+
+        padding: 20px;
+        border: 1px solid rgb(211, 211, 211);
+        border-radius: 15px;
+        background-color: rgb(247, 247, 247);
+
+        @include centerFlex(center, center, column);
+        &-messages{
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            width: 100%;
+            height: auto;
+            @include centerFlex(flex-start, flex-start, column);
+        }
+    }
+    &-message{
+        height: auto;
+        width: auto;
+        padding: 5px 15px;
+    }
+}

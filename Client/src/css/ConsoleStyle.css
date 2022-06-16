@@ -1,0 +1,39 @@
+.console {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.console-container {
+  width: 85%;
+  height: 60%;
+  padding: 20px;
+  border: 1px solid lightgray;
+  border-radius: 15px;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.console-container-messages {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.console-message {
+  height: auto;
+  width: auto;
+  padding: 5px 15px;
+}
+/*# sourceMappingURL=ConsoleStyle.css.map */

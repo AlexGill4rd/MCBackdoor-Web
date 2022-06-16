@@ -1,15 +1,22 @@
 .optionbutton {
   width: 200px;
   height: 150px;
-  background-color: #235DA8;
-  border: 1px solid #13335C;
-  color: white;
+  background-color: white;
+  color: black;
   padding: 15px 10px;
   margin: 10px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: transform 100ms ease-in-out;
+}
+
+.optionbutton:hover {
+  transform: scale(1.1);
 }
 
 .optionbutton-title {
@@ -17,6 +24,7 @@
 }
 
 .optionbutton-description {
-  color: #dadada;
+  color: #969696;
+  font-size: 0.9em;
 }
 /*# sourceMappingURL=OptionButtonStyle.css.map */
