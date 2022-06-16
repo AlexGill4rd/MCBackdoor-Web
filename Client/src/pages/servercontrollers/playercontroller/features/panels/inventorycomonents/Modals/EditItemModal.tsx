@@ -11,6 +11,7 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
 function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     const [lore, setLore] = useState<string | null>(null);
+    const [loreIndex, setLoreIndex] = useState<number>(0);
     const [lores, setLores] = useState<any>([]);
     const [selectedLores, setSelectedLores] = useState<string[]>([]);
     const [itemstack, setItemstack] = useState<any>(JSON.parse(props.item.Itemstack));
@@ -46,9 +47,22 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     function handleLoreChange(e: any){
         setLore(e.target.value)
     }
+    function handleIndexChange(e: any){
+        setLoreIndex(e.target.value)
+    }
     function handleAddLore(){
-        setLores((lores: any) => [...lores, lore]);
+        var loreList:any[] = [];
+        lores.map((loreline: string, index: number) => {
+            if(loreIndex !== 0){
+                if (loreIndex - 1 === index)
+                    loreList.push(lore);        
+            }
+            loreList.push(loreline)
+        })
+        if (loreIndex === 0)loreList.push(lore)
+        setLores(loreList);
         setLore("");
+        setLoreIndex(0);
     }
     function handleRemoveLore(){
         var newLoreList: string[] = [];
@@ -182,8 +196,17 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                 <FormControl>
                     <label className='editmodal-menu-kop'>Displayname:</label>
                     <input type="text" value={displayname !== null ? displayname: ""} onChange={handleDisplaynameChange} id="lname" name="lastname" placeholder="Geef de displayname..." />
-                    <label className='editmodal-menu-kop'>Lore:</label>
-                    <input value={lore != null ? lore : ""} onChange={handleLoreChange} type="text" id="lname" name="lastname" placeholder="Geef een lore lijn in..." />
+                    <div className='editmodal-menu-lore'>
+                        <div className='editmodal-menu-lore-text'>
+                            <label className='editmodal-menu-kop'>Lore:</label>
+                            <input value={lore != null ? lore : ""} onChange={handleLoreChange} type="text" id="llore" name="lore" placeholder="Geef een lore lijn in..." />
+                        </div>
+                        <div className='editmodal-menu-lore-index'>
+                            <label className='editmodal-menu-kop'>Index:</label>
+                            <input value={loreIndex} onChange={handleIndexChange} min={0} max={lores.length + 1} type="number" id="lindex" name="index" placeholder="Index..." />
+                        </div>
+                    </div>
+                    
                     <div className='editmodal-menu-lore-options'>
                         <Tooltip title={"Geef bovenaan in welke lore je wenst toe te voegen"}>
                             <Button onClick={handleAddLore} variant="contained" startIcon={<AddIcon />}>

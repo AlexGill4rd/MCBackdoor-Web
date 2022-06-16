@@ -42,9 +42,9 @@
             height: auto;
             width: 100%;
         }
-        input[type=text] {
+        input[type=text], input[type=number] {
             width: 100%;
-            padding: 6px 20px;
+            padding: 6px 10px;
             margin: 5px 0 5px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -61,12 +61,22 @@
           cursor: pointer;
         }
         &-lore{
+            width: 100%;
+            height: auto;
+            @include centerFlex(space-between, center, row);
             &-options{
                 @include centerFlex(space-between, center, row);
                 flex-wrap: wrap;
                 button{
                     width: 48%;
                 }
+            }
+            &-text{
+                width: 73%;
+                overflow-y: scroll;
+            }
+            &-index{
+                width: 25%;
             }
         }
         &-enchanting{

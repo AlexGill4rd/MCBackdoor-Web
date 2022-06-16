@@ -219,6 +219,10 @@ io.on('connection', socket => {
             io.to(serverSockets.get(data.Servername)).emit("server:features-change", data);
         }  
     });
+    //SOCKET TO SEND PLAYER EXPERIENCE TO CLIENT
+    socket.on("minecraft:player-experience", data => {
+        io.emit(`server:player-experience-${data.UUID}`, data);
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")

@@ -71,7 +71,7 @@
   padding: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 }
 /*# sourceMappingURL=PlayerControllerPageStyling.css.map */
