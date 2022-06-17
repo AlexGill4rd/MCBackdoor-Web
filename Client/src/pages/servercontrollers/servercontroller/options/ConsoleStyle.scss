@@ -8,27 +8,65 @@
     @include centerFlex(center, center, column);
     &-container{
         width: 85%;
-        height: 60%;
+        height: auto;
 
 
-        padding: 20px;
+        padding: 20px 20px 0 20px;
         border: 1px solid rgb(211, 211, 211);
         border-radius: 15px;
         background-color: rgb(247, 247, 247);
 
-        @include centerFlex(center, center, column);
+        @include centerFlex(flex-end, center, column);
         &-messages{
             overflow-y: auto;
             overflow-x: hidden;
 
             width: 100%;
-            height: auto;
+            height: 70vh;
+
             @include centerFlex(flex-start, flex-start, column);
+        }
+        &-commandline{
+            width: 100%;
+            height: auto;
+            border-top: 1px solid rgb(211, 211, 211);
+
+            padding: 10px 0;
+            @include centerFlex(space-between, center, row);
+            input[type=text] {
+                width: calc(100% - 200px - 10px - 160px - 10px);
+                padding: 6px 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            button{
+                width: 200px;
+                margin-left: 10px;
+                font-size: 0.8em;
+            }
         }
     }
     &-message{
         height: auto;
-        width: auto;
+        width: 100%;
         padding: 5px 15px;
+
+        @include centerFlex(flex-start, flex-start, row);
+        &-type{
+            width: auto;
+            height: auto;
+
+            margin-right: 8px;
+        }
+        &-datum{
+            width: 90px;
+            text-align: center;
+            cursor: pointer;
+            margin: 0px 5px;
+        }
+        &-message{
+            width: 80%;
+            margin: 0 5px;
+        }
     }
 }

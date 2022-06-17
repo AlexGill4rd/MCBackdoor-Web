@@ -92,7 +92,7 @@ io.on('connection', socket => {
                 if (error) throw error;
                 if(results.length > 0){
                     let sql2 = 'UPDATE players SET IP=?,Op=? WHERE Displayname = ?';
-                    connection.query(sql2, [player.Ip, player.Op, player.Displayname] ,(error, resultsUpdate) => {
+                    connection.query(sql2, [player.Ip, player.Operator, player.Displayname] ,(error, resultsUpdate) => {
                         if (error) throw error;
                         io.emit(`server:player-update-${results[0].UUID}`, results[0])
                     });
@@ -106,7 +106,7 @@ io.on('connection', socket => {
                     mojangAPI.getPlayerHeadByName(player.Displayname).then( response => {
                         let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP, Op) VALUES (?,?,?,?,?,?)';
                         player.Icon = response;
-                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Op] ,(error, results2) => {
+                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Operator] ,(error, results2) => {
                             if (error) throw error;
                             console.log("Player added: " + player.Displayname);
                             io.emit(`server:player-update-${player.UUID}`, player)
@@ -133,7 +133,7 @@ io.on('connection', socket => {
         io.to(serverSockets.get(servername)).emit("server:server-player-list");
     });
     socket.on(`minecraft:server-player-list`, data => {
-        io.emit("server:mcserver-player-list", JSON.stringify(data))
+        io.emit(`server:mcserver-player-list-${data.Server}`, data)
     })
 
     socket.on(`client:mcserver-get`, serverid => {
@@ -226,20 +226,24 @@ io.on('connection', socket => {
 
     //CONSOLE SOCKETS
     socket.on(`client:server-console-messages`, data => {
-        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Datum DESC LIMIT 100 ';
+        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date DESC LIMIT 200';
         connection.query(sqlGet, [data.Address],(error, results) => {
             if (error) throw error;
+            results.reverse();
             socket.emit(`server:server-console-messages-${data.Address}`, results);
         }); 
     });
     socket.on(`minecraft:server-console-message-add`, data => {
-        console.log(data);
-        const date = new Date(data.Date);
-        let sqlGet = 'INSERT INTO consoles (Datum, Servername, Message, Type) VALUES (?,?,?,?)';
-        connection.query(sqlGet, [date, data.Servername, data.Message, data.Type],(error, results) => {
+        data.Date = new Date(data.Date);
+        let sqlGet = 'INSERT INTO consoles (Date, Servername, Message, Type) VALUES (?,?,?,?)';
+        connection.query(sqlGet, [data.Date, data.Servername, data.Message, data.Type],(error, results) => {
             if (error) throw error;
-            socket.emit(`server:server-console-message-add-${data.Servername}`, results);
+            io.emit(`server:console-message-${data.Servername}`, data);
         }); 
+    });
+    //OPTIONS SOCKETS
+    socket.on("client:server-option", data => {
+        io.to(serverSockets.get(data.Server.Address)).emit(`server:server-option`, data);
     });
 });
 server.listen(3001, function (){
