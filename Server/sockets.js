@@ -2,6 +2,8 @@ const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+var siofu = require("socketio-file-upload");
+
 var mojangAPI = require('mojang-minecraft-api')
 const util = require('minecraft-server-util');
 
@@ -139,7 +141,7 @@ io.on('connection', socket => {
                     if (error) throw error;
                     sendMessage("De server is gesloten!", dataCopy.Servername);
                     serverSockets.delete(dataCopy.Servername);
-                    io.emit("server:update-server", data);
+                    io.emit("server:update-server", dataCopy);
                     io.emit(`server:disable-server-${dataCopy.id}`, dataCopy);
                 }); 
             }
@@ -263,6 +265,10 @@ io.on('connection', socket => {
     //OPTIONS SOCKETS
     socket.on("client:server-option", data => {
         io.to(serverSockets.get(data.Server.Servername)).emit(`server:server-option`, data);
+    });
+    //CLIENT VERSION UPLOAD
+    socket.on("client:version-update", data => {
+        console.log(data);
     });
 });
 server.listen(3001, function (){

@@ -1,0 +1,50 @@
+@import '../../../../../globalscss/Functions.scss';
+@import '../../../../../globalscss/Colors.scss';
+
+.versionmodal{
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @include centerFlex(center, center, column);
+    &-backdrop{
+        width: 100%;
+        height: 100%;
+
+        position: absolute;
+        background-color: black;
+        opacity: 0.6;
+        z-index: 5;
+    }
+    &-menu{
+        width: 450px;
+        height: auto;
+
+        padding: 30px 20px;
+        background-color: white;
+        color: black;
+
+        position: relative;
+        z-index: 6;
+
+        @include centerFlex(center, center, column);
+        input[type=file]{
+            width: 100%;
+            padding: 8px 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+
+            @include centerFlex(center, center, row);
+        }
+        button{
+            width: 100%;
+        }
+        &-title{
+            margin-bottom: 10px;
+        }
+    }
+}
