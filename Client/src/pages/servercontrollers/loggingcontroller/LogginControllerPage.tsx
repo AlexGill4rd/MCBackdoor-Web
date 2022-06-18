@@ -22,7 +22,7 @@ function LogginControllerPage(){
     }, []);
     useEffect(function updateLogs(){
         socket.on("server:update-logging", data => {
-            if (data.Servername === server.Address){
+            if (data.Servername === server.Servername){
                 setMessages(data);
             }
         })

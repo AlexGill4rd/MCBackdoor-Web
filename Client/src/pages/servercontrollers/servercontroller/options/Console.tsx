@@ -14,13 +14,13 @@ function Console(props: {Server: any}){
         socket.emit(`client:server-console-messages`, props.Server);
     }, []);
     useEffect(function updateMessages(){
-        socket.on(`server:server-console-messages-${props.Server.Address}`, data => {
+        socket.on(`server:server-console-messages-${props.Server.Servername}`, data => {
             setMessages([]);
             setMessages(data);
         })
     }, []);
     useEffect(function listenAddMessage(){
-        socket.on(`server:console-message-${props.Server.Address}`, data => {
+        socket.on(`server:console-message-${props.Server.Servername}`, data => {
             setMessages((messages: any) => [...messages, data]);
         })
     }, [props.Server]);

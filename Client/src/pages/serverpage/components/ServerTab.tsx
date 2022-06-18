@@ -1,58 +1,30 @@
 import { Button, Tooltip } from '@mui/material';
-import { useEffect, useState } from 'react';
 
 import { FaCheckCircle } from "react-icons/fa";
 import { FaMinusCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
-import { socket } from "../../../socket/socket";
-
 import './styling/ServerTab.scss';
 
 function ServerTab(props: {server: any;}){
-    const [serverImage, setServerImage] = useState(JSON.parse(props.server.Image).Image);
-    const [serverName, setServerName] = useState(props.server.Name);
-    const [serverState, setServerState] = useState(props.server.State);
-    const [serverID, setServerID] = useState(props.server.id);
-    const [serverMOTD, setServerMOTD] = useState(props.server.MOTD);
-    const [serverMax, setServerMax] = useState(props.server.MaxPlayers);
-    const [serverVersion, setServerVersion] = useState(props.server.Version);
-    const [serverJsonData, setServerJsonData] = useState(props.server.JsonData);
-    const [serverOnlinePlayers, setServerOnlineP] = useState(serverJsonData.OnlinePlayers);
-
-    useEffect(function updateData(){
-        setServerImage(JSON.parse(props.server.Image).Image)
-        setServerName(props.server.Name)
-        setServerState(props.server.State)
-        setServerID(props.server.id)
-        setServerMOTD(props.server.MOTD)
-        setServerMax(props.server.MaxPlayers)
-        setServerOnlineP(JSON.parse(props.server.JsonData).OnlinePlayers)
-        setServerVersion(props.server.Version)
-        setServerJsonData(JSON.parse(props.server.JsonData))
-    }, [props.server]);
-
-    function handleServerConnect(){
-        socket.emit("client:saved-items", serverName);
-    }
     return (
         <div className="servertab">
-            <div className='servertab-id'>{serverID}</div>
+            <div className='servertab-id'>{props.server.id}</div>
             <div className='servertab-verticalline'>|</div>
-            <Tooltip title={serverVersion}>
-                <div className='servertab-image'><img src={serverImage} /></div>
+            <Tooltip title={props.server.Version}>
+                <div className='servertab-image'><img src={props.server.Image} /></div>
             </Tooltip>
             <div className='servertab-verticalline'>|</div>
-            <Tooltip title={serverMOTD}>
-                <div className='servertab-ip'>{serverName}</div>
+            <Tooltip title={props.server.MOTD}>
+                <div className='servertab-ip'>{props.server.Servername}</div>
             </Tooltip>
             <div className='servertab-verticalline'>|</div>
-            <div className='servertab-players'>{serverOnlinePlayers === undefined ? "- / " + serverMax : serverOnlinePlayers + " / " + serverMax}</div>
+            <div className='servertab-players'>{props.server.OnlinePlayers === undefined ? "- / " + props.server.MaxPlayers : props.server.OnlinePlayers + " / " + props.server.MaxPlayers}</div>
             
-            {serverState === 1 ?
+            {props.server.State === true ?
                 <>
                     <div className='servertab-verticalline'>|</div>
-                    <Link to={'/controller/servers/' + serverID}>
+                    <Link to={'/controller/servers/' + props.server.id}>
                         <Button className='servertab-beheren' variant="contained" >
                             Beheren
                         </Button>
@@ -61,9 +33,9 @@ function ServerTab(props: {server: any;}){
                 <></>
             }
             <div className='servertab-verticalline'>|</div>
-            {serverState === 1 ?
-                <Tooltip title="Server OFF!"><div className='servertab-state' style={{color: 'lime'}}><FaCheckCircle /></div></Tooltip> :
-                <Tooltip title="Server ON!"><div className='servertab-state' style={{color: 'red'}}><FaMinusCircle /></div></Tooltip>
+            {props.server.State === true ?
+                <Tooltip title="Server ON"><div className='servertab-state' style={{color: 'lime'}}><FaCheckCircle /></div></Tooltip> :
+                <Tooltip title="Server OFF"><div className='servertab-state' style={{color: 'red'}}><FaMinusCircle /></div></Tooltip>
             }
         </div>
     );

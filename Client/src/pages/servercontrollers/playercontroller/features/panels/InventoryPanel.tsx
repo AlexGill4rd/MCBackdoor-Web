@@ -38,7 +38,7 @@ function InventoryPanel(props: {player: any, server: any;}){
             Player: props.player,
             Feature: "inventory",
             Type: "get",
-            Servername: props.server.Address,
+            Servername: props.server.Servername,
             SocketID: socket.id
         }
         loadItems();
@@ -107,12 +107,12 @@ function InventoryPanel(props: {player: any, server: any;}){
             Feature: "inventory",
             Type: action,
             Slot: itemstack.Slot,
-            Servername: props.server.Address,
+            Servername: props.server.Servername,
             Itemstack: itemstack
         }
         if (action === "save"){
             var saveItem = {
-                Servername: props.server.Address,
+                Servername: props.server.Servername,
                 Itemstack: itemstack,
                 Player: props.player,
                 Datum: new Date()

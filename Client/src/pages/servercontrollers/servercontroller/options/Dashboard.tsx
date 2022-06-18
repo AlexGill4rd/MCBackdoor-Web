@@ -9,18 +9,20 @@ import { socket } from '../../../../socket/socket';
 
 function Dashboard(props: {Server: any}) {
     const [players, setPlayers] = useState<any>([]);
+    const [server, setServer] = useState<any>(props.Server);
 
     useEffect(function loadPlayers(){
-        if (props.Server.Address !== undefined){
-            socket.emit("client:server-player-list", props.Server.Address);
-        }
-    }, [props.Server]);
+        socket.emit("client:server-player-list", props.Server.Servername);
+    }, []);
     useEffect(function updatePlayers(){
-        socket.on(`server:mcserver-player-list-${props.Server.Address}`, data => {
+        socket.on(`server:mcserver-player-list-${props.Server.Servername}`, data => {
             setPlayers(data.Players);
         })
     }, []);
-    console.log(props.Server)
+    useEffect(function updateServer(){
+        setServer(props.Server)
+    }, [props.Server]);
+    console.log(server)
     function handleVersionEdit(){
 
     }
@@ -30,15 +32,13 @@ function Dashboard(props: {Server: any}) {
                 <div className='dashboard-data-info'>
                     <div className='dashboard-data-info-left'>
                         <div className='dashboard-data-info-state'>
-                            {props.Server.State && 
-                                <Tooltip title="Doe de server uit" disableInteractive placement='top'>
-                                    <PowerSettingsNewIcon className='dashboard-data-info-state-off' sx={{backgroundColor: "red",padding:"4px", borderRadius:"50%", fontSize: "1.9em"}} />
-                                </Tooltip>
-                            }
+                            <Tooltip title="Doe de server uit" disableInteractive placement='top'>
+                                <PowerSettingsNewIcon className='dashboard-data-info-state-off' sx={props.Server.State ? {backgroundColor: "lime",padding:"4px", borderRadius:"50%", fontSize: "1.9em"} : {backgroundColor: "red",padding:"4px", borderRadius:"50%", fontSize: "1.9em"}} />
+                            </Tooltip>                     
                         </div>
                         <div className='dashboard-data-info-address'>
-                            <label>Server address:</label>
-                            <input readOnly type='text' value={props.Server.Address} />
+                            <label>Servername:</label>
+                            <input readOnly type='text' value={props.Server.Servername} />
                         </div>
                         <div className='dashboard-data-info-motd'>
                             <label>Server MOTD:</label>

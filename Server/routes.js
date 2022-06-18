@@ -40,10 +40,10 @@ app.post('/server/get', function (req, res) {
   let token = req.body.token;
   let serverid = req.body.serverid;
   if (token === token){
-    let sql = 'SELECT * FROM servers WHERE id = ?';
+    let sql = 'SELECT JsonData FROM servers WHERE id = ?';
       connection.query(sql, [serverid],(error, results) => {
         if (error) throw error;
-        res.send(JSON.stringify(results[0]));
+        res.send(JSON.parse(results[0].JsonData));
         res.end();
       });
   }
