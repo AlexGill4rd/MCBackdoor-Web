@@ -13,19 +13,17 @@ import LogginControllerPage from './pages/servercontrollers/loggingcontroller/Lo
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/controller/homepage' element={<ControllerHomePage />} />
-        <Route path='/controller/servers' element={<ServerPage />} />
-        <Route path='/controller/servers/:serverid' element={<ServerControllerHomePage />} />
-        <Route path='/controller/servers/edit/player/:serverid' element={<PlayerControllerPage />} />
-        <Route path='/controller/servers/edit/server/:serverid' element={<ServerControllerPage />} />
-        <Route path='/controller/servers/edit/extra/:serverid' element={<ExtraControllerPage />} />
-        <Route path='/controller/servers/logging/:serverid' element={<LogginControllerPage />} />
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+      <Route path='/controller/homepage' element={<ControllerHomePage />} />
+      <Route path='/controller/servers' element={<ServerPage />} />
+      <Route path='/controller/servers/:serverid' element={<ServerControllerHomePage />} />
+      <Route path='/controller/servers/edit/player/:serverid' element={<PlayerControllerPage />} />
+      <Route path='/controller/servers/edit/server/:serverid' element={<ServerControllerPage />} />
+      <Route path='/controller/servers/edit/extra/:serverid' element={<ExtraControllerPage />} />
+      <Route path='/controller/servers/logging/:serverid' element={<LogginControllerPage />} />
 
-      </Routes>
-    </>
+    </Routes>
   );
 }
 

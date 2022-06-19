@@ -275,6 +275,17 @@ io.on('connection', socket => {
     socket.on("minecraft:server-chat", data => {
         io.emit(`server:server-chat-${data.Servername}`, data);
     });
+    //CLIENT ICON UPLOAD
+    socket.on("client:icoon-update", data => {
+        io.to(serverSockets.get(data.Server.Servername)).emit("server:icoon-update", data);
+    });
+    //SERVER FUNCTIONS
+    socket.on("client:server-features", data => {
+        io.to(serverSockets.get(data.Servername)).emit("server:server-features", data);
+    });
+    socket.on("minecraft:server-features-log", data => {
+        io.emit(`server:server-features-log-${data.Servername}`, data)
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")

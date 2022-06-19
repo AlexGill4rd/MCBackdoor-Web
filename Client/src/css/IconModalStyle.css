@@ -1,0 +1,71 @@
+.iconmodal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconmodal-backdrop {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 5;
+}
+
+.iconmodal-menu {
+  width: 450px;
+  height: auto;
+  padding: 30px 20px;
+  background-color: white;
+  color: black;
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconmodal-menu input[type=text] {
+  width: 100%;
+  padding: 8px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconmodal-menu button {
+  width: 100%;
+}
+
+.iconmodal-menu-title {
+  margin-bottom: 10px;
+}
+
+.iconmodal-menu-help {
+  text-align: center;
+}
+
+.iconmodal-menu-description {
+  font-size: 0.7em;
+  color: #686868;
+}
+
+.iconmodal-menu a {
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 5px;
+}
+/*# sourceMappingURL=IconModalStyle.css.map */
