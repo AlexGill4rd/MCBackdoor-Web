@@ -1,0 +1,239 @@
+.dashboard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dashboard input[type=text] {
+  width: 100%;
+  padding: 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  color: #313131;
+  background-color: #e2e2e2;
+}
+
+.dashboard-data {
+  width: 60%;
+  height: 100%;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dashboard-data-info {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-data-info-left {
+  width: 500px;
+  height: 90%;
+  margin: 30px;
+  border-radius: 10px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.dashboard-data-info-right {
+  width: 260px;
+  height: 90%;
+  border-radius: 10px;
+  padding: 0 20px;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-data-info-state {
+  width: auto;
+  height: auto;
+  margin-left: 10px 0;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-data-info-state img {
+  border-radius: 50%;
+  height: 100%;
+  width: auto;
+}
+
+.dashboard-data-info-state-on {
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+
+.dashboard-data-info-state-on:hover {
+  background-color: #00d100;
+}
+
+.dashboard-data-info-state-off {
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+
+.dashboard-data-info-state-off:hover {
+  background-color: #bb0000;
+}
+
+.dashboard-data-info-address {
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.dashboard-data-info-version {
+  width: 100%;
+  height: 70px;
+  margin: 10px 0;
+  border: 1px solid #e9e9e9;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-data-info-version-info {
+  width: 45%;
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-data-info-version-icon {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-data-info-version button {
+  padding: 5px 15px;
+}
+
+.dashboard-data-info-motd {
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.dashboard-data-info-icon {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-data-info-icon img {
+  width: 100px;
+  height: auto;
+  border: 3px solid #a7a7a7;
+  border-radius: 15px;
+  object-fit: contain;
+}
+
+.dashboard-data-info-playercount {
+  width: 100%;
+  margin: 10px;
+  height: auto;
+  text-align: center;
+}
+
+.dashboard-data-info-memory {
+  width: 100%;
+  margin: 10px;
+  height: auto;
+  text-align: center;
+}
+
+.dashboard-data-chat {
+  height: 355px;
+  width: 100%;
+  border-top: 1px solid #cfcfcf;
+  border-bottom: 1px solid #cfcfcf;
+  margin-bottom: 50px;
+}
+
+.dashboard-players {
+  width: 35%;
+  height: 90%;
+  padding: 20px;
+  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.dashboard-players-player {
+  width: auto;
+  height: auto;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background-color: #3180E8;
+  cursor: default;
+  color: white;
+  margin: 5px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  transition: background-color 100ms ease-in-out;
+}
+
+.dashboard-players-player:hover {
+  background-color: #235DA8;
+}
+
+.dashboard-players-player-displayname {
+  width: auto;
+  text-align: center;
+}
+
+.dashboard-players-player-ip {
+  width: auto;
+  text-align: center;
+}
+
+.dashboard-players-player-world {
+  width: auto;
+  text-align: center;
+}
+/*# sourceMappingURL=DashboardStyle.css.map */

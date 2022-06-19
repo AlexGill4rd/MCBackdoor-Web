@@ -2,10 +2,13 @@ const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+var siofu = require("socketio-file-upload");
+
 var mojangAPI = require('mojang-minecraft-api')
 const util = require('minecraft-server-util');
 
 const mysql = require('mysql');
+const { symlinkSync } = require('fs');
 const connection = mysql.createPool({
     host     : 'localhost',
     user     : 'VirusAccount',
@@ -25,22 +28,30 @@ function sendMessage(message, servername){
 }
 let serverSockets = new Map();
 io.on('connection', socket => {
+    //REGISTER ALL SERVERS SOCKETS IN A VARIABLE
     socket.emit("connection-success");
-    socket.on("minecraft:connect", (address) => {
-        if (!serverSockets.get(address) || address != null){
-            serverSockets.set(address, socket.id);
-            sendMessage("Server Is Verbonden!", address);
+    socket.on("minecraft:connect", (Servername) => {
+        if (!serverSockets.get(Servername) || Servername != null){
+            serverSockets.set(Servername, socket.id);
+            sendMessage("Server Is Verbonden!", Servername);
         }else console.log("Probleem bij server connection")
     });
-    socket.on("client:get-server-logs", (address) => {
+    //GET SERVER LOGS OF A SERVER
+    socket.on("client:get-server-logs", (Servername) => {
         let getLogs = 'SELECT * FROM serverlogging WHERE Servername = ? ORDER BY Date ASC';
-        connection.query(getLogs, [address] ,(error, results) => {
+        connection.query(getLogs, [Servername] ,(error, results) => {
             if (error) throw error;
             io.emit("server:update-logging", results);
         }); 
         
     });
+    //GET A LIST WITH ALL ACTIVE AND NON ACTIVE SERVERS
     socket.on("client:get-servers", function () {
+        let getServerSQL = 'SELECT JsonData FROM servers ORDER BY id DESC';
+        connection.query(getServerSQL ,(error, results) => {
+            if (error) throw error;
+            io.emit("server:server-list", results);
+        });
         io.emit("server:get-server");
     });
     socket.on('minecraft:active-server', (data) => {
@@ -48,43 +59,44 @@ io.on('connection', socket => {
             timeout: 1000 * 5,
             enableSRV: true
         };
+        if (data.Ip === "" ||data.Port === "")return;
         util.status(data.Ip, data.Port, options)
-        .then((result) => {
-            data.MOTD = result.motd.clean;
-            data.MaxPlayers = result.players.max;
-            data.OnlinePlayers = result.players.online;
-            data.Image = result.favicon;
-            data.Version = result.version.name;
+            .then((result) => {
+                data.MOTD = result.motd.clean;
+                data.Image = result.favicon;
+                data.Version = result.version.name;
 
-            var id = 0;
-            let idSQL = 'SELECT * FROM servers';
-            connection.query(idSQL ,(error, counter) => {
-                if (error) throw error;
-                id = counter.length;
-                data.id = id;
-
-                let sqlFind = 'SELECT * FROM servers WHERE Name = ?';
-                connection.query(sqlFind, [data.Address],(error, results) => {
+                let idSQL = 'SELECT * FROM servers';
+                connection.query(idSQL ,(error, counter) => {
                     if (error) throw error;
-                    if (results.length > 0){
-                        let sqlUpdate = 'UPDATE servers SET Image=?,MOTD=?,State=?,MaxPlayers=?,Version=? WHERE Name=?';
-                        connection.query(sqlUpdate, [JSON.stringify({"Image": data.Image}), data.MOTD, data.State, data.MaxPlayers, data.Version, data.Address] ,(error, results) => {
-                            if (error) throw error;
-                            io.emit("server:update-servers", data);
-                        }); 
-                    }else{
-                        let sqlInsert = 'INSERT INTO servers (id, Image, Name, MOTD, State, MaxPlayers, Version, InjectedDate, JsonData) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)';
-                        connection.query(sqlInsert, [data.id, JSON.stringify({"Image": data.Image}), data.Address, data.MOTD, data.State, data.MaxPlayers, data.Version, JSON.stringify(data)] ,(error, results) => {
-                            if (error) throw error;
-                            sendMessage("De server is toegevoegt!", data.Address);
-                            io.emit("server:update-servers", data);
-                        });   
-                    }
-                });
-            })
+                    var idLength = counter.length;  
+                    data.id = idLength;
+                    let sqlFind = 'SELECT * FROM servers WHERE Servername = ?';
+                    connection.query(sqlFind, [data.Servername],(error, results) => {
+                        if (error) throw error;
+                        if (results.length > 0){
+                            data.id = results[0].id;
+                            let sqlUpdate = 'UPDATE servers SET JsonData=? WHERE Servername = ?';
+                            connection.query(sqlUpdate, [JSON.stringify(data), data.Servername] ,(error, results) => {
+                                if (error) throw error;
+                                io.emit("server:update-server", data);
+                                io.emit(`server:update-server-${data.id}`, data);
+                            }); 
+                        }else{
+                            let sqlInsert = 'INSERT INTO servers (id, Servername, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
+                            connection.query(sqlInsert, [data.id, data.Servername, JSON.stringify(data)],(error, results) => {
+                                if (error) throw error;
+                                sendMessage("De server is toegevoegt!", data.Servername);
+                                io.emit("server:update-server", data);
+                                io.emit(`server:update-server-${data.id}`, data);
+                            });   
+                        }
+                    });
+                })
         })
         .catch((error) => console.log("Data van server niet kunnen ophalen!"));
     });
+    //MINECRAFT SERVER CALL TO UPDATE THE PLAYERLIST
     socket.on(`minecraft:player-list-update`, players => {
         players.forEach(player => {
             let sql = 'SELECT * FROM players WHERE Displayname = ?';
@@ -92,24 +104,24 @@ io.on('connection', socket => {
                 if (error) throw error;
                 if(results.length > 0){
                     let sql2 = 'UPDATE players SET IP=?,Op=? WHERE Displayname = ?';
-                    connection.query(sql2, [player.Ip, player.Op, player.Displayname] ,(error, results) => {
+                    connection.query(sql2, [player.Ip, player.Operator, player.Displayname] ,(error, resultsUpdate) => {
                         if (error) throw error;
-                        io.emit("server:player-update", player)
+                        io.emit(`server:player-update-${results[0].UUID}`, results[0])
                     });
                 }else{
                     var id = 0;
                     let idSQL = 'SELECT * FROM servers';
-                    connection.query(idSQL ,(error, results) => {
+                    connection.query(idSQL ,(error, results1) => {
                         if (error) throw error;
-                        id = results.length;
+                        id = results1.length;
                     });
                     mojangAPI.getPlayerHeadByName(player.Displayname).then( response => {
                         let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP, Op) VALUES (?,?,?,?,?,?)';
                         player.Icon = response;
-                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Op] ,(error, results) => {
+                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Operator] ,(error, results2) => {
                             if (error) throw error;
                             console.log("Player added: " + player.Displayname);
-                            io.emit("server:player-update", player)
+                            io.emit(`server:player-update-${player.UUID}`, player)
                         }); 
                     });
 
@@ -117,27 +129,37 @@ io.on('connection', socket => {
             });
         });
     })
+    //SOCKET WHEN SERVER GETS DISCONNECTED
     socket.on('minecraft:server-disconnect', (data) => {
-        let sqlUpdate = 'UPDATE servers SET State=? WHERE Name = ?';
-        connection.query(sqlUpdate, [data.State, data.Address] ,(error) => {
+        let jsonDataSQL = 'SELECT JsonData FROM servers WHERE Servername = ?';
+        connection.query(jsonDataSQL, [data.Servername] ,(error, jsonResults) => {
             if (error) throw error;
-            sendMessage("De server is gesloten!", data.Address);
-            serverSockets.delete(data.Address);
-            io.emit("server:update-servers", data);
-            io.emit("server:disable-server", data);
+            if(jsonResults.length > 0){
+                var dataCopy = JSON.parse(jsonResults[0].JsonData);
+                dataCopy.State = false;
+                let sqlUpdate = 'UPDATE servers SET JsonData=? WHERE Servername = ?';
+                connection.query(sqlUpdate, [JSON.stringify(dataCopy), data.Servername] ,(error) => {
+                    if (error) throw error;
+                    sendMessage("De server is gesloten!", dataCopy.Servername);
+                    serverSockets.delete(dataCopy.Servername);
+                    io.emit("server:update-server", dataCopy);
+                    io.emit(`server:disable-server-${dataCopy.id}`, dataCopy);
+                }); 
+            }
         }); 
     });
-
+    //SOCKET REQUEST BY CLIENT TO GET PLAYERLIST
     socket.on("client:server-player-list", servername => {
         sendMessage("Serverlist opgevraagd! SocketID: " + servername, servername);
         io.to(serverSockets.get(servername)).emit("server:server-player-list");
     });
+    //MINECRAFT SERVER PLAYERLIST RETURN
     socket.on(`minecraft:server-player-list`, data => {
-        io.emit("server:mcserver-player-list", JSON.stringify(data))
+        io.emit(`server:mcserver-player-list-${data.Server.Servername}`, data)
     })
-
+    //WEB CLIENT SERVER DATA REQUEST
     socket.on(`client:mcserver-get`, serverid => {
-        let sqlUpdate = 'SELECT * FROM servers WHERE id=?';
+        let sqlUpdate = 'SELECT JsonData FROM servers WHERE id=?';
         connection.query(sqlUpdate, [serverid] ,(error, results) => {
             if (error) throw error;
             io.emit("server:mcserver-get", results[0]);
@@ -222,6 +244,36 @@ io.on('connection', socket => {
     //SOCKET TO SEND PLAYER EXPERIENCE TO CLIENT
     socket.on("minecraft:player-experience", data => {
         io.emit(`server:player-experience-${data.UUID}`, data);
+    });
+
+    //CONSOLE SOCKETS
+    socket.on(`client:server-console-messages`, data => {
+        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date DESC LIMIT 200';
+        connection.query(sqlGet, [data.Servername],(error, results) => {
+            if (error) throw error;
+            results.reverse();
+            socket.emit(`server:server-console-messages-${data.Servername}`, results);
+        }); 
+    });
+    socket.on(`minecraft:server-console-message-add`, data => {
+        data.Date = new Date(data.Date);
+        let sqlGet = 'INSERT INTO consoles (Date, Servername, Message, Type) VALUES (?,?,?,?)';
+        connection.query(sqlGet, [data.Date, data.Servername, data.Message, data.Type],(error, results) => {
+            if (error) throw error;
+            io.emit(`server:console-message-${data.Servername}`, data);
+        }); 
+    });
+    //OPTIONS SOCKETS
+    socket.on("client:server-option", data => {
+        io.to(serverSockets.get(data.Server.Servername)).emit(`server:server-option`, data);
+    });
+    //CLIENT VERSION UPLOAD
+    socket.on("client:version-update", data => {
+        io.to(serverSockets.get(data.Server.Servername)).emit("server:version-update", data);
+    });
+    //MINECRAFT CHAT MESSAGE
+    socket.on("minecraft:server-chat", data => {
+        io.emit(`server:server-chat-${data.Servername}`, data);
     });
 });
 server.listen(3001, function (){

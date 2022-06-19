@@ -1,0 +1,29 @@
+@import '../../../../globalscss/Functions.scss';
+@import '../../../../globalscss/Colors.scss';
+
+.optionbutton{
+    width: 200px;
+    height: 150px;
+
+    background-color: white;
+    color: black;
+    padding: 15px 10px;
+    margin: 10px;
+    border-radius: 10px;
+    text-align: center;
+    
+    cursor: pointer;
+
+    @include centerFlex(center, center, column);
+    transition: transform 100ms ease-in-out;
+    &:hover{
+        transform: scale(1.1);
+    }
+    &-title{
+        font-size: 1.1em;
+    }
+    &-description{
+        color: rgb(150, 150, 150);
+        font-size: 0.9em;
+    }
+}

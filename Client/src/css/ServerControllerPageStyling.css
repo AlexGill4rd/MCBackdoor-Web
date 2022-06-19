@@ -1,0 +1,38 @@
+.servercontroller {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.servercontroller-options {
+  width: 30%;
+  height: 100%;
+  background-color: #3180E8;
+  border-right: 3px solid #235DA8;
+  padding: 20px;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.servercontroller-options-list {
+  height: 92%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.servercontroller-panel {
+  width: 70%;
+  height: 100%;
+}
+/*# sourceMappingURL=ServerControllerPageStyling.css.map */

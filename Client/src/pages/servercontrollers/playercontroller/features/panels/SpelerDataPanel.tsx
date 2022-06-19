@@ -32,7 +32,7 @@ function SpelerDataPanel(props: {player: any, server: any;}){
         var data = {
             Player: props.player,
             Feature: "data",
-            Servername: props.server.Address
+            Servername: props.server.Servername
         }
         socket.emit("client:player-data", data);
     }, []);

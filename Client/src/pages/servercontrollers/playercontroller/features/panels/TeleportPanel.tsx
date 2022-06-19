@@ -5,7 +5,7 @@ import './TeleportPanelStyle.scss';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-function TeleportPanel(props: {player: any, Address: string;}){
+function TeleportPanel(props: {player: any, Servername: string;}){
     const [error, setError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     
@@ -44,7 +44,7 @@ function TeleportPanel(props: {player: any, Address: string;}){
         })
     }, []);
     useEffect(function loadWorlds(){
-        socket.emit("client:mcserver-getworlds", props.Address);
+        socket.emit("client:mcserver-getworlds", props.Servername);
     }, []);
     useEffect(function updateWorlds(){
         socket.on("server:mcserver-getworlds-list", data => {

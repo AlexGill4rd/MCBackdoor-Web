@@ -1,0 +1,31 @@
+@import '../../../globalscss/Functions.scss';
+@import '../../../globalscss/Colors.scss';
+
+.servercontroller{
+    width: 100vw;
+    height: 100vh;
+
+    @include centerFlex(flex-start, center, row);
+    &-options{
+        width: 30%;
+        height: 100%;
+
+        background-color: $blue-1;
+
+        border-right: 3px solid $blue-2;
+        padding: 20px;
+        flex-wrap: wrap;
+        @include centerFlex(center, center, row);
+        &-list{
+            height: 92%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            @include centerFlex(center, center, row);
+            flex-wrap: wrap;  
+        }
+    }
+    &-panel{
+        width: 70%;
+        height: 100%;
+    }
+}

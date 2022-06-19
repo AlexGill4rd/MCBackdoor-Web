@@ -31,6 +31,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.52.1",
     "socket.io-client": "^4.5.1",
+    "socketio-file-upload": "^0.7.3",
     "typescript": "^4.7.2",
     "web-vitals": "^2.1.4"
   },

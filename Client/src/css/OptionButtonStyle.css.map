@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,aAAa,CAAA;EACT,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,KAAK;EAEb,gBAAgB,EAAE,KAAK;EACvB,KAAK,EAAE,KAAK;EACZ,OAAO,EAAE,SAAS;EAClB,MAAM,EAAE,IAAI;EACZ,aAAa,EAAE,IAAI;EACnB,UAAU,EAAE,MAAM;EAElB,MAAM,EAAE,OAAO;ECbf,OAAO,EAAE,IAAI;EACb,cAAc,EDcsB,MAAM;ECb1C,eAAe,EDaK,MAAM;ECZ1B,WAAW,EDYiB,MAAM;EAClC,UAAU,EAAE,2BAA2B;CAW1C;;AAzBD,AAeI,aAfS,AAeR,MAAM,CAAA;EACH,SAAS,EAAE,UAAU;CACxB;;AACA,AAAD,mBAAO,CAAA;EACH,SAAS,EAAE,KAAK;CACnB;;AACA,AAAD,yBAAa,CAAA;EACT,KAAK,EAAE,OAAkB;EACzB,SAAS,EAAE,KAAK;CACnB",
+    "sources": [
+        "../pages/servercontrollers/servercontroller/components/OptionButtonStyle.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "OptionButtonStyle.css"
+}

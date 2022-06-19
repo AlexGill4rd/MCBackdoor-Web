@@ -1,0 +1,36 @@
+@import '../../../../../globalscss/Functions.scss';
+@import '../../../../../globalscss/Colors.scss';
+
+.chat{
+    &-messages{
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+
+        overflow: hidden;
+        overflow-y: auto;
+
+        @include centerFlex(flex-start, center, column);
+    }
+    &-message{
+        width: 100%;
+        height: auto;
+        margin: 6px 0;
+
+        @include centerFlex(flex-start, flex-start, row);
+        &-sender{
+            width: auto;
+            color: $blue-2;
+        }
+        &-devider{
+            width: auto;
+            margin: 0 15px;
+        }
+        &-message{
+            width: auto;
+            height: auto;
+
+            text-align: left;
+        }
+    }
+}

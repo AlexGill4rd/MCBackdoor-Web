@@ -12,7 +12,7 @@ const token = 6969;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '100mb', extended: true}))
 
 const connection = mysql.createPool({
   host     : 'localhost',
@@ -22,7 +22,7 @@ const connection = mysql.createPool({
 });
 
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
 }));
 
 app.post('/servers/get', function (req, res) {
@@ -40,10 +40,10 @@ app.post('/server/get', function (req, res) {
   let token = req.body.token;
   let serverid = req.body.serverid;
   if (token === token){
-    let sql = 'SELECT * FROM servers WHERE id = ?';
+    let sql = 'SELECT JsonData FROM servers WHERE id = ?';
       connection.query(sql, [serverid],(error, results) => {
         if (error) throw error;
-        res.send(JSON.stringify(results[0]));
+        res.send(JSON.parse(results[0].JsonData));
         res.end();
       });
   }
@@ -52,9 +52,22 @@ app.post('/minecraft/player/icon', function (req, res) {
   let sql = 'SELECT * FROM players WHERE Displayname = ?';
   connection.query(sql, [req.body.Displayname],(error, results) => {
     if (error) throw error;
-    res.send(results[0].Icon);
+    if (results[0].Icon !== undefined){
+      res.send(results[0].Icon);
+    }
     res.end();
+    
   });
+});
+var file = "";
+app.post('/server/versionupdate', function (req, res) {
+  file = req.body.fileBase;
+  res.send("Succesvol ontvangen");
+  res.end();
+});
+app.post('/server/getversion', function (req, res) {
+  res.send(file);
+  res.end();
 });
 app.listen(PORT, () => {
     console.log(`Listening on *:${PORT}`);

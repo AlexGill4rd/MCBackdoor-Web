@@ -7,13 +7,12 @@ function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any
     const [validSelected, setValidSelected] = useState<boolean>(false);
 
     useEffect(function loadPlayers(){
-        if (props.server.Address !== undefined){
-            socket.emit("client:server-player-list", props.server.Address);
-        }
+        socket.emit("client:server-player-list", props.server.Servername);
     }, [props.server]);
     useEffect(function updatePlayers(){
-        socket.on(`server:mcserver-player-list`, data => {
-            JSON.parse(data).map((player: { Displayname: any; }) => {
+        socket.on(`server:mcserver-player-list-${props.server.Servername}`, data => {
+            console.log(data);
+            data.Players.map((player: any) => {
                 if (props.selectedPlayer !== null){
                     if (player.Displayname === props.selectedPlayer.Displayname){
                         setValidSelected(true);
@@ -23,7 +22,7 @@ function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any
             if (!validSelected){
                 props.onPlayerClick(null);
             }
-            setPlayers(JSON.parse(data));
+            setPlayers(data.Players);
         })
     }, []);
     if (players.length <= 0){

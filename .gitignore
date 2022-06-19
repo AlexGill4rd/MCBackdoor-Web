@@ -21,4 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-Client/node_modules/.cache/default-development/8.pack
+Client/node_modules/
+Client/node_modules/.cache/
+Server/node_modules/
+Server/node_modules/.cache/
