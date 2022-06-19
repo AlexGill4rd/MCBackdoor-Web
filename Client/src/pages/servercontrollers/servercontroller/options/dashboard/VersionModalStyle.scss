@@ -31,12 +31,13 @@
         z-index: 6;
 
         @include centerFlex(center, center, column);
-        input[type=file]{
+        input[type=text]{
             width: 100%;
             padding: 8px 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
             text-align: center;
+            background-color: white;
 
             @include centerFlex(center, center, row);
         }
@@ -45,6 +46,14 @@
         }
         &-title{
             margin-bottom: 10px;
+        }
+        &-help{
+            text-align: center;
+        }
+        a{
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 5px;
         }
     }
 }

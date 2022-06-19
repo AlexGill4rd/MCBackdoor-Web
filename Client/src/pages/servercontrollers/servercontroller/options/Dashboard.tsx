@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { socket } from '../../../../socket/socket';
 import VersionModal from './dashboard/VersionModal';
 import IpAddress from '../../../../IpAddress';
+import Chat from './dashboard/Chat';
 
 var SocketIOFileUpload = require('socketio-file-upload');
 
@@ -36,37 +37,13 @@ function Dashboard(props: {Server: any}) {
     function handleVersionEditCancel(){
         setModalIsOpen(false);
     }
-    function handleVersionConfirm(file: any){
+    function handleVersionConfirm(url: any){
         setModalIsOpen(false);
-
-        readFileDataAsBase64(file).then((result) => {
-            socket.emit("client:version-update", result)
-            var ip = new IpAddress();
-            fetch(`http://${ip.getIP()}:8080/server/versionupdate`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({fileBase: result, token: "6969"})
-            }).then(res => res.json())
-            .then(json => {
-                setServer(json);
-            });
-        });
-    }
-    function readFileDataAsBase64(file: any) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                if (event.target !== null)
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
+        var data = {
+            Server: server,
+            URL: url
+        }
+        socket.emit("client:version-update", data)
     }
     
     return (
@@ -112,7 +89,7 @@ function Dashboard(props: {Server: any}) {
                     </div>
                 </div>
                 <div className='dashboard-data-chat'>
-
+                    <Chat Server={server} />
                 </div>
             </div>
             <div className='dashboard-players'>

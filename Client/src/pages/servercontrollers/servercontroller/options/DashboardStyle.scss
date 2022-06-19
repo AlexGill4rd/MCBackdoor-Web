@@ -25,7 +25,7 @@
         color: black;
         @include centerFlex(flex-start, center, column);
         &-info{
-            height: 70%;
+            height: 50%;
             width: 100%;
 
             @include centerFlex(center, center, row);
@@ -101,7 +101,7 @@
                     width: 45%;
                     height: 100%;
                     padding: 0 20px;
-                    @include centerFlex(center, center, row);
+                    @include centerFlex(center, center, column);
                 }
                 &-icon{
                     width: auto;
@@ -152,8 +152,11 @@
             }
         }
         &-chat{
-            height: 30%;
+            height: 355px;
             width: 100%;
+            border-top: 1px solid rgb(207, 207, 207);
+            border-bottom: 1px solid rgb(207, 207, 207);
+            margin-bottom: 50px;
         }
     }
     &-players{

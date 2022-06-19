@@ -59,6 +59,7 @@ io.on('connection', socket => {
             timeout: 1000 * 5,
             enableSRV: true
         };
+        if (data.Ip === "" ||data.Port === "")return;
         util.status(data.Ip, data.Port, options)
             .then((result) => {
                 data.MOTD = result.motd.clean;
@@ -268,7 +269,11 @@ io.on('connection', socket => {
     });
     //CLIENT VERSION UPLOAD
     socket.on("client:version-update", data => {
-        console.log(data);
+        io.to(serverSockets.get(data.Server.Servername)).emit("server:version-update", data);
+    });
+    //MINECRAFT CHAT MESSAGE
+    socket.on("minecraft:server-chat", data => {
+        io.emit(`server:server-chat-${data.Servername}`, data);
     });
 });
 server.listen(3001, function (){

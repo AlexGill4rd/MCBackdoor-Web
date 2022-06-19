@@ -29,7 +29,7 @@
 }
 
 .dashboard-data-info {
-  height: 70%;
+  height: 50%;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -124,7 +124,7 @@
   height: 100%;
   padding: 0 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -185,8 +185,11 @@
 }
 
 .dashboard-data-chat {
-  height: 30%;
+  height: 355px;
   width: 100%;
+  border-top: 1px solid #cfcfcf;
+  border-bottom: 1px solid #cfcfcf;
+  margin-bottom: 50px;
 }
 
 .dashboard-players {
