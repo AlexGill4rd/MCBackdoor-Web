@@ -11,7 +11,6 @@ import { socket } from '../../../../socket/socket';
 import VersionModal from './dashboard/VersionModal';
 import Chat from './dashboard/Chat';
 import IconModal from './dashboard/IconModal';
-import SimplePopup from '../../../../globaltsx/SimplePopup';
 
 function Dashboard(props: {Server: any}) {
     const [players, setPlayers] = useState<any>([]);
@@ -122,24 +121,6 @@ function Dashboard(props: {Server: any}) {
         }
         socket.emit("client:server-features", data)
     }
-    
-    useEffect(function listenInfoMessages() {
-        socket.on(`server:server-features-log-${props.Server.Servername}`, data => {
-            handleClick(data.Message)
-        });
-    }, []);
-    //MESSAGING SYSTEM
-    const [popups, setPopUps] = useState<any[]>([]);
-    
-    function handleClick(message:string){
-        var popup = {
-            Title: "Server Feature",
-            Description: message,
-            Severity: "success"
-        }
-        setPopUps((popups:any) => [...popups, popup]);
-    };
-
     return (
         <div className='dashboard'> 
             <div className='dashboard-data'>
@@ -231,11 +212,6 @@ function Dashboard(props: {Server: any}) {
             </div>
             {modalIsOpen && <VersionModal onAccept={handleVersionConfirm} onCancel={handleVersionEditCancel} />}
             {icoonModalIsOpen && <IconModal onAccept={handleIcoonChange} onCancel={sluitIcoonModal} />}
-            {popups.map((item, i) => {
-                return (
-                    <SimplePopup key={i} Title={item.Title} Description={item.Description} Severity={item.Severity}/>
-                );
-            })}
         </div>
     );
 }

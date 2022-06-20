@@ -1,8 +1,12 @@
-import { Select } from '@mui/material';
 import { useEffect, useState } from 'react';
+
+import { Menu, MenuItem, MenuHeader } from "@szhsin/react-menu";
 import IpAddress from '../../../../IpAddress';
 import { socket } from '../../../../socket/socket';
 import './WhitelistStyle.scss';
+
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
 
 function Whitelist(props: {Server: any}) {
     const [players, setPlayers] = useState<string[]>([]);
@@ -13,14 +17,14 @@ function Whitelist(props: {Server: any}) {
             setWhitelistedPlayers(data);
         });
     }, []);
-    //LOAD PLAYER DATA
+    //LOAD PLAYER DATA & WHITELISTED PLAYERS
     useEffect(function loadPlayerList(){
         var data = {
             Servername: props.Server.Servername,
             Feature: "whitelisted"
         }
         socket.emit("client:server-features", data);
-        
+
         var ip = new IpAddress();
         fetch(`http://${ip.getIP()}:8080/players/get`, {
             method: 'POST',
@@ -76,6 +80,23 @@ function Whitelist(props: {Server: any}) {
         }) 
         return contained;
     }
+    //MENU HANDLERS
+    function handleWhitelistAdd(player: any){
+        var data = {
+            Servername: props.Server.Servername,
+            Player: player.UUID,
+            Feature: "whitelist-add"
+        }
+        socket.emit("client:server-features", data);
+    }
+    function handleWhitelistRemove(player: any){
+        var data = {
+            Servername: props.Server.Servername,
+            Player: player.UUID,
+            Feature: "whitelist-remove"
+        }
+        socket.emit("client:server-features", data);
+    }
     return (
         <div className='whitelist'>
             <div className='whitelist-sorting'>
@@ -86,14 +107,19 @@ function Whitelist(props: {Server: any}) {
                 <div className='whitelist-whitelisted-list'>
                     {shownWhitelistedPlayers.map((player: any) => {
                         return (
-                            <div key={player.UUID} className="whitelist-player">
-                                <div className="whitelist-player-icon">
-                                    <img src={player.Icon} />
+                            <Menu className='item-contextmenu' menuButton={
+                                <div key={player.UUID} className="whitelist-player">
+                                    <div className="whitelist-player-icon">
+                                        <img src={player.Icon} />
+                                    </div>
+                                    <div className="whitelist-player-displayname">
+                                        {player.Displayname}
+                                    </div>
                                 </div>
-                                <div className="whitelist-player-displayname">
-                                    {player.Displayname}
-                                </div>
-                            </div>
+                            }>
+                                <MenuHeader>Optie's</MenuHeader>
+                                <MenuItem className='item-context-button' onClick={() => handleWhitelistRemove(player)}><PlaylistRemoveIcon /><span>Whitelist Remove</span></MenuItem>
+                            </Menu>
                         );
                     })}
                 </div>
@@ -106,14 +132,19 @@ function Whitelist(props: {Server: any}) {
                 <div className='whitelist-players-list'>
                     {shownPlayers.map((player: any) => {
                         return (
-                            <div key={player.UUID} className="whitelist-player">
-                                <div className="whitelist-player-icon">
-                                    <img src={player.Icon} />
+                            <Menu className='item-contextmenu' menuButton={
+                                <div key={player.UUID} className="whitelist-player">
+                                    <div className="whitelist-player-icon">
+                                        <img src={player.Icon} />
+                                    </div>
+                                    <div className="whitelist-player-displayname">
+                                        {player.Displayname}
+                                    </div>
                                 </div>
-                                <div className="whitelist-player-displayname">
-                                    {player.Displayname}
-                                </div>
-                            </div>
+                            }>
+                                <MenuHeader>Optie's</MenuHeader>
+                                <MenuItem className='item-context-button' onClick={() => handleWhitelistAdd(player)}><PlaylistAddIcon /><span>Whitelist Add</span></MenuItem>
+                            </Menu>
                         );
                     })}
                 </div>

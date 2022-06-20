@@ -1,6 +1,7 @@
 import { CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import SimplePopup from '../../../globaltsx/SimplePopup';
 import IpAddress from '../../../IpAddress';
 import { socket } from '../../../socket/socket';
 import OptionButton from './components/OptionButton';
@@ -24,6 +25,9 @@ function ServerControllerPage(){
         }).then(res => res.json())
         .then(json => {
             setServer(json);
+            socket.on(`server:server-features-log-${json.Servername}`, data => {
+                handlePopup(data)
+            });
         });
     }, []);
     useEffect(function serverDisconnects(){
@@ -34,6 +38,19 @@ function ServerControllerPage(){
     function handleOptionClick(selection: any){
         setSelectedOption(selection);
     }
+
+    //POPUP SYSTEM
+    
+    const [popups, setPopUps] = useState<any[]>([]);
+    function handlePopup(data:any){
+        var severity: string = data.Error ? "error" : "success"
+        var popup = {
+            Title: "Server Controller",
+            Description: data.Message,
+            Severity: severity
+        }
+        setPopUps((popups:any) => [...popups, popup]);
+    };
     return (
         <div className='servercontroller'>
             <div className='servercontroller-options'>
@@ -88,6 +105,11 @@ function ServerControllerPage(){
             <div className='servercontroller-panel'>
                 {selectedOption === null ? <>Geen Optie geselecteerd!</> : selectedOption}
             </div>
+            {popups.map((item, i) => {
+                return (
+                    <SimplePopup key={i} Title={item.Title} Description={item.Description} Severity={item.Severity}/>
+                );
+            })}
         </div>
     );
 }

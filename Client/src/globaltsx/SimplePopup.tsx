@@ -19,7 +19,7 @@ function SimplePopup(props: {Title: string, Description: string, Severity: strin
     setModalIsOpen(false);
   }
   return (
-    <Snackbar open={modelIsOpen} autoHideDuration={3000} onClose={handleClose}>
+    <Snackbar open={modelIsOpen} autoHideDuration={5000} onClose={handleClose}>
       <Alert onClose={handleClose} severity={props.Severity} sx={{ width: '100%' }}>
         <AlertTitle>{props.Title}</AlertTitle>
         {props.Description}
