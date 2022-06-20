@@ -8,15 +8,12 @@ import { socket } from '../../../../../socket/socket';
 function WhitelistPanel(props: {player: any;}){
     const [error, setError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
-    
-    const [whitelisted, setWhitelisted] = useState<boolean>(false);
 
     function handlePlayerWhitelist(state: boolean){
-        setWhitelisted(state);
         var data = {
             Player: props.player,
             Feature: "whitelist",
-            Status: whitelisted
+            Status: state
         }
         socket.emit("client:features-change", data);
     }

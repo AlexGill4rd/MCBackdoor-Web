@@ -65,7 +65,7 @@ function Dashboard(props: {Server: any}) {
 
         var found:string[] = []
         messages.map((data:any) => {
-            if (data.Message.toString().toLowerCase().startsWith(messageFind) || messageFind === ""){
+            if (data.Message.toString().toLowerCase().startsWith(messageFind.toLowerCase()) || messageFind === ""){
                 if (filters.includes(data.Player.Displayname) || filters.includes("ALLES"))
                 found.push(data);
             }
