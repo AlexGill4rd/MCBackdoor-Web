@@ -97,36 +97,33 @@ io.on('connection', socket => {
         .catch((error) => console.log("Data van server niet kunnen ophalen!"));
     });
     //MINECRAFT SERVER CALL TO UPDATE THE PLAYERLIST
-    socket.on(`minecraft:player-list-update`, players => {
-        players.forEach(player => {
-            let sql = 'SELECT * FROM players WHERE Displayname = ?';
-            connection.query(sql, [player.Displayname] ,(error, results) => {
-                if (error) throw error;
-                if(results.length > 0){
-                    let sql2 = 'UPDATE players SET IP=?,Op=? WHERE Displayname = ?';
-                    connection.query(sql2, [player.Ip, player.Operator, player.Displayname] ,(error, resultsUpdate) => {
+    var uuid = require('uuid');
+    socket.on(`minecraft:player-update`, player => {
+        if (player.Displayname === null)return;
+        if (serverSockets.get(player.Servername) === undefined)return;
+        let sql = 'SELECT COUNT(id) AS id_count FROM players WHERE Displayname = ?';
+        connection.query(sql, [player.Displayname] ,(error, results) => {
+            if (error) throw error;
+            var counter = JSON.parse(JSON.stringify(results))[0].id_count;
+            if(counter > 0){
+                mojangAPI.getPlayerHeadByName(player.Displayname).then( playerHead => {
+                    let sql2 = 'UPDATE players SET Icon=?,IP=?,Op=? WHERE Displayname = ?';
+                    connection.query(sql2, [playerHead, player.Ip, player.Operator, player.Displayname] ,(error) => {
                         if (error) throw error;
                         io.emit(`server:player-update-${results[0].UUID}`, results[0])
                     });
-                }else{
-                    var id = 0;
-                    let idSQL = 'SELECT * FROM servers';
-                    connection.query(idSQL ,(error, results1) => {
+                }).catch(function() {});
+            }else{
+                player.id = uuid.v4();
+                mojangAPI.getPlayerHeadByName(player.Displayname).then( playerHead => {
+                    let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP, Op) VALUES (?,?,?,?,?,?)';
+                    connection.query(sql2, [player.id, player.Displayname, player.UUID, playerHead, player.Ip, player.Operator] ,(error) => {
                         if (error) throw error;
-                        id = results1.length;
-                    });
-                    mojangAPI.getPlayerHeadByName(player.Displayname).then( response => {
-                        let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP, Op) VALUES (?,?,?,?,?,?)';
-                        player.Icon = response;
-                        connection.query(sql2, [id, player.Displayname, player.UUID, player.Icon, player.Ip, player.Operator] ,(error, results2) => {
-                            if (error) throw error;
-                            console.log("Player added: " + player.Displayname);
-                            io.emit(`server:player-update-${player.UUID}`, player)
-                        }); 
-                    });
-
-                }
-            });
+                        console.log("Player added: " + player.Displayname + "! Met id: " + player.id);
+                        io.emit(`server:player-update-${player.UUID}`, player)
+                    })
+                }).catch(function() {});    
+            }
         });
     })
     //SOCKET WHEN SERVER GETS DISCONNECTED
@@ -155,7 +152,22 @@ io.on('connection', socket => {
     });
     //MINECRAFT SERVER PLAYERLIST RETURN
     socket.on(`minecraft:server-player-list`, data => {
-        io.emit(`server:mcserver-player-list-${data.Server.Servername}`, data)
+        let sqlUpdate = 'SELECT * FROM players WHERE ';
+        data.Players.forEach(player => {
+            sqlUpdate += `UUID='${player.UUID}' OR `;
+        });
+        sqlUpdate = sqlUpdate.substring(0, sqlUpdate.length - 4);
+        connection.query(sqlUpdate ,(error, results) => {
+            if (error) throw error;
+            var correctData = [];
+            for (var i = 0; i < results.length; i++){
+                var copyData = data.Players[i];
+                copyData.Icon = results[i].Icon;
+                copyData.id = results[i].id;
+                correctData.push(copyData)
+            }
+            io.emit(`server:mcserver-player-list-${data.Server.Servername}`, correctData)
+        }); 
     })
     //WEB CLIENT SERVER DATA REQUEST
     socket.on(`client:mcserver-get`, serverid => {
@@ -305,6 +317,35 @@ io.on('connection', socket => {
     //Folder actions in de server
     socket.on("client:server-files-action", data => {
         io.to(serverSockets.get(data.Servername)).emit(`server:server-files-action`, data);
+    });
+    //Add new player to database
+    socket.on("client:new-player", player => {
+        if (player.Displayname === null)return;
+        if (serverSockets.get(player.Servername) === undefined)return;
+        let sql = 'SELECT COUNT(id) AS id_count FROM players WHERE Displayname = ?';
+        connection.query(sql, [player.Displayname] ,(error, results) => {
+            if (error) throw error;
+            var counter = JSON.parse(JSON.stringify(results))[0].id_count;
+            if(counter > 0){
+                mojangAPI.getPlayerHeadByName(player.Displayname).then( playerHead => {
+                    let sql2 = 'UPDATE players SET Icon=?,IP=?,Op=? WHERE Displayname = ?';
+                    connection.query(sql2, [playerHead, "0.0.0.0", 0, player.Displayname] ,(error) => {
+                        if (error) throw error;
+                        io.emit(`server:player-update-${results[0].UUID}`, results[0])
+                    });
+                }).catch(function() {});
+            }else{
+                player.id = uuid.v4();
+                mojangAPI.getPlayerHeadByName(player.Displayname).then( playerHead => {
+                    let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP, Op) VALUES (?,?,?,?,?,?)';
+                    connection.query(sql2, [player.id, player.Displayname, player.UUID, playerHead, "0.0.0.0", 0] ,(error) => {
+                        if (error) throw error;
+                        console.log("Player added: " + player.Displayname + "! Met id: " + player.id);
+                        io.emit(`server:player-update-${player.UUID}`, player)
+                    })
+                }).catch(function() {});    
+            }
+        });
     });
 });
 server.listen(3001, function (){

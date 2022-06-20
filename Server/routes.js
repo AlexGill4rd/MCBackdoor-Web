@@ -81,19 +81,44 @@ app.post('/minecraft/player/icon', function (req, res) {
     if (results[0].Icon !== undefined){
       res.send(results[0].Icon);
     }
+    res.send({})
     res.end();
-    
   });
 });
-var file = "";
-app.post('/server/versionupdate', function (req, res) {
-  file = req.body.fileBase;
-  res.send("Succesvol ontvangen");
-  res.end();
-});
-app.post('/server/getversion', function (req, res) {
-  res.send(file);
-  res.end();
+app.post('/player/find', function (req, res) {
+  var displayname = req.body.Displayname;
+  var validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+  var valid = true;
+  for (var i = 0; i < displayname.length; i++){
+    if (!validChars.includes(displayname[i])){
+      valid = false;
+    }
+  }
+  if (!valid){
+    res.send({});
+    res.end();
+    return;
+  }else{
+    mojangAPI.getUUID(displayname).then((response) => {
+      if (response.id !== undefined){
+        mojangAPI.getPlayerHead(response.id).then((icon) => {
+          var player = {
+            Displayname: response.name,
+            UUID: response.id,
+            Icon: icon
+          }
+          res.send(player);
+          res.end();
+        }).catch(function() {
+          res.send({});
+          res.end();
+        });
+      }
+    }).catch(function() {
+      res.send({});
+      res.end();
+    });
+  }
 });
 app.listen(PORT, () => {
     console.log(`Listening on *:${PORT}`);

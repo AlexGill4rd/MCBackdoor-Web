@@ -32,7 +32,7 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
             props.onPlayerClick(null);
         else props.onPlayerClick(player);
     }
-    if (player.IP === undefined){
+    if (player.Ip === undefined){
         return (
             <div className="playertab noselect" style={{backgroundColor: background}} onClick={onPlayerClick}>
                 <CircularProgress />
@@ -51,8 +51,8 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
                     <div className="playertab-status">OP: {player.Op == true ? <>Ja</> : <>Neen</>}</div>
                 </Tooltip> 
                 <div className='playertab-verticalline'>|</div>
-                <Tooltip onClick={() => copyToClipboard(player.IP)} title={<div style={{ textAlign: 'center' }}>Het publiek IP van de speler<br />Click om naar het klipbord te kopiëren</div>}>
-                    <div className="playertab-ip">Ip: {player.IP}</div>
+                <Tooltip onClick={() => copyToClipboard(player.Ip)} title={<div style={{ textAlign: 'center' }}>Het publiek IP van de speler<br />Click om naar het klipbord te kopiëren</div>}>
+                    <div className="playertab-ip">Ip: {player.Ip}</div>
                 </Tooltip> 
             </div>
         );

@@ -6,6 +6,30 @@
     height: 100vh;
 
     @include centerFlex(center, center, column);
+    &-addplayer{
+        width: 100%;
+        height: auto;
+        @include centerFlex(center, center, row);
+        img{
+            width: auto;
+            height: 40px;
+
+            border-radius: 10px;
+
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            object-fit: cover;
+        }
+        input[type=text] {
+            width: 300px;
+            padding: 9px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0 20px;
+            color: rgb(49, 49, 49);
+        }
+    }
     &-sorting{
         width: 84%;
         height: auto;

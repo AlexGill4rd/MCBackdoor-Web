@@ -7,6 +7,34 @@
   align-items: center;
 }
 
+.whitelist-addplayer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.whitelist-addplayer img {
+  width: auto;
+  height: 40px;
+  border-radius: 10px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  object-fit: cover;
+}
+
+.whitelist-addplayer input[type=text] {
+  width: 300px;
+  padding: 9px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0 20px;
+  color: #313131;
+}
+
 .whitelist-sorting {
   width: 84%;
   height: auto;

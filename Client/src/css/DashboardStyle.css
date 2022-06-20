@@ -260,6 +260,23 @@
   background-color: #235DA8;
 }
 
+.dashboard-players-player img {
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  object-fit: cover;
+}
+
+.dashboard-players-player-front {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .dashboard-players-player-displayname {
   width: auto;
   text-align: center;

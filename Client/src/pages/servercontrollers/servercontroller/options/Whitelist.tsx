@@ -7,6 +7,9 @@ import './WhitelistStyle.scss';
 
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
+import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 
 function Whitelist(props: {Server: any}) {
     const [players, setPlayers] = useState<string[]>([]);
@@ -45,8 +48,9 @@ function Whitelist(props: {Server: any}) {
         var shownList:any[] = [];
         players.map((player:any) => {
             if (whitelistContainsPlayer(player)){
-                if (player.Displayname.toLowerCase().startsWith(whitelistSearch.toLowerCase()) || whitelistSearch === "")
+                if (player.Displayname.toLowerCase().startsWith(whitelistSearch.toLowerCase()) || whitelistSearch === ""){
                     shownList.push(player); 
+                }
             }
         })
         setShownWhitelistedPlayers(shownList);
@@ -74,7 +78,7 @@ function Whitelist(props: {Server: any}) {
     function whitelistContainsPlayer(player: any){
         var contained: boolean = false;
         whitelistedPlayers.map((whitelistedPlayer: any) => {
-            if (player.UUID == whitelistedPlayer.UUID){
+            if (player.Displayname === whitelistedPlayer.Displayname){
                 contained = true;
             }
         }) 
@@ -84,7 +88,7 @@ function Whitelist(props: {Server: any}) {
     function handleWhitelistAdd(player: any){
         var data = {
             Servername: props.Server.Servername,
-            Player: player.UUID,
+            Player: player.Displayname,
             Feature: "whitelist-add"
         }
         socket.emit("client:server-features", data);
@@ -92,13 +96,73 @@ function Whitelist(props: {Server: any}) {
     function handleWhitelistRemove(player: any){
         var data = {
             Servername: props.Server.Servername,
-            Player: player.UUID,
+            Player: player.Displayname,
             Feature: "whitelist-remove"
         }
         socket.emit("client:server-features", data);
     }
+    //Add new player to whitelist
+    const [newPlayerName, setNewPlayerName] = useState<string>("");
+    const [newPlayer, setNewPlayer] = useState<any>(null);
+
+    function handleNewPlayerChange(e: any){
+        setNewPlayerName(e.target.value)
+    }
+    function handelPlayerSearch() {
+        if (newPlayerName !== ""){
+            var ip = new IpAddress();
+            fetch(`http://${ip.getIP()}:8080/player/find`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({Displayname: newPlayerName})
+            }).then(res => res.json())
+            .then(json => {
+                if (json.Displayname !== undefined && json.UUID !== undefined){
+                    setNewPlayer(json)
+                    var message = {
+                        Message: "Speler gevonden!",
+                        Servername: props.Server.Servername,
+                        Error: false
+                    }
+                }else {
+                    var message = {
+                        Message: "Kan de speler op dit moment niet vinden!",
+                        Servername: props.Server.Servername,
+                        Error: true
+                    }
+                    socket.emit("minecraft:server-features-log", message);
+                }
+            });
+        }
+    }
+    function handleAddNewPlayer() {
+        handleWhitelistAdd(newPlayer);
+        newPlayer.Servername = props.Server.Servername;
+        socket.emit("client:new-player", newPlayer)
+        setNewPlayer(null)
+        setNewPlayerName("");
+    }
     return (
         <div className='whitelist'>
+            <div className='whitelist-addplayer'>
+                <img src={newPlayer && newPlayer.Icon} />
+                <input autoComplete="off" type="text" onChange={handleNewPlayerChange} value={newPlayerName} id="newplayer" name="newplayer" placeholder="Voeg een nieuwe speler toe.." />
+                {!newPlayer &&<Button 
+                    onClick={handelPlayerSearch} 
+                    variant="contained" 
+                    startIcon={<SearchIcon />}
+                >
+                    Zoek Speler
+                </Button>}
+                {newPlayer && <Button 
+                    onClick={handleAddNewPlayer} 
+                    variant="contained" 
+                    startIcon={<AddIcon />}
+                >
+                        Voeg toe
+                </Button>}
+                
+            </div>
             <div className='whitelist-sorting'>
                 <input autoComplete="off" type="text" onChange={handleWhitelistSearchChange} value={whitelistSearch} id="whitelistspeler" name="whitelistspeler" placeholder="Zoek een speler..." />
             </div>

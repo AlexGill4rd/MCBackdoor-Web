@@ -26,7 +26,7 @@ function Dashboard(props: {Server: any}) {
     }, []);
     useEffect(function updatePlayers(){
         socket.on(`server:mcserver-player-list-${server.Servername}`, data => {
-            setPlayers(data.Players);
+            setPlayers(data);
         })
     }, []);
     useEffect(function updateServerData(){
@@ -202,10 +202,11 @@ function Dashboard(props: {Server: any}) {
                 {players.map((player: any) => {
                     return (
                         <div key={player.UUID} className='dashboard-players-player'>
-                            <div className='dashboard-players-player-icon'>{player.Icon}</div>
-                            <div className='dashboard-players-player-displayname'>{player.Displayname}</div>
-                            <div className='dashboard-players-player-ip'>{player.Ip}</div>
-                            <div className='dashboard-players-player-world'>{player.World}</div>
+                            <div className='dashboard-players-player-front'>
+                                <img src={player.Icon} />
+                                <div className='dashboard-players-player-displayname'>{player.Displayname}</div>
+                            </div>
+                            <div className='dashboard-players-player-world'>World: {player.World}</div>
                         </div>
                     );
                 })}

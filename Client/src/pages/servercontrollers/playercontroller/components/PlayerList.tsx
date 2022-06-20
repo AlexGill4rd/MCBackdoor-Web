@@ -10,19 +10,20 @@ function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any
         socket.emit("client:server-player-list", props.server.Servername);
     }, [props.server]);
     useEffect(function updatePlayers(){
-        socket.on(`server:mcserver-player-list-${props.server.Servername}`, data => {
-            console.log(data);
-            data.Players.map((player: any) => {
+        socket.on(`server:mcserver-player-list-${props.server.Servername}`, players => {
+            console.log(players);
+            players.map((player: any) => {
                 if (props.selectedPlayer !== null){
                     if (player.Displayname === props.selectedPlayer.Displayname){
                         setValidSelected(true);
                     }
                 }
+
             });
             if (!validSelected){
                 props.onPlayerClick(null);
             }
-            setPlayers(data.Players);
+            setPlayers(players);
         })
     }, []);
     if (players.length <= 0){
