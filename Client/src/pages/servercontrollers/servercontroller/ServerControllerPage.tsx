@@ -5,6 +5,7 @@ import SimplePopup from '../../../globaltsx/SimplePopup';
 import IpAddress from '../../../IpAddress';
 import { socket } from '../../../socket/socket';
 import OptionButton from './components/OptionButton';
+import BannedPlayers from './options/BannedPlayers';
 import Console from './options/Console';
 import Dashboard from './options/Dashboard';
 import Whitelist from './options/Whitelist';
@@ -75,7 +76,7 @@ function ServerControllerPage(){
                             <OptionButton 
                                 Title='Banned Players' 
                                 Description="Een lijst met de spelers die eerder verbannen zijn van de server" 
-                                onClick={() => handleOptionClick(<Console Server={server} />)}
+                                onClick={() => handleOptionClick(<BannedPlayers Server={server} />)}
                             />
                             <OptionButton 
                                 Title='Whitelisted Players' 

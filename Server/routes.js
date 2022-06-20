@@ -59,6 +59,21 @@ app.post('/players/get', function (req, res) {
       });
   }
 });
+app.post('/players/transform', function (req, res) {
+  let token = req.body.token;
+  if (token === token){
+    let sql = 'SELECT * FROM players WHERE';
+    if (req.body.Players.length <= 0) return;
+    req.body.Players.map((player) => {
+      sql += ` UUID = '${player.UUID}' OR `;
+    })
+    connection.query(sql.substring(0, sql.length - 3),(error, results) => {
+      if (error) throw error;
+      res.send(results);
+      res.end();
+    });
+  }
+});
 app.post('/minecraft/player/icon', function (req, res) {
   let sql = 'SELECT * FROM players WHERE Displayname = ?';
   connection.query(sql, [req.body.Displayname],(error, results) => {

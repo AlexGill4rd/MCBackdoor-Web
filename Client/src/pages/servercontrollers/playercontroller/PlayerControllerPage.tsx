@@ -68,7 +68,7 @@ function PlayerControllerPage(){
                 <div className="controller-container">
                     <div className="controller-players">
                         <div className="controller-players-header">
-                            <div className='controller-players-header-icon'><FaUsers /></div>
+                            <div className='controller-players-header-icon'><FaUsers style={{color: "white"}} /></div>
                             <div className='controller-players-header-playercount'>{server.MaxPlayers !== undefined ? server.OnlinePlayers + " / " + server.MaxPlayers : "- / 0"}</div>
                             <Link className='controller-players-header-back' to={'/controller/servers/' + serverid}>
                                 Ga terug

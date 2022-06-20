@@ -24,7 +24,7 @@
             height: 30px;
             width: 100%;
 
-            border-bottom: 1px solid $blue-3;
+            border-bottom: 1px solid white;
             @include centerFlex(flex-start, center, row);
             &-icon{
                 height: 100%;
@@ -36,6 +36,8 @@
             &-playercount{
                 width: 400px;
                 height: auto;
+
+                color: rgb(184, 184, 184);
             }
             &-back{
                 width: calc(100% - 400px - 29px);

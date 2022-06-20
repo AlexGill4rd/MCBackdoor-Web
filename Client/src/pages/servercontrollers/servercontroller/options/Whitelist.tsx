@@ -107,8 +107,8 @@ function Whitelist(props: {Server: any}) {
                 <div className='whitelist-whitelisted-list'>
                     {shownWhitelistedPlayers.map((player: any) => {
                         return (
-                            <Menu className='item-contextmenu' menuButton={
-                                <div key={player.UUID} className="whitelist-player">
+                            <Menu key={player.UUID} className='item-contextmenu' menuButton={
+                                <div className="whitelist-player">
                                     <div className="whitelist-player-icon">
                                         <img src={player.Icon} />
                                     </div>
@@ -132,8 +132,8 @@ function Whitelist(props: {Server: any}) {
                 <div className='whitelist-players-list'>
                     {shownPlayers.map((player: any) => {
                         return (
-                            <Menu className='item-contextmenu' menuButton={
-                                <div key={player.UUID} className="whitelist-player">
+                            <Menu key={player.UUID} className='item-contextmenu' menuButton={
+                                <div className="whitelist-player">
                                     <div className="whitelist-player-icon">
                                         <img src={player.Icon} />
                                     </div>

@@ -23,7 +23,7 @@
 .controller-players-header {
   height: 30px;
   width: 100%;
-  border-bottom: 1px solid #13335C;
+  border-bottom: 1px solid white;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -40,6 +40,7 @@
 .controller-players-header-playercount {
   width: 400px;
   height: auto;
+  color: #b8b8b8;
 }
 
 .controller-players-header-back {
