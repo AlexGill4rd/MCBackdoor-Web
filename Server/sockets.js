@@ -161,8 +161,14 @@ io.on('connection', socket => {
             if (error) throw error;
             var correctData = [];
             for (var i = 0; i < results.length; i++){
-                var copyData = data.Players[i];
-                copyData.Icon = results[i].Icon;
+                var target = [];
+                data.Players.forEach(player => {
+                    if(player.UUID === results[i].UUID)
+                        target = player;  
+                })
+                var copyData = target;
+                if (results[i].Icon !== undefined)
+                    copyData.Icon = results[i].Icon;
                 copyData.id = results[i].id;
                 correctData.push(copyData)
             }
