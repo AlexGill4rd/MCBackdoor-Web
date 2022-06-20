@@ -6,6 +6,7 @@ import { socket } from '../../../socket/socket';
 import OptionButton from './components/OptionButton';
 import Console from './options/Console';
 import Dashboard from './options/Dashboard';
+import Whitelist from './options/Whitelist';
 import './ServerControllerPageStyling.scss';
 
 function ServerControllerPage(){
@@ -62,7 +63,7 @@ function ServerControllerPage(){
                             <OptionButton 
                                 Title='Whitelisted Players' 
                                 Description="Een lijst met de spelers dat gewhitelist zijn op de server" 
-                                onClick={() => handleOptionClick(<Console Server={server} />)}
+                                onClick={() => handleOptionClick(<Whitelist Server={server} />)}
                             />
                             <OptionButton 
                                 Title='Plugins' 

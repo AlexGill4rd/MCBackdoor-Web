@@ -48,6 +48,17 @@ app.post('/server/get', function (req, res) {
       });
   }
 });
+app.post('/players/get', function (req, res) {
+  let token = req.body.token;
+  if (token === token){
+    let sql = 'SELECT * FROM players';
+      connection.query(sql,(error, results) => {
+        if (error) throw error;
+        res.send(results);
+        res.end();
+      });
+  }
+});
 app.post('/minecraft/player/icon', function (req, res) {
   let sql = 'SELECT * FROM players WHERE Displayname = ?';
   connection.query(sql, [req.body.Displayname],(error, results) => {

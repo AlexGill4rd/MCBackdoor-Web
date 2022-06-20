@@ -83,7 +83,6 @@
   width: 60px;
   height: 35px;
   border-radius: 10px;
-  border: 2px solid #d38900;
   cursor: pointer;
   background-color: orange;
   transition: background-color 100ms ease-in-out;
@@ -95,14 +94,12 @@
 
 .dashboard-data-info-state-reload:hover {
   background-color: #df9100;
-  border: 2px solid #b17300;
 }
 
 .dashboard-data-info-state-off {
   width: 60px;
   height: 35px;
   border-radius: 10px;
-  border: 2px solid #00e400;
   cursor: pointer;
   background-color: lime;
   transition: background-color 100ms ease-in-out;
@@ -115,7 +112,6 @@
 
 .dashboard-data-info-state-off:hover {
   background-color: #bb0000;
-  border: 2px solid red;
 }
 
 .dashboard-data-info-address {

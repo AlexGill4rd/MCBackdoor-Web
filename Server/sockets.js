@@ -286,6 +286,10 @@ io.on('connection', socket => {
     socket.on("minecraft:server-features-log", data => {
         io.emit(`server:server-features-log-${data.Servername}`, data)
     });
+    //MC SERVER WHITELISTED PLAYERS
+    socket.on("minecraft:server-whitelist-players", data => {
+        io.emit(`server:server-whitelisted-${data.Servername}`, data.Players);
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")
