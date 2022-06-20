@@ -37,7 +37,7 @@ function Whitelist(props: {Server: any}) {
         .then(json => {
             setPlayers(json)
         });
-    }, []);
+    }, [whitelistedPlayers]);
     const [whitelistSearch, setWhitelistSearch] = useState<string>("");
     const [shownWhitelistedPlayers, setShownWhitelistedPlayers] = useState<any[]>([]);
     //WHITELIST SORTING
@@ -136,9 +136,9 @@ function Whitelist(props: {Server: any}) {
         }
     }
     function handleAddNewPlayer() {
-        handleWhitelistAdd(newPlayer);
         newPlayer.Servername = props.Server.Servername;
         socket.emit("client:new-player", newPlayer)
+        handleWhitelistAdd(newPlayer);
         setNewPlayer(null)
         setNewPlayerName("");
     }
