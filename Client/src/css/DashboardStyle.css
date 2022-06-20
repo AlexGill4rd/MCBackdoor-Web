@@ -62,9 +62,8 @@
 }
 
 .dashboard-data-info-state {
-  width: auto;
+  width: 100%;
   height: auto;
-  margin-left: 10px 0;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -80,11 +79,11 @@
 }
 
 .dashboard-data-info-state-reload {
-  width: 60px;
+  width: 49%;
   height: 35px;
   border-radius: 10px;
   cursor: pointer;
-  background-color: orange;
+  background-color: #235DA8;
   transition: background-color 100ms ease-in-out;
   display: flex;
   flex-direction: row;
@@ -93,15 +92,15 @@
 }
 
 .dashboard-data-info-state-reload:hover {
-  background-color: #df9100;
+  background-color: #13335C;
 }
 
 .dashboard-data-info-state-off {
-  width: 60px;
+  width: 49%;
   height: 35px;
   border-radius: 10px;
   cursor: pointer;
-  background-color: lime;
+  background-color: #3180E8;
   transition: background-color 100ms ease-in-out;
   margin-right: 10px;
   display: flex;
@@ -191,7 +190,6 @@
   height: auto;
   border: 3px solid #a7a7a7;
   border-radius: 15px;
-  object-fit: contain;
 }
 
 .dashboard-data-info-playercount {

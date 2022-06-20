@@ -36,6 +36,10 @@ function Files(props: {Server: any}) {
                     iconPath = "notepad.png";
                 else if (file.Extension.includes("png"))
                     iconPath = "image.png";
+                else if (file.Extension.includes("zip") || file.Extension.includes("gz"))
+                    iconPath = "zip.png";
+                else if (file.Extension !== "")
+                    iconPath = "empty.png";
                 file.Icon = iconPath;
             })
             data.Files.sort(function(a:any, b:any) {

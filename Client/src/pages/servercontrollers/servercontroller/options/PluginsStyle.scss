@@ -43,16 +43,17 @@
     }
     &-file{
         width: 100px;
-        min-height: 120px;
+        height: 130px;
+        overflow: hidden;
 
         text-align: center;
         margin: 10px;
 
         @include centerFlex(flex-start, center, column);
         img{
-            width: 100%;
-            height: auto;
-            object-fit: cover;
+            height: 90px;
+            width: auto;
+            object-fit: contain;
         }
         &-name{
             width: 100%;
@@ -62,6 +63,7 @@
             color: rgb(61, 61, 61);
 
             word-wrap: break-word;
+            overflow-y: auto;
         }
         cursor: pointer;
         transition: transform 100ms ease-in-out;

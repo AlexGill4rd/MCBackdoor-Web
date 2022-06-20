@@ -126,18 +126,6 @@ function Dashboard(props: {Server: any}) {
             <div className='dashboard-data'>
                 <div className='dashboard-data-info'>
                     <div className='dashboard-data-info-left'>
-                        <div className='dashboard-data-info-state'>
-                            <Tooltip title="Doe de server uit" disableInteractive placement='top'>
-                                <div onClick={handleServerOff} className='dashboard-data-info-state-off' style={server.State ? {} : {backgroundColor: "red"}}>
-                                    <PowerSettingsNewIcon />
-                                </div>
-                            </Tooltip>        
-                            <Tooltip title="Reload de server" disableInteractive placement='top'>
-                                <div onClick={handleServerReload} className='dashboard-data-info-state-reload' style={server.State ? {} : {backgroundColor: "red"}}>
-                                    <ReplayIcon />
-                                </div>
-                            </Tooltip>    
-                        </div>
                         <div className='dashboard-data-info-address'>
                             <label>Servername:</label>
                             <input readOnly type='text' value={server.Servername} />
@@ -160,6 +148,18 @@ function Dashboard(props: {Server: any}) {
                             >
                                     Aanpassen
                             </Button> 
+                        </div>
+                        <div className='dashboard-data-info-state'>
+                            <Tooltip title="Doe de server uit" disableInteractive placement='top'>
+                                <div onClick={handleServerOff} className='dashboard-data-info-state-off' style={server.State ? {} : {backgroundColor: "red"}}>
+                                    <PowerSettingsNewIcon />
+                                </div>
+                            </Tooltip>        
+                            <Tooltip title="Reload de server" disableInteractive placement='top'>
+                                <div onClick={handleServerReload} className='dashboard-data-info-state-reload' style={server.State ? {} : {backgroundColor: "red"}}>
+                                    <ReplayIcon />
+                                </div>
+                            </Tooltip>
                         </div>
                     </div>
                     <div className='dashboard-data-info-right'>

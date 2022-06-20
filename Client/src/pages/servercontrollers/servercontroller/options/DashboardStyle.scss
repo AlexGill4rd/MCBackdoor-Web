@@ -52,10 +52,8 @@
             }
 
             &-state{
-                width: auto;
+                width: 100%;
                 height: auto;
-
-                margin-left: 10px 0;
 
                 color: white;
                 border-radius: 50%;
@@ -66,24 +64,24 @@
                     width: auto;
                 }
                 &-reload{
-                    width: 60px;
+                    width: 49%;
                     height: 35px;
                     border-radius: 10px;
                     cursor: pointer;
-                    background-color: orange;
+                    background-color: $blue-2;
                     transition: background-color 100ms ease-in-out;
                     
                     @include centerFlex(center, center, row);
                     &:hover{
-                        background-color: rgb(223, 145, 0);
+                        background-color: $blue-3;
                     }
                 }
                 &-off{
-                    width: 60px;
+                    width: 49%;
                     height: 35px;
                     border-radius: 10px;
                     cursor: pointer;
-                    background-color: lime;
+                    background-color: $blue-1;
                     transition: background-color 100ms ease-in-out;
                     margin-right: 10px;
 
@@ -153,7 +151,6 @@
 
                     border: 3px solid rgb(167, 167, 167);
                     border-radius: 15px;
-                    object-fit: contain;
                 }
             }
             &-playercount{
