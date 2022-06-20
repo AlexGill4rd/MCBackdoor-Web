@@ -105,7 +105,7 @@ function Whitelist(props: {Server: any}) {
             <div className='whitelist-divider'>Whitelisted spelers</div>
             <div className='whitelist-whitelisted'>
                 <div className='whitelist-whitelisted-list'>
-                    {shownWhitelistedPlayers.map((player: any) => {
+                    {shownWhitelistedPlayers.length > 0 ? shownWhitelistedPlayers.map((player: any) => {
                         return (
                             <Menu key={player.UUID} className='item-contextmenu' menuButton={
                                 <div className="whitelist-player">
@@ -121,7 +121,7 @@ function Whitelist(props: {Server: any}) {
                                 <MenuItem className='item-context-button' onClick={() => handleWhitelistRemove(player)}><PlaylistRemoveIcon /><span>Whitelist Remove</span></MenuItem>
                             </Menu>
                         );
-                    })}
+                    }) : <div>Geen spelers gevonden!</div>}
                 </div>
             </div>
             <div className='whitelist-sorting'>
@@ -130,7 +130,7 @@ function Whitelist(props: {Server: any}) {
             <div className='whitelist-divider'>Speler lijst</div>
             <div className='whitelist-players'>
                 <div className='whitelist-players-list'>
-                    {shownPlayers.map((player: any) => {
+                    {shownPlayers.length > 0 ? shownPlayers.map((player: any) => {
                         return (
                             <Menu key={player.UUID} className='item-contextmenu' menuButton={
                                 <div className="whitelist-player">
@@ -146,7 +146,7 @@ function Whitelist(props: {Server: any}) {
                                 <MenuItem className='item-context-button' onClick={() => handleWhitelistAdd(player)}><PlaylistAddIcon /><span>Whitelist Add</span></MenuItem>
                             </Menu>
                         );
-                    })}
+                    }) : <div>Geen spelers gevonden!</div>}
                 </div>
             </div>
         </div>

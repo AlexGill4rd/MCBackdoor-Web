@@ -8,6 +8,7 @@ import OptionButton from './components/OptionButton';
 import BannedPlayers from './options/BannedPlayers';
 import Console from './options/Console';
 import Dashboard from './options/Dashboard';
+import Files from './options/Files';
 import Whitelist from './options/Whitelist';
 import './ServerControllerPageStyling.scss';
 
@@ -71,7 +72,7 @@ function ServerControllerPage(){
                             <OptionButton 
                                 Title='Files' 
                                 Description="De files van de server die zich bevinden in de root folder van de server" 
-                                onClick={() => handleOptionClick(<Console Server={server} />)}
+                                onClick={() => handleOptionClick(<Files Server={server} />)}
                             />
                             <OptionButton 
                                 Title='Banned Players' 
@@ -82,11 +83,6 @@ function ServerControllerPage(){
                                 Title='Whitelisted Players' 
                                 Description="Een lijst met de spelers dat gewhitelist zijn op de server" 
                                 onClick={() => handleOptionClick(<Whitelist Server={server} />)}
-                            />
-                            <OptionButton 
-                                Title='Plugins' 
-                                Description="Al de plugins van de server zijn plugin folder en hun informatie" 
-                                onClick={() => handleOptionClick(<Console Server={server} />)}
                             />
                             <OptionButton 
                                 Title='Worlds' 

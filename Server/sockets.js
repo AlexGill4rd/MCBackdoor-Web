@@ -294,6 +294,18 @@ io.on('connection', socket => {
     socket.on("minecraft:server-banned-players", data => {
         io.emit(`server:server-banned-${data.Servername}`, data.Players);
     });
+    //Reqeust the server for its files
+    socket.on("client:server-files", servername => {
+        io.to(serverSockets.get(servername)).emit("server:server-files", servername);
+    });
+    //When the files are coming in, send to sockets who wants them
+    socket.on("minecraft:server-files", data => {
+        io.emit(`server:server-files-${data.Servername}`, data);
+    });
+    //Folder actions in de server
+    socket.on("client:server-files-action", data => {
+        io.to(serverSockets.get(data.Servername)).emit(`server:server-files-action`, data);
+    });
 });
 server.listen(3001, function (){
     console.log("Listening on port: 3001")
