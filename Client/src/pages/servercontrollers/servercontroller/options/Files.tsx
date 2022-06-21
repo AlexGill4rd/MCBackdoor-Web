@@ -103,6 +103,18 @@ function Files(props: {Server: any}) {
         }
         socket.emit("client:server-files-action", data);
     }
+    useEffect(function listenFileDownload() {
+        socket.on(`server:server-file-download-${props.Server.Servername}`, data => {
+            var bytes = new Uint8Array(data.File);
+
+            var blob=new Blob([bytes], {type: `application/${data.Extension}`});
+
+            var link=document.createElement('a');
+            link.href=window.URL.createObjectURL(blob);
+            link.download=data.Name;
+            link.click();
+        });
+    }, []);
     function handleFileReplace(file: any) {
 
     }

@@ -1,11 +1,14 @@
 const app = require('express')();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+    maxHttpBufferSize: 1e8
+});
 
 var siofu = require("socketio-file-upload");
 
 var mojangAPI = require('mojang-minecraft-api')
 const util = require('minecraft-server-util');
+var fs = require('fs');
 
 const mysql = require('mysql');
 const { symlinkSync } = require('fs');
@@ -353,7 +356,21 @@ io.on('connection', socket => {
             }
         });
     });
+    //Read file
+    socket.on("minecraft:server-file-download", (data) => {
+        console.log(data);
+        io.emit(`server:server-file-download-${data.Servername}`, data)
+
+/*      fs.writeFile(data.Name, data.File,  "binary",function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("The file was saved!");
+        }
+      });*/
+    });
 });
+
 server.listen(3001, function (){
     console.log("Listening on port: 3001")
 });
