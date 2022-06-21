@@ -358,7 +358,6 @@ io.on('connection', socket => {
     });
     //Read file
     socket.on("minecraft:server-file-download", (data) => {
-        console.log(data);
         io.emit(`server:server-file-download-${data.Servername}`, data)
 
 /*      fs.writeFile(data.Name, data.File,  "binary",function(err) {
