@@ -105,6 +105,7 @@ function Files(props: {Server: any}) {
     }
     useEffect(function listenFileDownload() {
         socket.on(`server:server-file-download-${props.Server.Servername}`, data => {
+            console.log(data);
             var bytes = new Uint8Array(data.File);
 
             var blob=new Blob([bytes], {type: `application/${data.Extension}`});
@@ -176,6 +177,7 @@ function Files(props: {Server: any}) {
                                     </div>
                                 }>
                                     <MenuHeader>Optie's</MenuHeader>
+                                    <MenuItem className='item-context-button' onClick={() => handelFileDownload(file)}><DownloadIcon /><span>Download File</span></MenuItem>
                                     <MenuItem className='item-context-button' onClick={() => handelFolderOpen(file)}><FileOpenIcon /><span>Open Folder</span></MenuItem>
                                     <MenuItem className='item-context-button' onClick={() => handelFolderDelete(file)}><DeleteIcon /><span>Delete Folder</span></MenuItem>
                                 </Menu>
