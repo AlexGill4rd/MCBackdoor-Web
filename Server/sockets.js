@@ -160,7 +160,7 @@ io.on('connection', socket => {
         connection.query(sqlUpdate ,(error, results) => {
             if (error) throw error;
             var correctData = [];
-            for (var i = 0; i < results.length; i++){
+            for (var i = 0; i < data.Players.length; i++){
                 var target = [];
                 data.Players.forEach(player => {
                     if(player.UUID === results[i].UUID)
