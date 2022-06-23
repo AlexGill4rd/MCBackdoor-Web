@@ -10,31 +10,9 @@ import { FaHandsHelping } from 'react-icons/fa';
 import { FaRegEye } from 'react-icons/fa';
 import { FaBaby } from 'react-icons/fa';
 
-function GamemodePanel(props: {player: any;}){
-    const [error, setError] = useState<boolean>(false)
-    const [message, setMessage] = useState<string>("");
-
+function GamemodePanel(props: {Server:any, player: any;}){
     function setPlayerGamemode(gamemode: string){
-        var data = {
-            Player: props.player,
-            Feature: "gamemode",
-            Gamemode: gamemode
-        }
-        socket.emit("client:features-change", data);
-    }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "gamemode", {"Gamemode": gamemode});
     }
     return (
         <>
@@ -56,12 +34,7 @@ function GamemodePanel(props: {player: any;}){
                     <Tooltip title='Verander de gamemode van de speler naar adventure' onClick={() => setPlayerGamemode("adventure")}>
                         <div className='gamemodepanel-buttons-button'><FaBaby />Gamemode Adventure</div>
                     </Tooltip>
-                </div>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                 }
-                
+                </div>         
             </div>
             
         </>

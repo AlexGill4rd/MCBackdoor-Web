@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import { socket } from "../../../../../../socket/socket";
 import EditItemModal from "./Modals/EditItemModal";
 
@@ -14,27 +15,37 @@ function SavedItemsPane(props: {player: any;}){
     const [shownItems, setShownItems] = useState<any | null>([]);
 
     useEffect(function loadSavedItems(){
-        socket.emit("client:saved-items", props.player.Servername);
+        socket.emit("saveditem:request-list");
     }, []);
-    useEffect(function updateSavedItems(){
-        socket.on("server:saved-items", data => {
-            setSavedItems(data);
+    useEffect(function loadSavedItems(){
+        socket.on("saveditem:list", (response:any) => {
+            setSavedItems(response)
         });
     }, []);
 
     function handleItemClick(type: string, item: any){
-        var data = {
-            id: item.id,
-            Itemstack: item.Itemstack,
-            Servername: props.player.Servername,
-            Player: props.player,
-            Type: type,
-            Feature: "item"
+        switch (type){
+            case "edit":
+                setEditItem(item);
+                setEditModalOpen(true);
+                break;
+            case "remove" || "save-edit":
+                var data = {
+                    id: item.id,
+                    Itemstack: item.Itemstack,
+                    Servername: props.player.Servername,
+                    Type: type,
+                }
+                socket.emit("saveditem:action", socket.id, data);
+                break;
+            case "give":
+                var giveJSON = {
+                    Itemstack: item.Itemstack,
+                    Type: "give",
+                }
+                socket.emit("feature:player", socket.id, props.player.Servername, props.player.UUID, "saveditem", giveJSON);
+                break;
         }
-        if (type === "saved-edit"){
-            setEditItem(item);
-            setEditModalOpen(true);
-        }else socket.emit("client:saved-item-action", data);
     }
     function handleEditModalClose(){
         setEditModalOpen(false);
@@ -43,10 +54,10 @@ function SavedItemsPane(props: {player: any;}){
         var data = {
             id: item.id,
             Itemstack: item,
-            Type: "saved-edit"
+            Servername: props.player.Servername,
+            Type: "edit"
         }
-        socket.emit("client:saved-item-action", data);
-        socket.emit("client:saved-items", props.player.Servername);
+        socket.emit("saveditem:action", data);
         handleEditModalClose();
         setEditItem(null);
     }

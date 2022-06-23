@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { CircularProgress, Tooltip } from '@mui/material';
 import './PanelStyle.scss';
 
 import './SpelerDataPanelStyle.scss';
@@ -6,39 +6,16 @@ import './SpelerDataPanelStyle.scss';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-function SpelerDataPanel(props: {player: any, server: any;}){
-    const [error, setError] = useState<boolean>(false)
-    const [message, setMessage] = useState<string>("");
-
+function SpelerDataPanel(props: {Server: any, player: any}){
     const [playerData, setPlayerData] = useState<any>(null);
     const [hearts, setHearts] = useState<any>([]);
 
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
-    }
-
     useEffect(function requestPlayerData(){
-        var data = {
-            Player: props.player,
-            Feature: "data",
-            Servername: props.server.Servername
-        }
-        socket.emit("client:player-data", data);
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "data", {});
     }, []);
     //UPDATE PLAYERDATA WHEN STATE OF SOMETHING CHANGES
     useEffect(function updatePlayerInfo(){
-        socket.on(`server:player-data-${props.player.UUID}`, data => {
+        socket.on(`server:player-update-${props.player.UUID}`, data => {
             //SET PLAYER DATA
             setPlayerData(data);
             //RESET HEARTS LIST (IMAGES)
@@ -57,7 +34,7 @@ function SpelerDataPanel(props: {player: any, server: any;}){
         })
     }, []);
     if (playerData === null){
-        return <>Speler data aan het ophalen...</>
+        return <CircularProgress />
     }else{
         return (
             <>
@@ -117,13 +94,7 @@ function SpelerDataPanel(props: {player: any, server: any;}){
                         <span className='spelerdata-data-subject-title'>Server:</span>
                         <span>{playerData.Servername}</span>
                     </div>
-                    {error ? 
-                    <div className='message' style={{color: 'red'}}>{message}</div> :  
-                     <div className='message' style={{color: "lime"}}>{message}</div>
-                     }
-                    
-                </div>
-                
+                </div>   
             </>
         );
     }

@@ -38,34 +38,15 @@ const messagesList = [
   ];
   
 
-function PMSpamPanel(props: {player: any;}){
-    const [error, setError] = useState<boolean>(false)
-    const [message, setMessage] = useState<string>("");
-
+function PMSpamPanel(props: {Server: any, player: any;}){
     const [value, setValue] = useState<string[]>([]);
 
     function startPlayerSpamming(status: boolean){
-        var data = {
-            Player: props.player,
-            Feature: "pmspam",
+        var actionJSON = {
             Messages: messagesList.toString(),
             State: status
         }
-        socket.emit("client:features-change", data);
-    }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "pmspam", actionJSON);
     }
     return (
         <>
@@ -104,11 +85,6 @@ function PMSpamPanel(props: {player: any;}){
                     sx={{ width: "100%"} } onClick={() => startPlayerSpamming(false)}>Stop Spamming</Button>
                 </FormControl>
                 </div>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                 }
-                
             </div>
             
         </>

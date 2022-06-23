@@ -21,40 +21,20 @@ import Vanish from './irritatiecomponents/Vanish';
 import SudoModal from './irritatiecomponents/Modals/SudoModal';
 import VanishPlayers from './irritatiecomponents/VanishPlayers';
 
-function IrriterenPanel(props: {player: any;}){
-    const [error, setError] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
-
+function IrriterenPanel(props: {Server:any, player: any;}){
     const [actions, setActions] = useState<any[]>([]);
 
     //INISIALISATION
     function sendActions(){
-        var data = {
-            Player: props.player,
-            Feature: "irriteren",
+        var actionJSON = {
             Actions: actions,
             SudoCommand: ""
         }
-        if (sudoMessage !== ""){
-            data.SudoCommand = sudoMessage;
-        }
-        socket.emit("client:features-change", data);
-    }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
-    }
+        if (sudoMessage !== "")
+            actionJSON.SudoCommand = sudoMessage;
 
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "irriteren", actionJSON);
+    }
     //FUNCTIONS
     function selectAction(actionString: string){
         if (actions.includes(actionString))
@@ -116,10 +96,6 @@ function IrriterenPanel(props: {player: any;}){
                         </Button>
                     </Tooltip>
                 </div>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                 }
                  {sudoModalOpen && <SudoModal onAccept={handleSetCommand} onCancel={handleModalClose} />}
             </div>
             

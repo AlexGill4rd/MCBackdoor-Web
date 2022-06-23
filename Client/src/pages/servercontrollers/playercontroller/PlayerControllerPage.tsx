@@ -25,6 +25,7 @@ import IrriterenPanel from './features/panels/IrriterenPanel';
 import { CircularProgress } from '@mui/material';
 
 import Loading from '../Loading';
+import SimplePopup from '../../../globaltsx/SimplePopup';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
@@ -48,6 +49,7 @@ function PlayerControllerPage(){
             setServer(null);
         })
     }, [server]);
+    //Panel open
     function handleFeatureClick(panelName: any) {
         if (selectedPlayer !== null && server !== null)
             setLoadedPanel(panelName);
@@ -58,9 +60,27 @@ function PlayerControllerPage(){
         if (player === null)
             setLoadedPanel(null);
     }
+
+    //POPUP SYSTEM
+    const [popups, setPopUps] = useState<any[]>([]);
+    function handlePopup(data:any){
+        var severity: string = data.Error ? "error" : "success"
+        var popup = {
+            Title: "Server Controller",
+            Description: data,
+            Severity: severity
+        }
+        setPopUps((popups:any) => [...popups, popup]);
+    };
+    useEffect(function listenPopups() {
+        socket.on(`feature:playerpanel-log`, message => {
+            console.log(message)
+            handlePopup(message)
+        });
+    })
     if(server != null){
         if (server.State === false){
-            return <Loading to='/controller/servers' />
+            return <Loading to='/controller/servers/' />
         }else {
             return (
                 <div className="controller-container">
@@ -83,20 +103,20 @@ function PlayerControllerPage(){
                         </div>
                     </div>
                     <div className="controller-features">
-                        <FeatureButton title='Operator' description="Instellingen voor het beheren van de operator status van de speler" onClick={() => handleFeatureClick(<OperatorPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Gamemode' description="Pas de gamemode aan van de speler" onClick={() => handleFeatureClick(<GamemodePanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Crash' description="Laat de speler zijn client crashen" onClick={() => handleFeatureClick(<CrashPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Kick' description="Kick de speler van de server" onClick={() => handleFeatureClick(<KickPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Teleport' description="Teleporteer de speler naar een bepaalde locatie" onClick={() => handleFeatureClick(<TeleportPanel player={selectedPlayer} Servername={server.Servername} />)} />
-                        <FeatureButton title='Whitelist' description="Pas de whitelist status van de speler aan" onClick={() => handleFeatureClick(<WhitelistPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Kill' description="Vermoord de speler" onClick={() => handleFeatureClick(<KillPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Ban' description="Verban de speler van de server" onClick={() => handleFeatureClick(<BanPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Private Message Spam' description="Spam de speler vol met verschillende willekeurige berichten" onClick={() => handleFeatureClick(<PMSpamPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Leaken' description="Leak de gegevens van de speler zijn account" onClick={() => handleFeatureClick(<LeakPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Irriteren' description="Irriteer de speler met wat toys" onClick={() => handleFeatureClick(<IrriterenPanel player={selectedPlayer} />)} />
-                        <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(<SpelerDataPanel player={selectedPlayer} server={server} />)} />
-                        <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(<InventoryPanel player={selectedPlayer} server={server} />)} />
-                        <FeatureButton title='Experience' description="Geef de speler experience of verwijder ze" onClick={() => handleFeatureClick(<ExperiencePanel player={selectedPlayer} />)} />
+                        <FeatureButton title='Operator' description="Instellingen voor het beheren van de operator status van de speler" onClick={() => handleFeatureClick(<OperatorPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Gamemode' description="Pas de gamemode aan van de speler" onClick={() => handleFeatureClick(<GamemodePanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Crash' description="Laat de speler zijn client crashen" onClick={() => handleFeatureClick(<CrashPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Kick' description="Kick de speler van de server" onClick={() => handleFeatureClick(<KickPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Teleport' description="Teleporteer de speler naar een bepaalde locatie" onClick={() => handleFeatureClick(<TeleportPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Whitelist' description="Pas de whitelist status van de speler aan" onClick={() => handleFeatureClick(<WhitelistPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Kill' description="Vermoord de speler" onClick={() => handleFeatureClick(<KillPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Ban' description="Verban de speler van de server" onClick={() => handleFeatureClick(<BanPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Private Message Spam' description="Spam de speler vol met verschillende willekeurige berichten" onClick={() => handleFeatureClick(<PMSpamPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Leaken' description="Leak de gegevens van de speler zijn account" onClick={() => handleFeatureClick(<LeakPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Irriteren' description="Irriteer de speler met wat toys" onClick={() => handleFeatureClick(<IrriterenPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(<SpelerDataPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(<InventoryPanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Experience' description="Geef de speler experience of verwijder ze" onClick={() => handleFeatureClick(<ExperiencePanel Server={server} player={selectedPlayer} />)} />
                     </div>
                     <div className="controller-panel">
                         {
@@ -105,11 +125,16 @@ function PlayerControllerPage(){
                             <>Selecteer een speler</> //Laad panel niet in, maar geef instructie
                         }
                     </div>
+                    {popups.map((item, i) => {
+                        return (
+                            <SimplePopup key={i} Title={item.Title} Description={item.Description} Severity={item.Severity}/>
+                        );
+                    })}
                 </div>
             );
         } 
     }else {
-        return <Loading to='/controller/servers' />
+        return <Loading to='/controller/servers/' />
     }
 }
 export default PlayerControllerPage;

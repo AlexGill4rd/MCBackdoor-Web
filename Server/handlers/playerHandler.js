@@ -87,17 +87,17 @@ module.exports = (io) => {
     });
   }
   const getPlayerFromServer = function (clientsocket, playerUUID, servername) {
-    io.emit(`player:get-server-${servername}`, [clientsocket.id, playerUUID]);
+    io.emit(`player:get-server-${servername}`, clientsocket.id, playerUUID);
   }
 
-  const getPlayerInventory = function (clientsocketid, inventory) {
-    io.to(clientsocketid).emit(`player:get-inventory`, inventory);
+  const getPlayerInventory = function (playerUUID, inventory) {
+    io.emit(`player:get-inventory-${playerUUID}`, inventory);
   }
-  const getPlayerEnderchest = function (clientsocketid, enderchest) {
-    io.to(clientsocketid).emit(`player:get-enderchest`, enderchest);
+  const getPlayerEnderchest = function (playerUUID, enderchest) {
+    io.emit(`player:get-enderchest-${playerUUID}`, enderchest);
   }
-  const getPlayerExperience = function (clientsocketid, playerUUID, experience) {
-    io.to(clientsocketid).emit(`player:get-experience`, playerUUID, experience);
+  const getPlayerExperience = function (playerUUID, experience) {
+    io.emit(`player:get-experience-${playerUUID}`, experience);
   }
   return {
     registerPlayer,

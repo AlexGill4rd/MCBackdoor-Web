@@ -17,31 +17,28 @@ module.exports = (io) => {
             }); 
         }); 
     }
-    const savedItemList = function (callback) {
+    const savedItemList = function () {
         let slqGetLength = 'SELECT * FROM saveditems SORT BY datum DESC';
         connection.query(slqGetLength ,(error, results) => {
             if (error) throw error;
-            callback(results);
+            io.emit(`saveditem:list`, results);
         }); 
     }
-    const savedItemAction = function (item) {
-        switch (item.Type){
+    const savedItemAction = function (data) {
+        switch (data.Type){
             case "remove":
                 var sqlDelete = 'DELETE FROM saveditems WHERE id = ?';
-                connection.query(sqlDelete, [item.id],(error) => {
+                connection.query(sqlDelete, [data.id],(error) => {
                     if (error) throw error;
-                    io.emit(`saveditem:removed`, item);
+                    io.emit(`saveditem:request-list`);
                 }); 
                 break;
             case "edit":
                 var sqlInsert = 'UPDATE saveditems SET Itemstack=? WHERE id=?';
                 connection.query(sqlInsert, [JSON.stringify(data.Itemstack), data.id] ,(error, results) => {
                     if (error) throw error;
-                    io.emit(`saveditem:updated`, [item.id, item]);
+                    io.emit(`saveditem:request-list`);
                 }); 
-                break;
-            case "give":
-                io.emit("server:features-change-" + item.Servername, item);
                 break;
         }  
     }

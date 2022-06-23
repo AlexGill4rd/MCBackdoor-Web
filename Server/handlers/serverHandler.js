@@ -14,7 +14,7 @@ module.exports = (io) => {
         let getServerSQL = 'SELECT JsonData FROM servers WHERE id = ?';
         connection.query(getServerSQL, [serverid] ,(error, results) => {
             if (error) throw error;
-            callback(results)
+            callback(JSON.parse(results[0].JsonData))
         });
     };
     const disconnectServer = function (server) { 
@@ -90,8 +90,8 @@ module.exports = (io) => {
                 });
             }).catch((error) => console.log("Data van server niet kunnen ophalen!"));
     };
-    const requestActiveServers = function () {    
-        io.emit("servers:active");
+    const requestActiveServers = function (clientsocketid) {    
+        io.emit("servers:active", clientsocketid);
     };
     const requestDeActiveServers = function (callback) {    
         let getServerSQL = 'SELECT * FROM servers';
@@ -117,15 +117,33 @@ module.exports = (io) => {
         io.to(clientsocketid).emit(`server:get-worlds`, worlds);
     };
     //Player list part
-    const getServerPlayerlist = function (servername, playerlist) {
-        var editedPlayerList = [];
-        for (let player in playerlist){
-            mojangAPI.getPlayerHeadByName(player.Displayname).then( PlayerHead => {
-                player.PlayerHead = PlayerHead
-                editedPlayerList.push(player);
-            }).catch(function() {});   
-        }
-        io.emit(`server:get-playerlist-${servername}`, editedPlayerList); //Send request for playerlist to minecraft server
+    const getServerPlayerlist = function (clientsocketid, playerlist) {
+        if (playerlist === undefined)return;
+        let sqlUpdate = 'SELECT * FROM players WHERE ';
+        playerlist.forEach(player => {
+            sqlUpdate += `UUID='${player.UUID}' OR `;
+        });
+        sqlUpdate = sqlUpdate.substring(0, sqlUpdate.length - 4);
+        connection.query(sqlUpdate ,(error, results) => {
+            if (error) throw error;
+            var correctData = [];
+            for (var i = 0; i < playerlist.length; i++){
+                var target = [];
+                playerlist.forEach(player => {
+                    if(player.UUID === results[i].UUID)
+                        target = player;  
+                })
+                var copyData = target;
+                if (results[i].Icon !== undefined)
+                    copyData.Icon = results[i].Icon;
+                copyData.id = results[i].id;
+                correctData.push(copyData)
+            }
+            if (clientsocketid === null)
+                io.emit(`server:get-playerlist`, correctData)
+            else
+                io.to(clientsocketid).emit(`server:get-playerlist`, correctData); //Send request for playerlist to minecraft server
+        }); 
     };
     const getConsoleMessages = function (servername, callback) { //Returns a json with all the console messages with a limit of 200
         let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date DESC LIMIT 200';
@@ -143,20 +161,20 @@ module.exports = (io) => {
             io.emit(`server:updated-console`, data);
         }); 
     };
-    const getServerWhitlist = function ([servername, players]) {
-        io.emit(`server:get-whitelisted-${servername}`, players);
+    const getServerWhitlist = function ([clientsocketid, players]) {
+        io.to(clientsocketid).emit(`server:get-whitelisted`, players);
     };
-    const getServerBanlist = function ([servername, players]) {
-        io.emit(`server:get-banlist-${servername}`, players);
+    const getServerBanlist = function ([clientsocketid, players]) {
+        io.to(clientsocketid).emit(`server:get-banlist`, players);
     };
-    const listenChatMessage = function ([servername, player, message]) {
-        io.emit(`server:get-chat-${servername}`, player, message);
+    const listenChatMessage = function ([clientsocketid, player, message]) {
+        io.to(clientsocketid).emit(`server:get-chat`, player, message);
     };
-    const getServerFilelist = function ([servername, files, mainpath, path]) {
-        io.emit(`server:get-file-list-${servername}`, files, mainpath, path);
+    const getServerFilelist = function ([clientsocketid, files, mainpath, path]) {
+        io.to(clientsocketid).emit(`server:get-file-list`, files, mainpath, path);
     };
-    const serverFileDownload = function ([servername, file, name, extension]) {
-        io.emit(`server:download-file-${servername}`, file, name, extension);
+    const serverFileDownload = function ([clientsocketid, file, name, extension]) {
+        io.to(clientsocketid).emit(`server:download-file`, file, name, extension);
     };
     return {
         getServer,

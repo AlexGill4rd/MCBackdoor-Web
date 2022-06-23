@@ -11,14 +11,11 @@ import "@szhsin/react-menu/dist/index.css";
 import Enchanting from './Enchanting';
 
 function Item(props: {itemstack: any, inventoryAction: any;}){
-    var margin:string = "0px";
-
     function stripColor(string: string){
         var noColorString = "";
         for (var i = 0; i < string.length; i++){
-            if (string[i] !== "§" && string[i-1] !== "§"){
+            if (string[i] !== "§" && string[i-1] !== "§")
                 noColorString += string[i];
-            }
         }
         return noColorString;
     }

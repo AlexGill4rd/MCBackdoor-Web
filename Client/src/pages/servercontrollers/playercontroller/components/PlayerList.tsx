@@ -4,22 +4,12 @@ import Player from './Player';
 
 function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any;}){
     const [players, setPlayers] = useState<any>([]);
-    const [validSelected, setValidSelected] = useState<boolean>(false);
 
+    useEffect(function loadPlayers(){
+        socket.emit("feature:server", socket.id, props.server.Servername, "playerlist", {})
+    }, [props.server]);
     useEffect(function updatePlayers(){
-        socket.on(`server:get-playerlist-${props.server.Servername}`, players => {
-            console.log(players);
-            players.map((player: any) => {
-                if (props.selectedPlayer !== null){
-                    if (player.Displayname === props.selectedPlayer.Displayname){
-                        setValidSelected(true);
-                    }
-                }
-
-            });
-            if (!validSelected){
-                props.onPlayerClick(null);
-            }
+        socket.on(`server:get-playerlist`, players => {
             setPlayers(players);
         })
     }, []);

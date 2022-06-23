@@ -80,7 +80,7 @@ const onConnection = (socket) => {
 
     //Everything with save item system in database
     socket.on("saveditem:new", newSavedItem);
-    socket.on("saveditem:list", savedItemList);
+    socket.on("saveditem:request-list", savedItemList);
     socket.on("saveditem:action", savedItemAction);
 }
 

@@ -2,34 +2,11 @@ import { Tooltip } from '@mui/material';
 
 import './WhitelistPanelStyle.scss';
 
-import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-function WhitelistPanel(props: {player: any;}){
-    const [error, setError] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
-
+function WhitelistPanel(props: {Server: any, player: any;}){
     function handlePlayerWhitelist(state: boolean){
-        var data = {
-            Player: props.player,
-            Feature: "whitelist",
-            Status: state
-        }
-        socket.emit("client:features-change", data);
-    }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "whitelist", {"Status": state});
     }
     return (
         <>
@@ -44,11 +21,6 @@ function WhitelistPanel(props: {player: any;}){
                 <Tooltip title='Un Whitelist de speler' onClick={() => handlePlayerWhitelist(false)}>
                     <div className='whitelistpanel-form-button'>UnWhitelist Speler</div>
                 </Tooltip>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                }
-                
             </div>
             
         </>
