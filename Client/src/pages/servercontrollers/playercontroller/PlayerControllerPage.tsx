@@ -22,8 +22,9 @@ import SpelerDataPanel from './features/panels/SpelerDataPanel';
 import InventoryPanel from './features/panels/InventoryPanel';
 import ExperiencePanel from './features/panels/ExperiencePanel';
 import IrriterenPanel from './features/panels/IrriterenPanel';
-import IpAddress from '../../../IpAddress';
 import { CircularProgress } from '@mui/material';
+
+import Loading from '../Loading';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
@@ -33,36 +34,33 @@ function PlayerControllerPage(){
     const [selectedPlayer, setSelectedPlayer] = useState<any>(null);
 
     useEffect(function loadServer(){
-        var ip = new IpAddress();
-        fetch(`http://${ip.getIP()}:8080/server/get`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({serverid: serverid, token: "6969"})
-        }).then(res => res.json())
-        .then(json => {
-            setServer(json);
+        socket.emit("server:get", [serverid], (response:any) => {
+            setServer(response);
+        });
+    }, []);
+    useEffect(() => {
+        socket.on(`server:updated-server-${serverid}`, data => {
+            setServer(data);
         });
     }, []);
     useEffect(function checkServerStatus(){
         socket.on(`server:disable-server-${serverid}`, data => {
-            console.log(data);
             setServer(null);
         })
     }, [server]);
     function handleFeatureClick(panelName: any) {
-        if (selectedPlayer !== null)
+        if (selectedPlayer !== null && server !== null)
             setLoadedPanel(panelName);
     }
     function handlePlayerClick(player: any){
         setLoadedPanel(null);
         setSelectedPlayer(player);
-        if (player === null){
+        if (player === null)
             setLoadedPanel(null);
-        }
     }
     if(server != null){
         if (server.State === false){
-            return <Navigate to='/controller/servers' />
+            return <Loading to='/controller/servers' />
         }else {
             return (
                 <div className="controller-container">
@@ -111,7 +109,7 @@ function PlayerControllerPage(){
             );
         } 
     }else {
-        return <div><CircularProgress /></div>
+        return <Loading to='/controller/servers' />
     }
 }
 export default PlayerControllerPage;

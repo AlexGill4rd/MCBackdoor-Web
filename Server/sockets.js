@@ -1,17 +1,20 @@
-const app = require('express')();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server, {
-    maxHttpBufferSize: 1e8
-});
+const express = require("express");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 
-var siofu = require("socketio-file-upload");
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+    maxHttpBufferSize: 1e8,
+    cors: {
+        origin: "https://localhost:3000"
+    }
+});
 
 var mojangAPI = require('mojang-minecraft-api')
 const util = require('minecraft-server-util');
-var fs = require('fs');
 
 const mysql = require('mysql');
-const { symlinkSync } = require('fs');
 const connection = mysql.createPool({
     host     : 'localhost',
     user     : 'VirusAccount',
@@ -29,6 +32,18 @@ function sendMessage(message, servername){
         }); 
     }); 
 }
+io.use((socket, next) => {
+  if (isValid(socket.request)) {
+    next();
+  } else {
+    next(new Error("Invalid Socket Request"));
+  }
+});
+io.use((socket, next) => {
+  const username = socket.handshake.auth.username;
+  const password = socket.handshake.auth.password;
+
+});
 let serverSockets = new Map();
 io.on('connection', socket => {
     //REGISTER ALL SERVERS SOCKETS IN A VARIABLE
@@ -236,10 +251,10 @@ io.on('connection', socket => {
             connection.query(sqlInsert, [id, saveitem.Servername, JSON.stringify(saveitem.Itemstack), JSON.stringify(saveitem.Player)],(error, results) => {
                 if (error) throw error;
                 let sqlGet = 'SELECT * FROM saveditems ORDER BY Datum ASC';
-        connection.query(sqlGet ,(error, results) => {
-            if (error) throw error;
-            socket.emit("server:saved-items", results);
-        });   
+                connection.query(sqlGet ,(error, results) => {
+                    if (error) throw error;
+                    socket.emit("server:saved-items", results);
+                });   
             }); 
         }); 
     });
@@ -305,6 +320,7 @@ io.on('connection', socket => {
         io.to(serverSockets.get(data.Servername)).emit("server:server-features", data);
     });
     socket.on("minecraft:server-features-log", data => {
+
         io.emit(`server:server-features-log-${data.Servername}`, data)
     });
     //MC SERVER WHITELISTED PLAYERS
@@ -370,6 +386,6 @@ io.on('connection', socket => {
     });
 });
 
-server.listen(3001, function (){
+httpServer.listen(3001, function (){
     console.log("Listening on port: 3001")
 });

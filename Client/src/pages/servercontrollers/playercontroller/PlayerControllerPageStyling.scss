@@ -2,6 +2,11 @@
 @import '../../../globalscss/Colors.scss';
 
 .controller{
+    &-offline{
+        width: 100vw;
+        height: 100vh;
+        @include centerFlex(center, center, column);
+    }
     &-container{
         width: 100vw;
         height: 100vh;

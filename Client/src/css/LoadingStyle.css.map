@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,QAAQ,CAAA;EACJ,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,KAAK;ECJb,OAAO,EAAE,IAAI;EACb,cAAc,EDIsB,MAAM;ECH1C,eAAe,EDGK,MAAM;ECF1B,WAAW,EDEiB,MAAM;CAWrC;;AAdD,AAKI,QALI,CAKJ,CAAC,CAAA;EACG,eAAe,EAAE,IAAI;EACrB,KAAK,EEJJ,OAAO;EFKR,SAAS,EAAE,KAAK;EAChB,UAAU,EAAE,2BAA2B;CAI1C;;AAbL,AAUQ,QAVA,CAKJ,CAAC,AAKI,MAAM,CAAA;EACH,SAAS,EAAE,WAAW;CACzB",
+    "sources": [
+        "../pages/servercontrollers/LoadingStyle.scss",
+        "../globalscss/Functions.scss",
+        "../globalscss/Colors.scss"
+    ],
+    "names": [],
+    "file": "LoadingStyle.css"
+}

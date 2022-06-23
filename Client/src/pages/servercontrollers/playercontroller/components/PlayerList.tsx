@@ -6,11 +6,8 @@ function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any
     const [players, setPlayers] = useState<any>([]);
     const [validSelected, setValidSelected] = useState<boolean>(false);
 
-    useEffect(function loadPlayers(){
-        socket.emit("client:server-player-list", props.server.Servername);
-    }, [props.server]);
     useEffect(function updatePlayers(){
-        socket.on(`server:mcserver-player-list-${props.server.Servername}`, players => {
+        socket.on(`server:get-playerlist-${props.server.Servername}`, players => {
             console.log(players);
             players.map((player: any) => {
                 if (props.selectedPlayer !== null){

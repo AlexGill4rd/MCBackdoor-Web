@@ -1,5 +1,5 @@
 import React from 'react';
-import NavTab from '../../globaltsx/NavTab';
+import NavTab from '../settingselectorpage/NavTab';
 
 import './styling/ControllerHomePageStyling.scss';
 

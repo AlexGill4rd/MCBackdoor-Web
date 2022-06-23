@@ -16,12 +16,17 @@
 }
 
 .servertab-id {
-  width: 20px;
+  width: auto;
   height: 100%;
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.servertab-id:hover {
+  color: #535353;
 }
 
 .servertab-image {
