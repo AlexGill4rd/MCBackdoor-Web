@@ -168,8 +168,11 @@ module.exports = (io) => {
     const getServerFilelist = function (clientsocketid, files, mainpath, path) {
         io.to(clientsocketid).emit(`server:get-file-list`, files, mainpath, path);
     };
-    const serverFileDownload = function (clientsocketid, file, name, extension) {
-        io.to(clientsocketid).emit(`server:download-file`, file, name, extension);
+    const serverFileDownload = function (clientsocketid, servername, file, name, extension) {
+        io.to(clientsocketid).emit(`server:download-file-${servername}`, file, name, extension);
+    };
+    const getFileText = function (clientsocketid, servername, file, name, extension) {
+        io.to(clientsocketid).emit(`server:file-text-${servername}`, file, name, extension);
     };
     return {
         getServer,
@@ -186,6 +189,7 @@ module.exports = (io) => {
         getServerBanlist,
         listenChatMessage,
         getServerFilelist,
-        serverFileDownload
+        serverFileDownload,
+        getFileText
     }
   }

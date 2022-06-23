@@ -36,7 +36,8 @@ const {
     getServerBanlist,
     listenChatMessage,
     getServerFilelist,
-    serverFileDownload } = require("./handlers/serverHandler")(io);
+    serverFileDownload,
+    getFileText } = require("./handlers/serverHandler")(io);
 const { sendPlayerAction, sendServerAction } = require("./handlers/featureHandler")(io);
 const { newSavedItem, savedItemList, savedItemAction } = require("./handlers/savedItemHandler")(io);
 
@@ -65,6 +66,7 @@ const onConnection = (socket) => {
     socket.on("server:response-chat", listenChatMessage);
     socket.on("server:response-file-list", getServerFilelist);
     socket.on("server:response-file-download", serverFileDownload);
+    socket.on("server:response-file-text", getFileText);
     
     //Servers actions
     socket.on("servers:get", getServers);

@@ -7,11 +7,13 @@ import './PluginsStyle.scss';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
-import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import InfoIcon from '@mui/icons-material/Info';
 
 import { socket } from '../../../../socket/socket';
+import FileEditor from './files/FileEditor';
+import FileInfoModal from './files/FileInfoModal';
 
 function Files(props: {Server: any}) {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -47,10 +49,10 @@ function Files(props: {Server: any}) {
             })
             if (path !== undefined)
                 setBrowsingPath(path);
-            else {
+            else 
                 setBrowsingPath(mainpath);
-                setMainPath(mainpath);
-            }
+            setMainPath(mainpath);
+
             setFiles(files);
         });
     }, []);
@@ -84,14 +86,14 @@ function Files(props: {Server: any}) {
         socket.emit("feature:server", socket.id, props.Server.Servername, "file-download", {"Path": file.Path})
     }
     useEffect(function listenFileDownload() {
-        socket.on(`server:download-file-${props.Server.Servername}`, data => {
-            var bytes = new Uint8Array(data.File);
+        socket.on(`server:download-file-${props.Server.Servername}`, (file, name, extension) => {
+            var bytes = new Uint8Array(file);
 
-            var blob=new Blob([bytes], {type: `application/${data.Extension}`});
+            var blob=new Blob([bytes], {type: `application/${extension}`});
 
             var link=document.createElement('a');
             link.href=window.URL.createObjectURL(blob);
-            link.download=data.Name;
+            link.download=name;
             link.click();
         });
     }, []);
@@ -115,58 +117,88 @@ function Files(props: {Server: any}) {
         socket.emit("feature:server", socket.id, props.Server.Servername, "file-upload", data)
         handleModalClose();
     }
-    return (
-        <div className='plugins'>
-            <div className='plugins-header'>
-                <Button 
-                    onClick={handleModalOpen} 
-                    variant="contained" 
-                    startIcon={<AddIcon />}
-                    >
-                        Upload File
-                </Button>
-                <Tooltip title="Klik om terug te gaan" disableInteractive placement='top'>
-                    <div onClick={handlePathBack} className='plugins-header-path'><ArrowBackIcon style={{marginRight: "10px"}} />{browsingPath}</div>
-                </Tooltip>
-            </div>
-            <div className='plugins-container'>
-                <div className='plugins-container-list'>
-                    {files.map((file:any, index:number) => {
-                        if (file.Icon.includes("folder")){
-                            return (
-                                <Menu key={index} className='item-contextmenu' menuButton={
-                                    <div key={file.Name} onDoubleClick={() => handelFolderOpen(file)} className='plugins-file noselect'>
-                                        <img src={"/icons/" + file.Icon} alt="bestand type" />
-                                        <div className='plugins-file-name'>{file.Name}</div>
-                                    </div>
-                                }>
-                                    <MenuHeader>Optie's</MenuHeader>
-                                    <MenuItem className='item-context-button' onClick={() => handelFileDownload(file)}><DownloadIcon /><span>Download File</span></MenuItem>
-                                    <MenuItem className='item-context-button' onClick={() => handelFolderOpen(file)}><FileOpenIcon /><span>Open Folder</span></MenuItem>
-                                    <MenuItem className='item-context-button' onClick={() => handelFolderDelete(file)}><DeleteIcon /><span>Delete Folder</span></MenuItem>
-                                </Menu>
-                                
-                            );
-                        }else{
-                            return (
-                                <Menu key={index} className='item-contextmenu' menuButton={
-                                    <div key={file.Name} className='plugins-file noselect'>
-                                        <img src={"/icons/" + file.Icon} alt="bestand type" />
-                                        <div className='plugins-file-name'>{file.Name}</div>
-                                    </div>
-                                }>
-                                    <MenuHeader>Optie's</MenuHeader>
-                                    <MenuItem className='item-context-button' onClick={() => handelFileDelete(file)}><DeleteIcon /><span>Delete File</span></MenuItem>
-                                    <MenuItem className='item-context-button' onClick={() => handelFileDownload(file)}><DownloadIcon /><span>Download File</span></MenuItem>
-                                </Menu>
-                                
-                            );
-                        }
-                    })}
+    const [editorOpen, setEditorOpen] = useState<boolean>(false);
+    const [editingFile, setEditingFile] = useState<any>(null);
+    function handleOpenFile(file: any) {
+        setEditingFile(file)
+        setEditorOpen(true);
+    }
+    function handleSaveEditor(newFile: any) {
+        
+    }
+    function handleCloseEditor() {
+        setEditorOpen(false);
+        setEditingFile(null)
+    }
+    const [isInfoModalOpen, setInfoModalOpen] = useState<boolean>(false);
+    const [infoModalFile, setInfoModalFile] = useState<any>(undefined);
+    function handleInfo(file: any) {
+        setInfoModalFile(file);
+        setInfoModalOpen(true);
+    }
+    function handleInfoModalClose(){
+        setInfoModalOpen(false);
+    }
+    if (editorOpen){
+        return <FileEditor Server={props.Server} File={editingFile} onClose={handleCloseEditor} onSave={handleSaveEditor} />
+    }else{
+        return (
+            <div className='plugins'>
+                <div className='plugins-header'>
+                    <Button 
+                        onClick={handleModalOpen} 
+                        variant="contained" 
+                        startIcon={<AddIcon />}
+                        >
+                            Upload File
+                    </Button>
+                    <Tooltip title="Klik om terug te gaan" disableInteractive placement='top'>
+                        <div onClick={handlePathBack} className='plugins-header-path'><ArrowBackIcon style={{marginRight: "10px"}} />{browsingPath}</div>
+                    </Tooltip>
                 </div>
+                <div className='plugins-container'>
+                    <div className='plugins-container-list'>
+                        {files.map((file:any, index:number) => {
+                            if (file.Icon.includes("folder")){
+                                return (
+                                    <Menu key={index} className='item-contextmenu' menuButton={
+                                        <div key={file.Name} onDoubleClick={() => handelFolderOpen(file)} className='plugins-file noselect'>
+                                            <img src={"/icons/" + file.Icon} alt="bestand type" />
+                                            <div className='plugins-file-name'>{file.Name}</div>
+                                        </div>
+                                    }>
+                                        <MenuHeader>Optie's</MenuHeader>
+                                        <MenuItem className='item-context-button' onClick={() => handelFileDownload(file)}><DownloadIcon /><span>Download File</span></MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handelFolderOpen(file)}><FileOpenIcon /><span>Open Folder</span></MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handelFolderDelete(file)}><DeleteIcon /><span>Delete Folder</span></MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handleInfo(file)}><InfoIcon /><span>File Info</span></MenuItem>
+                                    </Menu>
+                                    
+                                );
+                            }else{
+                                return (
+                                    <Menu key={index} className='item-contextmenu' menuButton={
+                                        <div key={file.Name} onDoubleClick={() => handleOpenFile(file)} className='plugins-file noselect'>
+                                            <img src={"/icons/" + file.Icon} alt="bestand type" />
+                                            <div className='plugins-file-name'>{file.Name}</div>
+                                        </div>
+                                    }>
+                                        <MenuHeader>Optie's</MenuHeader>
+                                        <MenuItem className='item-context-button' onClick={() => handelFileDelete(file)}><DeleteIcon /><span>Delete File</span></MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handelFileDownload(file)}><DownloadIcon /><span>Download File</span></MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handleOpenFile(file)}><FileOpenIcon /><span>Open File</span></MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handleInfo(file)}><InfoIcon /><span>File Info</span></MenuItem>
+                                    </Menu>
+                                    
+                                );
+                            }
+                        })}
+                    </div>
+                </div>
+                {modalIsOpen && <FileModal onAccept={handleFileUpload} onCancel={handleModalClose} />}
+                {isInfoModalOpen && <FileInfoModal File={infoModalFile} onCancel={handleInfoModalClose} />}
             </div>
-            {modalIsOpen && <FileModal onAccept={handleFileUpload} onCancel={handleModalClose} />}
-        </div>
-    );
+        );
+    }
 }
 export default Files;

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../pages/servercontrollers/servercontroller/options/files/FileEditorStyle.scss"
+    ],
+    "names": [],
+    "file": "FileEditorStyle.css"
+}
