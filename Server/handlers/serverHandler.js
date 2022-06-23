@@ -39,7 +39,14 @@ module.exports = (io) => {
         }); 
     };
     const getServers = function (callback) {    
-        let getServerSQL = 'SELECT JsonData FROM servers ORDER BY id DESC';
+        let getServerSQL = 'SELECT * FROM players ORDER BY id ASC';
+        connection.query(getServerSQL ,(error, results) => {
+            if (error) throw error;
+            callback(results)
+        });
+    };
+    const getPlayersFromDatabase = function (callback) {    
+        let getServerSQL = 'SELECT * FROM players ORDER BY id DESC';
         connection.query(getServerSQL ,(error, results) => {
             if (error) throw error;
             callback(results)
@@ -156,11 +163,28 @@ module.exports = (io) => {
             io.emit(`server:updated-console-${data.Servername}`, data);
         }); 
     };
-    const getServerWhitlist = function (clientsocketid, players) {
-        io.to(clientsocketid).emit(`server:get-whitelisted`, players);
+    const getServerWhitlist = function (clientsocketid, servername, players) {
+        io.to(clientsocketid).emit(`server:get-whitelisted-${servername}`, players);
     };
-    const getServerBanlist = function (clientsocketid, players) {
-        io.to(clientsocketid).emit(`server:get-banlist`, players);
+    const getServerBanlist = function (clientsocketid, servername, players) {
+        let sql = 'SELECT * FROM players WHERE';
+        if(players.length > 0){
+            players.map((player) => {
+                sql += ` UUID = '${player.UUID}' OR `;
+            })
+            connection.query(sql.substring(0, sql.length - 3),(error, results) => {
+                if (error) throw error;
+                if (clientsocketid === null)
+                    io.emit(`server:get-banlist-${servername}`, results);
+                else
+                    io.to(clientsocketid).emit(`server:get-banlist-${servername}`, results);
+                });
+        }else{
+            if (clientsocketid === null)
+                io.emit(`server:get-banlist-${servername}`, players);
+            else
+                io.to(clientsocketid).emit(`server:get-banlist-${servername}`, players);
+        }
     };
     const listenChatMessage = function (clientsocketid, servername, player, message) {
         io.to(clientsocketid).emit(`server:get-chat-${servername}`, player, message);
@@ -178,6 +202,7 @@ module.exports = (io) => {
         getServer,
         disconnectServer,
         getServers,
+        getPlayersFromDatabase,
         requestActiveServers,
         requestDeActiveServers,
         updateServer,

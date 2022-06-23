@@ -25,6 +25,7 @@ const {
     getServer, 
     disconnectServer, 
     getServers, 
+    getPlayersFromDatabase,
     requestActiveServers, 
     requestDeActiveServers, 
     updateServer, 
@@ -58,6 +59,7 @@ const onConnection = (socket) => {
     socket.on("server:disconnect", disconnectServer);
     socket.on("server:get", getServer);
     socket.on("server:get-console", getConsoleMessages);
+    socket.on("server:get-players-database", getPlayersFromDatabase);
     socket.on("server:response-worlds", getServerWorlds);
     socket.on("server:response-playerlist", getServerPlayerlist);
     socket.on("server:response-console", addConsoleMessage);

@@ -7,6 +7,7 @@ function FileInfoModal(props: {File: any, onCancel: any}) {
     var CreateDate = new Date(props.File.CreateDate);
     var AccessTime = new Date(props.File.AccessTime);
     var ModifiedDate = new Date(props.File.ModifiedDate);
+    var fileSize = (props.File.Size / (1024)).toFixed(2);
     return (
         <div className='infomodal'>
             <div className='infomodal-backdrop' onClick={() => props.onCancel()}></div>
@@ -21,7 +22,7 @@ function FileInfoModal(props: {File: any, onCancel: any}) {
                 <span><strong>CreateDate:</strong> {CreateDate.toUTCString()}</span>
                 <span><strong>AccessTime:</strong> {AccessTime.toUTCString()}</span>
                 <span><strong>ModifiedDate:</strong> {ModifiedDate.toUTCString()}</span>
-                <span><strong>Size:</strong> {((props.File.Size / (1024)).toFixed(2)).toLocaleString()} kb</span><br />
+                <span><strong>Size:</strong> {fileSize} kb</span><br />
                 <div className='infomodal-menu-title'>Drive information</div>
                 <span><strong>Free space on drive:</strong> {(props.File.FreeSpace / (1024 * 1024 * 1024)).toFixed(2)} GB</span>
                 <span><strong>Total drive space:</strong> {(props.File.TotalSpace / (1024 * 1024 * 1024)).toFixed(2)} GB</span>

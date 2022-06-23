@@ -137,6 +137,7 @@ function Files(props: {Server: any}) {
         setInfoModalOpen(true);
     }
     function handleInfoModalClose(){
+        setInfoModalFile(undefined)
         setInfoModalOpen(false);
     }
     if (editorOpen){

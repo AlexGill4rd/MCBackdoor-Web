@@ -6,7 +6,7 @@ import './BannedPlayersStyle.scss';
 
 import UndoIcon from '@mui/icons-material/Undo';
 import InfoIcon from '@mui/icons-material/Info';
-import IpAddress from '../../../../IpAddress';
+import InfoBannedModal from './banned/InfoBannedModal';
 
 function BannedPlayers(props: {Server: any}) {
     const [bannedPlayers, setBannedPlayers] = useState<any[]>([]);
@@ -15,29 +15,13 @@ function BannedPlayers(props: {Server: any}) {
 
     //UPDATE THE BANNED PLAYERS
     useEffect(function updateBannedPlayers(){
-        socket.on(`server:server-banned-${props.Server.Servername}`, data => {
-            if (data.length <= 0){
-                setBannedPlayers([])
-                return;
-            }
-            var ip = new IpAddress();
-            fetch(`http://${ip.getIP()}:8080/players/transform`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({Players: data, token: "6969"})
-            }).then(res => res.json())
-            .then(json => {
-                setBannedPlayers(json)
-            });
+        socket.on(`server:get-banlist-${props.Server.Servername}`, players => {
+            setBannedPlayers(players)
         });
     }, []);
     //REQUEST FOR BANNED PLAYERS
     useEffect(function loadPlayerList(){
-        var data = {
-            Servername: props.Server.Servername,
-            Feature: "banned"
-        }
-        socket.emit("client:server-features", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "banned", {});
     }, []);
 
     //BANNED PLAYER SORTING ON DISPLAYNAME
@@ -55,15 +39,18 @@ function BannedPlayers(props: {Server: any}) {
 
     //MENU HANDLERS
     function handleUnban(player: any){
-        var data = {
-            Servername: props.Server.Servername,
-            Player: player.UUID,
-            Feature: "unban"
-        }
-        socket.emit("client:server-features", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "unban", {Player: player.UUID});
     }
+    const [infoBannedModalOpen, setBannedModalOpen] = useState<boolean>(false);
+    const [infoPlayer, setInfoPlayer] = useState<any>(undefined);
+    
     function handlePlayerInfo(player: any){
-
+        setInfoPlayer(player);
+        setBannedModalOpen(true);
+    }
+    function handleCloseBannedModal(){
+        setInfoPlayer(undefined)
+        setBannedModalOpen(false);
     }
     return (
         <div className='bannedpanel'>
@@ -93,6 +80,7 @@ function BannedPlayers(props: {Server: any}) {
                     }) : <div className='bannedpanel-banned-message'>Geen verbannen spelers gevonden</div>}
                 </div>
             </div>
+            {infoBannedModalOpen && <InfoBannedModal Player={infoPlayer} onCancel={handleCloseBannedModal} />}
         </div>
     );
 }

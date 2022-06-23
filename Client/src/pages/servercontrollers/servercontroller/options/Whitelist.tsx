@@ -16,28 +16,19 @@ function Whitelist(props: {Server: any}) {
     const [whitelistedPlayers, setWhitelistedPlayers] = useState<any[]>([]);
 
     useEffect(function updateWhitelistedPlayers(){
-        socket.on(`server:server-whitelisted-${props.Server.Servername}`, data => {
+        socket.on(`server:get-whitelisted-${props.Server.Servername}`, data => {
             setWhitelistedPlayers(data);
         });
     }, []);
     //LOAD PLAYER DATA & WHITELISTED PLAYERS
     useEffect(function loadPlayerList(){
-        var data = {
-            Servername: props.Server.Servername,
-            Feature: "whitelisted"
-        }
-        socket.emit("client:server-features", data);
-
-        var ip = new IpAddress();
-        fetch(`http://${ip.getIP()}:8080/players/get`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({token: "6969"})
-        }).then(res => res.json())
-        .then(json => {
-            setPlayers(json)
+        socket.emit("server:get-players-database", (response: any) => {
+            setPlayers(response);
         });
     }, [whitelistedPlayers]);
+    useEffect(() => {
+        socket.emit("feature:server", socket.id, props.Server.Servername, "whitelisted", {})
+    }, []);
     const [whitelistSearch, setWhitelistSearch] = useState<string>("");
     const [shownWhitelistedPlayers, setShownWhitelistedPlayers] = useState<any[]>([]);
     //WHITELIST SORTING
@@ -46,6 +37,7 @@ function Whitelist(props: {Server: any}) {
     }
     useEffect(function updateShownWhitelisted() {
         var shownList:any[] = [];
+        console.log(players)
         players.map((player:any) => {
             if (whitelistContainsPlayer(player)){
                 if (player.Displayname.toLowerCase().startsWith(whitelistSearch.toLowerCase()) || whitelistSearch === ""){
@@ -86,20 +78,10 @@ function Whitelist(props: {Server: any}) {
     }
     //MENU HANDLERS
     function handleWhitelistAdd(player: any){
-        var data = {
-            Servername: props.Server.Servername,
-            Player: player.Displayname,
-            Feature: "whitelist-add"
-        }
-        socket.emit("client:server-features", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "whitelist-add", {Player: player.Displayname});
     }
     function handleWhitelistRemove(player: any){
-        var data = {
-            Servername: props.Server.Servername,
-            Player: player.Displayname,
-            Feature: "whitelist-remove"
-        }
-        socket.emit("client:server-features", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "whitelist-remove", {Player: player.Displayname});
     }
     //Add new player to whitelist
     const [newPlayerName, setNewPlayerName] = useState<string>("");
@@ -119,25 +101,15 @@ function Whitelist(props: {Server: any}) {
             .then(json => {
                 if (json.Displayname !== undefined && json.UUID !== undefined){
                     setNewPlayer(json)
-                    var message = {
-                        Message: "Speler gevonden!",
-                        Servername: props.Server.Servername,
-                        Error: false
-                    }
-                }else {
-                    var message = {
-                        Message: "Kan de speler op dit moment niet vinden!",
-                        Servername: props.Server.Servername,
-                        Error: true
-                    }
-                    socket.emit("minecraft:server-features-log", message);
-                }
+                    socket.emit("feature:server-log", socket.id, "De speler is gevonden!!", "success");
+                }else 
+                    socket.emit("feature:server-log", socket.id, "Kan de speler op dit moment niet vinden!", "error");
             });
         }
     }
     function handleAddNewPlayer() {
         newPlayer.Servername = props.Server.Servername;
-        socket.emit("client:new-player", newPlayer)
+        socket.emit("player:register", newPlayer)
         handleWhitelistAdd(newPlayer);
         setNewPlayer(null)
         setNewPlayerName("");
