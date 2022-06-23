@@ -27,9 +27,6 @@ function ServerControllerPage(){
         }).then(res => res.json())
         .then(json => {
             setServer(json);
-            socket.on(`server:server-features-log-${json.Servername}`, data => {
-                handlePopup(data)
-            });
         });
     }, []);
     useEffect(function serverDisconnects(){
@@ -42,17 +39,20 @@ function ServerControllerPage(){
     }
 
     //POPUP SYSTEM
-    
     const [popups, setPopUps] = useState<any[]>([]);
-    function handlePopup(data:any){
-        var severity: string = data.Error ? "error" : "success"
+    function handlePopup(message: string, severity: string, error: string){
         var popup = {
             Title: "Server Controller",
-            Description: data.Message,
+            Description: message,
             Severity: severity
         }
         setPopUps((popups:any) => [...popups, popup]);
     };
+    useEffect(function listenPopups() {
+        socket.on(`feature:serverpanel-log`, (message, type, error) => {
+            handlePopup(message, type, error)
+        });
+    }, []);
     return (
         <div className='servercontroller'>
             <div className='servercontroller-options'>

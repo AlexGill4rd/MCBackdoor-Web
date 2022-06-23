@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import PlayerList from './components/PlayerList';
 import FeatureButton from './features/FeatureButton';
@@ -63,21 +63,22 @@ function PlayerControllerPage(){
 
     //POPUP SYSTEM
     const [popups, setPopUps] = useState<any[]>([]);
-    function handlePopup(data:any){
-        var severity: string = data.Error ? "error" : "success"
+    function handlePopup(message: string, severity: string, error: string){
         var popup = {
-            Title: "Server Controller",
-            Description: data,
+            Title: "Player Controller",
+            Description: message,
             Severity: severity
         }
         setPopUps((popups:any) => [...popups, popup]);
     };
     useEffect(function listenPopups() {
-        socket.on(`feature:playerpanel-log`, message => {
+        socket.on(`feature:playerpanel-log`, (message, type, error) => {
             console.log(message)
-            handlePopup(message)
+            console.log(type)
+            console.log(error)
+            handlePopup(message, type, error)
         });
-    })
+    }, []);
     if(server != null){
         if (server.State === false){
             return <Loading to='/controller/servers/' />
