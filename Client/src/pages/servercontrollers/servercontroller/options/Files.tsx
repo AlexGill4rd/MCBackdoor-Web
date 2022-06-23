@@ -22,13 +22,13 @@ function Files(props: {Server: any}) {
 
     //Do a request to the server to receive all the file names and types
     useEffect(function requestFiles() {
-        socket.emit("client:server-files", props.Server.Servername)
+        socket.emit("feature:server", socket.id, props.Server.Servername, "server-files", {})
     }, []);
 
     //When file data received, the data wil be saved in the variables
     useEffect(function loadFiles() {
-        socket.on(`server:server-files-${props.Server.Servername}`, data => {
-            data.Files.map((file: any) => {
+        socket.on(`server:get-file-list`, (files, mainpath, path) => {
+            files.map((file: any) => {
                 var iconPath:string = "folder.png";
                 if (file.Extension.includes("jar"))
                     iconPath = "java.png";
@@ -42,16 +42,16 @@ function Files(props: {Server: any}) {
                     iconPath = "empty.png";
                 file.Icon = iconPath;
             })
-            data.Files.sort(function(a:any, b:any) {
+            files.sort(function(a:any, b:any) {
                 return compareStrings(a.Icon, b.Icon);
             })
-            if (data.Path !== undefined)
-                setBrowsingPath(data.Path);
+            if (path !== undefined)
+                setBrowsingPath(path);
             else {
-                setBrowsingPath(data.MainPath);
-                setMainPath(data.MainPath);
+                setBrowsingPath(mainpath);
+                setMainPath(mainpath);
             }
-            setFiles(data.Files);
+            setFiles(files);
         });
     }, []);
     function compareStrings(a:any, b:any) {
@@ -71,40 +71,20 @@ function Files(props: {Server: any}) {
     }
     //Folder event functions
     function handelFolderDelete(folder: any) {
-        var data = {
-            Servername: props.Server.Servername,
-            Action: "folder-remove",
-            Path: folder.Path
-        }
-        socket.emit("client:server-files-action", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "folder-remove", {"Path": folder.Path})
     }
     function handelFolderOpen(folder: any) {
-        var data = {
-            Servername: props.Server.Servername,
-            Action: "folder-open",
-            Path: folder.Path
-        }
-        socket.emit("client:server-files-action", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "folder-open", {"Path": folder.Path})
     }
     //File event function
     function handelFileDelete(file: any) {
-        var data = {
-            Servername: props.Server.Servername,
-            Action: "file-delete",
-            Path: file.Path
-        }
-        socket.emit("client:server-files-action", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "file-delete", {"Path": file.Path})
     }
     function handelFileDownload(file: any) {
-        var data = {
-            Servername: props.Server.Servername,
-            Action: "file-download",
-            Path: file.Path
-        }
-        socket.emit("client:server-files-action", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "file-download", {"Path": file.Path})
     }
     useEffect(function listenFileDownload() {
-        socket.on(`server:server-file-download-${props.Server.Servername}`, data => {
+        socket.on(`server:download-file-${props.Server.Servername}`, data => {
             var bytes = new Uint8Array(data.File);
 
             var blob=new Blob([bytes], {type: `application/${data.Extension}`});
@@ -115,39 +95,24 @@ function Files(props: {Server: any}) {
             link.click();
         });
     }, []);
-    function handleFileReplace(file: any) {
-
-    }
     function handlePathBack(){
         if (mainPath === browsingPath){
-            var message = {
-                Message: "Je kan niet verder terug dan je main path!",
-                Servername: props.Server.Servername,
-                Error: true
-            }
-            socket.emit("minecraft:server-features-log", message);
+            socket.emit("feature:server-log", socket.id, "Je kan niet verder terug dan je main path!", "error");
         }else{
             var splitted = browsingPath.split("\\");
             var newPath = splitted[0];
             for (var i = 1; i < splitted.length - 1; i++){
                 newPath += "\\" + splitted[i];
             }
-            var data = {
-                Servername: props.Server.Servername,
-                Action: "folder-open",
-                Path: newPath
-            }
-            socket.emit("client:server-files-action", data);
+            socket.emit("feature:server", socket.id, props.Server.Servername, "folder-open", {"Path": newPath})
         }
     }
     function handleFileUpload(url: any){
         var data = {
-            Servername: props.Server.Servername,
-            Action: "file-upload",
             Path: browsingPath,
             URL: url
         }
-        socket.emit("client:server-files-action", data);
+        socket.emit("feature:server", socket.id, props.Server.Servername, "file-upload", data)
         handleModalClose();
     }
     return (
@@ -193,7 +158,6 @@ function Files(props: {Server: any}) {
                                     <MenuHeader>Optie's</MenuHeader>
                                     <MenuItem className='item-context-button' onClick={() => handelFileDelete(file)}><DeleteIcon /><span>Delete File</span></MenuItem>
                                     <MenuItem className='item-context-button' onClick={() => handelFileDownload(file)}><DownloadIcon /><span>Download File</span></MenuItem>
-                                    <MenuItem className='item-context-button' onClick={() => handleFileReplace(file)}><RotateLeftIcon /><span>Replace File</span></MenuItem>
                                 </Menu>
                                 
                             );

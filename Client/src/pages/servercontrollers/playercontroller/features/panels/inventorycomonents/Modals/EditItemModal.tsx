@@ -91,7 +91,6 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
         if (displayname === "")
             delete editedItemstack.itemmeta['displayname'];
 
-        console.log(editedItemstack)
         if(lores.length > 0)
             editedItemstack.itemmeta.lore = lores
         else

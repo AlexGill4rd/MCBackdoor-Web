@@ -17,7 +17,6 @@ function Console(props: {Server: any}){
     }, []);
     useEffect(function loadMessages(){
         socket.on(`server:updated-console-${props.Server.Servername}`, data => {
-            console.log(data);
             setMessages((messages: any) => [...messages, data]);
         })
     }, []);
