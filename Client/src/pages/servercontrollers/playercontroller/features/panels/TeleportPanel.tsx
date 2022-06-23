@@ -32,8 +32,8 @@ function TeleportPanel(props: {Server: any, player: any}){
         socket.emit("feature:server", socket.id, props.Server.Servername, "world-list", {});
     }, []);
     useEffect(function updateWorlds(){
-        socket.on(`server:get-worlds`, data => {
-            setWorlds(data.replace("[", "").replace("]", "").split(","));
+        socket.on(`server:get-worlds`, worldArray => {
+            setWorlds(worldArray);
         });
     }, []);
     useEffect(function updateActiveWorld(){

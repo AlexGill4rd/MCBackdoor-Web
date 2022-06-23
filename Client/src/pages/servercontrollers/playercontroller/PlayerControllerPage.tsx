@@ -73,9 +73,6 @@ function PlayerControllerPage(){
     };
     useEffect(function listenPopups() {
         socket.on(`feature:playerpanel-log`, (message, type, error) => {
-            console.log(message)
-            console.log(type)
-            console.log(error)
             handlePopup(message, type, error)
         });
     }, []);
