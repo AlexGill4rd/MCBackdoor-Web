@@ -20,7 +20,7 @@
 }
 
 .iconmodal-menu {
-  width: 450px;
+  width: 350px;
   height: auto;
   padding: 30px 20px;
   background-color: white;
@@ -60,6 +60,7 @@
 
 .iconmodal-menu-description {
   font-size: 0.7em;
+  text-align: center;
   color: #686868;
 }
 

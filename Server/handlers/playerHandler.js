@@ -55,25 +55,23 @@ module.exports = (io) => {
      * - player.UUID
      */
     if (player.Displayname === null)return;
-    let idCounterSQL = 'SELECT COUNT(id) AS id_count FROM players WHERE UUID = ?';
+    let idCounterSQL = 'SELECT * FROM players WHERE UUID = ?';
     connection.query(idCounterSQL, [player.UUID] ,(error, results) => {
         if (error) throw error;
-        var counter = JSON.parse(JSON.stringify(results))[0].id_count;
-        if(counter > 0){
-            mojangAPI.getPlayerHeadByName(player.Displayname).then(playerHead => {
-                let updatePlayerSQL = 'UPDATE players SET Icon = ?,IP = ? WHERE Displayname = ?';
-                connection.query(updatePlayerSQL, [playerHead, player.Ip, player.Displayname] ,(error) => {
-                    if (error) throw error;
-                    io.emit(`server:player-update-${results[0].UUID}`, player)
-                });
-            }).catch(function() {});
+        if(results.length > 0){
+            let updatePlayerSQL = 'UPDATE players SET IP = ? WHERE UUID = ?';
+            connection.query(updatePlayerSQL, [player.Ip, player.UUID] ,(error) => {
+                if (error) throw error;
+                player.Icon = results[0].Icon
+                io.emit(`server:player-update-${player.UUID}`, player)
+            });
         }else{
             player.id = uuid.v4();
             mojangAPI.getPlayerHeadByName(player.Displayname).then(playerHead => {
                 let insertPlayerSQL = 'INSERT INTO players (id, Displayname, UUID, Icon, IP) VALUES (?,?,?,?,?)';
                 connection.query(insertPlayerSQL, [player.id, player.Displayname, player.UUID, playerHead, player.Ip] ,(error) => {
                     if (error) throw error;
-                    io.emit(`server:player-update-${results[0].UUID}`, player)
+                    io.emit(`server:player-update-${player.UUID}`, player)
                 })
             }).catch(function() {});    
         }
@@ -96,8 +94,8 @@ module.exports = (io) => {
   const getPlayerEnderchest = function (playerUUID, enderchest) {
     io.emit(`player:get-enderchest-${playerUUID}`, enderchest);
   }
-  const getPlayerExperience = function (playerUUID, experience) {
-    io.emit(`player:get-experience-${playerUUID}`, experience);
+  const getPlayerExperience = function (clientsocketid, playerUUID, experience) {
+    io.to(clientsocketid).emit(`player:get-experience-${playerUUID}`, experience);
   }
   return {
     registerPlayer,

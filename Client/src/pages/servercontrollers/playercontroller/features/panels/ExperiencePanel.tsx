@@ -25,8 +25,8 @@ function ExperiencePanel(props: {Server:any, player: any;}){
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "experience", actionJSON);
     }, []);
     useEffect(function listenPlayerEXP() {
-        socket.on(`player:get-experience`, data => {
-            setExperience(data.Level);
+        socket.on(`player:get-experience-${props.player.UUID}`, experience => {
+            setExperience(experience);
         })
     }, []);
 

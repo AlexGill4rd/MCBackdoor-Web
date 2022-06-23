@@ -1,4 +1,4 @@
-import { Button, Checkbox, ListItemText, MenuItem, Select, SelectChangeEvent, Tooltip } from "@mui/material";
+import { Button, Checkbox, CircularProgress, ListItemText, MenuItem, Select, SelectChangeEvent, Tooltip } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { socket } from "../../../../socket/socket";
 
@@ -10,21 +10,17 @@ function Console(props: {Server: any}){
     const [messages, setMessages] = useState<any[]>([]);
     const [shownMessages, setShownMessages] = useState<string[]>([]);
 
-    useEffect(function requestMessage(){
-        socket.emit(`client:server-console-messages`, props.Server);
-    }, []);
-    useEffect(function updateMessages(){
-        socket.on(`server:server-console-messages-${props.Server.Servername}`, data => {
-            setMessages([]);
-            setMessages(data);
+    useEffect(function loadMessages(){
+        socket.emit(`server:get-console`, props.Server.Servername, (response:any) => {
+            setMessages(response);
         })
     }, []);
-    useEffect(function listenAddMessage(){
-        socket.on(`server:console-message-${props.Server.Servername}`, data => {
+    useEffect(function loadMessages(){
+        socket.on(`server:updated-console-${props.Server.Servername}`, data => {
+            console.log(data);
             setMessages((messages: any) => [...messages, data]);
         })
-    }, [props.Server]);
-
+    }, []);
     const divRef = useRef<null | HTMLDivElement>(null);
     useEffect(() => {
         divRef.current?.scrollIntoView({ behavior: 'auto' });
@@ -37,12 +33,7 @@ function Console(props: {Server: any}){
     }
     function sendConsoleCommand(){
         if (props.Server !== null){
-            var data = {
-                Option: "console-commmand",
-                Server: props.Server,
-                Command: command
-            }
-            socket.emit(`client:server-option`, data);
+            socket.emit(`feature:server`, socket.id, props.Server.Servername, "console-command", {"Command": command});
             setHistory((history: any) => [...history, command]);
             setCommand("");
         }
@@ -109,7 +100,11 @@ function Console(props: {Server: any}){
                                 |<div className="console-message-message">{data.Message}</div>
                             </div>
                         );
-                    }) : <div className="console-message">Geen berichten van de console om weer te geven!</div>}
+                    }) : 
+                    <div className="console-loading">
+                        <div>Geen berichten van de console om weer te geven!</div>
+                        <CircularProgress />
+                    </div>}
                     <div ref={divRef} />
                 </div >
                 <form className="console-container-commandline" onSubmit={handleFormSubmit} onKeyDown={checkKey}>

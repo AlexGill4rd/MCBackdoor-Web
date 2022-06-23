@@ -1,3 +1,11 @@
+const mysql = require('mysql');
+
+const connection = mysql.createPool({
+    host     : 'localhost',
+    user     : 'VirusAccount',
+    password : 'JwSoCEiiNu0crQfV',
+    database : 'virusv5'
+});
 module.exports = (io) => {
     const newSavedItem = function (item) {
         /**
@@ -18,7 +26,7 @@ module.exports = (io) => {
         }); 
     }
     const savedItemList = function () {
-        let slqGetLength = 'SELECT * FROM saveditems SORT BY datum DESC';
+        let slqGetLength = 'SELECT * FROM saveditems ORDER BY datum DESC';
         connection.query(slqGetLength ,(error, results) => {
             if (error) throw error;
             io.emit(`saveditem:list`, results);
@@ -30,14 +38,14 @@ module.exports = (io) => {
                 var sqlDelete = 'DELETE FROM saveditems WHERE id = ?';
                 connection.query(sqlDelete, [data.id],(error) => {
                     if (error) throw error;
-                    io.emit(`saveditem:request-list`);
+                    savedItemList()
                 }); 
                 break;
             case "edit":
                 var sqlInsert = 'UPDATE saveditems SET Itemstack=? WHERE id=?';
                 connection.query(sqlInsert, [JSON.stringify(data.Itemstack), data.id] ,(error, results) => {
                     if (error) throw error;
-                    io.emit(`saveditem:request-list`);
+                    savedItemList()
                 }); 
                 break;
         }  

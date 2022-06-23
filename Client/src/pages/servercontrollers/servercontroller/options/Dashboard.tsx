@@ -22,18 +22,36 @@ function Dashboard(props: {Server: any}) {
     
 
     useEffect(function loadPlayers(){
-        socket.emit("client:server-player-list", server.Servername);
+        socket.emit("feature:server", socket.id, server.Servername, "playerlist", {});
     }, []);
     useEffect(function updatePlayers(){
-        socket.on(`server:mcserver-player-list-${server.Servername}`, data => {
+        socket.on(`server:get-playerlist-${props.Server.id}`, data => {
             setPlayers(data);
         })
     }, []);
     useEffect(function updateServerData(){
-        socket.on("server:update-server", data => {
+        socket.on(`server:updated-server-${props.Server.id}`, data => {
             setServer(data);
         });
     }, []);
+    useEffect(function handleChat(){
+        socket.emit("feature:server", socket.id, props.Server.Servername, "chat-listener", {})
+        return () => {
+            socket.emit("feature:server", socket.id, props.Server.Servername, "chat-stoplistening", {})
+        }
+    }, []);
+    //ADD NEW MESSAGES
+    useEffect(function listenMessages() {
+        socket.on(`server:get-chat-${props.Server.Servername}`, (player, message) => {
+            var data = {
+                Player: player,
+                Message: message,
+                Date: new Date().toLocaleTimeString()
+            }
+            setMessages((messages: any) => [...messages, data])
+        });
+    }, []);
+
     function handleVersionEdit(){
         setModalIsOpen(true);
     }
@@ -43,17 +61,10 @@ function Dashboard(props: {Server: any}) {
     function handleVersionConfirm(url: any){
         setModalIsOpen(false);
         var data = {
-            Server: server,
             URL: url
         }
-        socket.emit("client:version-update", data)
+        socket.emit("feature:server", socket.id, props.Server.Servername, "version-update", data)
     }
-    //ADD NEW MESSAGES
-    useEffect(function listenMessages() {
-        socket.on(`server:server-chat-${props.Server.Servername}`, data => {
-            setMessages((messages: any) => [...messages, data])
-        });
-    }, []);
     const [messageFind, setMessageFind] = useState<string>("")
     const [messagesFound, setMessagesFound] = useState<string[]>([])
     //EVENT WHEN SEARCH IS EDITED
@@ -98,28 +109,19 @@ function Dashboard(props: {Server: any}) {
     function sluitIcoonModal(){
         setIcoonModalIsOpen(false)
     }
-    function handleIcoonChange(url: string){
+    function handleIcoonChange(image: any){
         sluitIcoonModal();
         var data = {
-            Server: server,
-            URL: url
+            Image: image
         }
-        socket.emit("client:icoon-update", data)
+        socket.emit("feature:server", socket.id, props.Server.Servername, "icon-update", data)
     }
     //SERVER FUNCTIONS
     function handleServerOff() {
-        var data = {
-            Servername: server.Servername,
-            Feature: "disable"
-        }
-        socket.emit("client:server-features", data)
+        socket.emit("feature:server", socket.id, props.Server.Servername, "disable", {})
     }
     function handleServerReload() {
-        var data = {
-            Servername: server.Servername,
-            Feature: "reload"
-        }
-        socket.emit("client:server-features", data)
+        socket.emit("feature:server", socket.id, props.Server.Servername, "reload", {})
     }
     return (
         <div className='dashboard'> 
@@ -168,6 +170,9 @@ function Dashboard(props: {Server: any}) {
                         </div>
                         <div className='dashboard-data-info-playercount'>{server.OnlinePlayers + " / " + server.MaxPlayers}</div>
                         <div className='dashboard-data-info-memory'>{server.MemoryUsage + " MB / " + server.MaxMemory + " MB"}</div>    
+                        <div className='dashboard-data-info-memory'>{"CPU Load: " + server.CpuLoad}</div>    
+                        <div className='dashboard-data-info-memory'>{"Host Environement: " + server.HostEnvironement}</div>    
+                        <div className='dashboard-data-info-memory'>{"Cores: " + server.Cores}</div>    
                     </div>
                 </div>
                 <div className='dashboard-data-chat'>

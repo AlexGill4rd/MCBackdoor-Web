@@ -23,8 +23,12 @@ function BanPanel(props: {Server:any, player: any;}){
     function banPlayer(){
         var actionJSON = {
             Message: banMessage,
-            Duration: banDuration,
+            EndBan: banDuration,
             Type: typeBan
+        }
+        if (typeBan === "duration" && banDuration === null){
+            socket.emit("feature:player-log", socket.id, "Niet al de waarden zijn ingegeven!", "warning");
+            return;
         }
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "ban", actionJSON);
     }

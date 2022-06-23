@@ -23,8 +23,13 @@ function InventoryPanel(props: {Server: any, player: any}){
         socket.on(`player:get-inventory-${props.player.UUID}`, itemList => {
             var items:any = [];
             itemList.map((item: any) => {
-                if (!item.Empty)
-                    item.ItemstackJson = JSON.parse(item.ItemstackJson); 
+                if (!item.Empty){
+                    try{
+                        item.ItemstackJson = JSON.parse(item.ItemstackJson); 
+                    }catch{
+                        item.ItemstackJson = item.ItemstackJson; 
+                    }
+                }    
                 items.push(item);
             })
             setInventoryItems(items);
@@ -34,8 +39,13 @@ function InventoryPanel(props: {Server: any, player: any}){
         socket.on(`player:get-enderchest-${props.player.UUID}`, itemList => {
             var items:any = [];
             itemList.map((item: any) => {
-                if (!item.Empty)
-                    item.ItemstackJson = JSON.parse(item.ItemstackJson); 
+                if (!item.Empty){
+                    try{
+                        item.ItemstackJson = JSON.parse(item.ItemstackJson); 
+                    }catch{
+                        item.ItemstackJson = item.ItemstackJson; 
+                    }
+                }    
                 items.push(item);
             })
             setEnderchestInventoryItems(items);
@@ -64,6 +74,7 @@ function InventoryPanel(props: {Server: any, player: any}){
                 Player: props.player
             }
             socket.emit("saveditem:new", saveItem);
+            socket.emit("feature:player-log", socket.id, "Item opgeslagen in de opslag!", "success");
         }else{
             var data = {
                 Type: action,

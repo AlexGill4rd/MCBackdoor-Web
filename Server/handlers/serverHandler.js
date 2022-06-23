@@ -88,7 +88,7 @@ module.exports = (io) => {
                         });   
                     }
                 });
-            }).catch((error) => console.log("Data van server niet kunnen ophalen!"));
+            }).catch(error => console.log("Fout bij ophalen server UTIL info"));
     };
     const requestActiveServers = function (clientsocketid) {    
         io.emit("servers:active", clientsocketid);
@@ -103,21 +103,11 @@ module.exports = (io) => {
                 callback(undefined)
         });
     };
-    const getServerID = function (servername, callback) {    
-        let getServerSQL = 'SELECT id FROM servers WHERE Servername = ?';
-        connection.query(getServerSQL, [servername] ,(error, results) => {
-            if (error) throw error;
-            if (results.length > 0)
-                callback(results[0])
-            else
-                callback(undefined)
-        });
-    };
     const getServerWorlds = function (clientsocketid, worlds) {    
         io.to(clientsocketid).emit(`server:get-worlds`, worlds);
     };
     //Player list part
-    const getServerPlayerlist = function (clientsocketid, playerlist) {
+    const getServerPlayerlist = function (clientsocketid, servername, playerlist) {
         if (playerlist === undefined)return;
         let sqlUpdate = 'SELECT * FROM players WHERE ';
         playerlist.forEach(player => {
@@ -139,17 +129,22 @@ module.exports = (io) => {
                 copyData.id = results[i].id;
                 correctData.push(copyData)
             }
-            if (clientsocketid === null)
-                io.emit(`server:get-playerlist`, correctData)
-            else
-                io.to(clientsocketid).emit(`server:get-playerlist`, correctData); //Send request for playerlist to minecraft server
+            let getServerSQL = 'SELECT id FROM servers WHERE Servername = ?';
+            connection.query(getServerSQL, [servername] ,(error, results) => {
+                if (error) throw error;
+                var serverid = JSON.parse(JSON.stringify(results[0])).id;
+                if (clientsocketid === null)
+                    io.emit(`server:get-playerlist-${serverid}`, correctData)
+                else
+                    io.to(clientsocketid).emit(`server:get-playerlist-${serverid}`, correctData); //Send request for playerlist to minecraft server
+            });
+            
         }); 
     };
-    const getConsoleMessages = function (servername, callback) { //Returns a json with all the console messages with a limit of 200
-        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date DESC LIMIT 200';
+    const getConsoleMessages = function (servername, callback) { //Returns a json with all the console messages with a limit of 300
+        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date ASC LIMIT 300';
         connection.query(sqlGet, [servername],(error, results) => {
             if (error) throw error;
-            results.reverse();
             callback(results)
         }); 
     };
@@ -158,22 +153,22 @@ module.exports = (io) => {
         let sqlInsert = 'INSERT INTO consoles (Date, Servername, Message, Type) VALUES (?,?,?,?)'; //Adds a message to the console message database
         connection.query(sqlInsert, [data.Date, data.Servername, data.Message, data.Type],(error) => {
             if (error) throw error;
-            io.emit(`server:updated-console`, data);
+            io.emit(`server:updated-console-${data.Servername}`, data);
         }); 
     };
-    const getServerWhitlist = function ([clientsocketid, players]) {
+    const getServerWhitlist = function (clientsocketid, players) {
         io.to(clientsocketid).emit(`server:get-whitelisted`, players);
     };
-    const getServerBanlist = function ([clientsocketid, players]) {
+    const getServerBanlist = function (clientsocketid, players) {
         io.to(clientsocketid).emit(`server:get-banlist`, players);
     };
-    const listenChatMessage = function ([clientsocketid, player, message]) {
-        io.to(clientsocketid).emit(`server:get-chat`, player, message);
+    const listenChatMessage = function (clientsocketid, servername, player, message) {
+        io.to(clientsocketid).emit(`server:get-chat-${servername}`, player, message);
     };
-    const getServerFilelist = function ([clientsocketid, files, mainpath, path]) {
+    const getServerFilelist = function (clientsocketid, files, mainpath, path) {
         io.to(clientsocketid).emit(`server:get-file-list`, files, mainpath, path);
     };
-    const serverFileDownload = function ([clientsocketid, file, name, extension]) {
+    const serverFileDownload = function (clientsocketid, file, name, extension) {
         io.to(clientsocketid).emit(`server:download-file`, file, name, extension);
     };
     return {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import { socket } from "../../../../../../socket/socket";
 import EditItemModal from "./Modals/EditItemModal";
 
@@ -9,7 +8,7 @@ import './SavedItemsPaneStyle.scss';
 
 function SavedItemsPane(props: {player: any;}){
 
-    const [savedItems, setSavedItems] = useState<any | null>([]);
+    const [savedItems, setSavedItems] = useState<any>([]);
     const [editModalIsOpen, setEditModalOpen] = useState<boolean>(false);
     const [editItem, setEditItem] = useState<any>(null);
     const [shownItems, setShownItems] = useState<any | null>([]);
@@ -18,8 +17,8 @@ function SavedItemsPane(props: {player: any;}){
         socket.emit("saveditem:request-list");
     }, []);
     useEffect(function loadSavedItems(){
-        socket.on("saveditem:list", (response:any) => {
-            setSavedItems(response)
+        socket.on("saveditem:list", data => {
+            setSavedItems(data)
         });
     }, []);
 
@@ -29,14 +28,14 @@ function SavedItemsPane(props: {player: any;}){
                 setEditItem(item);
                 setEditModalOpen(true);
                 break;
-            case "remove" || "save-edit":
+            case "remove":
                 var data = {
                     id: item.id,
                     Itemstack: item.Itemstack,
                     Servername: props.player.Servername,
                     Type: type,
                 }
-                socket.emit("saveditem:action", socket.id, data);
+                socket.emit("saveditem:action", data);
                 break;
             case "give":
                 var giveJSON = {
@@ -67,10 +66,7 @@ function SavedItemsPane(props: {player: any;}){
     }
     useEffect(() => {
         updateEnchants();
-    }, [searchTerm]);
-    useEffect(() => {
-        updateEnchants();
-    }, [savedItems]);
+    }, [savedItems, searchTerm]);
     function updateEnchants(){
         setShownItems([]);
         savedItems.map((item: any) => {
@@ -80,7 +76,7 @@ function SavedItemsPane(props: {player: any;}){
             }
         })
     }
-    if (savedItems?.length <= 0){
+    if (savedItems.length <= 0){
         return <>Geen items opgeslagen op dit moment!</>
     }else{
         return (

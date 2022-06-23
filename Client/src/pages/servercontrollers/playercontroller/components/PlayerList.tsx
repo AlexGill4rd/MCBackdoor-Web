@@ -14,7 +14,7 @@ function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any
         })
     }, []);
     if (players.length <= 0){
-        return ("Geen spelers online!")
+        return <div className="playerlist-noplayers">Geen spelers online!</div>
     }else{
         return (
             players.map((player: { UUID: any; Displayname: any; }) => 

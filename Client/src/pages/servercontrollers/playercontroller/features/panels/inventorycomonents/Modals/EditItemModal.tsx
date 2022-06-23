@@ -85,19 +85,27 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     }
     function handleEditClick(){
         var editedItemstack = itemstack;
-        if(editedItemstack.itemmeta.displayname !== null){
-            editedItemstack.itemmeta.displayname = displayname;
-        }
-        if(editedItemstack.itemmeta.lore !== null){
-            editedItemstack.itemmeta.lore = lores;
-        }
-        if(editedItemstack.itemmeta.enchants !== null){
+        //For displayname
+        if(displayname !== null)
+            editedItemstack.itemmeta.displayname = displayname
+        if (displayname === "")
+            delete editedItemstack.itemmeta['displayname'];
+
+        console.log(editedItemstack)
+        if(lores.length > 0)
+            editedItemstack.itemmeta.lore = lores
+        else
+            delete editedItemstack.itemmeta['lore'];
+      
+        if(addEnchants.length > 0){
             var enchantStringList:any[] = [];
             addEnchants.map((enchant: any) => {
                 enchantStringList.push(enchant.Enchantment + ":" + enchant.Level);
             })
             editedItemstack.itemmeta.enchants = enchantStringList;
-        }
+        }else
+            delete editedItemstack.itemmeta['enchants'];
+
         editedItemstack.id = props.item.id;
         props.onAccept(editedItemstack);
     }

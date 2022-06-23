@@ -1,6 +1,5 @@
 module.exports = (io) => {
     const sendPlayerAction = function (clientsocketid, servername, playerUUID, feature, action) {
-        console.log(action)
         io.emit(`feature:player-${servername}`, clientsocketid, playerUUID, feature, action); //Send player action to server with a sertain action
     };
     const sendServerAction = function (clientsocketid, servername, feature, action) {

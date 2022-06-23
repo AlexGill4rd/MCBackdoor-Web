@@ -105,7 +105,6 @@ function Files(props: {Server: any}) {
     }
     useEffect(function listenFileDownload() {
         socket.on(`server:server-file-download-${props.Server.Servername}`, data => {
-            console.log(data);
             var bytes = new Uint8Array(data.File);
 
             var blob=new Blob([bytes], {type: `application/${data.Extension}`});
