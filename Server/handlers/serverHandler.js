@@ -164,7 +164,10 @@ module.exports = (io) => {
         }); 
     };
     const getServerWhitlist = function (clientsocketid, servername, players) {
-        io.to(clientsocketid).emit(`server:get-whitelisted-${servername}`, players);
+        if (clientsocketid === null)
+            io.emit(`server:get-whitelisted-${servername}`, players);
+        else
+            io.to(clientsocketid).emit(`server:get-whitelisted-${servername}`, players);
     };
     const getServerBanlist = function (clientsocketid, servername, players) {
         if(players.length > 0){
