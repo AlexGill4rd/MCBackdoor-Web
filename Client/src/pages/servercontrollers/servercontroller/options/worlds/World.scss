@@ -1,0 +1,34 @@
+@import '../../../../../globalscss/Functions.scss';
+@import '../../../../../globalscss/Colors.scss';
+
+.world{
+    width: 150px;
+    height: 150px;
+
+    margin: 10px;
+
+    @include centerFlex(flex-start, center, column);
+    img{
+        width: 100%;
+        height: auto;
+
+        border-radius: 15px;
+
+        object-fit: contain;
+        cursor: pointer;
+        transition: transform 100ms ease-in-out;
+        &:hover{
+            transform: scale(1.05);
+        }
+    }
+    span{
+        width: 100%;
+        text-align: center;
+        padding: 2px 8px;
+        margin-top: 8px;
+        font-size: 1em;
+        border-radius: 3px;
+        color: white;
+        background-color: $blue-1;
+    }
+}

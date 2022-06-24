@@ -12,6 +12,7 @@ import Files from './options/Files';
 import Whitelist from './options/Whitelist';
 import './ServerControllerPageStyling.scss';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Worlds from './options/Worlds';
 
 function ServerControllerPage(){
     const { serverid } = useParams();
@@ -122,7 +123,7 @@ function ServerControllerPage(){
                             <OptionButton 
                                 Title='Worlds' 
                                 Description="De werelden waaruit de server bestaadt en hun informatie" 
-                                onClick={() => handleOptionClick(<Console Server={server} />)}
+                                onClick={() => handleOptionClick(<Worlds Server={server} />)}
                             />
                             <OptionButton 
                                 Title='Broadcasting' 

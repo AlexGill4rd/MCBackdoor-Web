@@ -1,0 +1,38 @@
+@import '../../../../globalscss/Functions.scss';
+@import '../../../../globalscss/Colors.scss';
+
+.worlds{
+    width: 100%;
+    height: auto;
+
+    @include centerFlex(center, center, column);
+    &-header{
+        width: 50%;
+        height: auto;
+
+        padding: 10px 0;
+        border-bottom: 1px solid rgb(192, 192, 192);
+
+        @include centerFlex(center, center, column);
+    }
+    &-container{
+        width: 100%;
+        height: auto;
+
+        padding: 20px;
+
+        @include centerFlex(center, center, row);
+        flex-wrap: wrap;
+    }
+    &-information{
+        width: 70%;
+        height: auto;
+        margin-top: 20px;
+
+        padding: 20px;
+        border-top: 1px solid rgb(192, 192, 192);
+
+        @include centerFlex(center, flex-start, column);
+        flex-wrap: wrap;
+    }
+}

@@ -1,0 +1,44 @@
+.worlds {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.worlds-header {
+  width: 50%;
+  height: auto;
+  padding: 10px 0;
+  border-bottom: 1px solid silver;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.worlds-container {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.worlds-information {
+  width: 70%;
+  height: auto;
+  margin-top: 20px;
+  padding: 20px;
+  border-top: 1px solid silver;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+/*# sourceMappingURL=WorldsStyle.css.map */
