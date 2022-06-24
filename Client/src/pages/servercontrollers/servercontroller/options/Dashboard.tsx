@@ -38,6 +38,11 @@ function Dashboard(props: {Server: any}) {
                 setServer(data)
             })
         }
+        function serverEnabled(){
+            socket.on(`server:enabled-${props.Server.Servername}`, data => {
+                setServer(data)
+            })
+        }
         function handleChat(){
             socket.emit("feature:server", socket.id, props.Server.Servername, "chat-listener", {})
             return () => {
@@ -58,6 +63,7 @@ function Dashboard(props: {Server: any}) {
         updatePlayers();
         updateServerData();
         serverDisconnects();
+        serverEnabled();
         handleChat();
         listenMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps

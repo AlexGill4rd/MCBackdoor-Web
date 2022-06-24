@@ -22,7 +22,8 @@ const {
 const { sendPlayerPanelLog, 
     sendServerPanelLog } = require("./handlers/logHandler")(io);
 const {
-    getServer, 
+    getServer,
+    enableServer, 
     disconnectServer, 
     getServers, 
     getPlayersFromDatabase,
@@ -56,6 +57,7 @@ const onConnection = (socket) => {
 
 
     //Server action like getting world etc...
+    socket.on("server:enable", enableServer);
     socket.on("server:disconnect", disconnectServer);
     socket.on("server:get", getServer);
     socket.on("server:get-console", getConsoleMessages);

@@ -17,6 +17,27 @@ module.exports = (io) => {
             callback(JSON.parse(results[0].JsonData))
         });
     };
+    const enableServer = function (servername, data) {
+        const options = {
+            timeout: 1000 * 5,
+            enableSRV: true
+         };
+        util.status(data.Ip, data.Port, options).then((result) => {
+            data.MOTD = result.motd.clean;
+            data.Image = result.favicon;
+            data.Version = result.version.name;
+
+            io.emit(`server:enabled-${servername}`, data);
+            let getServerSQL = 'SELECT id FROM servers WHERE Servername = ?';
+            connection.query(getServerSQL, [servername] ,(error, results) => {
+                if (error) throw error;
+                var serverid = JSON.parse(JSON.stringify(results[0])).id;
+                io.emit(`server:enabled-${serverid}`, data);
+            });
+        }).catch(error => console.log("Fout bij ophalen server UTIL info"));
+
+
+    };
     const disconnectServer = function (server) { 
         /*
          * Server data:
@@ -59,11 +80,11 @@ module.exports = (io) => {
          * - server.Servername
          */
         
-         if (server.Ip === "" || server.Port === "" || server.Servername === "")//Check if serverdata is empty
-            return;
-         const options = {
-            timeout: 1000 * 5,
-            enableSRV: true
+        if (server.Ip === "" || server.Port === "" || server.Servername === "")//Check if serverdata is empty
+           return;
+        const options = {
+           timeout: 1000 * 5,
+           enableSRV: true
         };
         util.status(server.Ip, server.Port, options)
             .then((result) => {
@@ -148,9 +169,10 @@ module.exports = (io) => {
         }); 
     };
     const getConsoleMessages = function (servername, callback) { //Returns a json with all the console messages with a limit of 300
-        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? LIMIT 300';
+        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date DESC LIMIT 300';
         connection.query(sqlGet, [servername],(error, results) => {
             if (error) throw error;
+            results.reverse();
             callback(results)
         }); 
     };
@@ -230,6 +252,7 @@ module.exports = (io) => {
     };
     return {
         getServer,
+        enableServer,
         disconnectServer,
         getServers,
         getPlayersFromDatabase,

@@ -36,6 +36,11 @@ function ServerControllerPage(){
                 setServer(data)
             })
         }
+        function serverEnabled(){
+            socket.on(`server:enabled-${serverid}`, data => {
+                setServer(data)
+            })
+        }
         function listenPopups() {
             socket.on(`feature:serverpanel-log`, (message, type, error) => {
                 handlePopup(message, type, error)
@@ -43,6 +48,7 @@ function ServerControllerPage(){
         }
         loadServer();
         serverDisconnects();
+        serverEnabled();
         listenPopups();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
