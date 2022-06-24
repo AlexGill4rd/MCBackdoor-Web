@@ -1,9 +1,9 @@
-import { Button, FormControl, InputLabel, Select, Tooltip } from '@mui/material';
-import './PanelStyle.scss';
+import { Button, FormControl, InputLabel, Select } from '@mui/material';
 
+import './PanelStyle.scss';
 import './PMSpamPanelStyle.scss';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
 const messagesList = [
@@ -39,7 +39,7 @@ const messagesList = [
   
 
 function PMSpamPanel(props: {Server: any, player: any;}){
-    const [value, setValue] = useState<string[]>([]);
+    const [value, ] = useState<string[]>([]);
 
     function startPlayerSpamming(status: boolean){
         var actionJSON = {

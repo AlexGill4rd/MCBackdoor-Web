@@ -2,7 +2,7 @@ import { Button, Tooltip } from '@mui/material';
 
 import './IrriterenPanelStyle.scss';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 import Randomteleport from './irritatiecomponents/RandomTeleport';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';

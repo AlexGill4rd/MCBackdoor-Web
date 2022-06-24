@@ -2,7 +2,6 @@ import { Tooltip } from '@mui/material';
 
 import './GamemodePanelStyle.scss';
 
-import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
 import { FaRegLightbulb } from 'react-icons/fa';

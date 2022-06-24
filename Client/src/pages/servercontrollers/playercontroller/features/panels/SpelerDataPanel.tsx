@@ -1,4 +1,4 @@
-import { CircularProgress, Tooltip } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import './PanelStyle.scss';
 
 import './SpelerDataPanelStyle.scss';
@@ -10,28 +10,32 @@ function SpelerDataPanel(props: {Server: any, player: any}){
     const [playerData, setPlayerData] = useState<any>(null);
     const [hearts, setHearts] = useState<any>([]);
 
-    useEffect(function requestPlayerData(){
-        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "data", {});
-    }, []);
-    //UPDATE PLAYERDATA WHEN STATE OF SOMETHING CHANGES
-    useEffect(function updatePlayerInfo(){
-        socket.on(`server:player-update-${props.player.UUID}`, data => {
-            //SET PLAYER DATA
-            setPlayerData(data);
-            //RESET HEARTS LIST (IMAGES)
-            setHearts([]);
-            //CALCULATE HEARTS
-            var fullhearts = Math.floor(Math.ceil(data.Health) / 2);
-            var halfHearts = Math.ceil(data.Health) % 2;
-            var heartsgone = Math.floor((20 - Math.ceil(data.Health))/2);
-            //ADD AMOUNT OF HEARTS TO ARRAY
-            for (var i = 0; i < fullhearts; i++)
-                setHearts((hearts: any) => [...hearts, "fullheart"])
-            for (var i = 0; i < halfHearts; i++)
-                setHearts((hearts: any) => [...hearts, "halfheart"])  
-            for (var i = 0; i < heartsgone; i++)
-                setHearts((hearts: any) => [...hearts, "emptyheart"])  
-        })
+    useEffect(() => {
+        function requestPlayerData(){
+            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "data", {});
+        }
+        function updatePlayerInfo(){
+            socket.on(`server:player-update-${props.player.UUID}`, data => {
+                //SET PLAYER DATA
+                setPlayerData(data);
+                //RESET HEARTS LIST (IMAGES)
+                setHearts([]);
+                //CALCULATE HEARTS
+                var fullhearts = Math.floor(Math.ceil(data.Health) / 2);
+                var halfHearts = Math.ceil(data.Health) % 2;
+                var heartsgone = Math.floor((20 - Math.ceil(data.Health))/2);
+                //ADD AMOUNT OF HEARTS TO ARRAY
+                for (var i = 0; i < fullhearts; i++)
+                    setHearts((hearts: any) => [...hearts, "fullheart"])              
+                for (var j = 0; j < halfHearts; j++)
+                    setHearts((hearts: any) => [...hearts, "halfheart"])                           
+                for (var k = 0; k < heartsgone; k++)
+                    setHearts((hearts: any) => [...hearts, "emptyheart"])                      
+            })
+        }
+        requestPlayerData();
+        updatePlayerInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     if (playerData === null){
         return <CircularProgress />
@@ -66,12 +70,11 @@ function SpelerDataPanel(props: {Server: any, player: any}){
                                 {
                                     hearts.map((hearttype: string, index: number) => {
                                         if (hearttype === "fullheart"){
-                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/fullheart.png"} />
+                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/fullheart.png"} alt="Full heart" />
                                         }else if (hearttype === "halfheart"){
-                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/halfheart.png"} />
-                                        }else if (hearttype === "emptyheart"){
-                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/emptyheart.png"} />
-                                        }
+                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/halfheart.png"} alt="Half heart" />
+                                        }else
+                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/emptyheart.png"} alt="Empty heart" />
                                     })
                                 }
                             </div>

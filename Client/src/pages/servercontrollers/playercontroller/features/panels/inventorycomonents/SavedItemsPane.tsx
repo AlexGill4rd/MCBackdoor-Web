@@ -13,13 +13,17 @@ function SavedItemsPane(props: {player: any;}){
     const [editItem, setEditItem] = useState<any>(null);
     const [shownItems, setShownItems] = useState<any | null>([]);
 
-    useEffect(function loadSavedItems(){
-        socket.emit("saveditem:request-list");
-    }, []);
-    useEffect(function loadSavedItems(){
-        socket.on("saveditem:list", data => {
-            setSavedItems(data)
-        });
+    useEffect(() => {
+        function loadSavedItems(){
+            socket.emit("saveditem:request-list");
+        }
+        function updateSavedItems(){
+            socket.on("saveditem:list", data => {
+                setSavedItems(data)
+            });
+        }
+        loadSavedItems();
+        updateSavedItems();
     }, []);
 
     function handleItemClick(type: string, item: any){
@@ -66,10 +70,11 @@ function SavedItemsPane(props: {player: any;}){
     }
     useEffect(() => {
         updateEnchants();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savedItems, searchTerm]);
     function updateEnchants(){
         setShownItems([]);
-        savedItems.map((item: any) => {
+        savedItems.forEach((item: any) => {
             var itemstack = JSON.parse(item.Itemstack);
             if (searchTerm === "" || itemstack.type.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase())){
                 setShownItems((shownItems: any) => [...shownItems, item]);

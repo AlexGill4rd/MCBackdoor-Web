@@ -34,20 +34,32 @@ function PlayerControllerPage(){
     const [server, setServer] = useState<any>(null);
     const [selectedPlayer, setSelectedPlayer] = useState<any>(null);
 
-    useEffect(function loadServer(){
-        socket.emit("server:get", [serverid], (response:any) => {
-            setServer(response);
-        });
-    }, []);
     useEffect(() => {
-        socket.on(`server:updated-server-${serverid}`, data => {
-            setServer(data);
-        });
+        function loadServer(){
+            socket.emit("server:get", [serverid], (response:any) => {
+                setServer(response);
+            });
+        }
+        function updateServer(){
+            socket.on(`server:updated-server-${serverid}`, data => {
+                setServer(data);
+            });
+        }
+        function listenPopups() {
+            socket.on(`feature:playerpanel-log`, (message, type, error) => {
+                handlePopup(message, type, error)
+            });
+        }
+        loadServer();
+        updateServer();
+        listenPopups();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(function checkServerStatus(){
         socket.on(`server:disable-server-${serverid}`, data => {
             setServer(null);
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [server]);
     //Panel open
     function handleFeatureClick(panelName: any) {
@@ -71,11 +83,6 @@ function PlayerControllerPage(){
         }
         setPopUps((popups:any) => [...popups, popup]);
     };
-    useEffect(function listenPopups() {
-        socket.on(`feature:playerpanel-log`, (message, type, error) => {
-            handlePopup(message, type, error)
-        });
-    }, []);
     if(server != null){
         if (server.State === false){
             return <Loading to='/controller/servers/' />

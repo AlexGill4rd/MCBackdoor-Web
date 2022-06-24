@@ -17,19 +17,23 @@ function ExperiencePanel(props: {Server:any, player: any;}){
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "experience", actionJSON);
     }
     //Listeners & requesters
-    useEffect(function loadPlayerExperience(){
-        var actionJSON = {
-            ExperienceLevel: experience,
-            Type: "get"
+    useEffect(() => {
+        function loadPlayerExperience(){
+            var actionJSON = {
+                ExperienceLevel: experience,
+                Type: "get"
+            }
+            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "experience", actionJSON);
         }
-        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "experience", actionJSON);
+        function listenPlayerEXP() {
+            socket.on(`player:get-experience-${props.player.UUID}`, experience => {
+                setExperience(experience);
+            })
+        }
+        loadPlayerExperience();
+        listenPlayerEXP();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    useEffect(function listenPlayerEXP() {
-        socket.on(`player:get-experience-${props.player.UUID}`, experience => {
-            setExperience(experience);
-        })
-    }, []);
-
     //Function
     function handleExperienceChange (e: any) {
         setExperience(e.target.value)

@@ -19,7 +19,7 @@ function FileModal(props: {onCancel: any, onAccept: any;}){
                 <div className='filemodal-menu-title'>File download adres:</div>
                 <input type="text" onChange={handelFileURLChange} placeholder="Geef de url in..." value={url} />
                 <Tooltip title={<div className='filemodal-menu-help'><div>Kopieer het downloadknop link address</div><div>Bijvoorbeeld: https://download1476.mediafire.com/zhyhksus7xdg/8clklf2rodfxtgt/File.jar</div></div>} disableInteractive placement='top'>
-                    <a target="_blank" href="https://app.mediafire.com/myfiles">Upload file op mediafire</a>
+                    <a target="_blank" rel="noreferrer" href="https://app.mediafire.com/myfiles">Upload file op mediafire</a>
                 </Tooltip>
                 <div className='filemodal-menu-description'>Geen folders!</div>
                 <Tooltip title={"De file zal uitgevoert worden bij een restart of reload"} disableInteractive placement='top'>

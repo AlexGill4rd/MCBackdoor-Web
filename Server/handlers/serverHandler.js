@@ -143,7 +143,7 @@ module.exports = (io) => {
                 if (clientsocketid === null)
                     io.emit(`server:get-playerlist-${serverid}`, correctData)
                 else
-                    io.to(clientsocketid).emit(`server:get-playerlist-${serverid}`, correctData); //Send request for playerlist to minecraft server
+                    io.to(clientsocketid).emit(`server:get-playerlist`, correctData); //Send request for playerlist to minecraft server
             });
             
         }); 
@@ -169,7 +169,7 @@ module.exports = (io) => {
     const getServerBanlist = function (clientsocketid, servername, players) {
         if(players.length > 0){
             let sql = 'SELECT * FROM players WHERE';
-            players.map((player) => {
+            players.forEach((player) => {
                 sql += ` UUID = '${player.UUID}' OR `;
             })
             connection.query(sql.substring(0, sql.length - 3), (error, results) => {
@@ -181,7 +181,7 @@ module.exports = (io) => {
                         io.to(clientsocketid).emit(`server:get-banlist-${servername}`, results);   
                 }else{ //Normally not in use, but in case the players is not in de the database
                     var newPlayerlist = [];
-                    players.map(player => {
+                    players.forEach(player => {
                         var validDisplaynameChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
                         var valid = true;
                         for (var j = 0; j < player.Displayname.length; j++){

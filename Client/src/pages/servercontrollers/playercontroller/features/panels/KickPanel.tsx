@@ -1,8 +1,9 @@
 import { Tooltip } from '@mui/material';
-import './OperatorPanelStyle.scss';
+
+import './PanelStyle.scss';
 import './KickPanelStyle.scss';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
 function KickPanel(props: {Server: any, player: any;}){

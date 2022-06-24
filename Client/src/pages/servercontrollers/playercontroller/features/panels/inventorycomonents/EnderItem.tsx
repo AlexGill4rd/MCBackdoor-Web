@@ -62,7 +62,7 @@ function EnderItem(props: {itemstack: any, inventoryAction: any;}){
                     <Tooltip placement="top" title={tooltip} disableInteractive>  
                         <div className="item noselect">
                             {props.itemstack.itemmeta !== undefined && props.itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
-                            <img style={{width: 50, height: 50}} src={props.itemstack.texture} />
+                            <img style={{width: 50, height: 50}} src={props.itemstack.texture} alt="Itemstack icon" />
                             <span className='item-amount'>{props.itemstack.amount}</span>
                         </div>     
                     </Tooltip>

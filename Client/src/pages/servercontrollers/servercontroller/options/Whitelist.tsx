@@ -15,10 +15,18 @@ function Whitelist(props: {Server: any}) {
     const [players, setPlayers] = useState<string[]>([]);
     const [whitelistedPlayers, setWhitelistedPlayers] = useState<any[]>([]);
 
-    useEffect(function updateWhitelistedPlayers(){
-        socket.on(`server:get-whitelisted-${props.Server.Servername}`, players => {
-            setWhitelistedPlayers(sort_by_key(players, "Displayname"));
-        });
+    useEffect(() => {
+        function requestWhitelistedPlayers(){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "whitelisted", {})
+        }
+        function updateWhitelistedPlayers(){
+            socket.on(`server:get-whitelisted-${props.Server.Servername}`, players => {
+                setWhitelistedPlayers(sort_by_key(players, "Displayname"));
+            });
+        }
+        requestWhitelistedPlayers();
+        updateWhitelistedPlayers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     //LOAD PLAYER DATA & WHITELISTED PLAYERS
     useEffect(function loadPlayerList(){
@@ -26,9 +34,6 @@ function Whitelist(props: {Server: any}) {
             setPlayers(response);
         });
     }, [players, whitelistedPlayers]);
-    useEffect(() => {
-        socket.emit("feature:server", socket.id, props.Server.Servername, "whitelisted", {})
-    }, []);
     const [whitelistSearch, setWhitelistSearch] = useState<string>("");
     const [shownWhitelistedPlayers, setShownWhitelistedPlayers] = useState<any[]>([]);
     //WHITELIST SORTING
@@ -37,7 +42,7 @@ function Whitelist(props: {Server: any}) {
     }
     useEffect(function updateShownWhitelisted() {
         var shownList:any[] = [];
-        players.map((player:any) => {
+        players.forEach((player:any) => {
             if (whitelistContainsPlayer(player)){
                 if (player.Displayname.toLowerCase().startsWith(whitelistSearch.toLowerCase()) || whitelistSearch === ""){
                     shownList.push(player); 
@@ -45,6 +50,7 @@ function Whitelist(props: {Server: any}) {
             }
         })
         setShownWhitelistedPlayers(sort_by_key(shownList, "Displayname"));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [players, whitelistedPlayers, whitelistSearch]);
 
     //PLAYER LIST SORTING
@@ -57,7 +63,7 @@ function Whitelist(props: {Server: any}) {
     useEffect(function updateShownPlayers() {
         setShownPlayers([])
         var shownList:any[] = [];
-        players.map((player:any) => {
+        players.forEach((player:any) => {
             if (player.Displayname.toLowerCase().startsWith(playerSearch.toLowerCase()) || playerSearch === ""){
                 if (!whitelistContainsPlayer(player)){
                     shownList.push(player); 
@@ -65,10 +71,11 @@ function Whitelist(props: {Server: any}) {
             }
         })
         setShownPlayers(sort_by_key(shownList, "Displayname"));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [whitelistedPlayers, players, playerSearch]);
     function whitelistContainsPlayer(player: any){
         var contained: boolean = false;
-        whitelistedPlayers.map((whitelistedPlayer: any) => {
+        whitelistedPlayers.forEach((whitelistedPlayer: any) => {
             if (player.Displayname === whitelistedPlayer.Displayname){
                 contained = true;
             }
@@ -122,7 +129,7 @@ function Whitelist(props: {Server: any}) {
     return (
         <div className='whitelist'>
             <div className='whitelist-addplayer'>
-                <img src={newPlayer && newPlayer.Icon} />
+                <img src={newPlayer && newPlayer.Icon} alt="player icon" />
                 <input autoComplete="off" type="text" onChange={handleNewPlayerChange} value={newPlayerName} id="newplayer" name="newplayer" placeholder="Voeg een nieuwe speler toe.." />
                 {!newPlayer &&<Button 
                     onClick={handelPlayerSearch} 
@@ -151,7 +158,7 @@ function Whitelist(props: {Server: any}) {
                             <Menu key={player.UUID} className='item-contextmenu' menuButton={
                                 <div className="whitelist-player">
                                     <div className="whitelist-player-icon">
-                                        <img src={player.Icon} />
+                                        <img src={player.Icon} alt="player icon" />
                                     </div>
                                     <div className="whitelist-player-displayname">
                                         {player.Displayname}
@@ -176,7 +183,7 @@ function Whitelist(props: {Server: any}) {
                             <Menu key={player.UUID} className='item-contextmenu' menuButton={
                                 <div className="whitelist-player">
                                     <div className="whitelist-player-icon">
-                                        <img src={player.Icon} />
+                                        <img src={player.Icon} alt="player icon" />
                                     </div>
                                     <div className="whitelist-player-displayname">
                                         {player.Displayname}

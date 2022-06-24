@@ -27,17 +27,22 @@ function TeleportPanel(props: {Server: any, player: any}){
         }
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "teleport", {"Location": location});
     }
-    //Listeners and exectuters in begin
-    useEffect(function requestWorlds(){
-        socket.emit("feature:server", socket.id, props.Server.Servername, "world-list", {});
-    }, []);
-    useEffect(function updateWorlds(){
-        socket.on(`server:get-worlds`, worldArray => {
-            setWorlds(worldArray);
-        });
-    }, []);
+    useEffect(() => {
+        function requestWorlds(){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "world-list", {});
+        }
+        function updateWorlds(){
+            socket.on(`server:get-worlds`, worldArray => {
+                setWorlds(worldArray);
+            });
+        }
+        requestWorlds();
+        updateWorlds();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     useEffect(function updateActiveWorld(){
         if(worlds.length > 0) setWorld(worlds[0]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [worlds]);
 
     //Handlers

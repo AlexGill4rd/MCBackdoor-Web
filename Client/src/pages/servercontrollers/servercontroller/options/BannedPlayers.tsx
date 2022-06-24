@@ -13,24 +13,26 @@ function BannedPlayers(props: {Server: any}) {
     const [shownBannedPlayers, setShownBannedPlayers] = useState<any[]>([]);
     const [bannedSearch, setBannedSearch] = useState<string>("");
 
-    //UPDATE THE BANNED PLAYERS
-    useEffect(function updateBannedPlayers(){
-        socket.on(`server:get-banlist-${props.Server.Servername}`, players => {
-            setBannedPlayers(players)
-        });
+    useEffect(() => {
+        function loadPlayerList(){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "banned", {});
+        }
+        function updateBannedPlayers(){
+            socket.on(`server:get-banlist-${props.Server.Servername}`, players => {
+                setBannedPlayers(players)
+            });
+        }
+        loadPlayerList();
+        updateBannedPlayers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    //REQUEST FOR BANNED PLAYERS
-    useEffect(function loadPlayerList(){
-        socket.emit("feature:server", socket.id, props.Server.Servername, "banned", {});
-    }, []);
-
     //BANNED PLAYER SORTING ON DISPLAYNAME
     function handleSearchChange(e:any){
         setBannedSearch(e.target.value)
     }
     useEffect(function updateShownPlayers() {
         var shownList:any[] = [];
-        bannedPlayers.map((banned:any) => {
+        bannedPlayers.forEach((banned:any) => {
             if (banned.Displayname.toLowerCase().startsWith(bannedSearch.toLowerCase()) || bannedSearch === "")
                 shownList.push(banned); 
         })
@@ -71,7 +73,7 @@ function BannedPlayers(props: {Server: any}) {
                             <Menu key={banned.UUID} className='item-contextmenu' menuButton={
                                 <div className="bannedpanel-player">
                                     <div className="bannedpanel-player-icon">
-                                        <img src={banned.Icon} />
+                                        <img src={banned.Icon} alt="player icon" />
                                     </div>
                                     <div className="bannedpanel-player-displayname">
                                         {banned.Displayname}

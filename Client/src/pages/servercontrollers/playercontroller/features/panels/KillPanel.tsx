@@ -1,9 +1,9 @@
 import { Tooltip } from '@mui/material';
-import './PanelStyle.scss';
 
+import './PanelStyle.scss';
 import './KillPanelStyle.scss';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
 import { FaSkull } from 'react-icons/fa';

@@ -18,26 +18,36 @@ function ServerControllerPage(){
     const [server, setServer] = useState<any>(null);
     const [selectedOption, setSelectedOption] = useState<any>(null);
 
-    useEffect(function loadServer(){
-        var ip = new IpAddress();
-        fetch(`http://${ip.getIP()}:8080/server/get`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({serverid: serverid, token: "6969"})
-        }).then(res => res.json())
-        .then(json => {
-            setServer(json);
-        });
-    }, []);
-    useEffect(function serverDisconnects(){
-        socket.on(`server:disable-server-${serverid}`, data => {
-            setServer(data)
-        })
+    useEffect(() => {
+        function loadServer(){
+            var ip = new IpAddress();
+            fetch(`http://${ip.getIP()}:8080/server/get`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({serverid: serverid, token: "6969"})
+            }).then(res => res.json())
+            .then(json => {
+                setServer(json);
+            });
+        }
+        function serverDisconnects(){
+            socket.on(`server:disable-server-${serverid}`, data => {
+                setServer(data)
+            })
+        }
+        function listenPopups() {
+            socket.on(`feature:serverpanel-log`, (message, type, error) => {
+                handlePopup(message, type, error)
+            });
+        }
+        loadServer();
+        serverDisconnects();
+        listenPopups();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     function handleOptionClick(selection: any){
         setSelectedOption(selection);
     }
-
     //POPUP SYSTEM
     const [popups, setPopUps] = useState<any[]>([]);
     function handlePopup(message: string, severity: string, error: string){
@@ -48,11 +58,6 @@ function ServerControllerPage(){
         }
         setPopUps((popups:any) => [...popups, popup]);
     };
-    useEffect(function listenPopups() {
-        socket.on(`feature:serverpanel-log`, (message, type, error) => {
-            handlePopup(message, type, error)
-        });
-    }, []);
     return (
         <div className='servercontroller'>
             <div className='servercontroller-options'>

@@ -25,12 +25,13 @@ function Files(props: {Server: any}) {
     //Do a request to the server to receive all the file names and types
     useEffect(function requestFiles() {
         socket.emit("feature:server", socket.id, props.Server.Servername, "server-files", {})
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     //When file data received, the data wil be saved in the variables
     useEffect(function loadFiles() {
         socket.on(`server:get-file-list`, (files, mainpath, path) => {
-            files.map((file: any) => {
+            files.forEach((file: any) => {
                 var iconPath:string = "folder.png";
                 if (file.Extension.includes("jar"))
                     iconPath = "java.png";
@@ -68,9 +69,6 @@ function Files(props: {Server: any}) {
     function handleModalClose(){
         setModalIsOpen(false);
     }
-    function handleUploadFile(){
-        handleModalClose();
-    }
     //Folder event functions
     function handelFolderDelete(folder: any) {
         socket.emit("feature:server", socket.id, props.Server.Servername, "folder-remove", {"Path": folder.Path})
@@ -96,6 +94,7 @@ function Files(props: {Server: any}) {
             link.download=name;
             link.click();
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     function handlePathBack(){
         if (mainPath === browsingPath){
@@ -123,8 +122,13 @@ function Files(props: {Server: any}) {
         setEditingFile(file)
         setEditorOpen(true);
     }
-    function handleSaveEditor(newFile: any) {
-        
+    function handleSaveEditor(newData: any, oldFile: any) {
+        var data = {
+            Path: oldFile.Path,
+            NewText: newData
+        }
+        socket.emit(`feature:server`, socket.id, props.Server.Servername, "file-replace", data);
+        handleCloseEditor();
     }
     function handleCloseEditor() {
         setEditorOpen(false);

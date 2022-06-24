@@ -7,7 +7,7 @@ function EnderchestPane(props: {items: any[], itemList: any[], inventoryAction: 
             <div className="inventory-panel-items">
                 {props.items.map((item: any, index: number) => {
                     var sendItem = item.ItemstackJson;
-                    props.itemList.map((listitem:any) => {
+                    props.itemList.forEach((listitem:any) => {
                         if (!item.Empty){
                             if (listitem.id === "minecraft:" + sendItem.type.toString().toLowerCase()){
                                 sendItem.texture = listitem.texture;

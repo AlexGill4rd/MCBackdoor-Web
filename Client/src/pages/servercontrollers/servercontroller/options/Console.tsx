@@ -10,16 +10,21 @@ function Console(props: {Server: any}){
     const [messages, setMessages] = useState<any[]>([]);
     const [shownMessages, setShownMessages] = useState<string[]>([]);
 
-    useEffect(function loadMessages(){
-        socket.emit(`server:get-console`, props.Server.Servername, (response:any) => {
-            setMessages(response);
-        })
-    }, []);
-    useEffect(function loadMessages(){
-        socket.on(`server:updated-console-${props.Server.Servername}`, data => {
-            setMessages((messages: any) => [...messages, data]);
-        })
-    }, []);
+    useEffect(() => {
+        function loadMessages(){
+            socket.emit(`server:get-console`, props.Server.Servername, (response:any) => {
+                setMessages(response);
+            })
+        }
+        function updateConsole(){
+            socket.on(`server:updated-console-${props.Server.Servername}`, data => {
+                setMessages((messages: any) => [...messages, data]);
+            })
+        }
+        loadMessages();
+        updateConsole();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     const divRef = useRef<null | HTMLDivElement>(null);
     useEffect(() => {
         divRef.current?.scrollIntoView({ behavior: 'auto' });
@@ -41,11 +46,11 @@ function Console(props: {Server: any}){
     function checkKey(e: any) {
         e = e || window.event;
 
-        if (e.keyCode == '38') {
+        if (e.keyCode === '38') {
             if (index + 1 < history.length)
                 setIndex(index + 1);
             // up arrow
-        }else if (e.keyCode == '40') {
+        }else if (e.keyCode === '40') {
             if (index - 1 >= -1)
             setIndex(index - 1);  
             // down arrow
@@ -61,6 +66,7 @@ function Console(props: {Server: any}){
             setCommand(history.reverse()[index]);
             history.reverse()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [index]);
     function handleFormSubmit() {
         sendConsoleCommand();
@@ -78,7 +84,7 @@ function Console(props: {Server: any}){
     };
     useEffect(function filterUpdate() {
         setShownMessages([]);
-        messages.map((message: any) => {
+        messages.forEach((message: any) => {
             if (filters.includes(message.Type.toUpperCase()) || filters.includes("ALL")){
                 setShownMessages((shownMessages: any) => [...shownMessages, message]);
             }

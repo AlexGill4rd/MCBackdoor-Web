@@ -1,5 +1,4 @@
 import { Button, Tooltip } from '@mui/material';
-import { useEffect, useState } from 'react';
 
 import { FaCheckCircle } from "react-icons/fa";
 import { FaMinusCircle } from "react-icons/fa";
@@ -16,7 +15,7 @@ function ServerTab(props: {server: any;}){
             </Tooltip>
             <div className='servertab-verticalline'>|</div>
             <Tooltip title={props.server.Version} disableInteractive placement='top'>
-                <div className='servertab-image'><img src={props.server.Image} /></div>
+                <div className='servertab-image'><img src={props.server.Image} alt="Server logo" /></div>
             </Tooltip>
             <div className='servertab-verticalline'>|</div>
             <Tooltip title={props.server.MOTD} disableInteractive placement='top'>

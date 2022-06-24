@@ -68,7 +68,7 @@ function SavedItem(props: {item: any, handleItemClick: any;}){
                 <Tooltip placement="top" title={tooltip} disableInteractive>  
                     <div className="item noselect">
                         {itemstack.itemmeta !== undefined && itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
-                        <img style={{width: 50, height: 50}} src={itemstack.texture} />
+                        <img style={{width: 50, height: 50}} src={itemstack.texture} alt="item icon" />
                         <span className='item-amount'>{itemstack.amount}</span>
                     </div>       
                 </Tooltip>

@@ -4,58 +4,43 @@ import { Button } from '@mui/material';
 
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
+import CodeEditor from '@uiw/react-textarea-code-editor';
 
 function FileEditor(props: {Server: any, File: any, onClose: any, onSave: any}) {
-    const [text, setText] = useState<any>("");
-    const [formattedText, setFormattedText] = useState<any[]>([]);
+    const [code, setCode] = useState<any>("");
+    const [language, setLanguage] = useState<any>("");
+    const [oldFile, setOldFile] = useState<any>(undefined);
 
-    useEffect(function requestTextFromFile() {
-        socket.emit("feature:server", socket.id, props.Server.Servername, "file-text", {"Path": props.File.Path})
-    }, []);
-    useEffect(function requestTextFromFile() {
-        socket.on(`server:file-text-${props.Server.Servername}`, (file, name, extension) => {
-            var bytes = new Uint8Array(file);
-            var blob=new Blob([bytes], {type: `application/${extension}`});
-
-            var reader = new FileReader();
-            reader.onload = function() {
-                setText(reader.result);
-            }
-            reader.readAsText(blob);
-        })
-    }, []);
-    useEffect(() => {
-        if (text !== ""){
-            var lines: any[] = text.split(/\n/)
-            lines.map((line:string) => {
-                var splitted = line.split("=");
-                var format = {};
-                if (splitted.length === 2){
-                    format = {
-                        IsSetting: true,
-                        Setting: splitted[0],
-                        Value: splitted[1]
-                    }
-                }else{
-                    format = {
-                        IsSetting: false,
-                        Text: line
-                    }
+    useEffect( () => {
+        function requestTextFromFile() {
+            socket.emit("feature:server", socket.id, props.Server.Servername, "file-text", {"Path": props.File.Path})
+        }
+        function updateTextFromFile() {
+            socket.on(`server:file-text-${props.Server.Servername}`, (file, name, extension) => {
+                setOldFile(props.File);
+                var bytes = new Uint8Array(file);
+                var blob = new Blob([bytes], {type: `application/${extension}`});
+                setLanguage(extension)
+                var reader = new FileReader();
+                reader.onload = function() {
+                    setCode(reader.result);
                 }
-                setFormattedText((formattedText:any) => [...formattedText, format]);
+                reader.readAsText(blob);
             })
         }
-    }, [text]);
-
+        requestTextFromFile()
+        updateTextFromFile();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <div className='fileeditor'>
             <div className='fileeditor-header'>
                 <div className='fileeditor-header-title'>{props.File.Name}</div>
                 <div className='fileeditor-header-options'>
                     <Button 
-                        onClick={props.onSave} 
+                        onClick={() => props.onSave(code, oldFile)} 
                         variant="contained" 
                         startIcon={<SaveIcon />}
                         >
@@ -71,29 +56,18 @@ function FileEditor(props: {Server: any, File: any, onClose: any, onSave: any}) 
                 </div>
             </div>
             <div className='fileeditor-editor'>
-                {
-                    formattedText.map((format: any, index: number) => {
-                        if (format.IsSetting){
-                            return (
-                                <div key={index} className='editor-line' contentEditable="true" suppressContentEditableWarning={true}>
-                                    <div className='editor-setting'>
-                                        {format.Setting === "" ? "" : format.Setting + "="}
-                                    </div>
-                                    <span className='editor-value'>{format.Value === undefined ? " " : format.Value}</span>
-                                </div>
-                            );
-                        }else{
-                            return (
-                                <div key={index} className='editor-line' contentEditable="true" suppressContentEditableWarning={true}>
-                                    <div className='editor-text'>
-                                        {format.Text}
-                                    </div>
-                                </div>
-                            );
-                        }
-                        
-                    })
-                }
+                <CodeEditor 
+                    value={code} 
+                    language={language}
+                    onChange={(evn) => setCode(evn.target.value)}
+                    padding={15}
+                    style={{
+                        fontSize: "1em",
+                        width: "100%",
+                        borderRadius: "10px",
+                        overflowY: "auto",
+                    }}
+                />
             </div>
         </div>
     );

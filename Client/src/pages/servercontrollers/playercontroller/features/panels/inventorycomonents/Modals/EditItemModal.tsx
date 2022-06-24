@@ -1,7 +1,7 @@
 import './EditModalStyle.scss';
 
 import { useEffect, useState } from 'react';
-import { Button, FormControl, InputLabel, Select, Tooltip } from '@mui/material';
+import { Button, FormControl, Select, Tooltip } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,12 +14,33 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     const [loreIndex, setLoreIndex] = useState<number>(0);
     const [lores, setLores] = useState<any>([]);
     const [selectedLores, setSelectedLores] = useState<string[]>([]);
-    const [itemstack, setItemstack] = useState<any>(JSON.parse(props.item.Itemstack));
+    const [itemstack, ] = useState<any>(JSON.parse(props.item.Itemstack));
     const [displayname, setDisplayname] = useState<any | null>(null);
 
     const enchantments = ["PROTECTION_FIRE","DAMAGE_ALL","ARROW_FIRE","SOUL_SPEED","WATER_WORKER","ARROW_KNOCKBACK","LOYALTY","DEPTH_STRIDER","VANISHING_CURSE","DURABILITY","KNOCKBACK","LUCK","BINDING_CURSE","LOOT_BONUS_BLOCKS","PROTECTION_ENVIRONMENTAL","DIG_SPEED","MENDING","FROST_WALKER","LURE","LOOT_BONUS_MOBS","PIERCING","PROTECTION_EXPLOSIONS","DAMAGE_UNDEAD","MULTISHOT","FIRE_ASPECT","CHANNELING","SWEEPING_EDGE","THORNS","DAMAGE_ARTHROPODS","OXYGEN","RIPTIDE","SILK_TOUCH","QUICK_CHARGE","PROTECTION_PROJECTILE","IMPALING","PROTECTION_FALL","ARROW_DAMAGE","ARROW_INFINITE"];
     const [shownEnchants, setShownEnchant] = useState<any[]>([]);
     const [addEnchants, setAddEnchants] = useState<any[]>([]);
+
+    useEffect(() => {
+        function loadEnchantments(){
+            if (itemstack.itemmeta !== undefined){
+                if (itemstack.itemmeta.enchants !== undefined){
+                    itemstack.itemmeta.enchants.forEach((enchant:string) => {
+                        var enchantSplitted = enchant.split(":");
+                        var enchantmentName = enchantSplitted[0];
+                        var enchantmentLevel = parseInt(enchantSplitted[1]);
+                        var data = {
+                            Enchantment: enchantmentName,
+                            Level: enchantmentLevel
+                        }
+                        setAddEnchants((addEnchants: any) => [...addEnchants, data]);
+                    })
+                }
+            }
+        }
+        loadEnchantments();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(function loadInputData() {
         if (itemstack.itemmeta !== undefined){
@@ -30,6 +51,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                 setDisplayname(itemstack.itemmeta.displayname);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.item])
     function handleDisplaynameChange(e: any){
         setDisplayname(e.target.value)
@@ -52,7 +74,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     }
     function handleAddLore(){
         var loreList:any[] = [];
-        lores.map((loreline: string, index: number) => {
+        lores.forEach((loreline: string, index: number) => {
             if(loreIndex !== 0){
                 if (loreIndex - 1 === index)
                     loreList.push(lore);        
@@ -66,9 +88,9 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     }
     function handleRemoveLore(){
         var newLoreList: string[] = [];
-        lores.map((line: string, index: number) => {
+        lores.forEach((line: string, index: number) => {
             var add = true;
-            selectedLores.map((selected: string) => {
+            selectedLores.forEach((selected: string) => {
                 var splitted = selected.split("_");
                 var value = splitted[0];
                 var valueIndex = splitted[1];
@@ -98,7 +120,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
       
         if(addEnchants.length > 0){
             var enchantStringList:any[] = [];
-            addEnchants.map((enchant: any) => {
+            addEnchants.forEach((enchant: any) => {
                 enchantStringList.push(enchant.Enchantment + ":" + enchant.Level);
             })
             editedItemstack.itemmeta.enchants = enchantStringList;
@@ -114,10 +136,11 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     }
     useEffect(() => {
         updateEnchants();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchTerm]);
     function updateEnchants(){
         setShownEnchant([]);
-        enchantments.map((enchant: string) => {
+        enchantments.forEach((enchant: string) => {
             if (searchTerm === "" || enchant.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase())){
                 setShownEnchant((shownEnchants: any) => [...shownEnchants, enchant]);
             }
@@ -126,7 +149,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     function handleEnchantAdd(enchantmentName: string) {
         var existing = false;
         var list:any = [];
-        addEnchants.map((enchant: any) => {
+        addEnchants.forEach((enchant: any) => {
             if (enchant.Enchantment === enchantmentName){
                 var data = {
                     Enchantment: enchantmentName,
@@ -151,7 +174,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     }
     function handleEnchantRemove(enchantmentName: string) {
         var list:any = [];
-        addEnchants.map((enchant: any) => {
+        addEnchants.forEach((enchant: any) => {
             if (enchant.Enchantment === enchantmentName){
                 var data = {
                     Enchantment: enchantmentName,
@@ -167,7 +190,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     }
     function handleSetMaxEnchants() {
         var list:any = [];
-        enchantments.map((enchant: string) => {
+        enchantments.forEach((enchant: string) => {
             var data = {
                 Enchantment: enchant,
                 Level: 32767
@@ -179,22 +202,6 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     function handleRemoveEnchants(){
         setAddEnchants([]);
     }
-    useEffect(function loadEnchantments(){
-        if (itemstack.itemmeta !== undefined){
-            if (itemstack.itemmeta.enchants !== undefined){
-                itemstack.itemmeta.enchants.map((enchant:string) => {
-                    var enchantSplitted = enchant.split(":");
-                    var enchantmentName = enchantSplitted[0];
-                    var enchantmentLevel = parseInt(enchantSplitted[1]);
-                    var data = {
-                        Enchantment: enchantmentName,
-                        Level: enchantmentLevel
-                    }
-                    setAddEnchants((addEnchants: any) => [...addEnchants, data]);
-                })
-            }
-        }
-    }, []);
     return (
         <div className="editmodal-container">
             <div className='editmodal-backdrop' onClick={() => props.onCancel()}></div>

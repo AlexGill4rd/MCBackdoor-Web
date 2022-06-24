@@ -17,41 +17,44 @@ function Dashboard(props: {Server: any}) {
     const [server, setServer] = useState<any>(props.Server);
 
     const [messages, setMessages] = useState<any[]>([]);
-
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-    
-
-    useEffect(function loadPlayers(){
-        socket.emit("feature:server", socket.id, server.Servername, "playerlist", {});
-    }, []);
-    useEffect(function updatePlayers(){
-        socket.on(`server:get-playerlist-${props.Server.id}`, data => {
-            setPlayers(data);
-        })
-    }, []);
-    useEffect(function updateServerData(){
-        socket.on(`server:updated-server-${props.Server.id}`, data => {
-            setServer(data);
-        });
-    }, []);
-    useEffect(function handleChat(){
-        socket.emit("feature:server", socket.id, props.Server.Servername, "chat-listener", {})
-        return () => {
-            socket.emit("feature:server", socket.id, props.Server.Servername, "chat-stoplistening", {})
+    useEffect(() => {
+        function loadPlayers(){
+            socket.emit("feature:server", socket.id, server.Servername, "playerlist", {});
         }
-    }, []);
-    //ADD NEW MESSAGES
-    useEffect(function listenMessages() {
-        socket.on(`server:get-chat-${props.Server.Servername}`, (player, message) => {
-            var data = {
-                Player: player,
-                Message: message,
-                Date: new Date().toLocaleTimeString()
+        function updatePlayers(){
+            socket.on(`server:get-playerlist-${props.Server.id}`, data => {
+                setPlayers(data);
+            })
+        }
+        function updateServerData(){
+            socket.on(`server:updated-server-${props.Server.id}`, data => {
+                setServer(data);
+            });
+        }
+        function handleChat(){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "chat-listener", {})
+            return () => {
+                socket.emit("feature:server", socket.id, props.Server.Servername, "chat-stoplistening", {})
             }
-            setMessages((messages: any) => [...messages, data])
-        });
+        }
+        function listenMessages() {
+            socket.on(`server:get-chat-${props.Server.Servername}`, (player, message) => {
+                var data = {
+                    Player: player,
+                    Message: message,
+                    Date: new Date().toLocaleTimeString()
+                }
+                setMessages((messages: any) => [...messages, data])
+            });
+        }
+        loadPlayers();
+        updatePlayers();
+        updateServerData();
+        handleChat();
+        listenMessages();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     function handleVersionEdit(){
         setModalIsOpen(true);
     }
@@ -75,7 +78,7 @@ function Dashboard(props: {Server: any}) {
     useEffect(function updateMessagesFound(){
 
         var found:string[] = []
-        messages.map((data:any) => {
+        messages.forEach((data:any) => {
             if (data.Message.toString().toLowerCase().startsWith(messageFind.toLowerCase()) || messageFind === ""){
                 if (filters.includes(data.Player.Displayname) || filters.includes("ALLES"))
                 found.push(data);
@@ -90,7 +93,7 @@ function Dashboard(props: {Server: any}) {
     useEffect(function loadPlayernames() {
         setPlayernames([]);
         setPlayernames((playernames: any) => [...playernames, "ALLES"]);
-        players.map((player:any) => {
+        players.forEach((player:any) => {
             setPlayernames((playernames: any) => [...playernames, player.Displayname]);
         });
     }, [players]);
@@ -138,7 +141,7 @@ function Dashboard(props: {Server: any}) {
                         </div>
                         <div className='dashboard-data-info-version'>
                             <div className='dashboard-data-info-version-icon'>
-                                <img src='https://static.spigotmc.org/img/spigot-og.png' />
+                                <img src='https://static.spigotmc.org/img/spigot-og.png' alt="version icon" />
                             </div>
                             <div className='dashboard-data-info-version-info'>
                                 <label>{server.Version}</label>
@@ -166,11 +169,11 @@ function Dashboard(props: {Server: any}) {
                     </div>
                     <div className='dashboard-data-info-right'>
                         <div className='dashboard-data-info-icon' onClick={openIcoonModal}>
-                            <img src={props.Server.Image} />
+                            <img src={props.Server.Image} alt="server icon" />
                         </div>
                         <div className='dashboard-data-info-playercount'>{server.OnlinePlayers + " / " + server.MaxPlayers}</div>
                         <div className='dashboard-data-info-memory'>{server.MemoryUsage + " MB / " + server.MaxMemory + " MB"}</div>    
-                        <div className='dashboard-data-info-memory'>{"CPU Load: " + server.CpuLoad}</div>    
+                        <div className='dashboard-data-info-memory'>{"TPS: " + server.TPS + " / 20"}</div>    
                         <div className='dashboard-data-info-memory'>{"Host Environement: " + server.HostEnvironement}</div>    
                         <div className='dashboard-data-info-memory'>{"Cores: " + server.Cores}</div>    
                     </div>
@@ -208,7 +211,7 @@ function Dashboard(props: {Server: any}) {
                     return (
                         <div key={player.UUID} className='dashboard-players-player'>
                             <div className='dashboard-players-player-front'>
-                                <img src={player.Icon} />
+                                <img src={player.Icon} alt="player icon" />
                                 <div className='dashboard-players-player-displayname'>{player.Displayname}</div>
                             </div>
                             <div className='dashboard-players-player-world'>World: {player.World}</div>

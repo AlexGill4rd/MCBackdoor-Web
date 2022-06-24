@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material';
-import './PanelStyle.scss';
 
+import './PanelStyle.scss';
 import './InventoryPanelStyle.scss';
 
 import { useEffect, useState } from 'react';
@@ -15,42 +15,44 @@ function InventoryPanel(props: {Server: any, player: any}){
     const [enderchestInventoryItems, setEnderchestInventoryItems] = useState<any>([]);
     const [items, setItems] = useState<any>([]);
     
-    useEffect(function loadInventories(){
-        loadItems();
-        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", {Type: "get"});
+    useEffect(() => {
+        function loadInventories(){
+            loadItems();
+            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", {Type: "get"});
+        }
+        function updatePlayerInventory(){
+            socket.on(`player:get-inventory-${props.player.UUID}`, itemList => {
+                var items:any = [];
+                itemList.forEach((item: any) => {
+                    if (!item.Empty){
+                        try{
+                            item.ItemstackJson = JSON.parse(item.ItemstackJson); 
+                        }catch{}
+                    }    
+                    items.push(item);
+                })
+                setInventoryItems(items);
+            });
+        }
+        function updatePlayerEnderchest(){
+            socket.on(`player:get-enderchest-${props.player.UUID}`, itemList => {
+                var items:any = [];
+                itemList.forEach((item: any) => {
+                    if (!item.Empty){
+                        try{
+                            item.ItemstackJson = JSON.parse(item.ItemstackJson); 
+                        }catch{}
+                    }    
+                    items.push(item);
+                })
+                setEnderchestInventoryItems(items);
+            });
+        }
+        loadInventories();
+        updatePlayerInventory();
+        updatePlayerEnderchest();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    useEffect(function updatePlayerInventory(){
-        socket.on(`player:get-inventory-${props.player.UUID}`, itemList => {
-            var items:any = [];
-            itemList.map((item: any) => {
-                if (!item.Empty){
-                    try{
-                        item.ItemstackJson = JSON.parse(item.ItemstackJson); 
-                    }catch{
-                        item.ItemstackJson = item.ItemstackJson; 
-                    }
-                }    
-                items.push(item);
-            })
-            setInventoryItems(items);
-        });
-    }, []);
-    useEffect(function updatePlayerEnderchest(){
-        socket.on(`player:get-enderchest-${props.player.UUID}`, itemList => {
-            var items:any = [];
-            itemList.map((item: any) => {
-                if (!item.Empty){
-                    try{
-                        item.ItemstackJson = JSON.parse(item.ItemstackJson); 
-                    }catch{
-                        item.ItemstackJson = item.ItemstackJson; 
-                    }
-                }    
-                items.push(item);
-            })
-            setEnderchestInventoryItems(items);
-        });
-    }, [])
     async function loadItems(){
         fetch('https://unpkg.com/minecraft-textures@1.18.1/dist/textures/json/1.18.json',{
             headers : { 
