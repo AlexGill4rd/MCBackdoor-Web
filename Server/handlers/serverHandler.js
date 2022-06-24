@@ -149,7 +149,7 @@ module.exports = (io) => {
         }); 
     };
     const getConsoleMessages = function (servername, callback) { //Returns a json with all the console messages with a limit of 300
-        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date ASC LIMIT 300';
+        let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? LIMIT 300';
         connection.query(sqlGet, [servername],(error, results) => {
             if (error) throw error;
             callback(results)
