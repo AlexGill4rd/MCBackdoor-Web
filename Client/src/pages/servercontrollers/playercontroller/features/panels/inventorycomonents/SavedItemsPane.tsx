@@ -8,33 +8,47 @@ import './SavedItemsPaneStyle.scss';
 
 function SavedItemsPane(props: {player: any;}){
 
-    const [savedItems, setSavedItems] = useState<any | null>([]);
+    const [savedItems, setSavedItems] = useState<any>([]);
     const [editModalIsOpen, setEditModalOpen] = useState<boolean>(false);
     const [editItem, setEditItem] = useState<any>(null);
     const [shownItems, setShownItems] = useState<any | null>([]);
 
-    useEffect(function loadSavedItems(){
-        socket.emit("client:saved-items", props.player.Servername);
-    }, []);
-    useEffect(function updateSavedItems(){
-        socket.on("server:saved-items", data => {
-            setSavedItems(data);
-        });
+    useEffect(() => {
+        function loadSavedItems(){
+            socket.emit("saveditem:request-list");
+        }
+        function updateSavedItems(){
+            socket.on("saveditem:list", data => {
+                setSavedItems(data)
+            });
+        }
+        loadSavedItems();
+        updateSavedItems();
     }, []);
 
     function handleItemClick(type: string, item: any){
-        var data = {
-            id: item.id,
-            Itemstack: item.Itemstack,
-            Servername: props.player.Servername,
-            Player: props.player,
-            Type: type,
-            Feature: "item"
+        switch (type){
+            case "edit":
+                setEditItem(item);
+                setEditModalOpen(true);
+                break;
+            case "remove":
+                var data = {
+                    id: item.id,
+                    Itemstack: item.Itemstack,
+                    Servername: props.player.Servername,
+                    Type: type,
+                }
+                socket.emit("saveditem:action", data);
+                break;
+            case "give":
+                var giveJSON = {
+                    Itemstack: item.Itemstack,
+                    Type: "give",
+                }
+                socket.emit("feature:player", socket.id, props.player.Servername, props.player.UUID, "saveditem", giveJSON);
+                break;
         }
-        if (type === "saved-edit"){
-            setEditItem(item);
-            setEditModalOpen(true);
-        }else socket.emit("client:saved-item-action", data);
     }
     function handleEditModalClose(){
         setEditModalOpen(false);
@@ -43,10 +57,10 @@ function SavedItemsPane(props: {player: any;}){
         var data = {
             id: item.id,
             Itemstack: item,
-            Type: "saved-edit"
+            Servername: props.player.Servername,
+            Type: "edit"
         }
-        socket.emit("client:saved-item-action", data);
-        socket.emit("client:saved-items", props.player.Servername);
+        socket.emit("saveditem:action", data);
         handleEditModalClose();
         setEditItem(null);
     }
@@ -56,20 +70,18 @@ function SavedItemsPane(props: {player: any;}){
     }
     useEffect(() => {
         updateEnchants();
-    }, [searchTerm]);
-    useEffect(() => {
-        updateEnchants();
-    }, [savedItems]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [savedItems, searchTerm]);
     function updateEnchants(){
         setShownItems([]);
-        savedItems.map((item: any) => {
+        savedItems.forEach((item: any) => {
             var itemstack = JSON.parse(item.Itemstack);
             if (searchTerm === "" || itemstack.type.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase())){
                 setShownItems((shownItems: any) => [...shownItems, item]);
             }
         })
     }
-    if (savedItems?.length <= 0){
+    if (savedItems.length <= 0){
         return <>Geen items opgeslagen op dit moment!</>
     }else{
         return (

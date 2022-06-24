@@ -11,14 +11,11 @@ import "@szhsin/react-menu/dist/index.css";
 import Enchanting from './Enchanting';
 
 function Item(props: {itemstack: any, inventoryAction: any;}){
-    var margin:string = "0px";
-
     function stripColor(string: string){
         var noColorString = "";
         for (var i = 0; i < string.length; i++){
-            if (string[i] !== "§" && string[i-1] !== "§"){
+            if (string[i] !== "§" && string[i-1] !== "§")
                 noColorString += string[i];
-            }
         }
         return noColorString;
     }
@@ -64,7 +61,7 @@ function Item(props: {itemstack: any, inventoryAction: any;}){
                 <Tooltip placement="top" title={tooltip} disableInteractive>  
                     <div className="item noselect">
                         {props.itemstack.itemmeta !== undefined && props.itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
-                        {props.itemstack.texture !== undefined ? <img style={{width: 50, height: 50}} src={props.itemstack.texture}/> : <CircularProgress />}
+                        {props.itemstack.texture !== undefined ? <img style={{width: 50, height: 50}} src={props.itemstack.texture} alt="Itemstack icon" /> : <CircularProgress />}
                         <span className='item-amount'>{props.itemstack.amount}</span>
                     </div>       
                 </Tooltip>

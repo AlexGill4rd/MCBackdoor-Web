@@ -1,0 +1,44 @@
+.infomodal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.infomodal-backdrop {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 5;
+}
+
+.infomodal-menu {
+  width: auto;
+  height: auto;
+  padding: 30px 30px;
+  background-color: white;
+  color: black;
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.infomodal-menu button {
+  width: 100%;
+}
+
+.infomodal-menu-title {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+/*# sourceMappingURL=InfoBannedModalStyle.css.map */

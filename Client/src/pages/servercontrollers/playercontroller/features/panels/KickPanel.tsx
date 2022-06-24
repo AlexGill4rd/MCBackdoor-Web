@@ -1,37 +1,20 @@
 import { Tooltip } from '@mui/material';
-import './OperatorPanelStyle.scss';
+
+import './PanelStyle.scss';
 import './KickPanelStyle.scss';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-function KickPanel(props: {player: any;}){
-    const [error, setError] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
+function KickPanel(props: {Server: any, player: any;}){
     const [kickMessage, setKickMessage] = useState<string>("");
 
     function kickPlayer(message: string, e: any){
-        var data = {
-            Player: props.player,
-            Feature: "kick",
+        var actionJSON = {
             Message: message
         }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "kick", actionJSON);
         setKickMessage("");
-        socket.emit("client:features-change", data);
-    }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
     }
     function handleMessageChange (e: any) {
         setKickMessage(e.target.value)
@@ -48,12 +31,7 @@ function KickPanel(props: {player: any;}){
                     <Tooltip title='Laat de speler zijn client crashen' onClick={(e) => kickPlayer(kickMessage, e)}>
                         <div className='kickpanel-form-button'>Kick de speler</div>
                     </Tooltip>
-                </form>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                 }
-                
+                </form>             
             </div>
             
         </>

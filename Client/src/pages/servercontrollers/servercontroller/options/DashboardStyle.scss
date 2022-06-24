@@ -8,22 +8,12 @@
     @include centerFlex(center, center, row);
     flex-wrap: wrap;
 
-    input[type=text] {
-        width: 100%;
-        padding: 10px 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        margin-top: 5px;
-        color: rgb(49, 49, 49);
-
-        background-color: rgb(226, 226, 226);
-    }
     &-data{
         width: 60%;
         height: 100%;
 
         color: black;
-        @include centerFlex(flex-start, center, column);
+        @include centerFlex(space-between, center, column);
         &-info{
             height: 50%;
             width: 100%;
@@ -33,11 +23,22 @@
                 width: 500px;
                 height: 90%;
 
-                margin: 30px;
-                border-radius: 10px;
-                padding: 0 20px;
+                margin: 30px 0;
+                padding: 0 40px;
+
+                border-right: 1px solid rgb(207, 207, 207);
 
                 @include centerFlex(center, flex-start, column);
+                input[type=text] {
+                    width: 100%;
+                    padding: 10px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    margin-top: 5px;
+                    color: rgb(49, 49, 49);
+            
+                    background-color: rgb(226, 226, 226);
+                }
             }
             &-right{
                 width: 260px;
@@ -51,10 +52,8 @@
             }
 
             &-state{
-                width: auto;
+                width: 100%;
                 height: auto;
-
-                margin-left: 10px 0;
 
                 color: white;
                 border-radius: 50%;
@@ -64,16 +63,29 @@
                     height: 100%;
                     width: auto;
                 }
-                &-on{
+                &-reload{
+                    width: 49%;
+                    height: 35px;
+                    border-radius: 10px;
                     cursor: pointer;
+                    background-color: $blue-2;
                     transition: background-color 100ms ease-in-out;
+                    
+                    @include centerFlex(center, center, row);
                     &:hover{
-                        background-color: rgb(0, 209, 0);
+                        background-color: $blue-3;
                     }
                 }
                 &-off{
+                    width: 49%;
+                    height: 35px;
+                    border-radius: 10px;
                     cursor: pointer;
+                    background-color: $blue-1;
                     transition: background-color 100ms ease-in-out;
+                    margin-right: 10px;
+
+                    @include centerFlex(center, center, row);
                     &:hover{
                         background-color: rgb(187, 0, 0);
                     }
@@ -115,6 +127,11 @@
                     padding: 5px 15px;
                 }
             }
+            &-infomessage{
+                position: absolute;
+                bottom: 0;
+                color: rgb(49, 49, 49);
+            }
             &-motd{
                 width: 100%;
 
@@ -127,13 +144,13 @@
                 height: auto;
 
                 @include centerFlex(center, center, column);
+                cursor: pointer;
                 img{
                     width: 100px;
                     height: auto;
 
                     border: 3px solid rgb(167, 167, 167);
                     border-radius: 15px;
-                    object-fit: contain;
                 }
             }
             &-playercount{
@@ -157,6 +174,17 @@
             border-top: 1px solid rgb(207, 207, 207);
             border-bottom: 1px solid rgb(207, 207, 207);
             margin-bottom: 50px;
+            &-sort{
+                height: auto;
+                margin: 10px 0;
+                @include centerFlex(space-between, center, row);
+                input[type=text] {
+                    width: calc(100% - 200px - 20px);
+                    padding: 8px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                }
+            }
         }
     }
     &-players{
@@ -184,6 +212,19 @@
             transition: background-color 100ms ease-in-out;
             &:hover{
                 background-color: $blue-2;
+            }
+            img{
+                width: 25px;
+                height: 25px;
+                margin-right: 15px;
+
+                image-rendering: pixelated;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: crisp-edges;
+                object-fit: cover;
+            }
+            &-front{
+                @include centerFlex(flex-start, center, row);
             }
             &-displayname{
                 width: auto;

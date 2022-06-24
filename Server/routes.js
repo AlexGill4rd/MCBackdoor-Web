@@ -48,6 +48,32 @@ app.post('/server/get', function (req, res) {
       });
   }
 });
+app.post('/players/get', function (req, res) {
+  let token = req.body.token;
+  if (token === token){
+    let sql = 'SELECT * FROM players';
+      connection.query(sql,(error, results) => {
+        if (error) throw error;
+        res.send(results);
+        res.end();
+      });
+  }
+});
+app.post('/players/transform', function (req, res) {
+  let token = req.body.token;
+  if (token === token){
+    let sql = 'SELECT * FROM players WHERE';
+    if (req.body.Players.length <= 0) return;
+    req.body.Players.forEach((player) => {
+      sql += ` UUID = '${player.UUID}' OR `;
+    })
+    connection.query(sql.substring(0, sql.length - 3),(error, results) => {
+      if (error) throw error;
+      res.send(results);
+      res.end();
+    });
+  }
+});
 app.post('/minecraft/player/icon', function (req, res) {
   let sql = 'SELECT * FROM players WHERE Displayname = ?';
   connection.query(sql, [req.body.Displayname],(error, results) => {
@@ -55,19 +81,44 @@ app.post('/minecraft/player/icon', function (req, res) {
     if (results[0].Icon !== undefined){
       res.send(results[0].Icon);
     }
+    res.send({})
     res.end();
-    
   });
 });
-var file = "";
-app.post('/server/versionupdate', function (req, res) {
-  file = req.body.fileBase;
-  res.send("Succesvol ontvangen");
-  res.end();
-});
-app.post('/server/getversion', function (req, res) {
-  res.send(file);
-  res.end();
+app.post('/player/find', function (req, res) {
+  var displayname = req.body.Displayname;
+  var validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+  var valid = true;
+  for (var i = 0; i < displayname.length; i++){
+    if (!validChars.includes(displayname[i])){
+      valid = false;
+    }
+  }
+  if (!valid){
+    res.send({});
+    res.end();
+    return;
+  }else{
+    mojangAPI.getUUID(displayname).then((response) => {
+      if (response.id !== undefined){
+        mojangAPI.getPlayerHead(response.id).then((icon) => {
+          var player = {
+            Displayname: response.name,
+            UUID: response.id,
+            Icon: icon
+          }
+          res.send(player);
+          res.end();
+        }).catch(function() {
+          res.send({});
+          res.end();
+        });
+      }
+    }).catch(function() {
+      res.send({});
+      res.end();
+    });
+  }
 });
 app.listen(PORT, () => {
     console.log(`Listening on *:${PORT}`);

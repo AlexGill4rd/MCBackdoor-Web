@@ -1,0 +1,90 @@
+@import '../../../../globalscss/Functions.scss';
+@import '../../../../globalscss/Colors.scss';
+
+.plugins{
+    width: 100%;
+    height: 100%;
+
+    overflow-y: scroll;
+    padding: 20px 40px;
+    @include centerFlex(center, center, column);
+    &-header{
+        width: 100%;
+        height: auto;
+
+        @include centerFlex(space-between, center, row);
+        &-path{
+            border: 1px solid rgb(226, 226, 226);
+            border-radius: 10px;
+            padding: 8px 20px;
+            background-color: rgb(243, 243, 243);
+            cursor: pointer;
+            @include centerFlex(center, center, row);
+        }
+    }
+    &-container{
+        width: 100%;
+        height: 80%;
+
+        margin: 20px 0;
+
+        overflow: hidden;
+        overflow-y: auto;
+
+        border-top: 1px solid rgb(218, 218, 218);
+        border-bottom: 1px solid rgb(218, 218, 218);
+        &-list{
+            width: 100%;
+            height: auto;
+
+            @include centerFlex(center, center, row);
+            flex-wrap: wrap;
+        }
+    }
+    &-file{
+        width: 100px;
+        height: 130px;
+        overflow: hidden;
+
+        text-align: center;
+        margin: 10px;
+
+        @include centerFlex(flex-start, center, column);
+        img{
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+        }
+        &-name{
+            width: 100%;
+            height: auto;
+
+            font-size: 0.9em;
+            color: rgb(61, 61, 61);
+
+            word-wrap: break-word;
+            overflow-y: auto;
+        }
+        cursor: pointer;
+        transition: transform 100ms ease-in-out;
+        &:hover{
+            transform: scale(1.06);
+        }
+    }
+}
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+img{
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}

@@ -5,40 +5,33 @@ import ServerTab from './ServerTab';
 function ServerList(){
     const [servers, setServers] = useState<any>([]);
 
-    useEffect(function loadServers(){
-        socket.emit("client:get-servers")
-    }, []);
-    useEffect(function updateServers(){
-        socket.on(`server:update-server`, data => {
-            //MAKE NEW ARRAY
-            var newServerList:any[] = [];
-
-            var contained = false;
-            //LOOP TO SEE IF A SERVER ALREADY EXISTS
-            servers.map((server: any) => {
-                if (server.Servername === data.Servername){
-                    contained = true;
-                    //IF THE SERVER TURN OFF, MAKE COPY OF SERVER AND CHANGE STATE. DATA IS KEPT THE SAME NOW
-                    if (data.State === false){
-                        var serverClone = server;
-                        serverClone.State = data.State;
-                        newServerList.push(serverClone);
-                    }else newServerList.push(data);
-                }else newServerList.push(server);
+    useEffect(() => {
+        function loadServers(){
+            socket.emit("servers:request-deactive", (response: any) => {
+                response.map((server:any) => (
+                    setServers((servers:any) => [...servers, JSON.parse(server.JsonData)])
+                ))
+                socket.emit("servers:request-active");
             });
-            if (!contained)
-                newServerList.push(data);
-            //SET SERVER LIST TO NEW LIST WITH EDITED DATA
-            setServers(newServerList);
-        })
-    }, [servers]);
-    useEffect(function loadServerList(){
-        socket.on(`server:server-list`, data => {
-            setServers([]);
-            data.map((json: any) => {
-                setServers((servers: any) => [...servers, JSON.parse(json.JsonData)]);
-            })        
-        })
+        }
+        function listenActiveServers(){
+            socket.on(`server:active-server`, data => {
+                var newServerList:any[] = [];
+                var isNewServer = true;
+                servers.forEach((server:any) => {
+                    if (server.id === data.id){
+                        isNewServer = false;
+                        newServerList.push(data)
+                    }else newServerList.push(server)
+                })
+                if (isNewServer)
+                    newServerList.push(data)
+                setServers(newServerList);
+            });
+        }
+        loadServers();
+        listenActiveServers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     if (servers.length > 0){
         return (

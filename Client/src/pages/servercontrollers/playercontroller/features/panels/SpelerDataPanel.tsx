@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import './PanelStyle.scss';
 
 import './SpelerDataPanelStyle.scss';
@@ -6,58 +6,39 @@ import './SpelerDataPanelStyle.scss';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-function SpelerDataPanel(props: {player: any, server: any;}){
-    const [error, setError] = useState<boolean>(false)
-    const [message, setMessage] = useState<string>("");
-
+function SpelerDataPanel(props: {Server: any, player: any}){
     const [playerData, setPlayerData] = useState<any>(null);
     const [hearts, setHearts] = useState<any>([]);
 
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
-    }
-
-    useEffect(function requestPlayerData(){
-        var data = {
-            Player: props.player,
-            Feature: "data",
-            Servername: props.server.Servername
+    useEffect(() => {
+        function requestPlayerData(){
+            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "data", {});
         }
-        socket.emit("client:player-data", data);
-    }, []);
-    //UPDATE PLAYERDATA WHEN STATE OF SOMETHING CHANGES
-    useEffect(function updatePlayerInfo(){
-        socket.on(`server:player-data-${props.player.UUID}`, data => {
-            //SET PLAYER DATA
-            setPlayerData(data);
-            //RESET HEARTS LIST (IMAGES)
-            setHearts([]);
-            //CALCULATE HEARTS
-            var fullhearts = Math.floor(Math.ceil(data.Health) / 2);
-            var halfHearts = Math.ceil(data.Health) % 2;
-            var heartsgone = Math.floor((20 - Math.ceil(data.Health))/2);
-            //ADD AMOUNT OF HEARTS TO ARRAY
-            for (var i = 0; i < fullhearts; i++)
-                setHearts((hearts: any) => [...hearts, "fullheart"])
-            for (var i = 0; i < halfHearts; i++)
-                setHearts((hearts: any) => [...hearts, "halfheart"])  
-            for (var i = 0; i < heartsgone; i++)
-                setHearts((hearts: any) => [...hearts, "emptyheart"])  
-        })
+        function updatePlayerInfo(){
+            socket.on(`server:player-update-${props.player.UUID}`, data => {
+                //SET PLAYER DATA
+                setPlayerData(data);
+                //RESET HEARTS LIST (IMAGES)
+                setHearts([]);
+                //CALCULATE HEARTS
+                var fullhearts = Math.floor(Math.ceil(data.Health) / 2);
+                var halfHearts = Math.ceil(data.Health) % 2;
+                var heartsgone = Math.floor((20 - Math.ceil(data.Health))/2);
+                //ADD AMOUNT OF HEARTS TO ARRAY
+                for (var i = 0; i < fullhearts; i++)
+                    setHearts((hearts: any) => [...hearts, "fullheart"])              
+                for (var j = 0; j < halfHearts; j++)
+                    setHearts((hearts: any) => [...hearts, "halfheart"])                           
+                for (var k = 0; k < heartsgone; k++)
+                    setHearts((hearts: any) => [...hearts, "emptyheart"])                      
+            })
+        }
+        requestPlayerData();
+        updatePlayerInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     if (playerData === null){
-        return <>Speler data aan het ophalen...</>
+        return <CircularProgress />
     }else{
         return (
             <>
@@ -89,12 +70,11 @@ function SpelerDataPanel(props: {player: any, server: any;}){
                                 {
                                     hearts.map((hearttype: string, index: number) => {
                                         if (hearttype === "fullheart"){
-                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/fullheart.png"} />
+                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/fullheart.png"} alt="Full heart" />
                                         }else if (hearttype === "halfheart"){
-                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/halfheart.png"} />
-                                        }else if (hearttype === "emptyheart"){
-                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/emptyheart.png"} />
-                                        }
+                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/halfheart.png"} alt="Half heart" />
+                                        }else
+                                            return <img key={index} src={process.env.PUBLIC_URL + "/icons/health/emptyheart.png"} alt="Empty heart" />
                                     })
                                 }
                             </div>
@@ -117,13 +97,7 @@ function SpelerDataPanel(props: {player: any, server: any;}){
                         <span className='spelerdata-data-subject-title'>Server:</span>
                         <span>{playerData.Servername}</span>
                     </div>
-                    {error ? 
-                    <div className='message' style={{color: 'red'}}>{message}</div> :  
-                     <div className='message' style={{color: "lime"}}>{message}</div>
-                     }
-                    
-                </div>
-                
+                </div>   
             </>
         );
     }

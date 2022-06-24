@@ -1,41 +1,18 @@
 import { Tooltip } from '@mui/material';
-import './PanelStyle.scss';
 
+import './PanelStyle.scss';
 import './KillPanelStyle.scss';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
 import { FaSkull } from 'react-icons/fa';
 
-function KillPanel(props: {player: any;}){
-    const [error, setError] = useState<boolean>(false)
-    const [message, setMessage] = useState<string>("");
+function KillPanel(props: {Server: any, player: any;}){
     const [deathNote, setDeathNote] = useState<string>("");
-
-
     function killPlayer(){
-        var data = {
-            Player: props.player,
-            Feature: "kill",
-            Message: deathNote
-        }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "kill", {"Message": deathNote});
         setDeathNote("");
-        socket.emit("client:features-change", data);
-    }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
     }
     function handleDeathNoteChange (e: any) {
         setDeathNote(e.target.value);
@@ -53,11 +30,6 @@ function KillPanel(props: {player: any;}){
                             <div className='killpanel-form-button'><FaSkull style={{marginRight: 10}} />Vermoord speler</div>
                         </Tooltip>
                 </form>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                 }
-                
             </div>
             
         </>

@@ -4,24 +4,27 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaMinusCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
-import './styling/ServerTab.scss';
+import './ServerTab.scss';
 
 function ServerTab(props: {server: any;}){
+
     return (
         <div className="servertab">
-            <div className='servertab-id'>{props.server.id}</div>
-            <div className='servertab-verticalline'>|</div>
-            <Tooltip title={props.server.Version}>
-                <div className='servertab-image'><img src={props.server.Image} /></div>
+            <Tooltip title={props.server.id} disableInteractive placement='top'>
+                <div className='servertab-id'>Hover voor ID</div>
             </Tooltip>
             <div className='servertab-verticalline'>|</div>
-            <Tooltip title={props.server.MOTD}>
+            <Tooltip title={props.server.Version} disableInteractive placement='top'>
+                <div className='servertab-image'><img src={props.server.Image} alt="Server logo" /></div>
+            </Tooltip>
+            <div className='servertab-verticalline'>|</div>
+            <Tooltip title={props.server.MOTD} disableInteractive placement='top'>
                 <div className='servertab-ip'>{props.server.Servername}</div>
             </Tooltip>
             <div className='servertab-verticalline'>|</div>
             <div className='servertab-players'>{props.server.OnlinePlayers === undefined ? "- / " + props.server.MaxPlayers : props.server.OnlinePlayers + " / " + props.server.MaxPlayers}</div>
             
-            {props.server.State === true ?
+            {props.server.State ?
                 <>
                     <div className='servertab-verticalline'>|</div>
                     <Link to={'/controller/servers/' + props.server.id}>
@@ -39,5 +42,6 @@ function ServerTab(props: {server: any;}){
             }
         </div>
     );
+
 }
 export default ServerTab;

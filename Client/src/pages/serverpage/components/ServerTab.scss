@@ -1,5 +1,5 @@
-@import '../../../../globalscss/Functions.scss';
-@import '../../../../globalscss/Colors.scss';
+@import '../../../globalscss/Functions.scss';
+@import '../../../globalscss/Colors.scss';
 
 .servertab{
     width: 800px;
@@ -16,9 +16,15 @@
         background-color: $yellow-2;
     }
     &-id{
-        width: 20px;
+        width: auto;
         height: 100%;
+
+        cursor: pointer;
+
         @include centerFlex(center, center, row);
+        &:hover{
+            color: rgb(83, 83, 83);
+        }
     }
     &-image{
         width: 35px;

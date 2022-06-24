@@ -1,0 +1,17 @@
+@import '../../globalscss/Functions.scss';
+@import '../../globalscss/Colors.scss';
+
+.settingselector{
+    width: 100%;
+    min-height: 100vh;
+
+    @include centerFlex(center, center, row);
+
+    &-buttons{
+        width: 100%;
+        height: auto;
+        
+        @include centerFlex(center, center, row);
+        flex-wrap: wrap;
+    }
+}

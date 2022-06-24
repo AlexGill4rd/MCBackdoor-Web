@@ -1,0 +1,18 @@
+@import '../../globalscss/Functions.scss';
+@import '../../globalscss/Colors.scss';
+
+.loading{
+    width: 100vw;
+    height: 100vh;
+    @include centerFlex(center, center, column);
+
+    a{
+        text-decoration: none;
+        color: $blue-1;
+        font-size: 1.1em;
+        transition: transform 100ms ease-in-out;
+        &:hover{
+            transform: scale(1.05);
+        }
+    }
+}

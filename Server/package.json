@@ -8,6 +8,7 @@
     "mojang-minecraft-api": "^1.0.2",
     "mysql": "^2.18.1",
     "socket.io": "^4.5.1",
-    "socketio-file-upload": "^0.7.3"
+    "socketio-file-upload": "^0.7.3",
+    "uuid": "^8.3.2"
   }
 }

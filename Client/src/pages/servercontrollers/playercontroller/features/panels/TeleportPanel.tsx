@@ -5,10 +5,7 @@ import './TeleportPanelStyle.scss';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-function TeleportPanel(props: {player: any, Servername: string;}){
-    const [error, setError] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
-    
+function TeleportPanel(props: {Server: any, player: any}){
     const [worlds, setWorlds] = useState<any>([]);
 
     const [world, setWorld] = useState<string>();
@@ -25,44 +22,30 @@ function TeleportPanel(props: {player: any, Servername: string;}){
             Z: z
         }
         if(location.World === undefined || location.X === undefined || location.Y === undefined || location.Z === undefined){
-            setError(true);
-            setInfoMessage("Geef al de data in!");
+            socket.emit("feature:player-log", socket.id, "Niet al de waarden zijn ingegeven!", "warning");
             return;
         }
-        var data = {
-            Player: props.player,
-            Feature: "teleport",
-            Location: location
-        }
-        socket.emit("client:features-change", data);
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "teleport", {"Location": location});
     }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    useEffect(function loadWorlds(){
-        socket.emit("client:mcserver-getworlds", props.Servername);
-    }, []);
-    useEffect(function updateWorlds(){
-        socket.on("server:mcserver-getworlds-list", data => {
-            setWorlds(data.replace("[", "").replace("]", "").split(","));
-        });
-    }, []);
+    useEffect(() => {
+        function requestWorlds(){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "world-list", {});
+        }
+        function updateWorlds(){
+            socket.on(`server:get-worlds`, worldArray => {
+                setWorlds(worldArray);
+            });
+        }
+        requestWorlds();
+        updateWorlds();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     useEffect(function updateActiveWorld(){
         if(worlds.length > 0) setWorld(worlds[0]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [worlds]);
 
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
-    }
-
+    //Handlers
     function handleWorldChange (e: any) {
         setWorld(e.target.value);
     }
@@ -99,12 +82,7 @@ function TeleportPanel(props: {player: any, Servername: string;}){
                     <Tooltip title='Teleporteer de speler naar deze locatie' onClick={() => teleportPlayer()}>
                         <div className='teleportpanel-form-button'>Teleporteer speler</div>
                     </Tooltip>
-                </form>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                 }
-                
+                </form>              
             </div>
             
         </>

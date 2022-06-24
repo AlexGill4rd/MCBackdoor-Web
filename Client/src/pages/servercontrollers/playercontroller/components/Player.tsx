@@ -8,10 +8,14 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
     const [background, setBackground] = useState<string>("white");
     const [player, setPlayer] = useState<any>(props.player);
 
-    useEffect(function loadPlayerIcon() {
-        socket.on(`server:player-update-${player.UUID}`, data => {
-            setPlayer(data);
-        })
+    useEffect(() => {
+        function loadPlayerIcon() {
+            socket.on(`server:player-update-${player.UUID}`, data => {
+                setPlayer(data);
+            })
+        }
+        loadPlayerIcon();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(function updateBackground(){
         if (props.selectedPlayer != null){
@@ -22,6 +26,7 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
                 }else setBackground("lime");
             }else setBackground("white");
         }else setBackground("white");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.selectedPlayer]);
     function copyToClipboard(ip: string){
         alert("Gekopieerd naar je clipboard!")
@@ -32,7 +37,7 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
             props.onPlayerClick(null);
         else props.onPlayerClick(player);
     }
-    if (player.IP === undefined){
+    if (player.Ip === undefined){
         return (
             <div className="playertab noselect" style={{backgroundColor: background}} onClick={onPlayerClick}>
                 <CircularProgress />
@@ -41,18 +46,18 @@ function Player(props: {player: any, onPlayerClick: any, selectedPlayer: any;}){
     }else{
         return (
             <div className="playertab noselect" style={{backgroundColor: background}} onClick={onPlayerClick}>
-                <div className="playertab-icon"><img src={player.Icon} /></div>
+                <div className="playertab-icon"><img src={player.Icon} alt="Player icon" /></div>
                 <div className='playertab-verticalline'>|</div>
                 <Tooltip title={"UUID: " + player.UUID}>
                     <div className="playertab-playername">{player.Displayname}</div>
                 </Tooltip>
                 <div className='playertab-verticalline'>|</div>
                 <Tooltip title='Player operator status'>
-                    <div className="playertab-status">OP: {player.Op == true ? <>Ja</> : <>Neen</>}</div>
+                    <div className="playertab-status">OP: {player.Op === true ? <>Ja</> : <>Neen</>}</div>
                 </Tooltip> 
                 <div className='playertab-verticalline'>|</div>
-                <Tooltip onClick={() => copyToClipboard(player.IP)} title={<div style={{ textAlign: 'center' }}>Het publiek IP van de speler<br />Click om naar het klipbord te kopiëren</div>}>
-                    <div className="playertab-ip">Ip: {player.IP}</div>
+                <Tooltip onClick={() => copyToClipboard(player.Ip)} title={<div style={{ textAlign: 'center' }}>Het publiek IP van de speler<br />Click om naar het klipbord te kopiëren</div>}>
+                    <div className="playertab-ip">Ip: {player.Ip}</div>
                 </Tooltip> 
             </div>
         );

@@ -8,23 +8,13 @@
   flex-wrap: wrap;
 }
 
-.dashboard input[type=text] {
-  width: 100%;
-  padding: 10px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-top: 5px;
-  color: #313131;
-  background-color: #e2e2e2;
-}
-
 .dashboard-data {
   width: 60%;
   height: 100%;
   color: black;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -40,13 +30,23 @@
 .dashboard-data-info-left {
   width: 500px;
   height: 90%;
-  margin: 30px;
-  border-radius: 10px;
-  padding: 0 20px;
+  margin: 30px 0;
+  padding: 0 40px;
+  border-right: 1px solid #cfcfcf;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+
+.dashboard-data-info-left input[type=text] {
+  width: 100%;
+  padding: 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  color: #313131;
+  background-color: #e2e2e2;
 }
 
 .dashboard-data-info-right {
@@ -62,9 +62,8 @@
 }
 
 .dashboard-data-info-state {
-  width: auto;
+  width: 100%;
   height: auto;
-  margin-left: 10px 0;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -79,18 +78,35 @@
   width: auto;
 }
 
-.dashboard-data-info-state-on {
+.dashboard-data-info-state-reload {
+  width: 49%;
+  height: 35px;
+  border-radius: 10px;
   cursor: pointer;
+  background-color: #235DA8;
   transition: background-color 100ms ease-in-out;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-.dashboard-data-info-state-on:hover {
-  background-color: #00d100;
+.dashboard-data-info-state-reload:hover {
+  background-color: #13335C;
 }
 
 .dashboard-data-info-state-off {
+  width: 49%;
+  height: 35px;
+  border-radius: 10px;
   cursor: pointer;
+  background-color: #3180E8;
   transition: background-color 100ms ease-in-out;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard-data-info-state-off:hover {
@@ -144,6 +160,12 @@
   padding: 5px 15px;
 }
 
+.dashboard-data-info-infomessage {
+  position: absolute;
+  bottom: 0;
+  color: #313131;
+}
+
 .dashboard-data-info-motd {
   width: 100%;
   margin: 10px 0;
@@ -160,6 +182,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .dashboard-data-info-icon img {
@@ -167,7 +190,6 @@
   height: auto;
   border: 3px solid #a7a7a7;
   border-radius: 15px;
-  object-fit: contain;
 }
 
 .dashboard-data-info-playercount {
@@ -190,6 +212,22 @@
   border-top: 1px solid #cfcfcf;
   border-bottom: 1px solid #cfcfcf;
   margin-bottom: 50px;
+}
+
+.dashboard-data-chat-sort {
+  height: auto;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-data-chat-sort input[type=text] {
+  width: calc(100% - 200px - 20px);
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .dashboard-players {
@@ -220,6 +258,23 @@
 
 .dashboard-players-player:hover {
   background-color: #235DA8;
+}
+
+.dashboard-players-player img {
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  object-fit: cover;
+}
+
+.dashboard-players-player-front {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .dashboard-players-player-displayname {

@@ -3,15 +3,17 @@
   height: 250px;
   background-color: #DBC500;
   border-radius: 100%;
+  margin: 20px 20px;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 50px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
+  flex-wrap: wrap;
 }
 
 .navtab-button:hover {
@@ -19,7 +21,6 @@
 }
 
 .navtab-button-title {
-  text-decoration: none;
   color: black;
   font-size: 1.5em;
 }

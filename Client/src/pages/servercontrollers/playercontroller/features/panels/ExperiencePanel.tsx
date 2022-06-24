@@ -5,49 +5,36 @@ import './ExperiencePanelStyle.scss';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
-function ExperiencePanel(props: {player: any;}){
-    const [error, setError] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
+function ExperiencePanel(props: {Server:any, player: any;}){
     const [experience, setExperience] = useState<number>(0);
 
     //INISIALISATION
     function sendExperience(){
-        var data = {
-            Player: props.player,
-            Feature: "experience",
+        var actionJSON = {
             ExperienceLevel: experience,
             Type: "set"
         }
-        socket.emit("client:features-change", data);
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "experience", actionJSON);
     }
-    useEffect(function listenMessages(){
-        socket.on(`server:features-change-message`, data => {
-            if (data.includes("fout"))setError(true);
-            else setError(false);
-            setInfoMessage(data);
-        })
-    }, []);
-    function setInfoMessage(data: string){
-        setMessage(data);
-        setTimeout(function(){
-            if (message !== data)
-                setMessage("");
-        }, 5000)
-    }
-
-    //FUNCTIONS
-    useEffect(function loadPlayerExperience(){
-        var data = {
-            Player: props.player,
-            Feature: "experience",
-            Type: "get"
+    //Listeners & requesters
+    useEffect(() => {
+        function loadPlayerExperience(){
+            var actionJSON = {
+                ExperienceLevel: experience,
+                Type: "get"
+            }
+            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "experience", actionJSON);
         }
-        socket.emit("client:features-change", data);
-        socket.on(`server:player-experience-${props.player.UUID}`, data => {
-            console.log(data)
-            setExperience(data.Level);
-        })
+        function listenPlayerEXP() {
+            socket.on(`player:get-experience-${props.player.UUID}`, experience => {
+                setExperience(experience);
+            })
+        }
+        loadPlayerExperience();
+        listenPlayerEXP();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    //Function
     function handleExperienceChange (e: any) {
         setExperience(e.target.value)
     }
@@ -64,14 +51,8 @@ function ExperiencePanel(props: {player: any;}){
                     <Tooltip title='Geef de speler opgegeven experience' onClick={sendExperience}>
                         <div className='experience-form-button'>Give Experience</div>
                     </Tooltip>
-                </form>
-                {error ? 
-                <div className='message' style={{color: 'red'}}>{message}</div> :  
-                 <div className='message' style={{color: "lime"}}>{message}</div>
-                 }
-                
-            </div>
-            
+                </form>           
+            </div>           
         </>
     );
 }
