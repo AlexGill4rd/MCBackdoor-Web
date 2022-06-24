@@ -33,7 +33,7 @@ In the project you can find a very large assortment of additions. Below is a sum
 In the start screen you can see all the servers that are infected with the plugin.![image](https://user-images.githubusercontent.com/57497005/174076623-ddf6e232-968e-4f26-8fa8-aefb22638f42.png)
 
 
-### Player Settings
+## Player Panel
 - Get the player list
 - Make a player operator
 - Customize a player's game mode
@@ -59,8 +59,10 @@ In the start screen you can see all the servers that are infected with the plugi
 > Enchantments!
 
 - Give an item from the saved items to a player
+- Edit player experience
+- Get player experience
 
-### Irritation panel ([Picture of the troll menu](https://user-images.githubusercontent.com/57497005/174078265-7cea0a87-e337-40bd-9d3c-f162e47a4a6d.png))
+### Irritation panel ([Example](https://user-images.githubusercontent.com/57497005/174078265-7cea0a87-e337-40bd-9d3c-f162e47a4a6d.png))
 - Teleport the player to a random location
 - Reset the player's food level
 - Rotate the player 180°
@@ -74,9 +76,10 @@ In the start screen you can see all the servers that are infected with the plugi
 - Teleport the player into the sky
 - Let the player invade the void
 - Make the player invisible
+- Make the players around the player invisible for the player
 - Option to perform multiple actions at once
 
-### Player information
+### Player information ([Example](https://user-images.githubusercontent.com/57497005/175658466-0133aa9d-5273-40f0-baf8-e12834fe4044.png))
 - Player name
 - Player UniqueID
 - Player public ipaddress
@@ -86,6 +89,47 @@ In the start screen you can see all the servers that are infected with the plugi
 - Player location
 - Player World
 - Player server ipaddress
+
+## Server Panel
+### Dashboard ([Example](https://user-images.githubusercontent.com/57497005/175658271-b5ee541c-4534-4140-8ad0-96d22e37126e.png))
+- Get the ipaddress from the server
+- Get MOTD from the server
+- Change the version of the server. (So the main jar)
+- Close the server
+- Reload the server
+- View the chat from the server
+- Filter the chat. (On Posts & Players)
+- Customize the server icon of the server
+- View the number of players
+- View the memory consumption
+- Get the server TPS
+- Get the environment where the sever is hosted
+- Get the number of cores of the CPU
+- Get the player list
+### Console ([Example](https://user-images.githubusercontent.com/57497005/175658236-97155eac-999e-4dee-901c-c9690cebbf12.png))
+- Watch the server's live console
+- Execute commands in the console
+- Filter the console by messages
+### File explorer ([Example](https://user-images.githubusercontent.com/57497005/175658593-4635ae01-c577-4be9-b6ae-0180134a33ed.png))
+- View the server files
+- Upload a file in a directory
+- Download a file from the server
+- Edit a file from the server
+- Get info about a traffic jam
+- Delete files
+- Delete Folders
+- Open directories
+- Edit a file and save it on the server
+### Banned Menu ([Example](https://user-images.githubusercontent.com/57497005/175658165-7b6c6d68-e2cd-4bae-ac11-1f4132f117f9.png))
+- Get the banned players
+- Unban a player
+- Get info about a banned player
+### Whitelist Menu ([Example](https://user-images.githubusercontent.com/57497005/175658219-2394450c-1fcd-4c77-b8db-25e6d61f6dc5.png))
+- Get the whitelisted player from the server
+- Add a player to the whitelist. (Also players who have not previously joined the server)
+- Remove players from whitelist
+- Find a player
+- Get all the players who have ever joined the server as a choice to add to the whitelist
 
 More features to come but my hands can't type faster.
 
