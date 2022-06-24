@@ -30,7 +30,13 @@ function Dashboard(props: {Server: any}) {
         function updateServerData(){
             socket.on(`server:updated-server-${props.Server.id}`, data => {
                 setServer(data);
+                socket.emit("feature:server", socket.id, props.Server.Servername, "chat-listener", {})
             });
+        }
+        function serverDisconnects(){
+            socket.on(`server:disable-server-${props.Server.id}`, data => {
+                setServer(data)
+            })
         }
         function handleChat(){
             socket.emit("feature:server", socket.id, props.Server.Servername, "chat-listener", {})
@@ -51,6 +57,7 @@ function Dashboard(props: {Server: any}) {
         loadPlayers();
         updatePlayers();
         updateServerData();
+        serverDisconnects();
         handleChat();
         listenMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,25 +114,37 @@ function Dashboard(props: {Server: any}) {
     //SERVER ICON CHANGE
     const [icoonModalIsOpen, setIcoonModalIsOpen] = useState<boolean>(false);
     function openIcoonModal(){
-        setIcoonModalIsOpen(true)
+        if (server.State)
+            setIcoonModalIsOpen(true)
+        else
+            socket.emit("feature:server-log", socket.id, "Je kan geen icoon aanpassen wanneer de server uit staat!", "error", "Server disabled");   
     }
     function sluitIcoonModal(){
         setIcoonModalIsOpen(false)
     }
     function handleIcoonChange(image: any){
         sluitIcoonModal();
-        var data = {
-            Image: image
-        }
-        console.log(data);
-        socket.emit("feature:server", socket.id, props.Server.Servername, "icon-update", data)
+        if (server.State){
+            var data = {
+                Image: image
+            }
+            socket.emit("feature:server", socket.id, props.Server.Servername, "icon-update", data)
+        } else
+            socket.emit("feature:server-log", socket.id, "Je kan geen icoon aanpassen wanneer de server uit staat!", "error", "Server disabled");   
+        
     }
     //SERVER FUNCTIONS
     function handleServerOff() {
-        socket.emit("feature:server", socket.id, props.Server.Servername, "disable", {})
+        if (server.State)
+            socket.emit("feature:server", socket.id, props.Server.Servername, "disable", {})
+        else
+            socket.emit("feature:server-log", socket.id, "De server staat niet aan!", "error", "Server disabled");
     }
     function handleServerReload() {
-        socket.emit("feature:server", socket.id, props.Server.Servername, "reload", {})
+        if (server.State)
+            socket.emit("feature:server", socket.id, props.Server.Servername, "reload", {})
+        else
+            socket.emit("feature:server-log", socket.id, "De server staat niet aan!", "error", "Server disabled");
     }
     return (
         <div className='dashboard'> 
@@ -147,13 +166,15 @@ function Dashboard(props: {Server: any}) {
                             <div className='dashboard-data-info-version-info'>
                                 <label>{server.Version}</label>
                             </div>
+                            {server.State && 
                             <Button 
                                 onClick={handleVersionEdit} 
                                 variant="contained" 
                                 startIcon={<EditIcon />}
                             >
-                                    Aanpassen
+                                Aanpassen
                             </Button> 
+                        }
                         </div>
                         <div className='dashboard-data-info-state'>
                             <Tooltip title="Doe de server uit" disableInteractive placement='top'>

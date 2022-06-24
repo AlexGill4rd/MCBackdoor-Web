@@ -22,7 +22,6 @@ module.exports = (io) => {
          * Server data:
          * - server.Servername
          */
-           
         let jsonDataSQL = 'SELECT JsonData FROM servers WHERE Servername = ?';
         connection.query(jsonDataSQL, [server.Servername] ,(error, jsonResults) => {
             if (error) throw error;
