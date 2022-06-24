@@ -10,7 +10,7 @@ const connection = mysql.createPool({
 });
 
 module.exports = (io) => {
-  const registerPlayer = function (player, callback) {
+  const registerPlayer = function (player) {
     var ip = player.Ip === undefined ? "0.0.0.0" : player.Ip;
 
     let sql = 'SELECT COUNT(id) AS id_count FROM players WHERE UUID = ?';
@@ -33,6 +33,8 @@ module.exports = (io) => {
         }else{
             //Get a unique id for the player
             player.id = uuid.v4();
+            if (!player.UUID.includes("-"))
+              player.UUID = player.UUID.substr(0,8)+"-"+player.UUID.substr(8,4)+"-"+player.UUID.substr(12,4)+"-"+player.UUID.substr(16,4)+"-"+player.UUID.substr(20);      
             mojangAPI.getPlayerHeadByName(player.Displayname).then( playerHead => {
                 let sql2 = 'INSERT INTO players (id, Displayname, UUID, Icon, IP) VALUES (?,?,?,?,?)';
                 connection.query(sql2, [player.id, player.Displayname, player.UUID, playerHead, ip] ,(error) => {
@@ -40,7 +42,6 @@ module.exports = (io) => {
                     console.log("Player added: " + player.Displayname + "!");
                     //Send player data update to all sockets
                     io.emit(`server:player-update-${player.UUID}`, player)
-                    callback("Nieuwe player toegevoegd aan de database");
                 })
             }).catch(function() {});    
         }

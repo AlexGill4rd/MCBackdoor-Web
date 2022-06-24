@@ -16,8 +16,8 @@ function Whitelist(props: {Server: any}) {
     const [whitelistedPlayers, setWhitelistedPlayers] = useState<any[]>([]);
 
     useEffect(function updateWhitelistedPlayers(){
-        socket.on(`server:get-whitelisted-${props.Server.Servername}`, data => {
-            setWhitelistedPlayers(data);
+        socket.on(`server:get-whitelisted-${props.Server.Servername}`, players => {
+            setWhitelistedPlayers(sort_by_key(players, "Displayname"));
         });
     }, []);
     //LOAD PLAYER DATA & WHITELISTED PLAYERS
@@ -25,7 +25,7 @@ function Whitelist(props: {Server: any}) {
         socket.emit("server:get-players-database", (response: any) => {
             setPlayers(response);
         });
-    }, [whitelistedPlayers]);
+    }, [players, whitelistedPlayers]);
     useEffect(() => {
         socket.emit("feature:server", socket.id, props.Server.Servername, "whitelisted", {})
     }, []);
@@ -37,7 +37,6 @@ function Whitelist(props: {Server: any}) {
     }
     useEffect(function updateShownWhitelisted() {
         var shownList:any[] = [];
-        console.log(players)
         players.map((player:any) => {
             if (whitelistContainsPlayer(player)){
                 if (player.Displayname.toLowerCase().startsWith(whitelistSearch.toLowerCase()) || whitelistSearch === ""){
@@ -45,7 +44,7 @@ function Whitelist(props: {Server: any}) {
                 }
             }
         })
-        setShownWhitelistedPlayers(shownList);
+        setShownWhitelistedPlayers(sort_by_key(shownList, "Displayname"));
     }, [players, whitelistedPlayers, whitelistSearch]);
 
     //PLAYER LIST SORTING
@@ -65,7 +64,7 @@ function Whitelist(props: {Server: any}) {
                 }
             }
         })
-        setShownPlayers(shownList);
+        setShownPlayers(sort_by_key(shownList, "Displayname"));
     }, [whitelistedPlayers, players, playerSearch]);
     function whitelistContainsPlayer(player: any){
         var contained: boolean = false;
@@ -101,7 +100,7 @@ function Whitelist(props: {Server: any}) {
             .then(json => {
                 if (json.Displayname !== undefined && json.UUID !== undefined){
                     setNewPlayer(json)
-                    socket.emit("feature:server-log", socket.id, "De speler is gevonden!!", "success");
+                    socket.emit("feature:server-log", socket.id, "De speler is gevonden!", "success");
                 }else 
                     socket.emit("feature:server-log", socket.id, "Kan de speler op dit moment niet vinden!", "error");
             });
@@ -113,6 +112,12 @@ function Whitelist(props: {Server: any}) {
         handleWhitelistAdd(newPlayer);
         setNewPlayer(null)
         setNewPlayerName("");
+    }
+    function sort_by_key(array: any, key: any){
+        return (array.sort(function(a:any,b:any){
+            var x = a[key].toLowerCase() < b[key].toLowerCase()? -1:1; 
+            return x; 
+        }))
     }
     return (
         <div className='whitelist'>

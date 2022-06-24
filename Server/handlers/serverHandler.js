@@ -167,18 +167,46 @@ module.exports = (io) => {
         io.to(clientsocketid).emit(`server:get-whitelisted-${servername}`, players);
     };
     const getServerBanlist = function (clientsocketid, servername, players) {
-        let sql = 'SELECT * FROM players WHERE';
         if(players.length > 0){
+            let sql = 'SELECT * FROM players WHERE';
             players.map((player) => {
                 sql += ` UUID = '${player.UUID}' OR `;
             })
-            connection.query(sql.substring(0, sql.length - 3),(error, results) => {
+            connection.query(sql.substring(0, sql.length - 3), (error, results) => {
                 if (error) throw error;
-                if (clientsocketid === null)
-                    io.emit(`server:get-banlist-${servername}`, results);
-                else
-                    io.to(clientsocketid).emit(`server:get-banlist-${servername}`, results);
-                });
+                if (results.length > 0){
+                    if (clientsocketid === null)
+                        io.emit(`server:get-banlist-${servername}`, results);
+                    else
+                        io.to(clientsocketid).emit(`server:get-banlist-${servername}`, results);   
+                }else{ //Normally not in use, but in case the players is not in de the database
+                    var newPlayerlist = [];
+                    players.map(player => {
+                        var validDisplaynameChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+                        var valid = true;
+                        for (var j = 0; j < player.Displayname.length; j++){
+                            if (!validDisplaynameChars.includes(player.Displayname[j]))
+                                valid = false;
+                        }
+                        if (valid){
+                            mojangAPI.getPlayerHead(player.UUID).then((icon) => {
+                                var clonePlayer = {
+                                    Displayname: player.Displayname,
+                                    UUID: player.UUID,
+                                    Icon: icon
+                                }
+                                newPlayerlist.push(clonePlayer);
+                                if (newPlayerlist.length >= players.length){
+                                    if (clientsocketid === null)
+                                        io.emit(`server:get-banlist-${servername}`, newPlayerlist);
+                                    else
+                                        io.to(clientsocketid).emit(`server:get-banlist-${servername}`, newPlayerlist);   
+                                }
+                            }).catch(function() {});
+                        }
+                    })
+                }
+            });
         }else{
             if (clientsocketid === null)
                 io.emit(`server:get-banlist-${servername}`, players);

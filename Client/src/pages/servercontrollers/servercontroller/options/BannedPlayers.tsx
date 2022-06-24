@@ -34,7 +34,7 @@ function BannedPlayers(props: {Server: any}) {
             if (banned.Displayname.toLowerCase().startsWith(bannedSearch.toLowerCase()) || bannedSearch === "")
                 shownList.push(banned); 
         })
-        setShownBannedPlayers(shownList);
+        setShownBannedPlayers(sort_by_key(shownList, "Displayname"));
     }, [bannedPlayers, bannedSearch]);
 
     //MENU HANDLERS
@@ -51,6 +51,12 @@ function BannedPlayers(props: {Server: any}) {
     function handleCloseBannedModal(){
         setInfoPlayer(undefined)
         setBannedModalOpen(false);
+    }
+    function sort_by_key(array: any, key: any){
+        return (array.sort(function(a:any,b:any){
+            var x = a[key].toLowerCase() < b[key].toLowerCase()? -1:1; 
+            return x; 
+        }))
     }
     return (
         <div className='bannedpanel'>
