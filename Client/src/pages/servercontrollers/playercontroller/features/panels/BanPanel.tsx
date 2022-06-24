@@ -42,7 +42,7 @@ function BanPanel(props: {Server:any, player: any;}){
     return (
         <>
             <div className='panel-header'>
-                Crash Panel - {props.player.Displayname}
+                Ban Panel - {props.player.Displayname}
             </div>
             <div className='panel-line'></div>
             <div className='banpanel-container'>

@@ -1,6 +1,6 @@
-import { CircularProgress } from '@mui/material';
+import { Button, CircularProgress, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import SimplePopup from '../../../globaltsx/SimplePopup';
 import IpAddress from '../../../IpAddress';
 import { socket } from '../../../socket/socket';
@@ -11,6 +11,7 @@ import Dashboard from './options/Dashboard';
 import Files from './options/Files';
 import Whitelist from './options/Whitelist';
 import './ServerControllerPageStyling.scss';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function ServerControllerPage(){
     const { serverid } = useParams();
@@ -45,15 +46,38 @@ function ServerControllerPage(){
         listenPopups();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        if(server !== null)
+            handleOptionClick(<Dashboard Server={server} />)
+    }, [server]);
     function handleOptionClick(selection: any){
         setSelectedOption(selection);
     }
     //POPUP SYSTEM
     const [popups, setPopUps] = useState<any[]>([]);
     function handlePopup(message: string, severity: string, error: string){
+        var formatMessage: any;
+        if (error !== null)
+            formatMessage = [
+                <div key={error}>
+                    <div>
+                        {message}
+                    </div>
+                    <Tooltip title={error}>  
+                        <span style={{cursor: "pointer", color: "gray", width: "auto"}}>Bekijk error</span>
+                    </Tooltip>
+                </div>
+            ]
+        else{
+            formatMessage = [ 
+                <div key={message}>
+                    {message}
+                </div>
+            ]
+        }
         var popup = {
             Title: "Server Controller",
-            Description: message,
+            Description: formatMessage,
             Severity: severity
         }
         setPopUps((popups:any) => [...popups, popup]);
@@ -103,6 +127,18 @@ function ServerControllerPage(){
                         <CircularProgress />
                     }
                 </div>
+                <Link to={"/controller/servers/" + serverid} style={{width: "100%", textDecoration: "none"}}>
+                    <Button 
+                        variant="contained" 
+                        startIcon={<ArrowBackIcon />}
+                        sx={{
+                            marginTop: '10px',
+                            width: "100%",
+                            backgroundColor: "#13335C"
+                        }}>
+                            Ga terug
+                    </Button>
+                </Link> 
             </div>
             <div className='servercontroller-panel'>
                 {selectedOption === null ? <>Geen Optie geselecteerd!</> : selectedOption}

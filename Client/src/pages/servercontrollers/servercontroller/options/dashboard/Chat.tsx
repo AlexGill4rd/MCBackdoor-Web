@@ -14,11 +14,10 @@ function Chat(props: {Server: any, Messages: string[]}) {
     function handleScroll(){
         if (divRef.current?.scrollHeight !== undefined){
             var scrolledToBottom:number = Math.abs(divRef.current?.scrollHeight - divRef.current?.clientHeight - divRef.current?.scrollTop);
-            if (scrolledToBottom === 0){
+            if (scrolledToBottom === 0)
                 setScrolled(false);
-            }else {
-                setScrolled(true);
-            }
+            else 
+                setScrolled(true); 
         }
     }
 

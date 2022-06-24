@@ -23,7 +23,7 @@ function Dashboard(props: {Server: any}) {
             socket.emit("feature:server", socket.id, server.Servername, "playerlist", {});
         }
         function updatePlayers(){
-            socket.on(`server:get-playerlist-${props.Server.id}`, data => {
+            socket.on(`server:get-playerlist`, data => {
                 setPlayers(data);
             })
         }
@@ -117,6 +117,7 @@ function Dashboard(props: {Server: any}) {
         var data = {
             Image: image
         }
+        console.log(data);
         socket.emit("feature:server", socket.id, props.Server.Servername, "icon-update", data)
     }
     //SERVER FUNCTIONS
@@ -195,12 +196,14 @@ function Dashboard(props: {Server: any}) {
                                 marginLeft: "10px",
                             }}
                             >
-                            {playernames.map((name) => (
-                                <MenuItem key={name} value={name}>
-                                    <Checkbox checked={filters.indexOf(name) > -1} />
-                                    <ListItemText primary={name} />
-                                </MenuItem>
-                            ))}
+                            {playernames.map((name) => {
+                                return (
+                                    <MenuItem key={name} value={name}>
+                                        <Checkbox checked={filters.indexOf(name) > -1} />
+                                        <ListItemText primary={name} />
+                                    </MenuItem>
+                                );
+                            })}
                         </Select>
                     </div>
                     <Chat Server={server} Messages={messagesFound}/>

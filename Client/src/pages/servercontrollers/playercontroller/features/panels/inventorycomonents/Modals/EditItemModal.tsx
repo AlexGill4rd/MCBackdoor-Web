@@ -81,7 +81,9 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
             }
             loreList.push(loreline)
         })
-        if (loreIndex === 0)loreList.push(lore)
+        if (loreIndex < 1){
+            loreList.push(lore)
+        }
         setLores(loreList);
         setLore("");
         setLoreIndex(0);
@@ -108,8 +110,11 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
     function handleEditClick(){
         var editedItemstack = itemstack;
         //For displayname
-        if(displayname !== null)
+  
+        if (displayname !== null){
+            editedItemstack.itemmeta = {}
             editedItemstack.itemmeta.displayname = displayname
+        }
         if (displayname === "")
             delete editedItemstack.itemmeta['displayname'];
 
@@ -213,11 +218,11 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                     <div className='editmodal-menu-lore'>
                         <div className='editmodal-menu-lore-text'>
                             <label className='editmodal-menu-kop'>Lore:</label>
-                            <input value={lore != null ? lore : ""} onChange={handleLoreChange} type="text" id="llore" name="lore" placeholder="Geef een lore lijn in..." />
+                            <input value={lore !== null ? lore : ""} onChange={handleLoreChange} type="text" id="llore" name="lore" placeholder="Geef een lore lijn in..." />
                         </div>
                         <div className='editmodal-menu-lore-index'>
                             <label className='editmodal-menu-kop'>Index:</label>
-                            <input value={loreIndex} onChange={handleIndexChange} min={0} max={lores.length + 1} type="number" id="lindex" name="index" placeholder="Index..." />
+                            <input value={loreIndex} onChange={handleIndexChange} min={0} max={lores.length} type="number" id="lindex" name="index" placeholder="Index..." />
                         </div>
                     </div>
                     
@@ -286,7 +291,7 @@ function EditItemModal(props: {item: any, onCancel: any, onAccept: any}){
                                 marginTop: '10px'
                             }}>
                                 Remove Enchants
-                            </Button>
+                        </Button>
                     </div>
                     <Button 
                         onClick={handleEditClick} 
