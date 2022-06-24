@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../socket/socket';
 import World from './worlds/World';
@@ -40,22 +41,71 @@ function Worlds(props: {Server: any}) {
 
             {selectedWorld && 
                 <div className='worlds-information'>
-                    <span>World Name: {selectedWorld.Worldname}</span>
-                    <span>Seed: {selectedWorld.Seed}</span>
-                    <span>Difficulty: {selectedWorld.Difficulty}</span>
-                    <span>Entities: {selectedWorld.Entities}</span>
-                    <span>FullTime: {selectedWorld.FullTime}</span>
-                    <span>Gamerules: {selectedWorld.Gamerules}</span>
-                    <span>Gametime: {selectedWorld.Gametime}</span>
-                    <span>Active players:</span>
-                    {selectedWorld.Players.map((player: any) => {
-                        return (<span>- {player.Displayname}</span>);
-                    })}
-                    <span>Time: {selectedWorld.Time}</span>
-                    <span>ViewDistance: {selectedWorld.ViewDistance}</span>
-                    <span>MaxHeight: {selectedWorld.MaxHeight}</span>
-                    <span>MinHeight: {selectedWorld.MinHeight}</span>
-                    <span>UUID: {selectedWorld.UUID}</span>
+                    <div className='worlds-information-left'>
+                        <label>Server Data</label>
+                        <div className='worlds-information-data'>
+                            <div className='worlds-information-info'>
+                                <label>Servername:</label>
+                                <input readOnly type='text' value={selectedWorld.Worldname} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>Seed:</label>
+                                <input readOnly type='text' value={selectedWorld.Seed} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>Difficulty:</label>
+                                <input readOnly type='text' value={selectedWorld.Difficulty} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>Times:</label>
+                                <input readOnly type='text' value={selectedWorld.FullTime + " Fulltime"} />
+                                <input readOnly type='text' value={selectedWorld.Time + " Time"} />
+                                <input readOnly type='text' value={selectedWorld.Gametime + " Gametime"} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>ViewDistance:</label>
+                                <input readOnly type='text' value={selectedWorld.ViewDistance} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>MaxHeight:</label>
+                                <input readOnly type='text' value={selectedWorld.MaxHeight} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>MinHeight:</label>
+                                <input readOnly type='text' value={selectedWorld.MinHeight} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>UUID:</label>
+                                <input readOnly type='text' value={selectedWorld.UUID} />
+                            </div>
+                        </div>
+                    </div>
+                    <div className='worlds-information-middle'>
+                        <label>Players</label>
+                        <div className='worlds-information-players'>
+                            {selectedWorld.Players.map((player: any) => {
+                                return (
+                                    <div className='worlds-information-players-player'>
+                                        <Tooltip title={"UUID: " + player.UUID} placement="top" disableInteractive>
+                                            <span>{player.Displayname}</span>
+                                        </Tooltip>
+                                    </div>
+                                );
+                            })}
+                            
+                        </div>
+                    </div>
+                    <div className='worlds-information-right'>
+                        <label>Gamerules</label>
+                        <div className='worlds-information-gamerules'>
+                            {selectedWorld.Gamerules.map((gamerule: any) => {
+                                return (
+                                    <span className='worlds-information-gamerules-gamerule'>{gamerule}</span>
+                                );
+                            })}
+                            
+                        </div>
+                    </div>
                 </div>
             }
     
