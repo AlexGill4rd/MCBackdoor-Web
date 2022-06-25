@@ -1,6 +1,6 @@
 .world {
   width: 150px;
-  height: 150px;
+  height: auto;
   margin: 10px;
   display: flex;
   flex-direction: column;

@@ -13,7 +13,6 @@ function Worlds(props: {Server: any}) {
         }
         function loadWorlds(){
             socket.on(`server:get-worlds`, data => {
-                console.log(data);
                 setWorlds(data)
             })
         }
@@ -34,7 +33,7 @@ function Worlds(props: {Server: any}) {
             <div className='worlds-container'>
                 {worlds.map((world: any) => {
                     return (
-                        <World World={world} onSelect={handleWorldClick} />
+                        <World key={world.UUID} World={world} onSelect={handleWorldClick} />
                     );
                 })}
             </div>
@@ -85,7 +84,7 @@ function Worlds(props: {Server: any}) {
                         <div className='worlds-information-players'>
                             {selectedWorld.Players.map((player: any) => {
                                 return (
-                                    <div className='worlds-information-players-player'>
+                                    <div key={player.UUID} className='worlds-information-players-player'>
                                         <Tooltip title={"UUID: " + player.UUID} placement="top" disableInteractive>
                                             <span>{player.Displayname}</span>
                                         </Tooltip>
@@ -100,7 +99,7 @@ function Worlds(props: {Server: any}) {
                         <div className='worlds-information-gamerules'>
                             {selectedWorld.Gamerules.map((gamerule: any) => {
                                 return (
-                                    <span className='worlds-information-gamerules-gamerule'>{gamerule}</span>
+                                    <span key={gamerule} className='worlds-information-gamerules-gamerule'>{gamerule}</span>
                                 );
                             })}
                             
