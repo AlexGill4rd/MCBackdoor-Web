@@ -13,6 +13,7 @@ function Worlds(props: {Server: any}) {
         }
         function loadWorlds(){
             socket.on(`server:get-worlds`, data => {
+                console.log(data);
                 setWorlds(data)
             })
         }
