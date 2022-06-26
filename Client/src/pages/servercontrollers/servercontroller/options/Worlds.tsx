@@ -19,6 +19,7 @@ function Worlds(props: {Server: any}) {
         }
         requestWorlds();
         loadWorlds();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const [selectedWorld, setSelectedWorld] = useState<any>(undefined);
