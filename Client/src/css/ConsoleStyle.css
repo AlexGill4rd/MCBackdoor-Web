@@ -44,17 +44,37 @@
   align-items: center;
 }
 
-.console-container-commandline input[type=text] {
-  width: calc(100% - 200px - 10px - 160px - 10px);
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 .console-container-commandline button {
   width: 200px;
   margin-left: 10px;
   font-size: 0.8em;
+}
+
+.console-container-commandline-input {
+  width: calc(100% - 200px - 10px - 160px - 10px);
+  height: 33px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  padding-left: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  color: #555555;
+}
+
+.console-container-commandline-input input[type=text] {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  margin-left: 8px;
+}
+
+.console-container-commandline-input input[type=text]:focus {
+  border: none;
+  outline: white;
 }
 
 .console-loading {

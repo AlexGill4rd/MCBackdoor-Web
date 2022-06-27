@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { socket } from "../../../../socket/socket";
 
 import SendIcon from '@mui/icons-material/Send';
+import ConnectedTvIcon from '@mui/icons-material/ConnectedTv';
 
 import './ConsoleStyle.scss';
 
@@ -113,7 +114,10 @@ function Console(props: {Server: any}){
                     <div ref={divRef} />
                 </div >
                 <form className="console-container-commandline" onSubmit={handleFormSubmit} onKeyDown={checkKey}>
-                    <input autoComplete="off" type="text" onChange={handleCommandChange} value={command} id="lcommand" name="command" placeholder="Geef een commando in..." />
+                    <div className="console-container-commandline-input">
+                        <ConnectedTvIcon />
+                        <input autoComplete="off" type="text" onChange={handleCommandChange} value={command} id="lcommand" name="command" placeholder="Geef een commando in..." />
+                    </div>
                     <Select
                         labelId="demo-multiple-checkbox-label"
                         id="demo-multiple-checkbox"
