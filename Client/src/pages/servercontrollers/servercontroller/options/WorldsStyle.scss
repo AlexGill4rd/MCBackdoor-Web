@@ -62,7 +62,7 @@
             @include centerFlex(flex-start, center, column);
         }
         &-right{
-            width: 300px;
+            width: 350px;
             height: 335px;
             
             border-top: 1px solid rgb(192, 192, 192);
@@ -74,6 +74,7 @@
         }
         &-info{
             width: auto;
+            padding: 0 10px;
 
             @include centerFlex(center, flex-start, column);
 
@@ -135,8 +136,8 @@
                 margin-top: 5px;
 
                 background-color: $blue-1;
-                @include centerFlex(center, space-between, row);
-                cursor: default;
+                @include centerFlex(space-between, center, row);
+                cursor: pointer;
             }
         }
     }

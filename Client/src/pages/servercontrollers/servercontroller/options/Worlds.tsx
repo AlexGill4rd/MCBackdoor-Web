@@ -1,11 +1,13 @@
 import { Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../socket/socket';
+import GameruleModal from './worlds/GameruleModal';
 import World from './worlds/World';
 import './WorldsStyle.scss';
 
 function Worlds(props: {Server: any}) {
     const [worlds, setWorlds] = useState<any[]>([]);
+    const [selectedWorld, setSelectedWorld] = useState<any>();
 
     useEffect(() => {
         function requestWorlds(){
@@ -13,20 +15,63 @@ function Worlds(props: {Server: any}) {
         }
         function loadWorlds(){
             socket.on(`server:get-worlds`, data => {
-                console.log(data);
                 setWorlds(data)
+               
             })
         }
         requestWorlds();
         loadWorlds();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        if (selectedWorld !== undefined){
+            worlds.forEach((world: any) => {
+                if (world.Worldname === selectedWorld.Worldname){
+                    setSelectedWorld(world);
+                    return;
+                }
+            })
+        }
+    }, [worlds]);
 
-    const [selectedWorld, setSelectedWorld] = useState<any>(undefined);
+    //Gamerule change modal
     function handleWorldClick(world: any){
         setSelectedWorld(world);
     }
-
+    const [gameruleModalIsOpen, setGameruleModalIsOpen] = useState<boolean>(false);
+    const [editGamerule, setEditGamerule] = useState<any>(undefined);
+    function handleGameruleClick(gamerule: any){
+        if (props.Server.State){
+            setGameruleModalIsOpen(true)
+            setEditGamerule(gamerule);
+        }else
+            socket.emit("feature:server-log", socket.id, "Je kan geen gamerules aanpassen wanneer de server uit staat!", "error", "Server disabled");   
+    }
+    function sluitGameruleModal(){
+        setEditGamerule(undefined);
+        setGameruleModalIsOpen(false)
+    }
+    function handleGameruleChange(gamerule: string, value: any, world: string){
+        sluitGameruleModal();
+        if (props.Server.State){
+            var data = {
+                Gamerule: gamerule,
+                Value: value,
+                World: world
+            }
+            socket.emit("feature:server", socket.id, props.Server.Servername, "gamerule-update", data)
+        } else
+            socket.emit("feature:server-log", socket.id, "Je kan geen gamerules aanpassen wanneer de server uit staat!", "error", "Server disabled");   
+        
+    }
+    const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    function niceBytes(x: any){
+        let l = 0, n = parseInt(x, 10) || 0;
+        while(n >= 1024 && ++l){
+            n = n/1024;
+        }
+        return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
+    }
     return (
         <div className='worlds'>
             <div className='worlds-header'>
@@ -56,6 +101,10 @@ function Worlds(props: {Server: any}) {
                             <div className='worlds-information-info'>
                                 <label>Difficulty:</label>
                                 <input readOnly type='text' value={selectedWorld.Difficulty} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <label>Folder Size:</label>
+                                <input readOnly type='text' value={niceBytes(selectedWorld.Size)} />
                             </div>
                             <div className='worlds-information-info'>
                                 <label>Times:</label>
@@ -101,7 +150,11 @@ function Worlds(props: {Server: any}) {
                         <div className='worlds-information-gamerules'>
                             {selectedWorld.Gamerules.map((gamerule: any) => {
                                 return (
-                                    <span key={gamerule} className='worlds-information-gamerules-gamerule'>{gamerule}</span>
+                                    <div onClick={() => handleGameruleClick(gamerule)} key={gamerule.Gamerule} className='worlds-information-gamerules-gamerule'>
+                                        <div>{gamerule.Gamerule}</div>
+                                        <div>:</div>
+                                        <div>{gamerule.Value.toString()}</div>
+                                    </div>
                                 );
                             })}
                             
@@ -109,7 +162,7 @@ function Worlds(props: {Server: any}) {
                     </div>
                 </div>
             }
-    
+            {gameruleModalIsOpen && <GameruleModal Gamerule={editGamerule} onAccept={handleGameruleChange} onCancel={sluitGameruleModal} />}
         </div>
     );
 }
