@@ -139,6 +139,20 @@
 
                 @include centerFlex(center, flex-start, column);
             }
+            &-broadcast{
+                width: 100%;
+                margin-bottom: 10px;
+                input[type=text] {
+                    width: 100%;
+                    padding: 10px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    margin-top: 5px;
+                    color: rgb(49, 49, 49);
+
+                    background-color: white;
+                }
+            }
             &-icon{
                 width: 100%;
                 height: auto;

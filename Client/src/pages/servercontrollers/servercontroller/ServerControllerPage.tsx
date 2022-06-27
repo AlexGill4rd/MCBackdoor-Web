@@ -125,11 +125,6 @@ function ServerControllerPage(){
                                 Description="De werelden waaruit de server bestaadt en hun informatie" 
                                 onClick={() => handleOptionClick(<Worlds Server={server} />)}
                             />
-                            <OptionButton 
-                                Title='Broadcasting' 
-                                Description="Optie om over de server een broadcast te doen" 
-                                onClick={() => handleOptionClick(<Console Server={server} />)}
-                            />
                         </> : 
                         <CircularProgress />
                     }

@@ -152,6 +152,22 @@ function Dashboard(props: {Server: any}) {
         else
             socket.emit("feature:server-log", socket.id, "De server staat niet aan!", "error", "Server disabled");
     }
+    //Broadcasting
+    const [bc, setBC] = useState<string>("");
+    function handlebroadcast(e: any){
+        e.preventDefault();
+        if (server.State){
+            var data = {
+                Message: bc
+            }
+            socket.emit("feature:server", socket.id, props.Server.Servername, "broadcast", data)
+            setBC("");
+        } else
+            socket.emit("feature:server-log", socket.id, "Je kan geen broadcast doen wanneer de server uit staat!", "error", "Server disabled");   
+    }
+    function handleBCChange(e: any){
+        setBC(e.target.value);
+    }
     return (
         <div className='dashboard'> 
             <div className='dashboard-data'>
@@ -164,6 +180,12 @@ function Dashboard(props: {Server: any}) {
                         <div className='dashboard-data-info-motd'>
                             <label>Server MOTD:</label>
                             <input readOnly type='text' value={server.MOTD} />
+                        </div>
+                        <div className='dashboard-data-info-broadcast'>
+                            <label>Broadcast naar de server:</label>
+                            <form onSubmit={handlebroadcast}>
+                                <input onChange={handleBCChange} type='text' value={bc} placeholder="Geef een bericht..." />
+                            </form>
                         </div>
                         <div className='dashboard-data-info-version'>
                             <div className='dashboard-data-info-version-icon'>

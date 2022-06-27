@@ -175,6 +175,21 @@
   align-items: flex-start;
 }
 
+.dashboard-data-info-broadcast {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.dashboard-data-info-broadcast input[type=text] {
+  width: 100%;
+  padding: 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  color: #313131;
+  background-color: white;
+}
+
 .dashboard-data-info-icon {
   width: 100%;
   height: auto;
