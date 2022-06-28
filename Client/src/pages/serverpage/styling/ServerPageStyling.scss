@@ -5,5 +5,15 @@
     width: 100vw;
     min-height: 100vh;
 
-    @include centerFlex(center, center, column);
+    background-color: $yellow-2;
+    padding: 40px 0;
+    @include centerFlex(flex-start, center, column);
+    h1{
+        color: white;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
 }

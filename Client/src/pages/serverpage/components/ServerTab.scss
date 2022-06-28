@@ -2,34 +2,56 @@
 @import '../../../globalscss/Colors.scss';
 
 .servertab{
-    width: 800px;
-    min-height: 50px;
+    @media only screen and (max-width: 800px) {
+        width: 300px;
+        min-height: auto;
+
+        @include centerFlex(space-between, center, column);
+    }
+    @media only screen and (min-width: 800px) {
+        width: 800px;
+        min-height: 50px;
+
+        @include centerFlex(space-between, center, row);
+    }
 
     border-radius: 6px;
-    background-color: $yellow-1;
+    background-color: white;
 
     padding: 5px 20px;
     margin: 10px 0;
 
-    @include centerFlex(space-between, center, row);
     &:hover{
-        background-color: $yellow-2;
+        background-color: rgb(243, 243, 243);
     }
     &-id{
-        width: auto;
-        height: 100%;
-
-        cursor: pointer;
-
-        @include centerFlex(center, center, row);
-        &:hover{
-            color: rgb(83, 83, 83);
+        @media only screen and (max-width: 800px) {
+            height: 0;
+            opacity: 0;
+        }
+        @media only screen and (min-width: 800px) {
+            width: auto;
+            height: 100%;
+    
+            cursor: pointer;
+    
+            @include centerFlex(center, center, row);
+            &:hover{
+                color: rgb(83, 83, 83);
+            }
         }
     }
     &-image{
-        width: 35px;
-        height: 35px;
         @include centerFlex(center, center, row);
+        @media only screen and (max-width: 800px) {
+            width: 100px;
+            height: auto;
+            margin: 10px;
+        }
+        @media only screen and (min-width: 800px) {
+            width: 35px;
+            height: 35px;
+        }
     }
     &-ip{
         width: 240px;
@@ -47,8 +69,15 @@
         @include centerFlex(center, center, row);
     }
     &-verticalline{
-        width: 10px;
-        height: 20px;
+        @media only screen and (max-width: 800px) {
+            height: 0;
+            opacity: 0;
+        }
+        @media only screen and (min-width: 800px) {
+            width: 10px;
+            height: 20px;
+        }
+
     }
     a{
         text-decoration: none;
