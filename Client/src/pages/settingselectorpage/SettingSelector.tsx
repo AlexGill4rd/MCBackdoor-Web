@@ -11,21 +11,25 @@ function SettingSelector(){
                     title='Player Settings' 
                     description='Pas de instellingen van de spelers op de server aan' 
                     path={'/controller/servers/edit/player/' + serverid}
+                    image='/icons/controllerpage/statistics'
                 />
                 <NavTab 
                     title='Server Settings' 
                     description='Voer verschillende acties uit op de server' 
                     path={'/controller/servers/edit/server/' + serverid}
+                    image='/icons/controllerpage/statistics'
                 />
                 <NavTab 
                     title='Extra Settings' 
                     description='Bekijk de verschillende extra instellingen' 
                     path={'/controller/servers/edit/extra/' + serverid}
+                    image='/icons/controllerpage/statistics'
                 />
                 <NavTab 
                     title='Logging Panel' 
                     description='Bekijk het netwerk verkeer van de server' 
                     path={'/controller/servers/logging/' + serverid}
+                    image='/icons/controllerpage/statistics'
                 />
             </div>
         </div>

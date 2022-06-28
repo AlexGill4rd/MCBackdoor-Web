@@ -11,6 +11,7 @@
     width: 100vw;
     min-height: 100vh;
 
+    background-color: $yellow-2;
     @include centerFlex(center, center, row);
 }
 .controllerhome-buttons{
