@@ -131,7 +131,6 @@ module.exports = (io) => {
         });
     };
     const getServerWorlds = function (clientsocketid, worlds) {    
-        console.log(worlds)
         io.to(clientsocketid).emit(`server:get-worlds`, worlds);
     };
     //Player list part

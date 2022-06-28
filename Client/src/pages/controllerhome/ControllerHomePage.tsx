@@ -1,4 +1,5 @@
-import React from 'react';
+import { Tooltip } from '@mui/material';
+import { Link } from 'react-router-dom';
 import NavTab from '../settingselectorpage/NavTab';
 
 import './styling/ControllerHomePageStyling.scss';
@@ -7,7 +8,11 @@ function ControllerHomePage(){
 
     return (
         <div className="controllerhome-container">
-            <h1>Selecteer één van de optie's om verder te gaan!</h1>
+            <Link to='/'>
+                <Tooltip title="Ga terug naar vorige pagina!">
+                    <h1>Selecteer één van de optie's om verder te gaan!</h1>
+                </Tooltip>
+            </Link>
             <div className='controllerhome-buttons'>
                 <NavTab 
                     title='Statistics' 
