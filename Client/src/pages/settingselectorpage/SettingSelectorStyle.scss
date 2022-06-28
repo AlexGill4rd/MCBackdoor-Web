@@ -5,8 +5,16 @@
     width: 100%;
     min-height: 100vh;
 
-    @include centerFlex(center, center, row);
-
+    background-color: $yellow-2;
+    @include centerFlex(center, center, column);
+    h1{
+        color: white;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
     &-buttons{
         width: 100%;
         height: auto;
