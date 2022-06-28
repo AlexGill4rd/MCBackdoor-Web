@@ -11,42 +11,48 @@
 }
 .homepage{
     &-panel{
-        width: 60%;
-        height: 500px;
-
-        @include centerFlex(center, center, row);
-    }
-    &-left{
-        width: 50%;
+        width: 90%;
         height: 100%;
-        background-color: white;
 
         @include centerFlex(center, center, column);
-        a{
-            text-decoration: none;
-            color: white;
-            font-size: 1.5em;      
+        &-info{
+            width: 550px;
+            @include centerFlex(center, center, row);
+            flex-wrap: wrap;
         }
         &-button{
-            width: 250px;
-            height: 100px;
-            
-            background-color: #1a69db;
-            @include centerFlex(center, center, column);
-    
-            cursor: pointer;
-            transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
-            &:hover{
-                transform: scale(1.05);
+            width: 520px;
+            a{
+                text-decoration: none;
+                color: white;
             }
         }
     }
-    &-right{
-        width: 50%;
-        height: 100%;
-        background-color: #1a69db;
+    &-tab{
+        width: 250px;
+        height: 220px;
 
+        background-color: white;
+        margin: 10px;
         padding: 20px;
-        color: white;
+        h4{
+            color: black;
+            text-align: right;
+        }
+        p{
+            color: rgb(87, 87, 87);
+            text-align: right;
+        }
+        img{
+            width: auto;
+            height: 50px;
+            margin-bottom: 5px
+        }
+        transition: transform 100ms ease-in-out;
+        cursor: default;
+        &:hover{
+            transform: scale(1.05)
+        }
+        @include centerFlex(flex-start, flex-end, column);
     }
 }

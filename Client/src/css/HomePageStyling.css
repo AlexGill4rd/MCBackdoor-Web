@@ -9,51 +9,63 @@
 }
 
 .homepage-panel {
-  width: 60%;
-  height: 500px;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage-panel-info {
+  width: 550px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-.homepage-left {
-  width: 50%;
-  height: 100%;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.homepage-panel-button {
+  width: 520px;
 }
 
-.homepage-left a {
+.homepage-panel-button a {
   text-decoration: none;
   color: white;
-  font-size: 1.5em;
 }
 
-.homepage-left-button {
+.homepage-tab {
   width: 250px;
-  height: 100px;
-  background-color: #1a69db;
+  height: 220px;
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+  transition: transform 100ms ease-in-out;
+  cursor: default;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
-.homepage-left-button:hover {
+.homepage-tab h4 {
+  color: black;
+  text-align: right;
+}
+
+.homepage-tab p {
+  color: #575757;
+  text-align: right;
+}
+
+.homepage-tab img {
+  width: auto;
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+.homepage-tab:hover {
   transform: scale(1.05);
-}
-
-.homepage-right {
-  width: 50%;
-  height: 100%;
-  background-color: #1a69db;
-  padding: 20px;
-  color: white;
 }
 /*# sourceMappingURL=HomePageStyling.css.map */
