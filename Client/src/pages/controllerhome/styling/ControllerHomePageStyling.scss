@@ -12,14 +12,20 @@
     min-height: 100vh;
 
     background-color: $yellow-2;
-    @include centerFlex(center, center, row);
+    padding: 20px;
+    @include centerFlex(center, center, column);
+    h1{
+        color: white;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 }
 .controllerhome-buttons{
     width: 100%;
     height: auto;
 
     @include centerFlex(center, center, row);
-    
+    flex-wrap: wrap;
     a{
         text-decoration: none;
     }

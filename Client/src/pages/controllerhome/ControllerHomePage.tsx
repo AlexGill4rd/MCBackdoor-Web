@@ -7,6 +7,7 @@ function ControllerHomePage(){
 
     return (
         <div className="controllerhome-container">
+            <h1>Selecteer één van de optie's om verder te gaan!</h1>
             <div className='controllerhome-buttons'>
                 <NavTab 
                     title='Statistics' 
