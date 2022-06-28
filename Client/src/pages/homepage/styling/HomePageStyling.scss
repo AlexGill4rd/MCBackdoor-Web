@@ -37,11 +37,35 @@
         padding: 20px;
         h4{
             color: black;
-            text-align: right;
         }
         p{
             color: rgb(87, 87, 87);
-            text-align: right;
+        }
+        img{
+            width: auto;
+            height: 50px;
+            margin-bottom: 5px
+        }
+        transition: transform 100ms ease-in-out;
+        cursor: default;
+        &:hover{
+            transform: scale(1.05)
+        }
+        @include centerFlex(flex-start, flex-start, column);
+    }
+    &-tab2{
+        width: 250px;
+        height: 220px;
+
+        background-color: white;
+        margin: 10px;
+        padding: 20px;
+        text-align: right;
+        h4{
+            color: black;
+        }
+        p{
+            color: rgb(87, 87, 87);
         }
         img{
             width: auto;
