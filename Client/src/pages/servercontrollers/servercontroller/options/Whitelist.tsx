@@ -129,7 +129,7 @@ function Whitelist(props: {Server: any}) {
     return (
         <div className='whitelist'>
             <div className='whitelist-addplayer'>
-                <img src={newPlayer && newPlayer.Icon} alt="player icon" />
+                {newPlayer && <img src={newPlayer && newPlayer.Icon} alt="player icon" />}
                 <input autoComplete="off" type="text" onChange={handleNewPlayerChange} value={newPlayerName} id="newplayer" name="newplayer" placeholder="Voeg een nieuwe speler toe.." />
                 {!newPlayer &&<Button 
                     onClick={handelPlayerSearch} 

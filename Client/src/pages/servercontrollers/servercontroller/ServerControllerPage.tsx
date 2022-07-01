@@ -13,6 +13,7 @@ import Whitelist from './options/Whitelist';
 import './ServerControllerPageStyling.scss';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Worlds from './options/Worlds';
+import MobSpawner from './options/MobSpawner';
 
 function ServerControllerPage(){
     const { serverid } = useParams();
@@ -124,6 +125,11 @@ function ServerControllerPage(){
                                 Title='Worlds' 
                                 Description="De werelden waaruit de server bestaadt en hun informatie" 
                                 onClick={() => handleOptionClick(<Worlds Server={server} />)}
+                            />
+                            <OptionButton 
+                                Title='Mob Spawner' 
+                                Description="Spawn zelf samengestelde entities in een wereld" 
+                                onClick={() => handleOptionClick(<MobSpawner Server={server} />)}
                             />
                         </> : 
                         <CircularProgress />
