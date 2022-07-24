@@ -26,6 +26,9 @@ I use Sass for easy styling for CSS. In sass you get the possibility to create f
 ### Typescript
 I use typescript instead of javascript. Typescript is the same as javascript but only with some more features. For example, you have to assign variables to a type and properties work differently.
 
+### MySQL
+I use MySQL to store player data and other important information. If you search through the code you will find the names of the tables and login data.
+
 ## Which functions can you find?
 In the project you can find a very large assortment of additions. Below is a summary:
 
