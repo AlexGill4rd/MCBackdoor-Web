@@ -66,14 +66,24 @@
             height: auto;
             @include centerFlex(center, center, column);
         }
-        &-name{
+        &-setting{
             margin: 10px 0;
             @include centerFlex(center, flex-start, column);
         }
-        &-amount{
-
+        &-setting{
             margin: 10px 0;
             @include centerFlex(center, flex-start, column);
+        }
+        &-setting{
+            margin: 10px 0;
+            @include centerFlex(center, flex-start, column);
+            &-selection{
+                width: 100%;
+                button{
+                    width: 50%;
+                }
+                @include centerFlex(space-between, center, row);
+            }
         }
     }
 }

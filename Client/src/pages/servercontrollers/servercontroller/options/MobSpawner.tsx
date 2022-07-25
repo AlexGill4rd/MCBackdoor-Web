@@ -4,6 +4,7 @@ import './MobSpawnerStyle.scss';
 import Entities from './mobspawner/Entities';
 import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel, Tooltip } from '@mui/material';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import { socket } from '../../../../socket/socket';
 
 function MobSpawner(props: {Server: any}){
 
@@ -11,6 +12,7 @@ function MobSpawner(props: {Server: any}){
 
     const [name, setName] = useState<string>("");
     const [amount, setAmount] = useState<number>(0);
+    const [location, setLocation] = useState<string>("");
     const [selectedMob, setSelectedMob] = useState<any>(null);
 
     const [glow, setGlow] = useState<boolean>(false);
@@ -18,9 +20,22 @@ function MobSpawner(props: {Server: any}){
     const [gravity, setGravity] = useState<boolean>(false);
     const [customname, setCustomname] = useState<boolean>(false);
 
-
     function handleMobSpawn(){
-        console.log(glow)
+        var data = {
+            displayname: name,
+            amount: amount,
+            location: location,
+            mobtype: selectedMob.name,
+            settings: {
+                glow: glow,
+                godmode: godmode,
+                gravity: gravity,
+                customname: customname
+            }
+        }
+        if (location.split(",").length === 2 && amount > 0){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "mobspawner", data);
+        }
     }
     function handleMobClick(entity: any){
         if (selectedMob === entity)
@@ -33,10 +48,13 @@ function MobSpawner(props: {Server: any}){
         }
     }
     function handleNameChange(e: any){
-        setAmount(e.target.value)
+        setName(e.target.value)
     }
     function handleAmountChange(e: any) {
         setAmount(e.target.value)
+    }
+    function handleLocationChange(e: any) {
+        setLocation(e.target.value)
     }
     return (
         <div className='mobspawner'>
@@ -67,13 +85,37 @@ function MobSpawner(props: {Server: any}){
             {selectedMob && 
             <div className='mobspawner-settings'>
             <form onSubmit={handleMobSpawn}>
-                <div className='mobspawner-settings-name'>
+                <div className='mobspawner-settings-setting'>
                     <label>Mob Displayname:</label>
                     <input onChange={handleNameChange} type='text' value={name} placeholder="De benaming van de mob..." />
                 </div>
-                <div className='mobspawner-settings-amount'>
+                <div className='mobspawner-settings-setting'>
                     <label>Aantal:</label>
                     <input onChange={handleAmountChange} min={1} type='number' value={amount} placeholder="Aantal te spawnen mobs..." />
+                </div>
+                <div className='mobspawner-settings-setting'>
+                    <label>Location (x, y, z):</label>
+                    <input onChange={handleLocationChange} type='text' value={location} placeholder="Geef een locatie... ('x, y, z')" />
+                    <div className='mobspawner-settings-setting-selection'>
+                        <Button 
+                            variant="contained" 
+                            onClick={handleMobSpawn}
+                            sx={{
+                                margin: "5px 5px 0 0"
+                            }}
+                        >
+                            Select world
+                        </Button> 
+                        <Button 
+                            variant="contained" 
+                            onClick={handleMobSpawn}
+                            sx={{
+                                margin: "5px 0 0 5px"
+                            }}
+                        >
+                            Select player
+                        </Button> 
+                    </div>
                 </div>
                 <FormLabel id="demo-radio-buttons-group-label">Instellingen</FormLabel>
                 <FormGroup>
