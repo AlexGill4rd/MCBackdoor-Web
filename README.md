@@ -33,7 +33,8 @@ I use MySQL to store player data and other important information. If you search 
 In the project you can find a very large assortment of additions. Below is a summary:
 
 ### Server list
-In the start screen you can see all the servers that are infected with the plugin.![image](https://user-images.githubusercontent.com/57497005/174076623-ddf6e232-968e-4f26-8fa8-aefb22638f42.png)
+In the start screen you can see all the servers that are infected with the plugin.
+![image](https://user-images.githubusercontent.com/57497005/180844499-dd5bc6d9-fde6-43ed-af9a-73f41c82b7b0.png)
 
 
 ## Player Panel
@@ -65,7 +66,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Edit player experience
 - Get player experience
 
-### Irritation panel ([Example](https://user-images.githubusercontent.com/57497005/174078265-7cea0a87-e337-40bd-9d3c-f162e47a4a6d.png))
+### Irritation panel ([Page](https://user-images.githubusercontent.com/57497005/174078265-7cea0a87-e337-40bd-9d3c-f162e47a4a6d.png))
 - Teleport the player to a random location
 - Reset the player's food level
 - Rotate the player 180°
@@ -82,7 +83,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Make the players around the player invisible for the player
 - Option to perform multiple actions at once
 
-### Player information ([Example](https://user-images.githubusercontent.com/57497005/175658466-0133aa9d-5273-40f0-baf8-e12834fe4044.png))
+### Player information ([Page](https://user-images.githubusercontent.com/57497005/175658466-0133aa9d-5273-40f0-baf8-e12834fe4044.png))
 - Player name
 - Player UniqueID
 - Player public ipaddress
@@ -94,7 +95,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Player server ipaddress
 
 ## Server Panel
-### Dashboard ([Example](https://user-images.githubusercontent.com/57497005/175658271-b5ee541c-4534-4140-8ad0-96d22e37126e.png))
+### Dashboard ([Page](https://user-images.githubusercontent.com/57497005/180844330-9cce763e-2c79-4242-a424-3a240b5649ae.png))
 - Get the ipaddress from the server
 - Get MOTD from the server
 - Change the version of the server. (So the main jar)
@@ -109,11 +110,11 @@ In the start screen you can see all the servers that are infected with the plugi
 - Get the environment where the sever is hosted
 - Get the number of cores of the CPU
 - Get the player list
-### Console ([Example](https://user-images.githubusercontent.com/57497005/175658236-97155eac-999e-4dee-901c-c9690cebbf12.png))
+### Console ([Page](https://user-images.githubusercontent.com/57497005/175658236-97155eac-999e-4dee-901c-c9690cebbf12.png))
 - Watch the server's live console
 - Execute commands in the console
 - Filter the console by messages
-### File explorer ([Example](https://user-images.githubusercontent.com/57497005/175658593-4635ae01-c577-4be9-b6ae-0180134a33ed.png))
+### File explorer ([Page](https://user-images.githubusercontent.com/57497005/175658593-4635ae01-c577-4be9-b6ae-0180134a33ed.png))
 - View the server files
 - Upload a file in a directory
 - Download a file from the server
@@ -123,16 +124,31 @@ In the start screen you can see all the servers that are infected with the plugi
 - Delete Folders
 - Open directories
 - Edit a file and save it on the server
-### Banned Menu ([Example](https://user-images.githubusercontent.com/57497005/175658165-7b6c6d68-e2cd-4bae-ac11-1f4132f117f9.png))
+### Banned Menu ([Page](https://user-images.githubusercontent.com/57497005/175658165-7b6c6d68-e2cd-4bae-ac11-1f4132f117f9.png))
 - Get the banned players
 - Unban a player
 - Get info about a banned player
-### Whitelist Menu ([Example](https://user-images.githubusercontent.com/57497005/175658219-2394450c-1fcd-4c77-b8db-25e6d61f6dc5.png))
+### Whitelist Menu ([Page](https://user-images.githubusercontent.com/57497005/175658219-2394450c-1fcd-4c77-b8db-25e6d61f6dc5.png))
 - Get the whitelisted player from the server
 - Add a player to the whitelist. (Also players who have not previously joined the server)
 - Remove players from whitelist
 - Find a player
 - Get all the players who have ever joined the server as a choice to add to the whitelist
+### Mob Spawner ([Page](https://user-images.githubusercontent.com/57497005/180843849-81267663-a11e-4409-a54a-12939865fb6a.png))
+This allows you to spawn different types of mobs with their own settings in the world. The location can be set according to your wishes.
+- Select mob types
+- Change displayname
+- Set spawn amount
+- Set spawn location
+> World / Player
+- Settings
+> Glow
+
+> Godmode
+
+> Gravity
+
+> Customname visible
 
 More features to come but my hands can't type faster.
 
