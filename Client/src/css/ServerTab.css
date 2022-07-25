@@ -1,41 +1,78 @@
 .servertab {
-  width: 800px;
-  min-height: 50px;
   border-radius: 6px;
-  background-color: #E1D144;
+  background-color: white;
   padding: 5px 20px;
   margin: 10px 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .servertab {
+    width: 300px;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .servertab {
+    width: 800px;
+    min-height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .servertab:hover {
-  background-color: #DBC500;
+  background-color: #f3f3f3;
 }
 
-.servertab-id {
-  width: auto;
-  height: 100%;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+@media only screen and (max-width: 800px) {
+  .servertab-id {
+    height: 0;
+    opacity: 0;
+  }
 }
 
-.servertab-id:hover {
-  color: #535353;
+@media only screen and (min-width: 800px) {
+  .servertab-id {
+    width: auto;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .servertab-id:hover {
+    color: #535353;
+  }
 }
 
 .servertab-image {
-  width: 35px;
-  height: 35px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .servertab-image {
+    width: 100px;
+    height: auto;
+    margin: 10px;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .servertab-image {
+    width: 35px;
+    height: 35px;
+  }
 }
 
 .servertab-ip {
@@ -65,9 +102,18 @@
   align-items: center;
 }
 
-.servertab-verticalline {
-  width: 10px;
-  height: 20px;
+@media only screen and (max-width: 800px) {
+  .servertab-verticalline {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .servertab-verticalline {
+    width: 10px;
+    height: 20px;
+  }
 }
 
 .servertab a {

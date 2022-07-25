@@ -8,10 +8,22 @@
 .controllerhome-container {
   width: 100vw;
   min-height: 100vh;
+  background-color: #ffbf11;
+  padding: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.controllerhome-container h1 {
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.controllerhome-container a {
+  text-decoration: none;
 }
 
 .controllerhome-buttons {
@@ -21,6 +33,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .controllerhome-buttons a {

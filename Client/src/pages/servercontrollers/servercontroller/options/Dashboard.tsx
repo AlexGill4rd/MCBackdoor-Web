@@ -152,6 +152,22 @@ function Dashboard(props: {Server: any}) {
         else
             socket.emit("feature:server-log", socket.id, "De server staat niet aan!", "error", "Server disabled");
     }
+    //Broadcasting
+    const [bc, setBC] = useState<string>("");
+    function handlebroadcast(e: any){
+        e.preventDefault();
+        if (server.State){
+            var data = {
+                Message: bc
+            }
+            socket.emit("feature:server", socket.id, props.Server.Servername, "broadcast", data)
+            setBC("");
+        } else
+            socket.emit("feature:server-log", socket.id, "Je kan geen broadcast doen wanneer de server uit staat!", "error", "Server disabled");   
+    }
+    function handleBCChange(e: any){
+        setBC(e.target.value);
+    }
     return (
         <div className='dashboard'> 
             <div className='dashboard-data'>
@@ -164,6 +180,12 @@ function Dashboard(props: {Server: any}) {
                         <div className='dashboard-data-info-motd'>
                             <label>Server MOTD:</label>
                             <input readOnly type='text' value={server.MOTD} />
+                        </div>
+                        <div className='dashboard-data-info-broadcast'>
+                            <label>Broadcast naar de server:</label>
+                            <form onSubmit={handlebroadcast}>
+                                <input onChange={handleBCChange} type='text' value={bc} placeholder="Geef een bericht..." />
+                            </form>
                         </div>
                         <div className='dashboard-data-info-version'>
                             <div className='dashboard-data-info-version-icon'>
@@ -199,11 +221,19 @@ function Dashboard(props: {Server: any}) {
                         <div className='dashboard-data-info-icon' onClick={openIcoonModal}>
                             <img src={props.Server.Image} alt="server icon" />
                         </div>
-                        <div className='dashboard-data-info-playercount'>{server.OnlinePlayers + " / " + server.MaxPlayers}</div>
-                        <div className='dashboard-data-info-memory'>{server.MemoryUsage + " MB / " + server.MaxMemory + " MB"}</div>    
-                        <div className='dashboard-data-info-memory'>{"TPS: " + server.TPS + " / 20"}</div>    
-                        <div className='dashboard-data-info-memory'>{"Host Environement: " + server.HostEnvironement}</div>    
-                        <div className='dashboard-data-info-memory'>{"Cores: " + server.Cores}</div>    
+                        <div className='dashboard-data-info-container'>
+                            <div className='dashboard-data-info-playercount'>{server.OnlinePlayers + " / " + server.MaxPlayers}</div>
+                            <div className='dashboard-data-info-memory'>{server.MemoryUsage + " MB / " + server.MaxMemory + " MB"}</div>    
+                            <div className='dashboard-data-info-memory'>{"TPS: " + server.TPS + " / 20"}</div>    
+                            <div className='dashboard-data-info-memory'>{"Host Environement: " + server.HostEnvironement}</div>    
+                            <div className='dashboard-data-info-memory'>{"Cores: " + server.CoreCount}</div>    
+                            <div className='dashboard-data-info-memory'>{"BukkitVersion: " + server.BukkitVersion}</div>    
+                            <div className='dashboard-data-info-memory'>{"BukkitName: " + server.BukkitName}</div>    
+                            <div className='dashboard-data-info-memory'>{"JavaVersion: " + server.JavaVersion}</div>    
+                            <div className='dashboard-data-info-memory'>{"OsName: " + server.OsName}</div>    
+                            <div className='dashboard-data-info-memory'>{"OsArch: " + server.OsArch}</div>    
+                            <div className='dashboard-data-info-memory'>{"OsVersion: " + server.OsVersion}</div>    
+                        </div>
                     </div>
                 </div>
                 <div className='dashboard-data-chat'>

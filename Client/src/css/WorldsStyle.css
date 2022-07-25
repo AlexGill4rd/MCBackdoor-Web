@@ -1,0 +1,158 @@
+.worlds {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.worlds-header {
+  width: 50%;
+  height: auto;
+  padding: 10px 0;
+  border-bottom: 1px solid silver;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.worlds-container {
+  width: 100%;
+  height: 486px;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.worlds-information {
+  width: 90%;
+  height: 400px;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 20px;
+  border-top: 1px solid silver;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.worlds-information-left {
+  width: 300px;
+  height: 335px;
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+  margin: 0 15px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.worlds-information-middle {
+  width: 300px;
+  height: 335px;
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+  margin: 0 15px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.worlds-information-right {
+  width: 350px;
+  height: 335px;
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+  margin: 0 15px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.worlds-information-info {
+  width: auto;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.worlds-information-info input[type=text] {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  color: #313131;
+  background-color: #e2e2e2;
+}
+
+.worlds-information-data {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.worlds-information-players {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 0 20px;
+}
+
+.worlds-information-players-player {
+  width: 100%;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  background-color: #3180E8;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: space-between;
+  cursor: default;
+}
+
+.worlds-information-gamerules {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 0 20px;
+}
+
+.worlds-information-gamerules-gamerule {
+  width: 100%;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  background-color: #3180E8;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+/*# sourceMappingURL=WorldsStyle.css.map */

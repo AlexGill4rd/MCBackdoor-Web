@@ -1,5 +1,5 @@
-import React from 'react';
-import Header from '../../globaltsx/Header';
+import { Tooltip } from '@mui/material';
+import { Link } from 'react-router-dom';
 import ServerList from './components/ServerList';
 
 import './styling/ServerPageStyling.scss';
@@ -7,12 +7,15 @@ import './styling/ServerPageStyling.scss';
 function ServerPage(){
 
     return (
-        <>
-            <Header title='Servers' path='/controller/homepage' />
-            <div className="serverpage-container">
-                <ServerList />
-            </div>
-        </>
+
+        <div className="serverpage-container">
+            <Link to='/controller/homepage'>
+                <Tooltip title="Ga terug naar vorige pagina!">
+                        <h1>Server Lijst</h1>
+                </Tooltip>
+            </Link>
+            <ServerList />
+        </div>
     );
 }
 export default ServerPage;

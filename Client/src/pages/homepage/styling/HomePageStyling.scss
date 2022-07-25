@@ -5,31 +5,78 @@
     width: 100vw;
     min-height: 100vh;
 
+    background-color: #ffbf11;
+
     @include centerFlex(center, center, row);
 }
-.homepage-buttons{
-    width: 100%;
-    height: auto;
-    margin: 0 20px;
+.homepage{
+    &-panel{
+        width: 90%;
+        height: 100%;
 
-    @include centerFlex(center, center, row);
-    &-home{
-        width: 250px;
-        height: 250px;
-        
-        background-color: $yellow-2;
-        border-radius: 100%;
         @include centerFlex(center, center, column);
-
-        cursor: pointer;
-        transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
-        &:hover{
-            transform: scale(1.05);
+        &-info{
+            width: 550px;
+            @include centerFlex(center, center, row);
+            flex-wrap: wrap;
+        }
+        &-button{
+            width: 520px;
+            a{
+                text-decoration: none;
+                color: white;
+            }
         }
     }
-    a{
-        text-decoration: none;
-        color: black;
-        font-size: 1.5em;      
+    &-tab{
+        width: 250px;
+        height: 220px;
+
+        background-color: white;
+        margin: 10px;
+        padding: 20px;
+        h4{
+            color: black;
+        }
+        p{
+            color: rgb(87, 87, 87);
+        }
+        img{
+            width: auto;
+            height: 50px;
+            margin-bottom: 5px
+        }
+        transition: transform 100ms ease-in-out;
+        cursor: default;
+        &:hover{
+            transform: scale(1.05)
+        }
+        @include centerFlex(flex-start, flex-start, column);
+    }
+    &-tab2{
+        width: 250px;
+        height: 220px;
+
+        background-color: white;
+        margin: 10px;
+        padding: 20px;
+        text-align: right;
+        h4{
+            color: black;
+        }
+        p{
+            color: rgb(87, 87, 87);
+        }
+        img{
+            width: auto;
+            height: 50px;
+            margin-bottom: 5px
+        }
+        transition: transform 100ms ease-in-out;
+        cursor: default;
+        &:hover{
+            transform: scale(1.05)
+        }
+        @include centerFlex(flex-start, flex-end, column);
     }
 }

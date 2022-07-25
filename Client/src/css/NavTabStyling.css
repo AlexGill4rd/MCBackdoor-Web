@@ -1,8 +1,7 @@
 .navtab-button {
-  width: 250px;
-  height: 250px;
-  background-color: #DBC500;
-  border-radius: 100%;
+  width: 280px;
+  height: 320px;
+  background-color: white;
   margin: 20px 20px;
   padding: 20px;
   text-align: center;
@@ -11,7 +10,7 @@
   transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -28,5 +27,11 @@
 .navtab-button-description {
   color: #313131;
   font-size: 1em;
+}
+
+.navtab-button img {
+  width: auto;
+  height: 70px;
+  margin-bottom: 10px;
 }
 /*# sourceMappingURL=NavTabStyling.css.map */

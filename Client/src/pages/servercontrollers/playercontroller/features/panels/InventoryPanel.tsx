@@ -9,6 +9,8 @@ import PlayerInventoryPane from './inventorycomonents/PlayerInventoryPane';
 import SavedItemsPane from './inventorycomonents/SavedItemsPane';
 import EnderchestPane from './inventorycomonents/EnderchestPane';
 
+import inventoryTextures from './InventoryTextures.json';
+
 function InventoryPanel(props: {Server: any, player: any}){
     const [inventoryType, setInventoryType] = useState<string | null>(null)
     const [inventoryItems, setInventoryItems] = useState<any>([]);
@@ -53,17 +55,8 @@ function InventoryPanel(props: {Server: any, player: any}){
         updatePlayerEnderchest();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    async function loadItems(){
-        fetch('https://unpkg.com/minecraft-textures@1.18.1/dist/textures/json/1.18.json',{
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(function(response){
-            return response.json();
-        }).then(function(myJson) {
-            setItems(myJson.items)
-        });
+    function loadItems(){
+        setItems(inventoryTextures.items)
     };
     function handleButtonClick(type: string){
         setInventoryType(type)

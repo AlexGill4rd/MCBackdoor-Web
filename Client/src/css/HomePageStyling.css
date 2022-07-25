@@ -1,42 +1,102 @@
 .homepage-container {
   width: 100vw;
   min-height: 100vh;
+  background-color: #ffbf11;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.homepage-buttons {
-  width: 100%;
-  height: auto;
-  margin: 0 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.homepage-buttons-home {
-  width: 250px;
-  height: 250px;
-  background-color: #DBC500;
-  border-radius: 100%;
+.homepage-panel {
+  width: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
 }
 
-.homepage-buttons-home:hover {
+.homepage-panel-info {
+  width: 550px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.homepage-panel-button {
+  width: 520px;
+}
+
+.homepage-panel-button a {
+  text-decoration: none;
+  color: white;
+}
+
+.homepage-tab {
+  width: 250px;
+  height: 220px;
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+  transition: transform 100ms ease-in-out;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.homepage-tab h4 {
+  color: black;
+}
+
+.homepage-tab p {
+  color: #575757;
+}
+
+.homepage-tab img {
+  width: auto;
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+.homepage-tab:hover {
   transform: scale(1.05);
 }
 
-.homepage-buttons a {
-  text-decoration: none;
+.homepage-tab2 {
+  width: 250px;
+  height: 220px;
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+  text-align: right;
+  transition: transform 100ms ease-in-out;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.homepage-tab2 h4 {
   color: black;
-  font-size: 1.5em;
+}
+
+.homepage-tab2 p {
+  color: #575757;
+}
+
+.homepage-tab2 img {
+  width: auto;
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+.homepage-tab2:hover {
+  transform: scale(1.05);
 }
 /*# sourceMappingURL=HomePageStyling.css.map */
