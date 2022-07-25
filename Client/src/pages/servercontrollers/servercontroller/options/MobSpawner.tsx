@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './MobSpawnerStyle.scss';
 
 import Entities from './mobspawner/Entities';
 import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel, Tooltip } from '@mui/material';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { socket } from '../../../../socket/socket';
+
+import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
 
 function MobSpawner(props: {Server: any}){
 
@@ -20,22 +22,64 @@ function MobSpawner(props: {Server: any}){
     const [gravity, setGravity] = useState<boolean>(false);
     const [customname, setCustomname] = useState<boolean>(false);
 
-    function handleMobSpawn(){
-        var data = {
-            displayname: name,
-            amount: amount,
-            location: location,
-            mobtype: selectedMob.name,
-            settings: {
-                glow: glow,
-                godmode: godmode,
-                gravity: gravity,
-                customname: customname
-            }
+    const [worlds, setWorlds] = useState<any[]>([]);
+    const [selectedWorld, setSelectedWorld] = useState<any>();
+    const [players, setPlayers] = useState<any>([]);
+    const [selectedPlayer, setSelectedPlayer] = useState<any>();
+
+    useEffect(() => {
+        function requestWorlds(){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "world-list", {})
         }
-        if (location.split(",").length === 2 && amount > 0){
+        function loadWorlds(){
+            socket.on(`server:get-worlds`, data => {
+                setWorlds(data)
+            })
+        }
+        function loadPlayers(){
+            socket.emit("feature:server", socket.id, props.Server.Servername, "playerlist", {})
+        }
+        function updatePlayers(){
+            socket.on(`server:get-playerlist`, players => {
+                setPlayers(players);
+            })
+        }
+        loadPlayers();
+        updatePlayers();
+        requestWorlds();
+        loadWorlds();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    function handleMobSpawn(){
+        if (selectedWorld !== undefined && location.split(",").length !== 3){
+            return
+        }
+        if (selectedWorld !== undefined || selectedPlayer !== undefined){
+            if (name === ""){
+                var nameFormat = capatalize(selectedMob.name.replace("_", " "))
+                setName(nameFormat)
+            }
+            var data = {
+                displayname: name,
+                amount: amount,
+                mobtype: selectedMob.name,
+                settings: {
+                    glow: glow,
+                    godmode: godmode,
+                    gravity: gravity,
+                    customname: customname,
+                    passenger: "-"
+                },
+                location: {
+                    world: selectedWorld,
+                    player: selectedPlayer,
+                    coords: location
+                }
+            }
             socket.emit("feature:server", socket.id, props.Server.Servername, "mobspawner", data);
         }
+        
     }
     function handleMobClick(entity: any){
         if (selectedMob === entity)
@@ -55,6 +99,14 @@ function MobSpawner(props: {Server: any}){
     }
     function handleLocationChange(e: any) {
         setLocation(e.target.value)
+    }
+    function handleWorldSelect(world: string){
+        setSelectedPlayer(undefined)
+        setSelectedWorld(world)
+    }
+    function handlePlayerSelect(player: any){
+        setSelectedWorld(undefined)
+        setSelectedPlayer(player)
     }
     return (
         <div className='mobspawner'>
@@ -97,24 +149,44 @@ function MobSpawner(props: {Server: any}){
                     <label>Location (x, y, z):</label>
                     <input onChange={handleLocationChange} type='text' value={location} placeholder="Geef een locatie... ('x, y, z')" />
                     <div className='mobspawner-settings-setting-selection'>
-                        <Button 
-                            variant="contained" 
-                            onClick={handleMobSpawn}
-                            sx={{
-                                margin: "5px 5px 0 0"
-                            }}
-                        >
-                            Select world
-                        </Button> 
-                        <Button 
-                            variant="contained" 
-                            onClick={handleMobSpawn}
-                            sx={{
-                                margin: "5px 0 0 5px"
-                            }}
-                        >
-                            Select player
-                        </Button> 
+                        <Menu className='item-contextmenu' menuButton={
+                            <Tooltip placement="top" title="Selecteer een wereld" disableInteractive>  
+                                <Button 
+                                    variant="contained" 
+                                    sx={{
+                                        margin: "5px 5px 0 0"
+                                    }}
+                                >
+                                    {selectedWorld === undefined ? "Select world" : selectedWorld.Worldname}
+                                </Button>   
+                            </Tooltip>
+                        }>
+                            <MenuHeader>Worlds</MenuHeader>
+                            {worlds.map((world: any) => {
+                                return (
+                                    <MenuItem key={world.Worldname} className='item-context-button' onClick={() => handleWorldSelect(world)}>{world.Worldname}</MenuItem>
+                                );
+                            })}
+                        </Menu>
+                        <Menu className='item-contextmenu' menuButton={
+                            <Tooltip placement="top" title="Selecteer een wereld" disableInteractive>  
+                                <Button 
+                                    variant="contained" 
+                                    sx={{
+                                        margin: "5px 0 0 5px"
+                                    }}
+                                >
+                                    {selectedPlayer === undefined ? "Select player" : selectedPlayer.Displayname}
+                                </Button>   
+                            </Tooltip>
+                        }>
+                            <MenuHeader>Players</MenuHeader>
+                            {players.map((player: any) => {
+                                return (
+                                    <MenuItem key={player.UUID} className='item-context-button' onClick={() => handlePlayerSelect(player)}>{player.Displayname}</MenuItem>
+                                );
+                            })}
+                        </Menu>
                     </div>
                 </div>
                 <FormLabel id="demo-radio-buttons-group-label">Instellingen</FormLabel>
