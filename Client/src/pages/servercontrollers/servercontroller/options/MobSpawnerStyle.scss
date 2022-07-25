@@ -6,28 +6,74 @@
     height: 100%;
 
     @include centerFlex(center, center, row);
-    flex-wrap: wrap;
-    .mobs{
-        width: 50%;
-        height: 100%;
-        padding: 20px;
+    &-mobs{
+        width: 400px;
+        height: 90%;
+        margin: 40px;
 
-        @include centerFlex(center, center, column);
+        @include centerFlex(flex-start, flex-start, row);
+        flex-wrap: wrap;
+        overflow-x: hidden;
+        overflow-y: auto;
+
         &-list{
+            width: 100%;
+            height: auto;
 
             @include centerFlex(flex-start, flex-start, row);
             flex-wrap: wrap;
             &-mob{
-                width: 40px;
-                height: 40px;
+                width: 55px;
+                height: 55px;
                 
+                margin: 2px;
+                padding: 5px;
+                cursor: pointer;
+                transition: transform 100ms ease-in-out, background-color 200ms ease-in-out;
                 img{
                     width: 100%;
                     height: auto;
 
                     object-fit: contain;
                 }
+                &:hover{
+                    transform: scale(1.05);
+                    background-color: rgb(168, 255, 148);
+                }
             }
+        }
+    }
+    &-settings{
+        width: calc(100% - 400px);
+        height: 100%;
+
+        border-left: 1px solid gray;
+        padding: 40px;
+
+        @include centerFlex(center, center, column);
+        input {
+            width: 350px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+            color: rgb(49, 49, 49);
+    
+            background-color: rgb(255, 255, 255);
+        }
+        form{
+            width: 100%;
+            height: auto;
+            @include centerFlex(center, center, column);
+        }
+        &-name{
+            margin: 10px 0;
+            @include centerFlex(center, flex-start, column);
+        }
+        &-amount{
+
+            margin: 10px 0;
+            @include centerFlex(center, flex-start, column);
         }
     }
 }

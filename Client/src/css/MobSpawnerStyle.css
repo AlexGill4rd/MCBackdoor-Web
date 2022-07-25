@@ -5,20 +5,24 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
 }
 
-.mobspawner .mobs {
-  width: 50%;
-  height: 100%;
-  padding: 20px;
+.mobspawner-mobs {
+  width: 400px;
+  height: 90%;
+  margin: 40px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.mobspawner .mobs-list {
+.mobspawner-mobs-list {
+  width: 100%;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -26,14 +30,69 @@
   flex-wrap: wrap;
 }
 
-.mobspawner .mobs-list-mob {
-  width: 40px;
-  height: 40px;
+.mobspawner-mobs-list-mob {
+  width: 55px;
+  height: 55px;
+  margin: 2px;
+  padding: 5px;
+  cursor: pointer;
+  transition: transform 100ms ease-in-out, background-color 200ms ease-in-out;
 }
 
-.mobspawner .mobs-list-mob img {
+.mobspawner-mobs-list-mob img {
   width: 100%;
   height: auto;
   object-fit: contain;
+}
+
+.mobspawner-mobs-list-mob:hover {
+  transform: scale(1.05);
+  background-color: #a8ff94;
+}
+
+.mobspawner-settings {
+  width: calc(100% - 400px);
+  height: 100%;
+  border-left: 1px solid gray;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobspawner-settings input {
+  width: 350px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  color: #313131;
+  background-color: white;
+}
+
+.mobspawner-settings form {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobspawner-settings-name {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.mobspawner-settings-amount {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 /*# sourceMappingURL=MobSpawnerStyle.css.map */
