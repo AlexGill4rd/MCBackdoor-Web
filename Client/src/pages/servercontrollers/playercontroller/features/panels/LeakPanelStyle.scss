@@ -8,20 +8,20 @@
     @include centerFlex(center, center, column);
 }
 .leakpanel-buttons{
-    width: 100%;
+    width: 300px;
     height: auto;
 
-    @include centerFlex(center, center, row);
+    @include centerFlex(center, center, column);
     flex-wrap: wrap;
     &-button{
-        width: 200px;
+        width: 100%;
         height: auto;
         background-color: $blue-3;
 
         color: white;
         border-radius: 7px;
-        margin: 20px;
-        padding: 20px 0;
+        margin-top: 20px;
+        padding: 10px 0;
 
         @include centerFlex(center, center, column);
         p{
@@ -32,5 +32,14 @@
         &:hover{
             transform: scale(1.05);
         }
+    }
+    p{
+        margin-top: 20px;
+        text-align: center;
+    }
+    textarea{
+        font-size: 1em;
+        padding: 5px;
+        border-radius: 3px;
     }
 }
