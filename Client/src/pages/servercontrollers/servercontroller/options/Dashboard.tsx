@@ -11,6 +11,7 @@ import { socket } from '../../../../socket/socket';
 import VersionModal from './dashboard/VersionModal';
 import Chat from './dashboard/Chat';
 import IconModal from './dashboard/IconModal';
+import { FaCopy } from 'react-icons/fa';
 
 function Dashboard(props: {Server: any}) {
     const [players, setPlayers] = useState<any>([]);
@@ -168,6 +169,10 @@ function Dashboard(props: {Server: any}) {
     function handleBCChange(e: any){
         setBC(e.target.value);
     }
+    function copyToClipboard(){
+        setTimeout(async()=>await window.navigator.clipboard.writeText(props.Server.Servername), 10)
+        socket.emit("feature:server-log", socket.id, "Ip address gekopieerd!", "success");
+    }
     return (
         <div className='dashboard'> 
             <div className='dashboard-data'>
@@ -175,7 +180,20 @@ function Dashboard(props: {Server: any}) {
                     <div className='dashboard-data-info-left'>
                         <div className='dashboard-data-info-address'>
                             <label>Servername:</label>
-                            <input readOnly type='text' value={server.Servername} />
+                            <div className='dashboard-data-info-address-container'>
+                                <input readOnly type='text' value={server.Servername} />
+                                <Button 
+                                    onClick={copyToClipboard} 
+                                    variant="contained" 
+                                    startIcon={<FaCopy />}
+                                    sx={{
+                                        height: 30,
+                                        width: "20%"
+                                    }}
+                                >
+                                    Copy
+                                </Button> 
+                            </div>
                         </div>
                         <div className='dashboard-data-info-motd'>
                             <label>Server MOTD:</label>
