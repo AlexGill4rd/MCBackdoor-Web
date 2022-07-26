@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { socket } from '../../../../socket/socket';
 import GameruleModal from './worlds/GameruleModal';
@@ -73,6 +73,18 @@ function Worlds(props: {Server: any}) {
             socket.emit("feature:server-log", socket.id, "Je kan geen gamerules aanpassen wanneer de server uit staat!", "error", "Server disabled");   
         
     }
+    function handleWorldDelete() {
+        var data = {
+            World: selectedWorld
+        }
+        socket.emit("feature:server", socket.id, props.Server.Servername, "world-delete", data)
+    }
+    function handleWorldDownload() {
+        var data = {
+            World: selectedWorld
+        }
+        socket.emit("feature:server", socket.id, props.Server.Servername, "world-download", data)
+    }
     return (
         <div className='worlds'>
             <div className='worlds-header'>
@@ -128,6 +140,30 @@ function Worlds(props: {Server: any}) {
                             <div className='worlds-information-info'>
                                 <label>UUID:</label>
                                 <input readOnly type='text' value={selectedWorld.UUID} />
+                            </div>
+                            <div className='worlds-information-info'>
+                                <Button 
+                                    variant="contained" 
+                                    sx={{
+                                        width: "100%",
+                                        marginTop: "10px"
+                                    }}
+                                    onClick={handleWorldDownload}
+                                >
+                                    Download World
+                                </Button> 
+                            </div>
+                            <div className='worlds-information-info'>
+                                <Button 
+                                    variant="contained" 
+                                    sx={{
+                                        width: "100%",
+                                        marginTop: "10px"
+                                    }}
+                                    onClick={handleWorldDelete}
+                                >
+                                    Delete World
+                                </Button> 
                             </div>
                         </div>
                     </div>
