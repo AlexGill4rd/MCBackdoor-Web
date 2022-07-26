@@ -36,16 +36,6 @@
                 border-right: 1px solid rgb(207, 207, 207);
 
                 @include centerFlex(center, flex-start, column);
-                input[type=text] {
-                    width: 100%;
-                    padding: 10px 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    margin-top: 5px;
-                    color: rgb(49, 49, 49);
-            
-                    background-color: rgb(226, 226, 226);
-                }
             }
             &-right{
                 width: 260px;
@@ -107,9 +97,23 @@
             &-address{
                 width: 100%;
 
-                margin: 10px 0;
-
                 @include centerFlex(center, flex-start, column);
+                &-container{
+                    width: 100%;
+
+                    @include centerFlex(center, center, row);
+                }
+                input[type=text] {
+                    width: 80%;
+                    height: 30px;
+                    padding: 5px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    margin-right: 10px;
+                    color: rgb(49, 49, 49);
+
+                    background-color: rgb(235, 235, 235);
+                }
             }
             &-version{
                 width: 100%;
@@ -151,13 +155,23 @@
                 margin: 10px 0;
 
                 @include centerFlex(center, flex-start, column);
+                input[type=text] {
+                    width: 100%;
+                    padding: 5px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    margin-top: 5px;
+                    color: rgb(49, 49, 49);
+
+                    background-color: rgb(235, 235, 235);
+                }
             }
             &-broadcast{
                 width: 100%;
                 margin-bottom: 10px;
                 input[type=text] {
                     width: 100%;
-                    padding: 10px 10px;
+                    padding: 5px 10px;
                     border: 1px solid #ccc;
                     border-radius: 4px;
                     margin-top: 5px;
