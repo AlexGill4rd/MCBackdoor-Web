@@ -10,6 +10,7 @@ function LeakPanel(props: {Server: any, player: any;}){
     const [message, setMessage] = useState<string[]>([]);
 
     function leakPlayer(){
+        //Array to string for handy placeholder replacement
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "leak", {"Message": message.toString()});
     }
     function onMessageChange(e: any){
