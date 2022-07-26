@@ -15,6 +15,23 @@
         @include centerFlex(center, center, column);
         flex-wrap: wrap;
         box-sizing: border-box;
+        &-editing{
+            width: 100%;
+            height: auto;
+            @include centerFlex(center, center, row);
+            padding: 10px 0;
+            input{
+                width: calc(100% - 150px * 3 - 30px);
+                padding: 4px 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                text-align: left;
+            }
+            &-button{
+                width: 150px;
+                margin-left: 10px;
+            }
+        }
     }
     &-messagebox{
         width: 100%;

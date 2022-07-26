@@ -8,23 +8,23 @@
 }
 
 .leakpanel-buttons {
-  width: 100%;
+  width: 300px;
   height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
 
 .leakpanel-buttons-button {
-  width: 200px;
+  width: 100%;
   height: auto;
   background-color: #13335C;
   color: white;
   border-radius: 7px;
-  margin: 20px;
-  padding: 20px 0;
+  margin-top: 20px;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,5 +39,16 @@
 
 .leakpanel-buttons-button:hover {
   transform: scale(1.05);
+}
+
+.leakpanel-buttons p {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.leakpanel-buttons textarea {
+  font-size: 1em;
+  padding: 5px;
+  border-radius: 3px;
 }
 /*# sourceMappingURL=LeakPanelStyle.css.map */
