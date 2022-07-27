@@ -10,7 +10,7 @@
                                     supported by Chrome, Edge, Opera and Firefox */
 }
 
-.item {
+.slot {
   width: 50px;
   height: 50px;
   margin: 2px;
@@ -24,21 +24,21 @@
   transition: background-color 100ms ease-in-out;
 }
 
-.item:hover {
+.slot:hover {
   background-color: #ececec;
 }
 
-.item img {
+.slot img {
   z-index: 1;
   position: relative;
 }
 
-.item-contextmenu {
+.slot-contextmenu {
   position: absolute;
   z-index: 10;
 }
 
-.item-context-button span {
+.slot-context-button span {
   margin-left: 10px;
   display: flex;
   flex-direction: row;
@@ -46,15 +46,15 @@
   align-items: center;
 }
 
-.item-type {
+.slot-type {
   text-transform: capitalize;
 }
 
-.item-amount {
+.slot-amount {
   margin: -12px 0 0 calc($itemsize - 10px);
 }
 
-.item-tooltip {
+.slot-tooltip {
   z-index: 10;
   position: relative;
   display: flex;
@@ -63,14 +63,14 @@
   align-items: flex-start;
 }
 
-.item-menu-buttons {
+.slot-menu-buttons {
   padding: 0 5px;
   background-color: white;
   border: 1px solid silver;
   color: black;
 }
 
-.item-menu-button {
+.slot-menu-button {
   margin: 10px 0;
   padding: 3px 20px;
   border-radius: 3px;
@@ -81,7 +81,18 @@
   align-items: center;
 }
 
-.item-menu-button:hover {
+.slot-menu-button:hover {
   background-color: #e2e2e2;
+}
+
+.item {
+  width: 100%;
+  height: 100%;
+}
+
+.item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 /*# sourceMappingURL=ItemStyle.css.map */
