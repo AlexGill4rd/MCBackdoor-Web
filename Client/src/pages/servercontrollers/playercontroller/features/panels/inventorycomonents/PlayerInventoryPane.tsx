@@ -28,33 +28,6 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
         updatePlayerInventory();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    function handleItemHoverEvent(currentSlot: any, targetSlot: any) {
-        var item1:any;
-        var item2:any;
-        inventoryItems.forEach((item:any) => {
-            if (!item.Empty){
-                if (item.Slot == currentSlot){
-                    item1 = item;
-                    console.log("Current slot item found!")
-                }else if (item.Slot == targetSlot){
-                    item2 = item;
-                    console.log("Target slot item found!")
-                }
-            }
-
-        });
-        if (item1 !== undefined && item2 !== undefined){
-            var newListArrangement: any[] = inventoryItems;
-            var copyBefore = newListArrangement[newListArrangement.indexOf(item1)]
-    
-            copyBefore.Slot = targetSlot;
-            newListArrangement[newListArrangement.indexOf(item2)].Slot = currentSlot;
-    
-            newListArrangement[newListArrangement.indexOf(item1)] = newListArrangement[newListArrangement.indexOf(item2)];
-            newListArrangement[newListArrangement.indexOf(item2)] = copyBefore;
-            setInventoryItems(newListArrangement);
-        }
-    }
     const [draggingItem, setDraggingItem] = useState<any>();
     const [dragOverItem, setDragOverItem] = useState<any>();
     function handleItemStartDragging(item: any){
@@ -63,7 +36,6 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
     }
     function handleItemDragDrop(){
         console.log("Item changed")
-
 
         if (draggingItem !== undefined && dragOverItem !== undefined){
             var data = {
