@@ -61,7 +61,7 @@ function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartD
         return (    
             <Menu className='slot-contextmenu' menuButton={
                 <Tooltip placement="top" title={tooltip} disableInteractive>  
-                    <div className="slot" id={props.itemstack.Slot}>
+                    <div className="slot noselect" id={props.itemstack.Slot}>
                         <div className='item' draggable="true" onDragStart={() => props.itemStartDragging(props.itemstack)} onDragEnter={() => props.itemDragEnter(props.itemstack)} onDragLeave={props.itemDragLeave} onDragEnd={props.itemDragDrop} >
                             {props.itemstack.itemmeta !== undefined && props.itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
                             {props.itemstack.texture !== undefined ? <img style={{width: 50, height: 50}} src={props.itemstack.texture} alt="Itemstack icon" /> : <CircularProgress />}

@@ -30,94 +30,69 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
     }, []);
     const [draggingItem, setDraggingItem] = useState<any>();
     const [dragOverItem, setDragOverItem] = useState<any>();
+    const [originalSlot, setOriginalSlot] = useState<number>();
+
     function handleItemStartDragging(item: any){
         console.log("Gestart met item verplaatsen")
         setDraggingItem(item)
+        setOriginalSlot(item.Slot)
+    }
+    function handleDragEnter(hoverTarget: any){
+        if (hoverTarget.Slot === draggingItem.Slot)return;
+        console.log("Entered other zone")
+        swapItems(draggingItem, hoverTarget)
+    }
+    function handleDragLeave(){
+        if (dragOverItem === undefined)return;
+        console.log("Left")
+        swapItems(draggingItem, dragOverItem)
+    }
+    function swapItems(item1: any, item2: any){
+        console.log(item1)
+        console.log(item2)
+        console.log("-")
+        var itemSlot1 = item1.Slot;
+        var itemSlot2 = item2.Slot;
+
+        var slot1 = getItemFromSlot(itemSlot1);
+        var slot2 = getItemFromSlot(itemSlot2);
+
+        var slot1Index = inventoryItems.indexOf(slot1)
+        var slot2Index = inventoryItems.indexOf(slot2)
+
+        item2.Slot = itemSlot1;
+        item1.Slot = itemSlot2;
+
+        slot1.ItemstackJson = item2;
+        slot2.ItemstackJson = item1;
+
+        var newInventory: any[] = inventoryItems;
+        newInventory[slot1Index] = slot1;
+        newInventory[slot2Index] = slot2;
+
+        setDragOverItem(slot1.ItemstackJson);
+        setDraggingItem(slot2.ItemstackJson);
+        setInventoryItems(newInventory)
     }
     function handleItemDragDrop(){
         console.log("Item changed")
-
-        if (draggingItem !== undefined && dragOverItem !== undefined){
-            var data = {
-                Type: "swap",
-                Slot1: draggingItem.Slot,
-                Slot2: dragOverItem.Slot
-            }
-            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", data);
-
-        }
+        if (dragOverItem !== undefined)
+            updateClientInventory(draggingItem, dragOverItem)
     }
-    function handleDragEnter(targetItem: any){
-        var newListArrangement: any[] = inventoryItems;
-
-        //DRAGGING ITEM
-        var item1:any;
-        //TARGET ITEM
-        var item2:any;
-
-        newListArrangement.forEach((item:any) => {
-            if (item.Slot === draggingItem.Slot)item1 = item;
-            if (item.Slot === targetItem.Slot)item2 = item;
-        })
-        if (item1 === undefined || item2 === undefined)return;
-        
-        var draggingIndex = newListArrangement.indexOf(item1);
-        var targetIndex = newListArrangement.indexOf(item2);
-    
-        console.log(item1)
-        console.log(item2)
-        console.log("------")
-
-        //Save previous slot
-        item1.ItemstackJson.PreviousSlot = item1.Slot;
-        item2.ItemstackJson.PreviousSlot = item2.Slot;
-
-        var copyItemstack = item2.ItemstackJson;
-
-        //Change slot properties
-        item2.ItemstackJson = item1.ItemstackJson;
-        if (item1.Empty) item2.Empty = true;
-        else item2.Empty = false;
-
-        item1.ItemstackJson = copyItemstack;
-        if (item2.Empty) item1.Empty = true;
-        else item1.Empty = false;
-
-        //Swap both items
-        newListArrangement[draggingIndex] = item1;
-        newListArrangement[targetIndex] = item2;
-
-        //Update itemlist
-        setInventoryItems(newListArrangement);
-        setDragOverItem(item2);
-    }
-    function handleDragLeave(){
-        if (dragOverItem !== undefined){
-            var newListArrangement: any[] = inventoryItems;
-
-            //DRAGGING ITEM
-            var item1:any;
-            //DRAG OVER ITEM
-            var item2:any;
-    
-            newListArrangement.forEach((item:any) => {
-                if (item.Slot === draggingItem.Slot)item1 = item;
-                if (item.Slot === dragOverItem.Slot)item2 = item;
-            })
-    
-            var draggingIndex = newListArrangement.indexOf(item1);
-            var dragoverIndex = newListArrangement.indexOf(item2);
-    
-            //Change slot properties
-            item1.Slot = item1.PreviousSlot;
-            item1.PreviousSlot = undefined
-            item2.Slot = item2.PreviousSlot;
-            item2.PreviousSlot = undefined
-    
-            //Swap both items
-            newListArrangement[draggingIndex] = item2;
-            newListArrangement[dragoverIndex] = item1;
+    function updateClientInventory(item1: any, item2: any) {
+        var data = {
+            Type: "swap",
+            Slot1: item1.Slot,
+            Slot2: item2.Slot
         }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", data);
+    }
+    function getItemFromSlot(slot: number){
+        var itemFound: any = undefined;
+        inventoryItems.forEach((item: any) => {
+            if (item.Slot === slot) itemFound = item;
+        });
+        return itemFound;
     }
     return (
         <div className='inventory-panel'>
