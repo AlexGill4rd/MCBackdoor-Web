@@ -20,7 +20,6 @@
   background-size: contain;
   opacity: 0.7;
 }
-
 @keyframes loop {
   0% {
     margin-left: 0px;
@@ -28,5 +27,4 @@
   100% {
     margin-left: -100px;
   }
-}
-/*# sourceMappingURL=EnchantingStyle.css.map */
+}/*# sourceMappingURL=EnchantingStyle.css.map */

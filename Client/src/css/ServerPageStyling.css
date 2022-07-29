@@ -8,14 +8,11 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .serverpage-container h1 {
   color: white;
   margin-bottom: 20px;
   text-align: center;
 }
-
 .serverpage-container a {
   text-decoration: none;
-}
-/*# sourceMappingURL=ServerPageStyling.css.map */
+}/*# sourceMappingURL=ServerPageStyling.css.map */

@@ -7,17 +7,14 @@
   justify-content: center;
   align-items: center;
 }
-
 .settingselector h1 {
   color: white;
   margin-bottom: 20px;
   text-align: center;
 }
-
 .settingselector a {
   text-decoration: none;
 }
-
 .settingselector-buttons {
   width: 100%;
   height: auto;
@@ -26,5 +23,4 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-}
-/*# sourceMappingURL=SettingSelectorStyle.css.map */
+}/*# sourceMappingURL=SettingSelectorStyle.css.map */

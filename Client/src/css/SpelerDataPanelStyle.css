@@ -14,7 +14,6 @@
   width: 100%;
   height: auto;
 }
-
 .spelerdata-data-subject {
   width: 100%;
   height: auto;
@@ -28,12 +27,10 @@
   justify-content: center;
   align-items: flex-start;
 }
-
 .spelerdata-data-subject-title {
   font-size: 1.1em;
   font-weight: 500;
 }
-
 .spelerdata-data-subject img {
   height: 15px;
   width: auto;
@@ -43,7 +40,6 @@
   image-rendering: crisp-edges;
   object-fit: cover;
 }
-
 .spelerdata-data-subject-hearts {
   width: 100%;
   text-align: center;
@@ -51,5 +47,4 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-/*# sourceMappingURL=SpelerDataPanelStyle.css.map */
+}/*# sourceMappingURL=SpelerDataPanelStyle.css.map */

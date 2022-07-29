@@ -10,7 +10,7 @@ import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import Enchanting from './Enchanting';
 
-function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartDragging: any, itemDragDrop: any, itemDragEnter: any, itemDragLeave: any;}){
+function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartDragging: any, itemDragDrop: any, itemDragEnter: any;}){
     function stripColor(string: string){
         var noColorString = "";
         for (var i = 0; i < string.length; i++){
@@ -19,12 +19,9 @@ function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartD
         }
         return noColorString;
     }
-    function handleDragDrop(e:any) {
-
-    }
     if (props.itemstack.Empty){
         return (
-            <div className="slot" id={props.itemstack.Slot}></div>
+            <div className="slot" id={props.itemstack.Slot} onDragOver={function(e: any) {e.preventDefault()}} onDragEnter={() => props.itemDragEnter(true, props.slot)} onDrop={props.itemDragDrop}></div>
         );
     }else{
         var displayname:any;
@@ -62,7 +59,7 @@ function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartD
             <Menu className='slot-contextmenu' menuButton={
                 <Tooltip placement="top" title={tooltip} disableInteractive>  
                     <div className="slot noselect" id={props.itemstack.Slot}>
-                        <div className='item' draggable="true" onDragStart={() => props.itemStartDragging(props.itemstack)} onDragEnter={() => props.itemDragEnter(props.itemstack)} onDragLeave={props.itemDragLeave} onDragEnd={props.itemDragDrop} >
+                        <div className='item' draggable="true" onDragOver={function(e: any) {e.preventDefault()}} onDragStart={(e) => props.itemStartDragging(e, props.itemstack)} onDragEnter={() => props.itemDragEnter(false)} onDrop={props.itemDragDrop} >
                             {props.itemstack.itemmeta !== undefined && props.itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
                             {props.itemstack.texture !== undefined ? <img style={{width: 50, height: 50}} src={props.itemstack.texture} alt="Itemstack icon" /> : <CircularProgress />}
                         </div>

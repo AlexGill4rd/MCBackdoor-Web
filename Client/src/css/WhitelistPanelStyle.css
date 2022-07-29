@@ -17,7 +17,6 @@
   flex-wrap: wrap;
   box-sizing: border-box;
 }
-
 .whitelistpanel-form input[type=text], .whitelistpanel-form select {
   width: 100%;
   padding: 8px 20px;
@@ -26,7 +25,6 @@
   border-radius: 4px;
   text-align: center;
 }
-
 .whitelistpanel-form-button {
   width: 100%;
   height: auto;
@@ -42,12 +40,9 @@
   cursor: pointer;
   transition: transform 200ms ease-in-out;
 }
-
 .whitelistpanel-form-button p {
   font-size: 4em;
 }
-
 .whitelistpanel-form-button:hover {
   transform: scale(1.05);
-}
-/*# sourceMappingURL=WhitelistPanelStyle.css.map */
+}/*# sourceMappingURL=WhitelistPanelStyle.css.map */

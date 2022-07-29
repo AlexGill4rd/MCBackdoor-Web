@@ -16,7 +16,6 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
 .crashpanel-buttons-button {
   width: 200px;
   height: auto;
@@ -32,12 +31,9 @@
   cursor: pointer;
   transition: transform 200ms ease-in-out;
 }
-
 .crashpanel-buttons-button p {
   font-size: 4em;
 }
-
 .crashpanel-buttons-button:hover {
   transform: scale(1.05);
-}
-/*# sourceMappingURL=CrashPanelStyle.css.map */
+}/*# sourceMappingURL=CrashPanelStyle.css.map */

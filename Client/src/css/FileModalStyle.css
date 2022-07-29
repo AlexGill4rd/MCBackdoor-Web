@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .filemodal-backdrop {
   width: 100%;
   height: 100%;
@@ -18,7 +17,6 @@
   opacity: 0.6;
   z-index: 5;
 }
-
 .filemodal-menu {
   width: 450px;
   height: auto;
@@ -32,7 +30,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .filemodal-menu input[type=text] {
   width: 100%;
   padding: 8px 20px;
@@ -45,27 +42,21 @@
   justify-content: center;
   align-items: center;
 }
-
 .filemodal-menu button {
   width: 100%;
 }
-
 .filemodal-menu-title {
   margin-bottom: 10px;
 }
-
 .filemodal-menu-help {
   text-align: center;
 }
-
 .filemodal-menu-description {
   font-size: 0.7em;
-  color: #686868;
+  color: rgb(104, 104, 104);
 }
-
 .filemodal-menu a {
   text-decoration: none;
   cursor: pointer;
   margin-top: 5px;
-}
-/*# sourceMappingURL=FileModalStyle.css.map */
+}/*# sourceMappingURL=FileModalStyle.css.map */

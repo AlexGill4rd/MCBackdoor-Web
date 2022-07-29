@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .versionmodal-backdrop {
   width: 100%;
   height: 100%;
@@ -18,7 +17,6 @@
   opacity: 0.6;
   z-index: 5;
 }
-
 .versionmodal-menu {
   width: 450px;
   height: auto;
@@ -32,7 +30,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .versionmodal-menu input[type=text] {
   width: 100%;
   padding: 8px 20px;
@@ -45,22 +42,17 @@
   justify-content: center;
   align-items: center;
 }
-
 .versionmodal-menu button {
   width: 100%;
 }
-
 .versionmodal-menu-title {
   margin-bottom: 10px;
 }
-
 .versionmodal-menu-help {
   text-align: center;
 }
-
 .versionmodal-menu a {
   text-decoration: none;
   cursor: pointer;
   margin-top: 5px;
-}
-/*# sourceMappingURL=VersionModalStyle.css.map */
+}/*# sourceMappingURL=VersionModalStyle.css.map */

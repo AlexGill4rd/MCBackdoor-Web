@@ -6,23 +6,20 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .fileeditor-header {
   width: 80%;
   height: auto;
   padding: 10px 20px;
   margin: 10px 20px;
-  border-bottom: 1px solid #e7e7e7;
+  border-bottom: 1px solid rgb(231, 231, 231);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-
 .fileeditor-header-options button {
   margin-left: 10px;
 }
-
 .fileeditor-editor {
   width: 80%;
   max-height: 90%;
@@ -31,5 +28,4 @@
   justify-content: flex-start;
   align-items: flex-start;
   overflow: hidden;
-}
-/*# sourceMappingURL=FileEditorStyle.css.map */
+}/*# sourceMappingURL=FileEditorStyle.css.map */

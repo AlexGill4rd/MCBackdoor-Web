@@ -13,17 +13,13 @@
   justify-content: center;
   align-items: center;
 }
-
 .pane:hover {
   background-color: #235DA8;
 }
-
 .pane-title {
   font-size: 1.1em;
 }
-
 .pane-description {
   font-size: 0.7em;
-  color: #cecece;
-}
-/*# sourceMappingURL=PaneStyle.css.map */
+  color: rgb(206, 206, 206);
+}/*# sourceMappingURL=PaneStyle.css.map */

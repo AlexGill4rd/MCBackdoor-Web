@@ -17,7 +17,6 @@
   position: absolute;
   z-index: 1;
 }
-
 .editmodal-menu {
   width: 500px;
   height: auto;
@@ -30,25 +29,21 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .editmodal-menu-title {
   font-size: 1.3em;
   color: black;
   text-align: center;
   margin: 10px 0;
 }
-
 .editmodal-menu-kop {
   font-size: 1em;
   padding: 10px 0 0 0;
-  color: #474747;
+  color: rgb(71, 71, 71);
 }
-
 .editmodal-menu form {
   height: auto;
   width: 100%;
 }
-
 .editmodal-menu input[type=text], .editmodal-menu input[type=number] {
   width: 100%;
   padding: 6px 10px;
@@ -56,7 +51,6 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 .editmodal-menu input[type=submit] {
   width: 100%;
   background-color: #4CAF50;
@@ -67,7 +61,6 @@
   border-radius: 4px;
   cursor: pointer;
 }
-
 .editmodal-menu-lore {
   width: 100%;
   height: auto;
@@ -76,7 +69,6 @@
   justify-content: space-between;
   align-items: center;
 }
-
 .editmodal-menu-lore-options {
   display: flex;
   flex-direction: row;
@@ -84,20 +76,16 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
 .editmodal-menu-lore-options button {
   width: 48%;
 }
-
 .editmodal-menu-lore-text {
   width: 73%;
   overflow-y: scroll;
 }
-
 .editmodal-menu-lore-index {
   width: 25%;
 }
-
 .editmodal-menu-enchanting {
   margin-top: 10px;
   display: flex;
@@ -105,7 +93,6 @@
   justify-content: space-between;
   align-items: center;
 }
-
 .editmodal-menu-enchanting-list {
   width: 43%;
   height: 190px;
@@ -117,7 +104,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 .editmodal-menu-enchanting-list-items {
   width: 100%;
   max-height: 100%;
@@ -129,7 +115,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 .editmodal-menu-enchanting-active {
   width: 43%;
   height: 190px;
@@ -141,7 +126,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 .editmodal-menu-enchanting-active-items {
   width: 100%;
   max-height: 100%;
@@ -153,16 +137,13 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 .editmodal-menu-enchanting-options {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-
 .editmodal-menu-enchanting-options button {
   width: 49%;
   height: auto;
-}
-/*# sourceMappingURL=EditModalStyle.css.map */
+}/*# sourceMappingURL=EditModalStyle.css.map */

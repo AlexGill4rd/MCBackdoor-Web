@@ -6,7 +6,6 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .controller-players {
   width: 600px;
   min-height: 100vh;
@@ -19,7 +18,6 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .controller-players-header {
   height: 30px;
   width: 100%;
@@ -29,32 +27,27 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .controller-players-header-icon {
   height: 100%;
   width: auto;
   font-size: 1.5em;
   margin-right: 10px;
 }
-
 .controller-players-header-playercount {
   width: 400px;
   height: auto;
-  color: #b8b8b8;
+  color: rgb(184, 184, 184);
 }
-
 .controller-players-header-back {
   width: calc(100% - 400px - 29px);
   text-decoration: none;
   color: white;
   text-align: right;
 }
-
 .controller-players-list {
   width: 100%;
   height: calc(100% - 30px);
 }
-
 .controller-features {
   width: 350px;
   max-height: 100%;
@@ -66,7 +59,6 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .controller-panel {
   width: calc(100% - 950px);
   height: 100%;
@@ -75,5 +67,4 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-}
-/*# sourceMappingURL=PlayerControllerPageStyling.css.map */
+}/*# sourceMappingURL=PlayerControllerPageStyling.css.map */

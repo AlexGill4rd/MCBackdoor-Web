@@ -16,7 +16,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .homepage-panel-info {
   width: 550px;
   display: flex;
@@ -25,16 +24,13 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
 .homepage-panel-button {
   width: 520px;
 }
-
 .homepage-panel-button a {
   text-decoration: none;
   color: white;
 }
-
 .homepage-tab {
   width: 250px;
   height: 220px;
@@ -48,25 +44,20 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
-
 .homepage-tab h4 {
   color: black;
 }
-
 .homepage-tab p {
-  color: #575757;
+  color: rgb(87, 87, 87);
 }
-
 .homepage-tab img {
   width: auto;
   height: 50px;
   margin-bottom: 5px;
 }
-
 .homepage-tab:hover {
   transform: scale(1.05);
 }
-
 .homepage-tab2 {
   width: 250px;
   height: 220px;
@@ -81,22 +72,17 @@
   justify-content: flex-start;
   align-items: flex-end;
 }
-
 .homepage-tab2 h4 {
   color: black;
 }
-
 .homepage-tab2 p {
-  color: #575757;
+  color: rgb(87, 87, 87);
 }
-
 .homepage-tab2 img {
   width: auto;
   height: 50px;
   margin-bottom: 5px;
 }
-
 .homepage-tab2:hover {
   transform: scale(1.05);
-}
-/*# sourceMappingURL=HomePageStyling.css.map */
+}/*# sourceMappingURL=HomePageStyling.css.map */

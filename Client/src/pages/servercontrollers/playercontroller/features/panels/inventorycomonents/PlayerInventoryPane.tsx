@@ -29,67 +29,60 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const [draggingItem, setDraggingItem] = useState<any>();
-    const [dragOverItem, setDragOverItem] = useState<any>();
+    const [dragElement, setDragElement] = useState<any>();
     const [originalSlot, setOriginalSlot] = useState<number>();
 
-    function handleItemStartDragging(item: any){
-        console.log("Gestart met item verplaatsen")
+    function handleItemStartDragging(e:any, item: any){
         setDraggingItem(item)
         setOriginalSlot(item.Slot)
+        setDragElement(e.currentTarget);
+        e.currentTarget.classList.add('dragging');
     }
-    function handleDragEnter(hoverTarget: any){
-        if (hoverTarget.Slot === draggingItem.Slot)return;
-        console.log("Entered other zone")
-        swapItems(draggingItem, hoverTarget)
+    function handleDragEnter(empty: boolean, slot: number){
+        if (empty && slot !== undefined){
+            moveItem(draggingItem, slot)
+        }
     }
-    function handleDragLeave(){
-        if (dragOverItem === undefined)return;
-        console.log("Left")
-        swapItems(draggingItem, dragOverItem)
-    }
-    function swapItems(item1: any, item2: any){
-        console.log(item1)
-        console.log(item2)
-        console.log("-")
-        var itemSlot1 = item1.Slot;
-        var itemSlot2 = item2.Slot;
 
-        var slot1 = getItemFromSlot(itemSlot1);
-        var slot2 = getItemFromSlot(itemSlot2);
-
-        var slot1Index = inventoryItems.indexOf(slot1)
-        var slot2Index = inventoryItems.indexOf(slot2)
-
-        item2.Slot = itemSlot1;
-        item1.Slot = itemSlot2;
-
-        slot1.ItemstackJson = item2;
-        slot2.ItemstackJson = item1;
-
+    function moveItem(itemstack: any, slot: number){
         var newInventory: any[] = inventoryItems;
-        newInventory[slot1Index] = slot1;
-        newInventory[slot2Index] = slot2;
 
-        setDragOverItem(slot1.ItemstackJson);
-        setDraggingItem(slot2.ItemstackJson);
-        setInventoryItems(newInventory)
+        var moveToSlot:any = getItemFromSlot(newInventory, slot)
+        var currentSlot:any = getItemFromSlot(newInventory, itemstack.Slot)
+        
+        if (moveToSlot.Empty){
+            var moveSlotIndex: number = newInventory.indexOf(moveToSlot);
+            var itemstackIndex: number = newInventory.indexOf(currentSlot);
+
+            itemstack.Slot = slot;
+
+            moveToSlot.ItemstackJson = itemstack;
+            delete(currentSlot.ItemstackJson)
+            currentSlot.Empty = true;
+            moveToSlot.Empty = false;
+
+            newInventory[moveSlotIndex] = moveToSlot;
+            newInventory[itemstackIndex] = currentSlot;
+            
+            var bugVar = newInventory.slice();
+            setInventoryItems(bugVar);
+        }
     }
     function handleItemDragDrop(){
-        console.log("Item changed")
-        if (dragOverItem !== undefined)
-            updateClientInventory(draggingItem, dragOverItem)
-    }
-    function updateClientInventory(item1: any, item2: any) {
         var data = {
-            Type: "swap",
-            Slot1: item1.Slot,
-            Slot2: item2.Slot
+            Type: "move",
+            ItemstackSlot: originalSlot,
+            DestinationSlot: draggingItem.Slot
         }
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", data);
+        setDraggingItem(undefined)
+        setOriginalSlot(undefined);
+
+        dragElement.classList.remove('dragging');
     }
-    function getItemFromSlot(slot: number){
-        var itemFound: any = undefined;
-        inventoryItems.forEach((item: any) => {
+    function getItemFromSlot(list: any[], slot: number){
+        var itemFound: any;
+        list.forEach((item: any) => {
             if (item.Slot === slot) itemFound = item;
         });
         return itemFound;
@@ -111,7 +104,6 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
                             itemStartDragging={handleItemStartDragging}
                             itemDragDrop={handleItemDragDrop}
                             itemDragEnter={handleDragEnter}
-                            itemDragLeave={handleDragLeave}
                         />
                     }
                     var rawItem = item.ItemstackJson;
@@ -129,7 +121,6 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
                         itemStartDragging={handleItemStartDragging}
                         itemDragDrop={handleItemDragDrop}
                         itemDragEnter={handleDragEnter}
-                        itemDragLeave={handleDragLeave}
                     />
                 })}
             </div>

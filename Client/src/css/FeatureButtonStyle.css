@@ -12,18 +12,14 @@
   align-items: center;
   transition: background-color 100ms ease-in-out;
 }
-
 .feature-button-title {
   color: #235DA8;
 }
-
 .feature-button-description {
   font-size: 0.7em;
-  color: #a8a8a8;
+  color: rgb(168, 168, 168);
   text-align: center;
 }
-
 .feature-button:hover {
-  background-color: #d7f2ff;
-}
-/*# sourceMappingURL=FeatureButtonStyle.css.map */
+  background-color: rgb(215, 242, 255);
+}/*# sourceMappingURL=FeatureButtonStyle.css.map */

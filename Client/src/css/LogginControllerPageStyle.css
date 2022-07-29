@@ -11,31 +11,27 @@
   width: 90%;
   height: 80%;
   padding: 20px;
-  background-color: #202020;
+  background-color: rgb(32, 32, 32);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
 }
-
 .logging-panel-message-container {
   width: 100%;
   height: auto;
   overflow-y: auto;
 }
-
 .logging-panel-message-container-message {
   width: 100%;
   height: auto;
-  color: #d6d6d6;
+  color: rgb(214, 214, 214);
   padding: 7px 20px;
   margin-bottom: 13px;
   border-radius: 7px;
-  background-color: #292929;
+  background-color: rgb(41, 41, 41);
 }
-
 .logging-panel-message-container-message-date {
   color: white;
-}
-/*# sourceMappingURL=LogginControllerPageStyle.css.map */
+}/*# sourceMappingURL=LogginControllerPageStyle.css.map */

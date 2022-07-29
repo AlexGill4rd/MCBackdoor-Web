@@ -7,13 +7,10 @@
   align-items: center;
   position: fixed;
 }
-
 .header-title {
   font-size: 2em;
 }
-
 .header a {
   text-decoration: none;
   color: black;
-}
-/*# sourceMappingURL=HeaderStyling.css.map */
+}/*# sourceMappingURL=HeaderStyling.css.map */

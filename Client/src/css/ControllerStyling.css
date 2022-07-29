@@ -2,14 +2,11 @@
   width: 100vw;
   height: 100vh;
 }
-
 .controller-features {
   width: 400px;
   min-height: 100%;
 }
-
 .controller-panel {
   width: calc(100% - 400px);
   min-height: 100%;
-}
-/*# sourceMappingURL=ControllerStyling.css.map */
+}/*# sourceMappingURL=ControllerStyling.css.map */

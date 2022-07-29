@@ -14,24 +14,19 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
 .navtab-button:hover {
   transform: scale(1.05);
 }
-
 .navtab-button-title {
   color: black;
   font-size: 1.5em;
 }
-
 .navtab-button-description {
   color: #313131;
   font-size: 1em;
 }
-
 .navtab-button img {
   width: auto;
   height: 70px;
   margin-bottom: 10px;
-}
-/*# sourceMappingURL=NavTabStyling.css.map */
+}/*# sourceMappingURL=NavTabStyling.css.map */

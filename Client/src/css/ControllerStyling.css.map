@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AACK,AAAD,qBAAW,CAAA;EACP,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,KAAK;CAChB;;AACA,AAAD,oBAAU,CAAA;EACN,KAAK,EAAE,KAAK;EACZ,UAAU,EAAE,IAAI;CACnB;;AACA,AAAD,iBAAO,CAAA;EACH,KAAK,EAAE,kBAAkB;EACzB,UAAU,EAAE,IAAI;CACnB",
-    "sources": [
-        "../pages/servercontrollers/styling/ControllerStyling.scss"
-    ],
-    "names": [],
-    "file": "ControllerStyling.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/servercontrollers/styling/ControllerStyling.scss"],"names":[],"mappings":"AACI;EACI;EACA;;AAEJ;EACI;EACA;;AAEJ;EACI;EACA","file":"ControllerStyling.css"}

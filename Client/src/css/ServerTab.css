@@ -4,7 +4,6 @@
   padding: 5px 20px;
   margin: 10px 0;
 }
-
 @media only screen and (max-width: 800px) {
   .servertab {
     width: 300px;
@@ -15,7 +14,6 @@
     align-items: center;
   }
 }
-
 @media only screen and (min-width: 800px) {
   .servertab {
     width: 800px;
@@ -26,18 +24,15 @@
     align-items: center;
   }
 }
-
 .servertab:hover {
-  background-color: #f3f3f3;
+  background-color: rgb(243, 243, 243);
 }
-
 @media only screen and (max-width: 800px) {
   .servertab-id {
     height: 0;
     opacity: 0;
   }
 }
-
 @media only screen and (min-width: 800px) {
   .servertab-id {
     width: auto;
@@ -49,17 +44,15 @@
     align-items: center;
   }
   .servertab-id:hover {
-    color: #535353;
+    color: rgb(83, 83, 83);
   }
 }
-
 .servertab-image {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-
 @media only screen and (max-width: 800px) {
   .servertab-image {
     width: 100px;
@@ -67,14 +60,12 @@
     margin: 10px;
   }
 }
-
 @media only screen and (min-width: 800px) {
   .servertab-image {
     width: 35px;
     height: 35px;
   }
 }
-
 .servertab-ip {
   width: 240px;
   height: 100%;
@@ -83,7 +74,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .servertab-beheren {
   width: 200px;
   height: 30px;
@@ -92,7 +82,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .servertab-state {
   width: 15px;
   height: 15px;
@@ -101,22 +90,18 @@
   justify-content: center;
   align-items: center;
 }
-
 @media only screen and (max-width: 800px) {
   .servertab-verticalline {
     height: 0;
     opacity: 0;
   }
 }
-
 @media only screen and (min-width: 800px) {
   .servertab-verticalline {
     width: 10px;
     height: 20px;
   }
 }
-
 .servertab a {
   text-decoration: none;
-}
-/*# sourceMappingURL=ServerTab.css.map */
+}/*# sourceMappingURL=ServerTab.css.map */

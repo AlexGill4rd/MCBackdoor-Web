@@ -1,11 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAGA,AAAA,gBAAgB,CAAA;EAEZ,KAAK,EAAE,qBAAqB;EAC5B,MAAM,EAAE,oBAAoB;CAO/B;;AALI,AAAD,sBAAO,CAAA;ECPP,OAAO,EAAE,IAAI;EACb,cAAc,EDQ0B,GAAG;ECP3C,eAAe,EDOS,MAAM;ECN9B,WAAW,EDMqB,MAAM;EAClC,SAAS,EAAE,IAAI;CAClB",
-    "sources": [
-        "../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/PlayerInventoryPaneStyle.scss",
-        "../globalscss/Functions.scss",
-        "../globalscss/Colors.scss"
-    ],
-    "names": [],
-    "file": "PlayerInventoryPaneStyle.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/PlayerInventoryPaneStyle.scss","../globalscss/Functions.scss"],"names":[],"mappings":"AAGA;EAEI;EACA;;AAEA;ECPA;EACA,gBDQwC;ECPxC,iBDOwB;ECNxB,aDMgC;EAC5B","file":"PlayerInventoryPaneStyle.css"}

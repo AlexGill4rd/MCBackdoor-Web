@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .bannedpanel-sorting {
   width: 84%;
   height: auto;
@@ -15,16 +14,14 @@
   justify-content: center;
   align-items: center;
 }
-
 .bannedpanel-sorting input[type=text] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 20px;
-  color: #313131;
+  color: rgb(49, 49, 49);
 }
-
 .bannedpanel-banned {
   width: 84%;
   height: 630px;
@@ -39,11 +36,9 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .bannedpanel-banned-message {
   text-align: center;
 }
-
 .bannedpanel-banned-list {
   width: 100%;
   height: auto;
@@ -53,12 +48,10 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 .bannedpanel-divider {
   font-size: 1.2em;
   margin: 10px;
 }
-
 .bannedpanel-player {
   width: 80px;
   height: auto;
@@ -70,12 +63,10 @@
   cursor: pointer;
   transition: transform 100ms ease-in-out;
 }
-
 .bannedpanel-player-icon {
   width: 100%;
   height: auto;
 }
-
 .bannedpanel-player-icon img {
   width: 100%;
   height: 100%;
@@ -85,13 +76,10 @@
   image-rendering: crisp-edges;
   object-fit: cover;
 }
-
 .bannedpanel-player:hover {
   transform: scale(1.08);
 }
-
 .bannedpanel-player-displayname {
   font-size: 0.8em;
-  color: #4e4e4e;
-}
-/*# sourceMappingURL=BannedPlayersStyle.css.map */
+  color: rgb(78, 78, 78);
+}/*# sourceMappingURL=BannedPlayersStyle.css.map */

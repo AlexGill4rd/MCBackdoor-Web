@@ -1,11 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAGA,AAAA,wBAAwB,CAAA;EACpB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,iBAAiB;ECJzB,OAAO,EAAE,IAAI;EACb,cAAc,EDKsB,MAAM;ECJ1C,eAAe,EDIK,MAAM;ECH1B,WAAW,EDGiB,MAAM;CACrC;;AACD,AAAA,sBAAsB,CAAA;EAClB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;ECVZ,OAAO,EAAE,IAAI;EACb,cAAc,EDUsB,MAAM;ECT1C,eAAe,EDSK,MAAM;ECR1B,WAAW,EDQiB,MAAM;CAqBrC;;AApBI,AAAD,6BAAQ,CAAA;EACJ,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,IAAI;EACZ,gBAAgB,EERf,OAAO;EFUR,KAAK,EAAE,KAAK;EACZ,aAAa,EAAE,GAAG;EAClB,MAAM,EAAE,IAAI;EACZ,OAAO,EAAE,SAAS;ECpBtB,OAAO,EAAE,IAAI;EACb,cAAc,EDqB0B,MAAM;ECpB9C,eAAe,EDoBS,MAAM;ECnB9B,WAAW,EDmBqB,MAAM;EAIlC,MAAM,EAAE,OAAO;EACf,UAAU,EAAE,2BAA2B;CAI1C;;AAnBA,AAWG,6BAXI,CAWJ,CAAC,CAAA;EACG,SAAS,EAAE,GAAG;CACjB;;AAbJ,AAgBG,6BAhBI,AAgBH,MAAM,CAAA;EACH,SAAS,EAAE,WAAW;CACzB",
-    "sources": [
-        "../pages/servercontrollers/playercontroller/features/panels/GamemodePanelStyle.scss",
-        "../globalscss/Functions.scss",
-        "../globalscss/Colors.scss"
-    ],
-    "names": [],
-    "file": "GamemodePanelStyle.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/servercontrollers/playercontroller/features/panels/GamemodePanelStyle.scss","../globalscss/Functions.scss","../globalscss/Colors.scss"],"names":[],"mappings":"AAGA;EACI;EACA;ECJA;EACA,gBDKoC;ECJpC,iBDIoB;ECHpB,aDG4B;;;AAEhC;EACI;EACA;ECVA;EACA,gBDUoC;ECTpC,iBDSoB;ECRpB,aDQ4B;;AAC5B;EACI;EACA;EACA,kBERC;EFUD;EACA;EACA;EACA;ECpBJ;EACA,gBDqBwC;ECpBxC,iBDoBwB;ECnBxB,aDmBgC;EAI5B;EACA;;AAJA;EACI;;AAIJ;EACI","file":"GamemodePanelStyle.css"}
