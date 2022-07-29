@@ -41,6 +41,8 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
     function handleDragEnter(empty: boolean, slot: number){
         if (empty && slot !== undefined){
             moveItem(draggingItem, slot)
+        }else{
+
         }
     }
 
@@ -69,16 +71,21 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
         }
     }
     function handleItemDragDrop(){
-        var data = {
-            Type: "move",
-            ItemstackSlot: originalSlot,
-            DestinationSlot: draggingItem.Slot
-        }
-        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", data);
-        setDraggingItem(undefined)
-        setOriginalSlot(undefined);
-
-        dragElement.classList.remove('dragging');
+        if (originalSlot !== undefined){
+            if (!getItemFromSlot(inventoryItems, originalSlot).Empty){
+                socket.emit("feature:player-log", socket.id, "Er staat al een item op dit slot!", "error", "Item on this slot!");   
+            }else{
+                var data = {
+                    Type: "move",
+                    ItemstackSlot: originalSlot,
+                    DestinationSlot: draggingItem.Slot
+                }
+                socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", data);
+            }
+            setDraggingItem(undefined)
+            setOriginalSlot(undefined);
+            dragElement.classList.remove('dragging');
+        }  
     }
     function getItemFromSlot(list: any[], slot: number){
         var itemFound: any;
