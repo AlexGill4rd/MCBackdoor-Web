@@ -10,7 +10,7 @@ import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import Enchanting from './Enchanting';
 
-function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartDragging: any, itemDragDrop: any, itemDragEnter: any;}){
+function Item(props: {Type: any, Itemstack: any, Slot:any, InventoryAction: any, ItemStartDragging: any, ItemDragDrop: any, ItemDragEnter: any;}){
     function stripColor(string: string){
         var noColorString = "";
         for (var i = 0; i < string.length; i++){
@@ -19,22 +19,22 @@ function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartD
         }
         return noColorString;
     }
-    if (props.itemstack.Empty){
+    if (props.Itemstack.Empty){
         return (
-            <div className="slot" id={props.itemstack.Slot} onDragOver={function(e: any) {e.preventDefault()}} onDragEnter={() => props.itemDragEnter(true, props.slot)} onDrop={props.itemDragDrop}></div>
+            <div className="slot" id={props.Itemstack.Slot} onDragOver={function(e: any) {e.preventDefault()}} onDragEnter={() => props.ItemDragEnter(true, props.Slot)} onDrop={props.ItemDragDrop}></div>
         );
     }else{
         var displayname:any;
-        if (props.itemstack.itemmeta !== undefined){
-            if (props.itemstack.itemmeta.displayname !== undefined){
-                displayname = <><span style={{color: "white"}}>Itemname: </span><span style={{ color: "rgb(200, 200, 200)" }}>{stripColor(props.itemstack.itemmeta.displayname)}</span></>;
+        if (props.Itemstack.itemmeta !== undefined){
+            if (props.Itemstack.itemmeta.displayname !== undefined){
+                displayname = <><span style={{color: "white"}}>Itemname: </span><span style={{ color: "rgb(200, 200, 200)" }}>{stripColor(props.Itemstack.itemmeta.displayname)}</span></>;
             }
         }
-        var type = <><span style={{color: "white"}}>Type: </span><span style={{ color: "rgb(200, 200, 200)" }}>{props.itemstack.type.replaceAll("_", " ").toString().toLowerCase()}</span></>;
+        var type = <><span style={{color: "white"}}>Type: </span><span style={{ color: "rgb(200, 200, 200)" }}>{props.Itemstack.type.replaceAll("_", " ").toString().toLowerCase()}</span></>;
         var lore = [];
-        if (props.itemstack.itemmeta !== undefined){
-            if (props.itemstack.itemmeta.lore !== undefined){
-                lore = props.itemstack.itemmeta.lore;
+        if (props.Itemstack.itemmeta !== undefined){
+            if (props.Itemstack.itemmeta.lore !== undefined){
+                lore = props.Itemstack.itemmeta.lore;
             }
         }
         var tooltip = [
@@ -55,25 +55,28 @@ function Item(props: {itemstack: any, slot:any, inventoryAction: any, itemStartD
                 </div>
             </div>
         ]
+        var removeAction = (props.Type === "enderchest") ? "ender-remove" : "remove";
+        var duplicateAction = (props.Type === "enderchest") ? "ender-duplicate" : "duplicate";
+        var dropAction = (props.Type === "enderchest") ? "ender-drop" : "drop";
         return (    
             <Menu className='slot-contextmenu' menuButton={
                 <Tooltip placement="top" title={tooltip} disableInteractive>  
-                    <div className="slot noselect" id={props.itemstack.Slot}>
-                        <div className='item' draggable="true" onDragOver={function(e: any) {e.preventDefault()}} onDragStart={(e) => props.itemStartDragging(e, props.itemstack)} onDragEnter={() => props.itemDragEnter(false)} onDrop={props.itemDragDrop} >
-                            {props.itemstack.itemmeta !== undefined && props.itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
-                            {props.itemstack.texture !== undefined ? <img style={{width: 50, height: 50}} src={props.itemstack.texture} alt="Itemstack icon" /> : <CircularProgress />}
+                    <div className="slot noselect" id={props.Itemstack.Slot}>
+                        <div className='item' draggable="true" onDragOver={function(e: any) {e.preventDefault()}} onDragStart={(e) => props.ItemStartDragging(e, props.Itemstack)} onDragEnter={() => props.ItemDragEnter(false)} onDrop={props.ItemDragDrop} >
+                            {props.Itemstack.itemmeta !== undefined && props.Itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
+                            {props.Itemstack.texture !== undefined ? <img style={{width: 50, height: 50}} src={props.Itemstack.texture} alt="Itemstack icon" /> : <CircularProgress />}
                         </div>
-                        <span className='slot-amount'>{props.itemstack.amount}</span>
+                        <span className='slot-amount'>{props.Itemstack.amount}</span>
                     </div>       
                 </Tooltip>
                 }>
                 <MenuHeader>Optie's</MenuHeader>
-                <MenuItem className='slot-context-button' onClick={() => props.inventoryAction("remove", props.itemstack)}><FaTrash /><span>Remove Item</span></MenuItem>
-                <MenuItem className='slot-context-button' onClick={() => props.inventoryAction("duplicate", props.itemstack)}><FaCopy /><span>Duplicate item</span></MenuItem>
-                <MenuItem className='slot-context-button' onClick={() => props.inventoryAction("drop", props.itemstack)}><FaQuidditch /><span>Drop Item</span></MenuItem>
+                <MenuItem className='slot-context-button' onClick={() => props.InventoryAction(removeAction, props.Itemstack)}><FaTrash /><span>Remove Item</span></MenuItem>
+                <MenuItem className='slot-context-button' onClick={() => props.InventoryAction(duplicateAction, props.Itemstack)}><FaCopy /><span>Duplicate item</span></MenuItem>
+                <MenuItem className='slot-context-button' onClick={() => props.InventoryAction(dropAction, props.Itemstack)}><FaQuidditch /><span>Drop Item</span></MenuItem>
                 <MenuDivider />
                 <MenuHeader>Opslaan</MenuHeader>
-                <MenuItem className='slot-context-button' onClick={() => props.inventoryAction("save", props.itemstack)}><FaSave /><span>Save Item</span></MenuItem>
+                <MenuItem className='slot-context-button' onClick={() => props.InventoryAction("save", props.Itemstack)}><FaSave /><span>Save Item</span></MenuItem>
             </Menu>
         );
     }

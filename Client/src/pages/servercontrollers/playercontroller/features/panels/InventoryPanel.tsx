@@ -13,35 +13,15 @@ import inventoryTextures from './InventoryTextures.json';
 
 function InventoryPanel(props: {Server: any, player: any}){
     const [inventoryType, setInventoryType] = useState<string | null>(null)
-    const [enderchestInventoryItems, setEnderchestInventoryItems] = useState<any>([]);
     const [items, setItems] = useState<any>([]);
     
     useEffect(() => {
-        function loadInventories(){
-            loadItems();
-            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", {Type: "get"});
-        }
-        function updatePlayerEnderchest(){
-            socket.on(`player:get-enderchest-${props.player.UUID}`, itemList => {
-                var items:any = [];
-                itemList.forEach((item: any) => {
-                    if (!item.Empty){
-                        try{
-                            item.ItemstackJson = JSON.parse(item.ItemstackJson); 
-                        }catch{}
-                    }    
-                    items.push(item);
-                })
-                setEnderchestInventoryItems(items);
-            });
-        }
-        loadInventories();
-        updatePlayerEnderchest();
+        function loadItems(){
+            setItems(inventoryTextures.items)
+        };
+        loadItems();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    function loadItems(){
-        setItems(inventoryTextures.items)
-    };
     function handleButtonClick(type: string){
         setInventoryType(type)
     }
@@ -82,7 +62,7 @@ function InventoryPanel(props: {Server: any, player: any}){
                     </Tooltip>
                 </div>
                 {inventoryType === "default" ? <PlayerInventoryPane player={props.player} Server={props.Server} itemList={items} inventoryAction={inventoryAction} /> : <></>}
-                {inventoryType === "enderchest" ? <EnderchestPane items={enderchestInventoryItems} itemList={items} inventoryAction={inventoryAction}  /> : <></>}
+                {inventoryType === "enderchest" ? <EnderchestPane player={props.player} Server={props.Server} itemList={items} inventoryAction={inventoryAction}  /> : <></>}
                 {inventoryType === "saved" ? <SavedItemsPane player={props.player} /> : <></>}    
             </div>
             

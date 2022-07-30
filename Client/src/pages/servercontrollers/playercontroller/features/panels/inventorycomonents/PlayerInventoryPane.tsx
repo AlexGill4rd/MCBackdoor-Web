@@ -8,7 +8,7 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
     const [inventoryItems, setInventoryItems] = useState<any>([]);
     useEffect(() => {
         function loadInventories(){
-            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", {Type: "get"});
+            socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "inventory", {Type: "get-inventory"});
         }
         function updatePlayerInventory(){
             socket.on(`player:get-inventory-${props.player.UUID}`, itemList => {
@@ -41,8 +41,6 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
     function handleDragEnter(empty: boolean, slot: number){
         if (empty && slot !== undefined){
             moveItem(draggingItem, slot)
-        }else{
-
         }
     }
 
@@ -76,7 +74,7 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
                 socket.emit("feature:player-log", socket.id, "Er staat al een item op dit slot!", "error", "Item on this slot!");   
             }else{
                 var data = {
-                    Type: "move",
+                    Type: "move-inventory",
                     ItemstackSlot: originalSlot,
                     DestinationSlot: draggingItem.Slot
                 }
@@ -105,12 +103,13 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
                         };
                         return <Item 
                             key={index} 
-                            slot={item.Slot}
-                            itemstack={sendItem} 
-                            inventoryAction={props.inventoryAction} 
-                            itemStartDragging={handleItemStartDragging}
-                            itemDragDrop={handleItemDragDrop}
-                            itemDragEnter={handleDragEnter}
+                            Type={"player-inventory"}
+                            Slot={item.Slot}
+                            Itemstack={sendItem} 
+                            InventoryAction={props.inventoryAction} 
+                            ItemStartDragging={handleItemStartDragging}
+                            ItemDragDrop={handleItemDragDrop}
+                            ItemDragEnter={handleDragEnter}
                         />
                     }
                     var rawItem = item.ItemstackJson;
@@ -122,12 +121,13 @@ function PlayerInventoryPane(props: {player: any, Server:any, itemList: any[], i
                     })
                     return <Item 
                         key={index} 
-                        slot={item.Slot}
-                        itemstack={rawItem} 
-                        inventoryAction={props.inventoryAction} 
-                        itemStartDragging={handleItemStartDragging}
-                        itemDragDrop={handleItemDragDrop}
-                        itemDragEnter={handleDragEnter}
+                        Type={"player-inventory"}
+                        Slot={item.Slot}
+                        Itemstack={rawItem} 
+                        InventoryAction={props.inventoryAction} 
+                        ItemStartDragging={handleItemStartDragging}
+                        ItemDragDrop={handleItemDragDrop}
+                        ItemDragEnter={handleDragEnter}
                     />
                 })}
             </div>
