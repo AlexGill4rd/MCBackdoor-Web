@@ -14,7 +14,7 @@ function SavedItemsPane(props: {player: any;}){
     const [shownItems, setShownItems] = useState<any | null>([]);
 
     useEffect(() => {
-        function loadSavedItems(){
+        function requestSavedItems(){
             socket.emit("saveditem:request-list");
         }
         function updateSavedItems(){
@@ -22,7 +22,7 @@ function SavedItemsPane(props: {player: any;}){
                 setSavedItems(data)
             });
         }
-        loadSavedItems();
+        requestSavedItems();
         updateSavedItems();
     }, []);
 
@@ -85,18 +85,20 @@ function SavedItemsPane(props: {player: any;}){
         return <>Geen items opgeslagen op dit moment!</>
     }else{
         return (
-            <div className='inventorypanel'>
-                <div className="inventorypanel-search">
-                    <label className='editmodal-menu-kop'>Zoek naar een item:</label>
-                    <input type="text" onChange={handleSearchChange} value={searchTerm} id="lsearch" name="search" placeholder="Zoek naar een item..." />
+            <>
+                <div className="saveditems-container-search">
+                        <label className='editmodal-menu-kop'>Zoek naar een item:</label>
+                        <input type="text" onChange={handleSearchChange} value={searchTerm} id="lsearch" name="search" placeholder="Zoek naar een item..." />
+                    </div>
+                <div className='saveditems-container'>
+                    <div className="saveditems-container-items">
+                        {shownItems.map((item: any, index: number) => {
+                            return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
+                        })}
+                    </div>
+                    {editModalIsOpen && <EditItemModal item={editItem} onCancel={handleEditModalClose} onAccept={handleItemEdit} />}
                 </div>
-                <div className="inventorypanel-items">
-                    {shownItems.map((item: any, index: number) => {
-                        return <SavedItem key={index} item={item} handleItemClick={handleItemClick} />
-                    })}
-                </div>
-                {editModalIsOpen && <EditItemModal item={editItem} onCancel={handleEditModalClose} onAccept={handleItemEdit} />}
-            </div>
+            </>
         );
     }
 }

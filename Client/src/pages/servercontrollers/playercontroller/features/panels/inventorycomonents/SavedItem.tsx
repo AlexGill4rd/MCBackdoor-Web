@@ -60,23 +60,23 @@ function SavedItem(props: {item: any, handleItemClick: any;}){
         }
     }, [props.item]);
     if (tooltip == null){
-        return <div className="item"></div>;
+        return <div className="slot"></div>;
     }else {
         const itemstack: any = JSON.parse(props.item.Itemstack)
         return (
-            <Menu className='item-contextmenu' menuButton={
+            <Menu className='slot-contextmenu' menuButton={
                 <Tooltip placement="top" title={tooltip} disableInteractive>  
-                    <div className="item noselect">
+                    <div className="slot noselect">
                         {itemstack.itemmeta !== undefined && itemstack.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
                         <img style={{width: 50, height: 50}} src={itemstack.texture} alt="item icon" />
-                        <span className='item-amount'>{itemstack.amount}</span>
+                        <span className='slot-amount'>{itemstack.amount}</span>
                     </div>       
                 </Tooltip>
             }>
                 <MenuHeader>Optie's</MenuHeader>
-                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("give", props.item)}><FaLocationArrow /><span>Give Item</span></MenuItem>
-                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("edit", props.item)}><FaEdit /><span>Edit item</span></MenuItem>
-                <MenuItem className='item-context-button' onClick={() => props.handleItemClick("remove", props.item)}><FaTrash /><span>Remove Item</span></MenuItem>
+                <MenuItem className='slot-context-button' onClick={() => props.handleItemClick("give", props.item)}><FaLocationArrow /><span>Give Item</span></MenuItem>
+                <MenuItem className='slot-context-button' onClick={() => props.handleItemClick("edit", props.item)}><FaEdit /><span>Edit item</span></MenuItem>
+                <MenuItem className='slot-context-button' onClick={() => props.handleItemClick("remove", props.item)}><FaTrash /><span>Remove Item</span></MenuItem>
             </Menu>
         );
     }
