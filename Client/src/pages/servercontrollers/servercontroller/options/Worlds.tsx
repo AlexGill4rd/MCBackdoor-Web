@@ -25,7 +25,6 @@ function Worlds(props: {Server: any}) {
         function loadWorlds(){
             socket.on(`server:get-worlds`, data => {
                 setWorlds(data)
-               
             })
         }
         requestWorlds();

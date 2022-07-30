@@ -28,17 +28,14 @@
   align-items: center;
   transition: transform 100ms ease-in-out;
 }
-
 .playertab:hover {
   transform: scale(1.03);
 }
-
 .playertab-icon {
   width: 30px;
   height: 30px;
   margin: 10px 0;
 }
-
 .playertab-icon img {
   width: 100%;
   height: 100%;
@@ -48,11 +45,9 @@
   image-rendering: crisp-edges;
   object-fit: cover;
 }
-
 .playertab-playername {
   font-size: 1em;
 }
-
 .playertab-verticalline {
   width: 30px;
   height: 100%;
@@ -61,15 +56,12 @@
   justify-content: center;
   align-items: center;
 }
-
 .playertab-ip {
   padding: 3px 5px;
   border-radius: 7px;
-  transition: color 100ms ease-in-out,background-color 100ms ease-in-out;
+  transition: color 100ms ease-in-out, background-color 100ms ease-in-out;
 }
-
 .playertab-ip:hover {
   background-color: #3180E8;
   color: white;
-}
-/*# sourceMappingURL=PlayerStyling.css.map */
+}/*# sourceMappingURL=PlayerStyling.css.map */

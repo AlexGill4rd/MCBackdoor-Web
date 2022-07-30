@@ -14,17 +14,13 @@
   align-items: center;
   transition: transform 100ms ease-in-out;
 }
-
 .optionbutton:hover {
   transform: scale(1.1);
 }
-
 .optionbutton-title {
   font-size: 1.1em;
 }
-
 .optionbutton-description {
-  color: #969696;
+  color: rgb(150, 150, 150);
   font-size: 0.9em;
-}
-/*# sourceMappingURL=OptionButtonStyle.css.map */
+}/*# sourceMappingURL=OptionButtonStyle.css.map */

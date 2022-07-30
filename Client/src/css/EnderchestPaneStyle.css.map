@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "",
-    "sources": [
-        "../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/EnderchestPaneStyle.scss"
-    ],
-    "names": [],
-    "file": "EnderchestPaneStyle.css"
-}
+{"version":3,"sourceRoot":"","sources":[],"names":[],"mappings":"","file":"EnderchestPaneStyle.css"}

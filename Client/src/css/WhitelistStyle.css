@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .whitelist-addplayer {
   width: 100%;
   height: auto;
@@ -15,7 +14,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .whitelist-addplayer img {
   width: auto;
   height: 40px;
@@ -25,16 +23,14 @@
   image-rendering: crisp-edges;
   object-fit: cover;
 }
-
 .whitelist-addplayer input[type=text] {
   width: 300px;
   padding: 9px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin: 0 20px;
-  color: #313131;
+  color: rgb(49, 49, 49);
 }
-
 .whitelist-sorting {
   width: 84%;
   height: auto;
@@ -43,16 +39,14 @@
   justify-content: center;
   align-items: center;
 }
-
 .whitelist-sorting input[type=text] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 20px;
-  color: #313131;
+  color: rgb(49, 49, 49);
 }
-
 .whitelist-whitelisted {
   width: 84%;
   height: 265px;
@@ -67,7 +61,6 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
-
 .whitelist-whitelisted-list {
   width: 100%;
   height: auto;
@@ -77,12 +70,10 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 .whitelist-divider {
   font-size: 1.2em;
   margin: 10px;
 }
-
 .whitelist-players {
   width: 84%;
   height: 265px;
@@ -97,7 +88,6 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
-
 .whitelist-players-list {
   width: 100%;
   height: auto;
@@ -107,7 +97,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 .whitelist-player {
   width: 80px;
   height: auto;
@@ -119,12 +108,10 @@
   cursor: pointer;
   transition: transform 100ms ease-in-out;
 }
-
 .whitelist-player-icon {
   width: 100%;
   height: auto;
 }
-
 .whitelist-player-icon img {
   width: 100%;
   height: 100%;
@@ -134,13 +121,10 @@
   image-rendering: crisp-edges;
   object-fit: cover;
 }
-
 .whitelist-player:hover {
   transform: scale(1.08);
 }
-
 .whitelist-player-displayname {
   font-size: 0.8em;
-  color: #4e4e4e;
-}
-/*# sourceMappingURL=WhitelistStyle.css.map */
+  color: rgb(78, 78, 78);
+}/*# sourceMappingURL=WhitelistStyle.css.map */

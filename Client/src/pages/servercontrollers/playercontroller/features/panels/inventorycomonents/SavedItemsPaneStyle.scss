@@ -1,12 +1,28 @@
 @import "../../../../../../globalscss/Functions.scss";
 @import "../../../../../../globalscss/Colors.scss";
 
-.saveditems-panel{
-    $slotwidth: 50px;
-    width: calc($slotwidth * 9 + 36px);
-    max-height: calc($slotwidth * 9 + 36px);
+.saveditems-container{
+    width: 100%;
+    height: 300px;
+
     overflow-y: auto;
 
-    @include centerFlex(center, center, row);
-    flex-wrap: wrap;
+    @include centerFlex(center, flex-start, row);
+    &-search{
+        text-align: center;
+        input[type=text] {
+            width: 100%;
+            padding: 6px 10px;
+            margin: 5px 0 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    }
+    &-items{
+        width: 100%;
+        height: auto;
+
+        @include centerFlex(center, flex-start, row);
+        flex-wrap: wrap;
+    }
 }

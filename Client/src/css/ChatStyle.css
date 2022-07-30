@@ -9,7 +9,6 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .chat-message {
   width: 100%;
   height: auto;
@@ -19,20 +18,16 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
-
 .chat-message-sender {
   width: auto;
   color: #235DA8;
 }
-
 .chat-message-devider {
   width: auto;
   margin: 0 15px;
 }
-
 .chat-message-message {
   width: auto;
   height: auto;
   text-align: left;
-}
-/*# sourceMappingURL=ChatStyle.css.map */
+}/*# sourceMappingURL=ChatStyle.css.map */

@@ -17,11 +17,9 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .inventorypanel-search {
   text-align: center;
 }
-
 .inventorypanel-search input[type=text] {
   width: 100%;
   padding: 6px 10px;
@@ -29,7 +27,6 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 .inventorypanel-items {
   width: 100%;
   height: auto;
@@ -39,7 +36,6 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
 .inventorypanel-selection {
   width: 100%;
   height: auto;
@@ -47,15 +43,15 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
-
 .inventorypanel-selection-button {
   width: 200px;
   height: auto;
   background-color: #13335C;
   color: white;
   border-radius: 7px;
-  margin: 20px;
+  margin: 10px;
   padding: 20px 0;
   text-align: center;
   display: flex;
@@ -65,12 +61,9 @@
   cursor: pointer;
   transition: transform 200ms ease-in-out;
 }
-
 .inventorypanel-selection-button p {
   font-size: 4em;
 }
-
 .inventorypanel-selection-button:hover {
   transform: scale(1.05);
-}
-/*# sourceMappingURL=InventoryPanelStyle.css.map */
+}/*# sourceMappingURL=InventoryPanelStyle.css.map */

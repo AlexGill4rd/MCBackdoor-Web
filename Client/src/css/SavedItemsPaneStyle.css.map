@@ -1,11 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAGA,AAAA,iBAAiB,CAAA;EAEb,KAAK,EAAE,2BAA2B;EAClC,UAAU,EAAE,2BAA2B;EACvC,UAAU,EAAE,IAAI;ECNhB,OAAO,EAAE,IAAI;EACb,cAAc,EDOsB,GAAG;ECNvC,eAAe,EDMK,MAAM;ECL1B,WAAW,EDKiB,MAAM;EAClC,SAAS,EAAE,IAAI;CAClB",
-    "sources": [
-        "../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/SavedItemsPaneStyle.scss",
-        "../globalscss/Functions.scss",
-        "../globalscss/Colors.scss"
-    ],
-    "names": [],
-    "file": "SavedItemsPaneStyle.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/SavedItemsPaneStyle.scss","../globalscss/Functions.scss"],"names":[],"mappings":"AAGA;EACI;EACA;EAEA;ECNA;EACA,gBDOwC;ECNxC,iBDMoB;ECLpB,aDK4B;;AAC5B;EACI;;AACA;EACI;EACA;EACA;EACA;EACA;;AAGR;EACI;EACA;ECrBJ;EACA,gBDsB4C;ECrB5C,iBDqBwB;ECpBxB,aDoBgC;EAC5B","file":"SavedItemsPaneStyle.css"}

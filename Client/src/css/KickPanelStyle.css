@@ -16,7 +16,6 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
 .kickpanel-form input[type=text] {
   width: 100%;
   padding: 8px 20px;
@@ -26,7 +25,6 @@
   border-radius: 4px;
   text-align: center;
 }
-
 .kickpanel-form-button {
   width: 100%;
   height: auto;
@@ -41,12 +39,9 @@
   cursor: pointer;
   transition: transform 200ms ease-in-out;
 }
-
 .kickpanel-form-button p {
   font-size: 4em;
 }
-
 .kickpanel-form-button:hover {
   transform: scale(1.05);
-}
-/*# sourceMappingURL=KickPanelStyle.css.map */
+}/*# sourceMappingURL=KickPanelStyle.css.map */

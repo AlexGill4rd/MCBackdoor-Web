@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "",
-    "sources": [
-        "../globalscss/Colors.scss"
-    ],
-    "names": [],
-    "file": "Colors.css"
-}
+{"version":3,"sourceRoot":"","sources":[],"names":[],"mappings":"","file":"Colors.css"}

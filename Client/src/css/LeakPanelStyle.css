@@ -16,7 +16,6 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
 .leakpanel-buttons-button {
   width: 100%;
   height: auto;
@@ -32,23 +31,18 @@
   cursor: pointer;
   transition: transform 200ms ease-in-out;
 }
-
 .leakpanel-buttons-button p {
   font-size: 4em;
 }
-
 .leakpanel-buttons-button:hover {
   transform: scale(1.05);
 }
-
 .leakpanel-buttons p {
   margin-top: 20px;
   text-align: center;
 }
-
 .leakpanel-buttons textarea {
   font-size: 1em;
   padding: 5px;
   border-radius: 3px;
-}
-/*# sourceMappingURL=LeakPanelStyle.css.map */
+}/*# sourceMappingURL=LeakPanelStyle.css.map */

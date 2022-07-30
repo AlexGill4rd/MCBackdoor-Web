@@ -1,11 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAGA,AAAA,iBAAiB,CAAA;EACb,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,KAAK;ECJb,OAAO,EAAE,IAAI;EACb,cAAc,EDK0B,GAAG;ECJ3C,eAAe,EDIK,UAAU;ECH9B,WAAW,EDGqB,MAAM;CAuBzC;;AAtBI,AAAD,yBAAS,CAAA;EACL,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,IAAI;EAEZ,gBAAgB,EENf,OAAO;EFQR,YAAY,EAAE,GAAG,CAAC,KAAK,CEPtB,OAAO;EFQR,OAAO,EAAE,IAAI;EACb,SAAS,EAAE,IAAI;ECfnB,OAAO,EAAE,IAAI;EACb,cAAc,EDe0B,GAAG;ECd3C,eAAe,EDcS,MAAM;ECb9B,WAAW,EDaqB,MAAM;CAQrC;;AAPI,AAAD,8BAAM,CAAA;EACF,MAAM,EAAE,GAAG;EACX,UAAU,EAAE,MAAM;EAClB,UAAU,EAAE,IAAI;ECpBxB,OAAO,EAAE,IAAI;EACb,cAAc,EDoB8B,GAAG;ECnB/C,eAAe,EDmBa,MAAM;EClBlC,WAAW,EDkByB,MAAM;EAClC,SAAS,EAAE,IAAI;CAClB;;AAEJ,AAAD,uBAAO,CAAA;EACH,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,IAAI;CACf",
-    "sources": [
-        "../pages/servercontrollers/servercontroller/ServerControllerPageStyling.scss",
-        "../globalscss/Functions.scss",
-        "../globalscss/Colors.scss"
-    ],
-    "names": [],
-    "file": "ServerControllerPageStyling.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/servercontrollers/servercontroller/ServerControllerPageStyling.scss","../globalscss/Functions.scss","../globalscss/Colors.scss"],"names":[],"mappings":"AAGA;EACI;EACA;ECJA;EACA,gBDKwC;ECJxC,iBDIoB;ECHpB,aDGgC;;AAChC;EACI;EACA;EAEA,kBENC;EFQD;EACA;EACA;ECfJ;EACA,gBDewC;ECdxC,iBDcwB;ECbxB,aDagC;;AAC5B;EACI;EACA;EACA;ECpBR;EACA,gBDoB4C;ECnB5C,iBDmB4B;EClB5B,aDkBoC;EAC5B;;AAGR;EACI;EACA","file":"ServerControllerPageStyling.css"}

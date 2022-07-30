@@ -7,7 +7,6 @@
     height: calc($slotwidth * 5);
 
     &-items{
-
         @include centerFlex(center, center, row);
         flex-wrap: wrap;
     }

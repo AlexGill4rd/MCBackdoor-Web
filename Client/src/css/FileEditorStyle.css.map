@@ -1,11 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAGA,AAAA,WAAW,CAAA;EACP,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;ECJZ,OAAO,EAAE,IAAI;EACb,cAAc,EDK0B,MAAM;ECJ9C,eAAe,EDIK,UAAU;ECH9B,WAAW,EDGqB,MAAM;CAwBzC;;AAvBI,AAAD,kBAAQ,CAAA;EACJ,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,IAAI;EACZ,OAAO,EAAE,SAAS;EAClB,MAAM,EAAE,SAAS;EAEjB,aAAa,EAAE,GAAG,CAAC,KAAK,CAAC,OAAkB;ECb/C,OAAO,EAAE,IAAI;EACb,cAAc,EDciC,GAAG;ECblD,eAAe,EDaS,aAAa;ECZrC,WAAW,EDY4B,MAAM;CAM5C;;AALI,AACG,0BADK,CACL,MAAM,CAAA;EACF,WAAW,EAAE,IAAI;CACpB;;AAGR,AAAD,kBAAQ,CAAA;EACJ,KAAK,EAAE,GAAG;EACV,UAAU,EAAE,GAAG;ECxBnB,OAAO,EAAE,IAAI;EACb,cAAc,EDyBkC,MAAM;ECxBtD,eAAe,EDwBS,UAAU;ECvBlC,WAAW,EDuByB,UAAU;EAE1C,QAAQ,EAAE,MAAM;CACnB",
-    "sources": [
-        "../pages/servercontrollers/servercontroller/options/files/FileEditorStyle.scss",
-        "../globalscss/Functions.scss",
-        "../globalscss/Colors.scss"
-    ],
-    "names": [],
-    "file": "FileEditorStyle.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/servercontrollers/servercontroller/options/files/FileEditorStyle.scss","../globalscss/Functions.scss"],"names":[],"mappings":"AAGA;EACI;EACA;ECJA;EACA,gBDKwC;ECJxC,iBDIoB;ECHpB,aDGgC;;AAChC;EACI;EACA;EACA;EACA;EAEA;ECbJ;EACA,gBDc+C;ECb/C,iBDawB;ECZxB,aDYuC;;AAE/B;EACI;;AAIZ;EACI;EACA;ECxBJ;EACA,gBDyBgD;ECxBhD,iBDwBwB;ECvBxB,aDuBoC;EAEhC","file":"FileEditorStyle.css"}

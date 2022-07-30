@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,qBAAqB,CAAA;EACjB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EAEZ,QAAQ,EAAE,QAAQ;EAClB,QAAQ,EAAE,MAAM;EAChB,OAAO,EAAE,CAAC;EACV,aAAa,EAAE,GAAG;CACrB;;AACD,AAAA,gBAAgB,CAAA;EACZ,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EAOZ,cAAc,EAAE,IAAI;EACpB,kBAAkB,EAAE,EAAE;EACtB,yBAAyB,EAAE,MAAM;EACjC,yBAAyB,EAAE,QAAQ;EAEnC,gBAAgB,EAAE,uBAAuB;EACzC,iBAAiB,EAAE,MAAM;EACzB,mBAAmB,EAAE,MAAM;EAC3B,eAAe,EAAE,OAAO;EAExB,OAAO,EAAE,GAAG;CACf;;AAhBG,UAAU,CAAV,IAAU;EACN,EAAE;IAAI,WAAW,EAAE,GAAG;;EACtB,IAAI;IAAE,WAAW,EAAE,MAAM",
-    "sources": [
-        "../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/EnchantingStyle.scss"
-    ],
-    "names": [],
-    "file": "EnchantingStyle.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/servercontrollers/playercontroller/features/panels/inventorycomonents/EnchantingStyle.scss"],"names":[],"mappings":"AAAA;EACI;EACA;EAEA;EACA;EACA;EACA;;;AAEJ;EACI;EACA;EAOA;EACA;EACA;EACA;EAEA;EACA;EACA;EACA;EAEA;;AAfA;EACI;IAAM;;EACN;IAAM","file":"EnchantingStyle.css"}

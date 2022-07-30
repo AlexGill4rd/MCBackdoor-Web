@@ -6,15 +6,12 @@
   justify-content: center;
   align-items: center;
 }
-
 .loading a {
   text-decoration: none;
   color: #3180E8;
   font-size: 1.1em;
   transition: transform 100ms ease-in-out;
 }
-
 .loading a:hover {
   transform: scale(1.05);
-}
-/*# sourceMappingURL=LoadingStyle.css.map */
+}/*# sourceMappingURL=LoadingStyle.css.map */

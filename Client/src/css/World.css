@@ -7,7 +7,6 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .world img {
   width: 100%;
   height: auto;
@@ -16,11 +15,9 @@
   cursor: pointer;
   transition: transform 100ms ease-in-out;
 }
-
 .world img:hover {
   transform: scale(1.05);
 }
-
 .world span {
   width: 100%;
   text-align: center;
@@ -30,5 +27,4 @@
   border-radius: 3px;
   color: white;
   background-color: #3180E8;
-}
-/*# sourceMappingURL=World.css.map */
+}/*# sourceMappingURL=World.css.map */

@@ -1,11 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAGA,AAAA,cAAc,CAAA;EACV,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,KAAK;EAEb,gBAAgB,EAAE,KAAK;EACvB,MAAM,EAAE,SAAS;EACjB,OAAO,EAAE,IAAI;EACb,UAAU,EAAE,MAAM;EAElB,eAAe,EAAE,IAAI;EACrB,MAAM,EAAE,OAAO;EACf,UAAU,EAAE,4DAA4D;ECbxE,OAAO,EAAE,IAAI;EACb,cAAc,EDa0B,MAAM;ECZ9C,eAAe,EDYK,UAAU;ECX9B,WAAW,EDWqB,MAAM;EACtC,SAAS,EAAE,IAAI;CAiBlB;;AA9BD,AAcI,cAdU,AAcT,MAAM,CAAA;EACH,SAAS,EAAE,WAAW;CACzB;;AACA,AAAD,oBAAO,CAAA;EACH,KAAK,EAAE,KAAK;EACZ,SAAS,EAAE,KAAK;CACnB;;AACA,AAAD,0BAAa,CAAA;EACT,KAAK,EAAE,OAAO;EACd,SAAS,EAAE,GAAG;CACjB;;AAxBL,AAyBI,cAzBU,CAyBV,GAAG,CAAA;EACC,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EACZ,aAAa,EAAE,IAAI;CACtB",
-    "sources": [
-        "../pages/settingselectorpage/NavTabStyling.scss",
-        "../globalscss/Functions.scss",
-        "../globalscss/Colors.scss"
-    ],
-    "names": [],
-    "file": "NavTabStyling.css"
-}
+{"version":3,"sourceRoot":"","sources":["../pages/settingselectorpage/NavTabStyling.scss","../globalscss/Functions.scss"],"names":[],"mappings":"AAGA;EACI;EACA;EAEA;EACA;EACA;EACA;EAEA;EACA;EACA;ECbA;EACA,gBDawC;ECZxC,iBDYoB;ECXpB,aDWgC;EAChC;;AACA;EACI;;AAEJ;EACI;EACA;;AAEJ;EACI;EACA;;AAEJ;EACI;EACA;EACA","file":"NavTabStyling.css"}

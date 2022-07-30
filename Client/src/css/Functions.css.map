@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "",
-    "sources": [
-        "../globalscss/Functions.scss"
-    ],
-    "names": [],
-    "file": "Functions.css"
-}
+{"version":3,"sourceRoot":"","sources":[],"names":[],"mappings":"","file":"Functions.css"}
