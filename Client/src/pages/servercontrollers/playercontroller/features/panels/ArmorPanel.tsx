@@ -7,7 +7,7 @@ import { socket } from '../../../../../socket/socket';
 
 import inventoryTextures from './InventoryTextures.json';
 
-import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
+import { Menu, MenuItem, MenuDivider, MenuHeader, SubMenu } from "@szhsin/react-menu";
 import Enchanting from './inventorycomonents/Enchanting';
 
 function ArmorPanel(props: {Server: any, player: any;}){
@@ -138,6 +138,7 @@ function ArmorPanel(props: {Server: any, player: any;}){
                                     </div>
                                 );
                             }
+                            console.log(item)
                             return (
                                 <div className='armor-customizer-slot' key={item.Slot}>
                                     <div className='armor-customizer-slot-container'>  
@@ -157,6 +158,36 @@ function ArmorPanel(props: {Server: any, player: any;}){
                                         <MenuItem className='item-context-button' onClick={() => handleDeleteClick(item)}>Delete Item</MenuItem>
                                         <MenuDivider />
                                         <MenuHeader>Options</MenuHeader>
+                                        <SubMenu label="Item Info">
+                                            {item.ItemstackJson.itemmeta !== undefined && item.ItemstackJson.itemmeta.displayname !== undefined ? 
+                                                <MenuItem className='info' style={{width: "auto"}}>
+                                                    <span>Displayname:</span>
+                                                    <span className='info-text'>{item.ItemstackJson.itemmeta.displayname}</span>
+                                                </MenuItem> 
+                                            : ""}
+                                            {item.ItemstackJson.itemmeta !== undefined && item.ItemstackJson.itemmeta.lore !== undefined ? 
+                                                <MenuItem className='info' style={{width: "auto"}}>
+                                                    <span>Lore:</span>
+                                                    {item.ItemstackJson.itemmeta.lore.map((line: string, index: number) => {
+                                                        return (
+                                                            <span className='info-text' key={index}>{"- " + line}</span>
+                                                        );
+                                                    })}
+                                                    
+                                                </MenuItem> 
+                                            : ""}
+                                            {item.ItemstackJson.itemmeta !== undefined && item.ItemstackJson.itemmeta.enchants !== undefined ? 
+                                                <MenuItem className='info' style={{width: "auto"}}>
+                                                    <span>Enchantments:</span>
+                                                    {item.ItemstackJson.itemmeta.enchants.map((enchant: string, index: number) => {
+                                                        return (
+                                                            <span className='info-text' key={index}>{"- " + enchant}</span>
+                                                        );
+                                                    })}
+                                                    
+                                                </MenuItem> 
+                                            : ""}
+                                        </SubMenu>
                                         <MenuItem className='item-context-button' onClick={() => handleSaveClick(item)}>Save Item</MenuItem>
                                     </Menu>
                                     </div>

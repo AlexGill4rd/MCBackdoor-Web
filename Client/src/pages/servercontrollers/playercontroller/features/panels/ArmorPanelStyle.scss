@@ -84,3 +84,10 @@
         }
     }
 }
+.info{
+    @include centerFlex(flex-start, flex-start, column);
+    &-text{
+        color: rgb(184, 184, 184);
+        font-size: 0.9em;
+    }
+}
