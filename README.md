@@ -94,6 +94,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Player location
 - Player World
 - Player server ipaddress
+
 ![Page](https://user-images.githubusercontent.com/57497005/175658466-0133aa9d-5273-40f0-baf8-e12834fe4044.png)
 ## Server Panel
 ### Dashboard
@@ -111,6 +112,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Get the environment where the sever is hosted
 - Get the number of cores of the CPU
 - Get the player list
+
 ![Page](https://user-images.githubusercontent.com/57497005/180844330-9cce763e-2c79-4242-a424-3a240b5649ae.png)
 ### Console ([Page](https://user-images.githubusercontent.com/57497005/175658236-97155eac-999e-4dee-901c-c9690cebbf12.png))
 - Watch the server's live console
@@ -126,6 +128,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Delete Folders
 - Open directories
 - Edit a file and save it on the server
+
 ![Page](https://user-images.githubusercontent.com/57497005/175658593-4635ae01-c577-4be9-b6ae-0180134a33ed.png)
 ### Banned Menu ([Page](https://user-images.githubusercontent.com/57497005/175658165-7b6c6d68-e2cd-4bae-ac11-1f4132f117f9.png))
 - Get the banned players
