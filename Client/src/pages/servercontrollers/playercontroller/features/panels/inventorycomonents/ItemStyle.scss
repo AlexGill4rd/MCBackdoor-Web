@@ -29,6 +29,9 @@ $itemsize: 50px;
     img{
         z-index: 1;
         position: relative;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
     }
     
     &-contextmenu{
@@ -83,6 +86,9 @@ $itemsize: 50px;
         height: auto;
 
         object-fit: contain;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
     }
 }
 .dragging{
