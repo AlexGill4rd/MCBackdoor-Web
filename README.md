@@ -66,7 +66,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Edit player experience
 - Get player experience
 
-### Irritation panel ([Page](https://user-images.githubusercontent.com/57497005/174078265-7cea0a87-e337-40bd-9d3c-f162e47a4a6d.png))
+### Irritation panel
 - Teleport the player to a random location
 - Reset the player's food level
 - Rotate the player 180°
@@ -83,7 +83,8 @@ In the start screen you can see all the servers that are infected with the plugi
 - Make the players around the player invisible for the player
 - Option to perform multiple actions at once
 
-### Player information ([Page](https://user-images.githubusercontent.com/57497005/175658466-0133aa9d-5273-40f0-baf8-e12834fe4044.png))
+![Page](https://user-images.githubusercontent.com/57497005/174078265-7cea0a87-e337-40bd-9d3c-f162e47a4a6d.png)
+### Player information
 - Player name
 - Player UniqueID
 - Player public ipaddress
@@ -93,9 +94,9 @@ In the start screen you can see all the servers that are infected with the plugi
 - Player location
 - Player World
 - Player server ipaddress
-
+![Page](https://user-images.githubusercontent.com/57497005/175658466-0133aa9d-5273-40f0-baf8-e12834fe4044.png)
 ## Server Panel
-### Dashboard ([Page](https://user-images.githubusercontent.com/57497005/180844330-9cce763e-2c79-4242-a424-3a240b5649ae.png))
+### Dashboard
 - Get the ipaddress from the server
 - Get MOTD from the server
 - Change the version of the server. (So the main jar)
@@ -110,11 +111,12 @@ In the start screen you can see all the servers that are infected with the plugi
 - Get the environment where the sever is hosted
 - Get the number of cores of the CPU
 - Get the player list
+![Page](https://user-images.githubusercontent.com/57497005/180844330-9cce763e-2c79-4242-a424-3a240b5649ae.png)
 ### Console ([Page](https://user-images.githubusercontent.com/57497005/175658236-97155eac-999e-4dee-901c-c9690cebbf12.png))
 - Watch the server's live console
 - Execute commands in the console
 - Filter the console by messages
-### File explorer ([Page](https://user-images.githubusercontent.com/57497005/175658593-4635ae01-c577-4be9-b6ae-0180134a33ed.png))
+### File explorer
 - View the server files
 - Upload a file in a directory
 - Download a file from the server
@@ -124,6 +126,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Delete Folders
 - Open directories
 - Edit a file and save it on the server
+![Page](https://user-images.githubusercontent.com/57497005/175658593-4635ae01-c577-4be9-b6ae-0180134a33ed.png)
 ### Banned Menu ([Page](https://user-images.githubusercontent.com/57497005/175658165-7b6c6d68-e2cd-4bae-ac11-1f4132f117f9.png))
 - Get the banned players
 - Unban a player
@@ -134,7 +137,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Remove players from whitelist
 - Find a player
 - Get all the players who have ever joined the server as a choice to add to the whitelist
-### Mob Spawner ([Page](https://user-images.githubusercontent.com/57497005/180843849-81267663-a11e-4409-a54a-12939865fb6a.png))
+### Mob Spawner
 This allows you to spawn different types of mobs with their own settings in the world. The location can be set according to your wishes.
 - Select mob types
 - Change displayname
@@ -149,6 +152,20 @@ This allows you to spawn different types of mobs with their own settings in the 
 > Gravity
 
 > Customname visible
+
+![Page](https://user-images.githubusercontent.com/57497005/180843849-81267663-a11e-4409-a54a-12939865fb6a.png)
+
+### Armor Editing
+There is a new feature where it is possible to perform different actions on a player's armor. Below is a list of the new control options.
+- Added a skin viewer. You can now view the player's skin here.
+- You can clear all the items the player is wearing and has in his offhand.
+- You can see all the armor the player is wearing and what he is holding in his offhand!
+- Continuing on the player's skin. You can also download it here.
+- Back to the items. You can equip the item, edit it, drop it (the player can't pick it up anymore), delete it, view info and finally store it in the vault to access for later use.
+
+#### What does the new menu look like now?
+![image of panel](https://user-images.githubusercontent.com/57497005/182044684-5dd91679-400e-44bd-8c8e-37edd8a75e20.png)
+
 
 More features to come but my hands can't type faster.
 
