@@ -66,6 +66,9 @@
                     image-rendering: pixelated;
                     image-rendering: -moz-crisp-edges;
                     image-rendering: crisp-edges;
+
+                    position: relative;
+                    z-index: 1;
                 }
                 cursor: pointer;
                 transition: background-color 100ms ease-in-out;

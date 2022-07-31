@@ -8,6 +8,7 @@ import { socket } from '../../../../../socket/socket';
 import inventoryTextures from './InventoryTextures.json';
 
 import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
+import Enchanting from './inventorycomonents/Enchanting';
 
 function ArmorPanel(props: {Server: any, player: any;}){
 
@@ -32,7 +33,7 @@ function ArmorPanel(props: {Server: any, player: any;}){
                             itemstackJSON = JSON.parse(item.ItemstackJson);
                         var itemType = "minecraft:" + itemstackJSON.type.toLowerCase();
                         var icon: string = items.filter(function(value) {return value.id === itemType})[0].texture;
-                        itemstackJSON.icon = icon;
+                        itemstackJSON.texture = icon;
                         item.ItemstackJson = itemstackJSON;
                         convertedArray.push(item);
                     }
@@ -73,7 +74,13 @@ function ArmorPanel(props: {Server: any, player: any;}){
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
     }
     function handleSaveClick(item: any) {
-
+        var saveItem = {
+            Servername: props.Server.Servername,
+            Itemstack: item.ItemstackJson,
+            Player: props.player
+        }
+        socket.emit("saveditem:new", saveItem);
+        socket.emit("feature:player-log", socket.id, "Item opgeslagen in de opslag!", "success");
     }
     function handleArmorClear(){
         var data = {
@@ -136,8 +143,10 @@ function ArmorPanel(props: {Server: any, player: any;}){
                                     <div className='armor-customizer-slot-container'>  
                                         <Menu className='item-contextmenu' menuButton={
                                             <div className='armor-customizer-slot-container-item'>
-                                                {!item.Empty ? <img src={item.ItemstackJson.icon} /> : <CircularProgress />}
+                                                {item.ItemstackJson.itemmeta !== undefined && item.ItemstackJson.itemmeta.enchants !== undefined ? <Enchanting /> : <></>}
+                                                {!item.Empty ? <img src={item.ItemstackJson.texture} /> : <CircularProgress />}
                                             </div>
+                                       
                                         }>
                                         <MenuHeader>Editing</MenuHeader>
                                         <MenuItem className='item-context-button' onClick={() => handleUnequipClick(item)}>Unequip Item</MenuItem>
@@ -148,7 +157,7 @@ function ArmorPanel(props: {Server: any, player: any;}){
                                         <MenuItem className='item-context-button' onClick={() => handleDeleteClick(item)}>Delete Item</MenuItem>
                                         <MenuDivider />
                                         <MenuHeader>Options</MenuHeader>
-                                        <MenuItem className='item-context-button' onClick={() => () => handleSaveClick(item)}>Save Item</MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handleSaveClick(item)}>Save Item</MenuItem>
                                     </Menu>
                                     </div>
                                     <span className='armor-customizer-slot-name'>{type}</span>
@@ -161,12 +170,5 @@ function ArmorPanel(props: {Server: any, player: any;}){
             
         </>
     );
-}
-function capatalize(str: string){
-    const arr = str.split(" ");
-    for (var i = 0; i < arr.length; i++) 
-        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    const str2 = arr.join(" ");
-    return str2;
 }
 export default ArmorPanel;
