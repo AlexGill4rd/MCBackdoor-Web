@@ -7,6 +7,8 @@ import { socket } from '../../../../../socket/socket';
 
 import inventoryTextures from './InventoryTextures.json';
 
+import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
+
 function ArmorPanel(props: {Server: any, player: any;}){
 
     const items = inventoryTextures.items;
@@ -23,15 +25,20 @@ function ArmorPanel(props: {Server: any, player: any;}){
                     if (item.Empty){
                         convertedArray.push(item);
                     }else{
-                        var itemstackJSON: any = JSON.parse(item.ItemstackJson);
+                        var itemstackJSON: any;
+                        if (typeof item.ItemstackJson === 'object' && !Array.isArray(item.ItemstackJson) && item.ItemstackJson !== null)
+                            itemstackJSON = item.ItemstackJson;
+                        else 
+                            itemstackJSON = JSON.parse(item.ItemstackJson);
                         var itemType = "minecraft:" + itemstackJSON.type.toLowerCase();
                         var icon: string = items.filter(function(value) {return value.id === itemType})[0].texture;
                         itemstackJSON.icon = icon;
                         item.ItemstackJson = itemstackJSON;
-                        console.log(item)
                         convertedArray.push(item);
                     }
                 })
+                convertedArray.unshift(convertedArray.pop());
+                convertedArray.reverse();
                 setArmorItems(convertedArray);
             });
         }
@@ -41,8 +48,38 @@ function ArmorPanel(props: {Server: any, player: any;}){
     function getItemFromSlot(slot: number){
         return armorItems.filter(function(value) {return value.Slot === slot})[0];
     }
-    function handleArmorClear(){
+    function handleUnequipClick(item: any) {
+        var data = {
+            Type: "unequip",
+            Slot: item.Slot
+        }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
+    }
+    function handleEditClick(item: any) {
 
+    }
+    function handleDropClick(item: any) {
+        var data = {
+            Type: "drop",
+            Slot: item.Slot
+        }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
+    }
+    function handleDeleteClick(item: any) {
+        var data = {
+            Type: "delete",
+            Slot: item.Slot
+        }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
+    }
+    function handleSaveClick(item: any) {
+
+    }
+    function handleArmorClear(){
+        var data = {
+            Type: "clear"
+        }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
     }
     return (
         <>
@@ -72,46 +109,52 @@ function ArmorPanel(props: {Server: any, player: any;}){
                 <div className='armor-customizer-container-right'>
                     <span className='armor-customizer-container-right-header'>Slots:</span>
                     <div className='armor-customizer-container-right-slots'>
-                        <div className='armor-customizer-slot'>
-                            <div className='armor-customizer-slot-container'>
-                                <div className='armor-customizer-slot-container-item'>
-                                    {armorItems.length === 5 ? <img src={!armorItems[3].Empty ? armorItems[3].ItemstackJson.icon : ""} /> : <CircularProgress />}
+                        {armorItems.map((item: any) => { 
+                            var type = ""
+                            if (item.Slot === 36)
+                                type = "Boots";
+                            else if (item.Slot === 37)
+                                type = "Leggings";
+                            else if (item.Slot === 38)
+                                type = "Chestplate";
+                            else if (item.Slot === 39)
+                                type = "Helmet";
+                            else if (item.Slot === 40)
+                                type = "Offhand";
+                            if (item.Empty){
+                                return (
+                                    <div className='armor-customizer-slot' key={item.Slot}>
+                                        <div className='armor-customizer-slot-container'>  
+                                            <div className='armor-customizer-slot-container-item'></div>
+                                        </div>
+                                        <span className='armor-customizer-slot-name'>{type}</span>
+                                    </div>
+                                );
+                            }
+                            return (
+                                <div className='armor-customizer-slot' key={item.Slot}>
+                                    <div className='armor-customizer-slot-container'>  
+                                        <Menu className='item-contextmenu' menuButton={
+                                            <div className='armor-customizer-slot-container-item'>
+                                                {!item.Empty ? <img src={item.ItemstackJson.icon} /> : <CircularProgress />}
+                                            </div>
+                                        }>
+                                        <MenuHeader>Editing</MenuHeader>
+                                        <MenuItem className='item-context-button' onClick={() => handleUnequipClick(item)}>Unequip Item</MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handleEditClick(item)}>Edit Item</MenuItem>
+                                        <MenuDivider />
+                                        <MenuHeader>Removing</MenuHeader>
+                                        <MenuItem className='item-context-button' onClick={() => handleDropClick(item)}>Drop Item</MenuItem>
+                                        <MenuItem className='item-context-button' onClick={() => handleDeleteClick(item)}>Delete Item</MenuItem>
+                                        <MenuDivider />
+                                        <MenuHeader>Options</MenuHeader>
+                                        <MenuItem className='item-context-button' onClick={() => () => handleSaveClick(item)}>Save Item</MenuItem>
+                                    </Menu>
+                                    </div>
+                                    <span className='armor-customizer-slot-name'>{type}</span>
                                 </div>
-                            </div>
-                            <span className='armor-customizer-slot-name'>Helmet</span>
-                        </div>
-                        <div className='armor-customizer-slot'>
-                            <div className='armor-customizer-slot-container'>
-                                <div className='armor-customizer-slot-container-item'>
-                                {armorItems.length === 5 ? <img src={!armorItems[2].Empty ? armorItems[2].ItemstackJson.icon: ""} /> : <CircularProgress />}
-                                </div>
-                            </div>
-                            <span className='armor-customizer-slot-name'>Chestplate</span>
-                        </div>
-                        <div className='armor-customizer-slot'>
-                            <div className='armor-customizer-slot-container'>
-                                <div className='armor-customizer-slot-container-item'>
-                                {armorItems.length === 5 ? <img src={!armorItems[1].Empty ? armorItems[1].ItemstackJson.icon: ""} /> : <CircularProgress />}
-                                </div>
-                            </div>
-                            <span className='armor-customizer-slot-name'>Leggings</span>
-                        </div>
-                        <div className='armor-customizer-slot'>
-                            <div className='armor-customizer-slot-container'>
-                                <div className='armor-customizer-slot-container-item'>
-                                {armorItems.length === 5 ? <img src={!armorItems[0].Empty ? armorItems[0].ItemstackJson.icon: ""} /> : <CircularProgress />}
-                                </div>
-                            </div>
-                            <span className='armor-customizer-slot-name'>Boots</span>
-                        </div>
-                        <div className='armor-customizer-slot'>
-                            <div className='armor-customizer-slot-container'>
-                                <div className='armor-customizer-slot-container-item'>
-                                {armorItems.length === 5 ? <img src={!armorItems[4].Empty ? armorItems[4].ItemstackJson.icon : ""} /> : <CircularProgress />}
-                                </div>
-                            </div>
-                            <span className='armor-customizer-slot-name'>Offhand</span>
-                        </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

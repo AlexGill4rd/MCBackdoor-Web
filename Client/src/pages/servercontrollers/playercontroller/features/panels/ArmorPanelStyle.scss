@@ -8,7 +8,7 @@
 
         @include centerFlex(center, flex-start, row);
         &-left{
-            width: 50%;
+            width: 400px;
             height: auto;
 
             padding: 10px;
@@ -23,7 +23,7 @@
             }
         }
         &-right{
-            width: 50%;
+            width: auto;
             height: 100%;
 
             padding: 10px;
@@ -66,6 +66,11 @@
                     image-rendering: pixelated;
                     image-rendering: -moz-crisp-edges;
                     image-rendering: crisp-edges;
+                }
+                cursor: pointer;
+                transition: background-color 100ms ease-in-out;
+                &:hover{
+                    background-color: rgb(230, 230, 230);
                 }
             }
         }
