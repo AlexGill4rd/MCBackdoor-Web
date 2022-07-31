@@ -88,6 +88,10 @@ function ArmorPanel(props: {Server: any, player: any;}){
         }
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
     }
+    function handleSkinDownload() {
+        forceDownload("https://crafatar.com/skins/" + props.player.UUID + ".png", props.player.Displayname + "_skin_download.png");
+        socket.emit("feature:player-log", socket.id, "Je hebt de skin van deze speler gedownload!", "success");
+    }
     return (
         <>
             <div className='panel-header'>
@@ -98,9 +102,9 @@ function ArmorPanel(props: {Server: any, player: any;}){
                 <div className='armor-customizer-container-left'>
                     <div className='armor-customizer-container-left-skin'>
                     <MinecraftSkinViewer
-                        skin="/icons/skin.png"
+                        skin={"https://crafatar.com/skins/" + props.player.UUID + "?default=MHF_Steve"}
                         height={500}
-                        width={200}
+                        width={300}
                         control={true}
                         background="white"
                     />
@@ -111,6 +115,13 @@ function ArmorPanel(props: {Server: any, player: any;}){
                         onClick={handleArmorClear}
                     >
                         Armor verwijderen
+                    </Button>
+                    <Button 
+                        variant="contained"
+                        sx={{ width: "100%", marginTop: "10px"} } 
+                        onClick={handleSkinDownload}
+                    >
+                        Download Skin
                     </Button>
                 </div>
                 <div className='armor-customizer-container-right'>
@@ -138,7 +149,6 @@ function ArmorPanel(props: {Server: any, player: any;}){
                                     </div>
                                 );
                             }
-                            console.log(item)
                             return (
                                 <div className='armor-customizer-slot' key={item.Slot}>
                                     <div className='armor-customizer-slot-container'>  
@@ -160,13 +170,13 @@ function ArmorPanel(props: {Server: any, player: any;}){
                                         <MenuHeader>Options</MenuHeader>
                                         <SubMenu label="Item Info">
                                             {item.ItemstackJson.itemmeta !== undefined && item.ItemstackJson.itemmeta.displayname !== undefined ? 
-                                                <MenuItem className='info' style={{width: "auto"}}>
+                                                <MenuItem className='info'>
                                                     <span>Displayname:</span>
                                                     <span className='info-text'>{item.ItemstackJson.itemmeta.displayname}</span>
                                                 </MenuItem> 
                                             : ""}
                                             {item.ItemstackJson.itemmeta !== undefined && item.ItemstackJson.itemmeta.lore !== undefined ? 
-                                                <MenuItem className='info' style={{width: "auto"}}>
+                                                <MenuItem className='info'>
                                                     <span>Lore:</span>
                                                     {item.ItemstackJson.itemmeta.lore.map((line: string, index: number) => {
                                                         return (
@@ -177,7 +187,7 @@ function ArmorPanel(props: {Server: any, player: any;}){
                                                 </MenuItem> 
                                             : ""}
                                             {item.ItemstackJson.itemmeta !== undefined && item.ItemstackJson.itemmeta.enchants !== undefined ? 
-                                                <MenuItem className='info' style={{width: "auto"}}>
+                                                <MenuItem className='info'>
                                                     <span>Enchantments:</span>
                                                     {item.ItemstackJson.itemmeta.enchants.map((enchant: string, index: number) => {
                                                         return (
@@ -201,5 +211,21 @@ function ArmorPanel(props: {Server: any, player: any;}){
             
         </>
     );
+}
+function forceDownload(url: string, fileName: string){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.responseType = "blob";
+    xhr.onload = function(){
+        var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL(this.response);
+        var tag = document.createElement('a');
+        tag.href = imageUrl;
+        tag.download = fileName;
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+    }
+    xhr.send();
 }
 export default ArmorPanel;

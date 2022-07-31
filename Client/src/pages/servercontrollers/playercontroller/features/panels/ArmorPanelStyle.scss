@@ -4,7 +4,7 @@
 .armor-customizer{
     &-container{
         width: 100%;
-        height: 590.5px;
+        height: 620px;
 
         @include centerFlex(center, flex-start, row);
         &-left{
