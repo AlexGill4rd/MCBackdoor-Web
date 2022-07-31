@@ -21,7 +21,8 @@ module.exports = (io) => {
             let sqlInsert = 'INSERT INTO saveditems (id, Servername, Itemstack, Player, Datum) VALUES (?,?,?,?,CURRENT_TIMESTAMP)';
             connection.query(sqlInsert, [counter, item.Servername, JSON.stringify(item.Itemstack), JSON.stringify(item.Player)],(error, results) => {
                 if (error) throw error;
-                io.emit(`saveditem:added`, item)
+                io.emit(`saveditem:added`, item);
+                savedItemList();
             }); 
         }); 
     }

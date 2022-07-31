@@ -26,6 +26,7 @@ import { CircularProgress } from '@mui/material';
 
 import Loading from '../Loading';
 import SimplePopup from '../../../globaltsx/SimplePopup';
+import ArmorPanel from './features/panels/ArmorPanel';
 
 function PlayerControllerPage(){
     const { serverid } = useParams();
@@ -122,6 +123,7 @@ function PlayerControllerPage(){
                         <FeatureButton title='Speler Data' description="Bekijk al de informatie over de speler" onClick={() => handleFeatureClick(<SpelerDataPanel Server={server} player={selectedPlayer} />)} />
                         <FeatureButton title='Inventory' description="Bekijk en pas de inventarissen van de speler aan" onClick={() => handleFeatureClick(<InventoryPanel Server={server} player={selectedPlayer} />)} />
                         <FeatureButton title='Experience' description="Geef de speler experience of verwijder ze" onClick={() => handleFeatureClick(<ExperiencePanel Server={server} player={selectedPlayer} />)} />
+                        <FeatureButton title='Armor Customizer' description="Pas het armor van de speler aan" onClick={() => handleFeatureClick(<ArmorPanel Server={server} player={selectedPlayer} />)} />
                     </div>
                     <div className="controller-panel">
                         {

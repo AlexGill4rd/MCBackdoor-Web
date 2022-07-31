@@ -1,0 +1,93 @@
+@import "../../../../../globalscss/Functions.scss";
+@import "../../../../../globalscss/Colors.scss";
+
+.armor-customizer{
+    &-container{
+        width: 100%;
+        height: 620px;
+
+        @include centerFlex(center, flex-start, row);
+        &-left{
+            width: 400px;
+            height: auto;
+
+            padding: 10px;
+
+            @include centerFlex(center, center, column);
+            &-skin{
+                margin: 15px 0;
+                img{
+                    height: auto;
+                    width: 100%;
+                }
+            }
+        }
+        &-right{
+            width: auto;
+            height: 100%;
+
+            padding: 10px;
+            @include centerFlex(flex-start, space-between, column);
+            &-header{
+                font-size: 1.2em;
+                color: rgb(75, 75, 75);
+            }
+            &-slots{
+                width: 100%;
+                height: 100%;
+                margin-top: 40px;
+
+                @include centerFlex(space-between, center, column);
+            }
+        }
+    }
+    &-slot{
+        height: 50px;
+        width: 100%;
+
+        @include centerFlex(flex-start, center, row);
+        &-container{
+            width: 50px;
+            height: 50px;
+
+            border: 1px solid rgb(197, 197, 197);
+            background-color: rgb(250, 250, 250);
+            @include centerFlex(center, center, row);
+
+            &-item{
+                width: 100%;
+                height: 100%;
+                padding: 4px;
+                img{
+                    width: 100%;
+                    height: auto;
+
+                    object-fit: contain;
+                    image-rendering: pixelated;
+                    image-rendering: -moz-crisp-edges;
+                    image-rendering: crisp-edges;
+
+                    position: relative;
+                    z-index: 1;
+                }
+                cursor: pointer;
+                transition: background-color 100ms ease-in-out;
+                &:hover{
+                    background-color: rgb(230, 230, 230);
+                }
+            }
+        }
+        &-name{
+            font-size: 1.2em;
+            color: rgb(75, 75, 75);
+            margin-left: 20px;
+        }
+    }
+}
+.info{
+    @include centerFlex(flex-start, flex-start, column);
+    &-text{
+        color: rgb(184, 184, 184);
+        font-size: 0.9em;
+    }
+}

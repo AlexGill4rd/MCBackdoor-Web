@@ -1,0 +1,29 @@
+.armor-customizer-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.armor-customizer-container-left {
+  width: 50%;
+  height: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.armor-customizer-container-left-skin {
+  margin: 15px 0;
+}
+.armor-customizer-container-left-skin img {
+  height: auto;
+  width: 100%;
+}
+.armor-customizer-container-right {
+  width: 50%;
+  height: auto;
+  padding: 10px;
+}/*# sourceMappingURL=ArmorPanelStyle.css.map */

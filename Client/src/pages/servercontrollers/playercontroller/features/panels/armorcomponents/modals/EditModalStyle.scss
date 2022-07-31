@@ -1,0 +1,132 @@
+@import '../../../../../../../globalscss/Functions.scss';
+@import '../../../../../../../globalscss/Colors.scss';
+
+.editmodal-container{
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include centerFlex(center, center, column);
+}
+.editmodal{
+    &-backdrop{
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+        position: absolute;
+        z-index: 1;
+    }
+    &-menu{
+        width: 500px;
+        height: auto;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+
+        z-index: 2;
+        @include centerFlex(flex-start, center, column);
+        &-title{
+            font-size: 1.3em;
+            color: black;
+            text-align: center;
+            margin: 10px 0;
+        }
+        &-kop{
+            font-size: 1em;
+            padding: 10px 0 0 0;
+            color: rgb(71, 71, 71);
+        }
+        form{
+            height: auto;
+            width: 100%;
+        }
+        input[type=text], input[type=number] {
+            width: 100%;
+            padding: 6px 10px;
+            margin: 5px 0 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        input[type=submit] {
+          width: 100%;
+          background-color: #4CAF50;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        &-lore{
+            width: 100%;
+            height: auto;
+            @include centerFlex(space-between, center, row);
+            &-options{
+                @include centerFlex(space-between, center, row);
+                flex-wrap: wrap;
+                button{
+                    width: 48%;
+                }
+            }
+            &-text{
+                width: 73%;
+                overflow-y: scroll;
+            }
+            &-index{
+                width: 25%;
+            }
+        }
+        &-enchanting{
+            margin-top: 10px;
+            @include centerFlex(space-between, center, row);
+            &-list{
+                width: 43%;
+                height: 190px;
+
+                padding: 5px 5px 5px 2px;
+
+                border: 1px solid black;
+                @include centerFlex(space-between, flex-start, row);
+                flex-wrap: wrap;
+                &-items{
+                    width: 100%;
+                    max-height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+
+                    @include centerFlex(flex-start, flex-start, row);
+                    flex-wrap: wrap;   
+                }
+            }
+            &-active{
+                width: 43%;
+                height: 190px;
+
+                padding: 5px 5px 5px 2px;
+
+                border: 1px solid black;
+                @include centerFlex(space-between, flex-start, row);
+                flex-wrap: wrap;
+                &-items{
+                    width: 100%;
+                    max-height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+
+                    @include centerFlex(flex-start, flex-start, row);
+                    flex-wrap: wrap;   
+                }
+            }
+            &-options{
+                button{
+                    width: 49%;
+                    height: auto
+                }
+                @include centerFlex(space-between, center, row);
+            }
+        }
+    }
+}

@@ -98,6 +98,9 @@ module.exports = (io) => {
   const getPlayerExperience = function (clientsocketid, playerUUID, experience) {
     io.to(clientsocketid).emit(`player:get-experience-${playerUUID}`, experience);
   }
+  const getPlayerArmor = function (clientsocketid, playerUUID, armordata) {
+    io.to(clientsocketid).emit(`player:get-armor-${playerUUID}`, armordata);
+  }
   return {
     registerPlayer,
     updatePlayer,
@@ -105,6 +108,7 @@ module.exports = (io) => {
     getPlayerFromServer,
     getPlayerInventory,
     getPlayerEnderchest,
-    getPlayerExperience
+    getPlayerExperience,
+    getPlayerArmor
   }
 }
