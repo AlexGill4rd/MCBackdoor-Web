@@ -9,6 +9,7 @@ import inventoryTextures from './InventoryTextures.json';
 
 import { Menu, MenuItem, MenuDivider, MenuHeader, SubMenu } from "@szhsin/react-menu";
 import Enchanting from './inventorycomonents/Enchanting';
+import EditItemModal from './armorcomponents/modals/EditItemModal';
 
 function ArmorPanel(props: {Server: any, player: any;}){
 
@@ -56,8 +57,24 @@ function ArmorPanel(props: {Server: any, player: any;}){
         }
         socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
     }
+    const [editModalIsOpen, setEditModalOpen] = useState<boolean>(false);
+    const [editItem, setEditItem] = useState<any>(null);
     function handleEditClick(item: any) {
-
+        setEditItem(item)
+        setEditModalOpen(true);
+    }
+    function handleEditModalClose(){
+        setEditModalOpen(false);
+    }
+    function handleItemEdit(item: any){
+        var data = {
+            Type: "edit",
+            Itemstack: JSON.stringify(item),
+            Slot: editItem.Slot
+        }
+        socket.emit("feature:player", socket.id, props.Server.Servername, props.player.UUID, "armor", data);
+        handleEditModalClose();
+        setEditItem(null);
     }
     function handleDropClick(item: any) {
         var data = {
@@ -208,7 +225,7 @@ function ArmorPanel(props: {Server: any, player: any;}){
                     </div>
                 </div>
             </div>
-            
+            {editModalIsOpen && <EditItemModal item={editItem.ItemstackJson} onCancel={handleEditModalClose} onAccept={handleItemEdit} />}
         </>
     );
 }
