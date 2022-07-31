@@ -18,7 +18,8 @@ const {
     getPlayerFromServer, 
     getPlayerInventory, 
     getPlayerEnderchest, 
-    getPlayerExperience } = require("./handlers/playerHandler")(io);
+    getPlayerExperience,
+    getPlayerArmor } = require("./handlers/playerHandler")(io);
 const { sendPlayerPanelLog, 
     sendServerPanelLog } = require("./handlers/logHandler")(io);
 const {
@@ -54,6 +55,7 @@ const onConnection = (socket) => {
     socket.on("player:response-inventory", getPlayerInventory);
     socket.on("player:response-enderchest", getPlayerEnderchest);
     socket.on("player:response-experience", getPlayerExperience);
+    socket.on("player:response-armor", getPlayerArmor);
 
 
     //Server action like getting world etc...
