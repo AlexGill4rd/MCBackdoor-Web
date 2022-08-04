@@ -33,6 +33,7 @@ function TeleportPanel(props: {Server: any, player: any}){
         }
         function updateWorlds(){
             socket.on(`server:get-worlds`, worldArray => {
+                console.log(worldArray)
                 setWorlds(worldArray);
             });
         }
@@ -68,8 +69,8 @@ function TeleportPanel(props: {Server: any, player: any}){
                 <form className='teleportpanel-form'>
                     <label>World:</label>
                     <select id='world-container' name="worlds" onChange={handleWorldChange}>
-                        {worlds.map(function(world: string){
-                            return (<option key={world}>{world}</option>);
+                        {worlds.map(function(world: any){
+                            return (<option key={world.UUID}>{world.Worldname}</option>);
                         })}
                     </select>
                     <label>X Coördinaat:</label>
