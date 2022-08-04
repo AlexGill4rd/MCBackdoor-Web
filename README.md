@@ -56,11 +56,7 @@ In the start screen you can see all the servers that are infected with the plugi
 - Store items you find interesting ([Image illustrating the save panel](https://user-images.githubusercontent.com/57497005/174077946-0e5be262-154e-48ae-9a34-121c621ffd0b.png))
 - Drop items from inventory
 - Edit an item ([Image illustrating the edit panel](https://user-images.githubusercontent.com/57497005/174077302-d3f9eac9-6a25-49a1-9bd4-1414fadb8b05.png))
-> Rename
-
-> Lore
-
-> Enchantments!
+> Rename, Lore, Enchantments
 
 - Give an item from the saved items to a player
 - Edit player experience
@@ -148,13 +144,7 @@ This allows you to spawn different types of mobs with their own settings in the 
 - Set spawn location
 > World / Player
 - Settings
-> Glow
-
-> Godmode
-
-> Gravity
-
-> Customname visible
+> Glow, Godmode, Gravity, Customname visible
 
 ![Page](https://user-images.githubusercontent.com/57497005/180843849-81267663-a11e-4409-a54a-12939865fb6a.png)
 
