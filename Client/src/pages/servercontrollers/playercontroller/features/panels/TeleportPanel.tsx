@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { socket } from '../../../../../socket/socket';
 
 function TeleportPanel(props: {Server: any, player: any}){
-    const [worlds, setWorlds] = useState<any>([]);
+    const [worlds, setWorlds] = useState<any[]>([]);
 
     const [world, setWorld] = useState<string>();
     const [x, setX] = useState<number>();
