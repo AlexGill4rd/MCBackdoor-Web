@@ -213,13 +213,7 @@
   border: 3px solid rgb(167, 167, 167);
   border-radius: 15px;
 }
-.dashboard-data-info-playercount {
-  width: 100%;
-  margin: 10px;
-  height: auto;
-  text-align: center;
-}
-.dashboard-data-info-memory {
+.dashboard-data-info-line {
   width: 100%;
   margin: 10px;
   height: auto;

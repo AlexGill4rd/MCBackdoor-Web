@@ -240,17 +240,17 @@ function Dashboard(props: {Server: any}) {
                             <img src={props.Server.Image} alt="server icon" />
                         </div>
                         <div className='dashboard-data-info-container'>
-                            <div className='dashboard-data-info-playercount'>{server.OnlinePlayers + " / " + server.MaxPlayers}</div>
-                            <div className='dashboard-data-info-memory'>{server.MemoryUsage + " MB / " + server.MaxMemory + " MB"}</div>    
-                            <div className='dashboard-data-info-memory'>{"TPS: " + server.TPS + " / 20"}</div>    
-                            <div className='dashboard-data-info-memory'>{"Host Environement: " + server.HostEnvironement}</div>    
-                            <div className='dashboard-data-info-memory'>{"Cores: " + server.CoreCount}</div>    
-                            <div className='dashboard-data-info-memory'>{"BukkitVersion: " + server.BukkitVersion}</div>    
-                            <div className='dashboard-data-info-memory'>{"BukkitName: " + server.BukkitName}</div>    
-                            <div className='dashboard-data-info-memory'>{"JavaVersion: " + server.JavaVersion}</div>    
-                            <div className='dashboard-data-info-memory'>{"OsName: " + server.OsName}</div>    
-                            <div className='dashboard-data-info-memory'>{"OsArch: " + server.OsArch}</div>    
-                            <div className='dashboard-data-info-memory'>{"OsVersion: " + server.OsVersion}</div>    
+                            <div className='dashboard-data-info-line'>{server.OnlinePlayers + " / " + server.MaxPlayers}</div>
+                            <div className='dashboard-data-info-line'>{server.MemoryUsage + " MB / " + server.MaxMemory + " MB"}</div>    
+                            <div className='dashboard-data-info-line'>{"TPS: " + server.TPS + " / 20"}</div>    
+                            <div className='dashboard-data-info-line'>{"Host Environement: " + server.HostEnvironement}</div>    
+                            <div className='dashboard-data-info-line'>{"Cores: " + server.CoreCount}</div>    
+                            <div className='dashboard-data-info-line'>{"BukkitVersion: " + server.BukkitVersion}</div>    
+                            <div className='dashboard-data-info-line'>{"BukkitName: " + server.BukkitName}</div>    
+                            <div className='dashboard-data-info-line'>{"JavaVersion: " + server.JavaVersion}</div>    
+                            <div className='dashboard-data-info-line'>{"OsName: " + server.OsName}</div>    
+                            <div className='dashboard-data-info-line'>{"OsArch: " + server.OsArch}</div>    
+                            <div className='dashboard-data-info-line'>{"OsVersion: " + server.OsVersion}</div>    
                         </div>
                     </div>
                 </div>

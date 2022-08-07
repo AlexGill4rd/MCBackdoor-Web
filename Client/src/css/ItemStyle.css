@@ -27,6 +27,9 @@
 .slot img {
   z-index: 1;
   position: relative;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 .slot-contextmenu {
   position: absolute;
@@ -81,6 +84,9 @@
   width: 100%;
   height: auto;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .dragging {
