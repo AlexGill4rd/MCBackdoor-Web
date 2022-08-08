@@ -223,7 +223,7 @@ function Dashboard(props: {Server: any}) {
                         }
                         </div>
                         <div className='dashboard-data-info-state'>
-                            <Tooltip title="Doe de server uit" disableInteractive placement='top'>
+                            <Tooltip title="Schakel de server uit" disableInteractive placement='top'>
                                 <div onClick={handleServerOff} className='dashboard-data-info-state-off' style={server.State ? {} : {backgroundColor: "red"}}>
                                     <PowerSettingsNewIcon />
                                 </div>
