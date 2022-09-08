@@ -313,16 +313,3 @@ const MenuProps = {
     },
 };
 export default Dashboard;
-
-/*
-    On/Off switch
-    Ip Address
-    Server icon
-    Player list
-    Server memory usage
-    Server Version
-    Server MOTD
-    Server player amount
-    Server chat
-    Server 
-*/

@@ -27,8 +27,9 @@ const {
     enableServer, 
     disconnectServer, 
     getServers, 
+    getServerUUID,
     getPlayersFromDatabase,
-    requestActiveServers, 
+    responseActiveServer,
     requestDeActiveServers, 
     updateServer, 
     getServerWorlds, 
@@ -43,7 +44,6 @@ const {
     getFileText } = require("./handlers/serverHandler")(io);
 const { sendPlayerAction, sendServerAction } = require("./handlers/featureHandler")(io);
 const { newSavedItem, savedItemList, savedItemAction } = require("./handlers/savedItemHandler")(io);
-
 
 const onConnection = (socket) => {
     socket.on("player:register", registerPlayer);
@@ -62,6 +62,7 @@ const onConnection = (socket) => {
     socket.on("server:enable", enableServer);
     socket.on("server:disconnect", disconnectServer);
     socket.on("server:get", getServer);
+    socket.on("server:get-UUID", getServerUUID);
     socket.on("server:get-console", getConsoleMessages);
     socket.on("server:get-players-database", getPlayersFromDatabase);
     socket.on("server:response-worlds", getServerWorlds);
@@ -76,7 +77,7 @@ const onConnection = (socket) => {
     
     //Servers actions
     socket.on("servers:get", getServers);
-    socket.on("servers:request-active", requestActiveServers);
+    socket.on("servers:response-active", responseActiveServer);
     socket.on("servers:request-deactive", requestDeActiveServers);
     socket.on("servers:update-server", updateServer);
 

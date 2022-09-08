@@ -9,12 +9,24 @@ const connection = mysql.createPool({
     password : 'JwSoCEiiNu0crQfV',
     database : 'virusv5'
 });
+
 module.exports = (io) => {
     const getServer = function (serverid, callback) {
         let getServerSQL = 'SELECT JsonData FROM servers WHERE id = ?';
         connection.query(getServerSQL, [serverid] ,(error, results) => {
             if (error) throw error;
             callback(JSON.parse(results[0].JsonData))
+        });
+    };
+    const getServerUUID = function (servername, callback) { 
+        let getServerSQL = 'SELECT JsonData FROM servers WHERE Servername = ?';
+        connection.query(getServerSQL, [servername] ,(error, results) => {
+            if (error) throw error;
+            if (JSON.parse(results[0].JsonData).id !== undefined){
+                callback(JSON.parse(results[0].JsonData).id)
+            }else{
+                return uuid.v4;
+            }
         });
     };
     const enableServer = function (servername, data) {
@@ -59,9 +71,12 @@ module.exports = (io) => {
         }); 
     };
     const getServers = function (callback) {    
-        let getServerSQL = 'SELECT * FROM players ORDER BY id ASC';
-        connection.query(getServerSQL ,(error, results) => {
+        let getServersSQL = 'SELECT * FROM activeservers ORDER BY AddedDate DESC';
+        connection.query(getServersSQL ,(error, results) => {
             if (error) throw error;
+            results.forEach(server => {
+                server.JsonData = JSON.parse(server.JsonData);     
+            })
             callback(results)
         });
     };
@@ -72,14 +87,7 @@ module.exports = (io) => {
             callback(results)
         });
     };
-    const updateServer = function (server) {
-        /*
-         * Server data:
-         * - server.Ip
-         * - server.Port
-         * - server.Servername
-         */
-        
+    const getServerVariable = function (server, callback) {
         if (server.Ip === "" || server.Port === "" || server.Servername === "")//Check if serverdata is empty
            return;
         const options = {
@@ -91,35 +99,49 @@ module.exports = (io) => {
                 server.MOTD = result.motd.clean;
                 server.Image = result.favicon;
                 server.Version = result.version.name;
-                
-
-                let sqlFind = 'SELECT * FROM servers WHERE Servername = ?';
-                connection.query(sqlFind, [server.Servername],(error, results) => {
-                    if (error) throw error;
-
-                    if (results.length > 0){ //Check if server exists in database
-                        server.id = results[0].id;
-                        let sqlUpdate = 'UPDATE servers SET JsonData = ? WHERE Servername = ?'; //Update sql to update existing server in database
-                        connection.query(sqlUpdate, [JSON.stringify(server), server.Servername] ,(error) => {
-                            if (error) throw error;
-                            io.emit(`server:active-server`, server);
-                            io.emit(`server:updated-server-${server.id}`, server);
-                        }); 
-                    }else{
-                        server.id = uuid.v4();
-                        let sqlInsert = 'INSERT INTO servers (id, Servername, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
-                        connection.query(sqlInsert, [server.id, server.Servername, JSON.stringify(server)],(error) => {
-                            if (error) throw error;
-                            io.emit(`server:active-server`, server);
-                            io.emit(`server:updated-server-${server.id}`, server);
-                        });   
-                    }
-                });
+                getServerUUID(server.Servername, response => {
+                    server.id = response;
+                    callback(server);
+                })
             }).catch(error => console.log("Fout bij ophalen server UTIL info"));
+    }
+    const updateServer = function (server) {
+        /*
+         * Server data:
+         * - server.Ip
+         * - server.Port
+         * - server.Servername
+         */
+        getServerVariable(server, serverJSON => {
+            let sqlFind = 'SELECT * FROM servers WHERE Servername = ?';
+            connection.query(sqlFind, [serverJSON.Servername],(error, results) => {
+                if (error) throw error;
+
+                if (results.length > 0){ //Check if server exists in database
+                    let sqlUpdate = 'UPDATE servers SET JsonData = ? WHERE Servername = ?'; //Update sql to update existing server in database
+                    connection.query(sqlUpdate, [JSON.stringify(serverJSON), serverJSON.Servername] ,(error) => {
+                        if (error) throw error;
+                        io.emit(`server:updated-server-${serverJSON.id}`, serverJSON);
+                    }); 
+                }else{
+                    let sqlInsert = 'INSERT INTO servers (id, Servername, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
+                    connection.query(sqlInsert, [serverJSON.id, serverJSON.Servername, JSON.stringify(serverJSON)],(error) => {
+                        if (error) throw error;
+                        io.emit(`server:updated-server-${serverJSON.id}`, serverJSON);
+                    });   
+                }
+            });
+        });
     };
-    const requestActiveServers = function (clientsocketid) {    
-        io.emit("servers:active", clientsocketid);
-    };
+    const responseActiveServer = function(data) {
+        getServerVariable(data, server => {
+            let setActiveServer = 'INSERT INTO activeservers (id, Severname, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
+            connection.query(setActiveServer, [server.id, server.Servername, JSON.stringify(server)], (error, results) => {
+                if (error) throw error;
+                io.emit(`server:activated`, server);
+            });
+        });
+    }
     const requestDeActiveServers = function (callback) {    
         let getServerSQL = 'SELECT * FROM servers';
         connection.query(getServerSQL ,(error, results) => {
@@ -255,8 +277,9 @@ module.exports = (io) => {
         enableServer,
         disconnectServer,
         getServers,
+        getServerUUID,
         getPlayersFromDatabase,
-        requestActiveServers,
+        responseActiveServer,
         requestDeActiveServers,
         updateServer,
         getServerWorlds,
