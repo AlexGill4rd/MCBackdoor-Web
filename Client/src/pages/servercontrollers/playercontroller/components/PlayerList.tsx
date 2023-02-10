@@ -7,7 +7,7 @@ function PlayerList(props: {server: any, onPlayerClick: any, selectedPlayer: any
 
     useEffect(() => {
         function updatePlayers(){
-            socket.on(`server:get-playerlist`, players => {
+            socket.on(`server:get-playerlist-${props.server.id}`, players => {
                 setPlayers(players);
             })
         }

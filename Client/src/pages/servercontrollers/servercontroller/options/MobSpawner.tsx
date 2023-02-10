@@ -40,7 +40,7 @@ function MobSpawner(props: {Server: any}){
             socket.emit("feature:server", socket.id, props.Server.Servername, "playerlist", {})
         }
         function updatePlayers(){
-            socket.on(`server:get-playerlist`, players => {
+            socket.on(`server:get-playerlist-${props.Server.id}`, players => {
                 setPlayers(players);
             })
         }

@@ -24,7 +24,7 @@ function Dashboard(props: {Server: any}) {
             socket.emit("feature:server", socket.id, server.Servername, "playerlist", {});
         }
         function updatePlayers(){
-            socket.on(`server:get-playerlist`, data => {
+            socket.on(`server:get-playerlist-${server.id}`, data => {
                 setPlayers(data);
             })
         }

@@ -24,13 +24,11 @@ const { sendPlayerPanelLog,
     sendServerPanelLog } = require("./handlers/logHandler")(io);
 const {
     getServer,
-    enableServer, 
+    connectServer, 
     disconnectServer, 
     getServers, 
     getServerUUID,
     getPlayersFromDatabase,
-    responseActiveServer,
-    requestDeActiveServers, 
     updateServer, 
     getServerWorlds, 
     getServerPlayerlist,
@@ -59,7 +57,7 @@ const onConnection = (socket) => {
 
 
     //Server action like getting world etc...
-    socket.on("server:enable", enableServer);
+    socket.on("server:enable", connectServer);
     socket.on("server:disconnect", disconnectServer);
     socket.on("server:get", getServer);
     socket.on("server:get-UUID", getServerUUID);
@@ -77,8 +75,6 @@ const onConnection = (socket) => {
     
     //Servers actions
     socket.on("servers:get", getServers);
-    socket.on("servers:response-active", responseActiveServer);
-    socket.on("servers:request-deactive", requestDeActiveServers);
     socket.on("servers:update-server", updateServer);
 
     //Action of the features on the site

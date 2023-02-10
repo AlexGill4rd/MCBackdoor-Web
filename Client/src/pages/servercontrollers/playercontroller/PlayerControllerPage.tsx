@@ -58,7 +58,7 @@ function PlayerControllerPage(){
     }, []);
     useEffect(function checkServerStatus(){
         socket.on(`server:disable-server-${serverid}`, data => {
-            setServer(null);
+            setServer(data);
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [server]);

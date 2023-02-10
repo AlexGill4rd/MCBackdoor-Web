@@ -11,64 +11,13 @@ const connection = mysql.createPool({
 });
 
 module.exports = (io) => {
+    //SERVER DATA GETTERS
     const getServer = function (serverid, callback) {
-        let getServerSQL = 'SELECT JsonData FROM servers WHERE id = ?';
+        let getServerSQL = 'SELECT JsonData FROM activeservers WHERE id = ?';
         connection.query(getServerSQL, [serverid] ,(error, results) => {
             if (error) throw error;
             callback(JSON.parse(results[0].JsonData))
         });
-    };
-    const getServerUUID = function (servername, callback) { 
-        let getServerSQL = 'SELECT JsonData FROM servers WHERE Servername = ?';
-        connection.query(getServerSQL, [servername] ,(error, results) => {
-            if (error) throw error;
-            if (JSON.parse(results[0].JsonData).id !== undefined){
-                callback(JSON.parse(results[0].JsonData).id)
-            }else{
-                return uuid.v4;
-            }
-        });
-    };
-    const enableServer = function (servername, data) {
-        const options = {
-            timeout: 1000 * 5,
-            enableSRV: true
-         };
-        util.status(data.Ip, data.Port, options).then((result) => {
-            data.MOTD = result.motd.clean;
-            data.Image = result.favicon;
-            data.Version = result.version.name;
-
-            io.emit(`server:enabled-${servername}`, data);
-            let getServerSQL = 'SELECT id FROM servers WHERE Servername = ?';
-            connection.query(getServerSQL, [servername] ,(error, results) => {
-                if (error) throw error;
-                var serverid = JSON.parse(JSON.stringify(results[0])).id;
-                io.emit(`server:enabled-${serverid}`, data);
-            });
-        }).catch(error => console.log("Fout bij ophalen server UTIL info"));
-
-
-    };
-    const disconnectServer = function (server) { 
-        /*
-         * Server data:
-         * - server.Servername
-         */
-        let jsonDataSQL = 'SELECT JsonData FROM servers WHERE Servername = ?';
-        connection.query(jsonDataSQL, [server.Servername] ,(error, jsonResults) => {
-            if (error) throw error;
-            if(jsonResults.length > 0){ //Check if server exists
-                var serverCopy = JSON.parse(jsonResults[0].JsonData);
-                serverCopy.State = false;
-                let sqlUpdate = 'UPDATE servers SET JsonData = ? WHERE Servername = ?'; //Update server SQL with -> State = false
-                connection.query(sqlUpdate, [JSON.stringify(serverCopy), server.Servername] ,(error) => {
-                    if (error) throw error;
-                    io.emit(`server:active-server`, serverCopy); //Let clients know server is disconnected
-                    io.emit(`server:disable-server-${serverCopy.id}`, serverCopy); //Let clients know server is disconnected
-                }); 
-            }
-        }); 
     };
     const getServers = function (callback) {    
         let getServersSQL = 'SELECT * FROM activeservers ORDER BY AddedDate DESC';
@@ -80,13 +29,36 @@ module.exports = (io) => {
             callback(results)
         });
     };
-    const getPlayersFromDatabase = function (callback) {    
-        let getServerSQL = 'SELECT * FROM players ORDER BY id DESC';
-        connection.query(getServerSQL ,(error, results) => {
+    /*
+        Function to get the unique id af a certain server from the database or a new one.
+    */
+    const getServerUUID = function (servername, callback) { 
+        let getServerSQL = 'SELECT id FROM activeservers WHERE Servername = ? LIMIT 1';
+        connection.query(getServerSQL, [servername] ,(error, results) => {
             if (error) throw error;
-            callback(results)
+            if (results.length > 0){
+                let id = JSON.parse(JSON.stringify(results[0])).id;
+                callback(id);
+            }else {
+                let getServerSQL = 'SELECT id FROM disabledservers WHERE Servername = ? LIMIT 1';
+                connection.query(getServerSQL, [servername] ,(error, results) => {
+                    if (error) throw error;
+                    if (results.length > 0){
+                        let id = JSON.parse(JSON.stringify(results[0])).id;
+                        callback(id);
+                    }
+                    else{
+                        const newId = uuid.v4();
+                        callback(newId)
+                    }
+                });
+            } 
         });
     };
+    /*
+        - First parameter is server variabel
+        - Callback is function that will be called after value is retured 
+    */
     const getServerVariable = function (server, callback) {
         if (server.Ip === "" || server.Port === "" || server.Servername === "")//Check if serverdata is empty
            return;
@@ -106,25 +78,18 @@ module.exports = (io) => {
             }).catch(error => console.log("Fout bij ophalen server UTIL info"));
     }
     const updateServer = function (server) {
-        /*
-         * Server data:
-         * - server.Ip
-         * - server.Port
-         * - server.Servername
-         */
         getServerVariable(server, serverJSON => {
-            let sqlFind = 'SELECT * FROM servers WHERE Servername = ?';
-            connection.query(sqlFind, [serverJSON.Servername],(error, results) => {
+            let sqlFind = 'SELECT * FROM activeservers WHERE id = ?';
+            connection.query(sqlFind, [serverJSON.id],(error, results) => {
                 if (error) throw error;
-
                 if (results.length > 0){ //Check if server exists in database
-                    let sqlUpdate = 'UPDATE servers SET JsonData = ? WHERE Servername = ?'; //Update sql to update existing server in database
+                    let sqlUpdate = 'UPDATE activeservers SET JsonData = ? WHERE Servername = ?'; //Update sql to update existing server in database
                     connection.query(sqlUpdate, [JSON.stringify(serverJSON), serverJSON.Servername] ,(error) => {
                         if (error) throw error;
                         io.emit(`server:updated-server-${serverJSON.id}`, serverJSON);
                     }); 
-                }else{
-                    let sqlInsert = 'INSERT INTO servers (id, Servername, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
+                }else{ //Insert new server into the database
+                    let sqlInsert = 'INSERT INTO activeservers (id, Servername, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
                     connection.query(sqlInsert, [serverJSON.id, serverJSON.Servername, JSON.stringify(serverJSON)],(error) => {
                         if (error) throw error;
                         io.emit(`server:updated-server-${serverJSON.id}`, serverJSON);
@@ -133,29 +98,52 @@ module.exports = (io) => {
             });
         });
     };
-    const responseActiveServer = function(data) {
-        getServerVariable(data, server => {
-            let setActiveServer = 'INSERT INTO activeservers (id, Severname, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
-            connection.query(setActiveServer, [server.id, server.Servername, JSON.stringify(server)], (error, results) => {
-                if (error) throw error;
-                io.emit(`server:activated`, server);
-            });
-        });
-    }
-    const requestDeActiveServers = function (callback) {    
-        let getServerSQL = 'SELECT * FROM servers';
-        connection.query(getServerSQL ,(error, results) => {
-            if (error) throw error;
-            if (results.length > 0)
-                callback(results)
-            else
-                callback(undefined)
-        });
-    };
     const getServerWorlds = function (clientsocketid, worlds) {    
         io.to(clientsocketid).emit(`server:get-worlds`, worlds);
     };
-    //Player list part
+
+
+
+    //CONNECTION FUNCTIONS
+    const connectServer = function (data) {
+        getServerVariable(data, server => {
+            let sqlDelete = 'DELETE FROM disabledservers WHERE id = ?';
+            connection.query(sqlDelete, [server.id],(error, results) => {
+                if (error) throw error;
+                io.emit(`server:activated`, server);
+            });
+            let setActiveServer = 'INSERT INTO activeservers (id, Servername, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
+            connection.query(setActiveServer, [server.id, server.Servername, JSON.stringify(server)], (error, results) => {
+                if (error) throw error;
+            });
+        });
+    };
+    const disconnectServer = function (data) { 
+         getServerVariable(data, server => {
+            let sqlDelete = 'DELETE FROM activeservers WHERE id = ?';
+            connection.query(sqlDelete, [server.id],(error, results) => {
+                if (error) throw error;
+                io.emit(`server:disable-server-${server.id}`, server); //Let clients know server is disconnected 
+            });
+            let addDisabledServer = 'INSERT INTO disabledservers (id, Servername, JsonData, AddedDate) VALUES (?,?,?,CURRENT_TIMESTAMP)';
+            connection.query(addDisabledServer, [server.id, server.Servername, JSON.stringify(server)], (error, results) => {
+                if (error) throw error;
+                io.emit(`server:disable-server-${server.id}`, server);
+            });
+        });
+    };
+
+
+
+
+    //SERVER PLAYER FUNCTIONS
+    const getPlayersFromDatabase = function (callback) {    
+        let getServerSQL = 'SELECT * FROM players ORDER BY id DESC';
+        connection.query(getServerSQL ,(error, results) => {
+            if (error) throw error;
+            callback(results)
+        });
+    };
     const getServerPlayerlist = function (clientsocketid, servername, playerlist) {
         if (playerlist === undefined)return;
         let sqlUpdate = 'SELECT * FROM players WHERE ';
@@ -178,18 +166,16 @@ module.exports = (io) => {
                 copyData.id = results[i].id;
                 correctData.push(copyData)
             }
-            let getServerSQL = 'SELECT id FROM servers WHERE Servername = ?';
-            connection.query(getServerSQL, [servername] ,(error, results) => {
-                if (error) throw error;
-                var serverid = JSON.parse(JSON.stringify(results[0])).id;
-                if (clientsocketid === null)
-                    io.emit(`server:get-playerlist-${serverid}`, correctData)
-                else
-                    io.to(clientsocketid).emit(`server:get-playerlist`, correctData); //Send request for playerlist to minecraft server
+            getServerVariable(server, serverJSON => {
+                io.to(clientsocketid).emit(`server:get-playerlist-${serverJSON.id}`, correctData) //Send request for playerlist to minecraft server
             });
-            
         }); 
     };
+
+
+
+
+    //MISC DATA
     const getConsoleMessages = function (servername, callback) { //Returns a json with all the console messages with a limit of 300
         let sqlGet = 'SELECT * FROM consoles WHERE Servername = ? ORDER BY Date DESC LIMIT 300';
         connection.query(sqlGet, [servername],(error, results) => {
@@ -260,6 +246,9 @@ module.exports = (io) => {
                 io.to(clientsocketid).emit(`server:get-banlist-${servername}`, players);
         }
     };
+
+
+    //LISTENERS
     const listenChatMessage = function (clientsocketid, servername, player, message) {
         io.to(clientsocketid).emit(`server:get-chat-${servername}`, player, message);
     };
@@ -274,13 +263,11 @@ module.exports = (io) => {
     };
     return {
         getServer,
-        enableServer,
+        connectServer,
         disconnectServer,
         getServers,
         getServerUUID,
         getPlayersFromDatabase,
-        responseActiveServer,
-        requestDeActiveServers,
         updateServer,
         getServerWorlds,
         getServerPlayerlist,
