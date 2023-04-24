@@ -1,0 +1,21 @@
+.serverpage-container {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.serverpage-container h1 {
+  color: white;
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.serverpage-container a {
+  text-decoration: none;
+}
+.serverpage-container p {
+  color: white;
+}/*# sourceMappingURL=ServerPageStyling.css.map */

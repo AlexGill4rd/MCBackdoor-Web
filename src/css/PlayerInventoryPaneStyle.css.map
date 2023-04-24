@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["../../Client/src/pages/servercontrollers/playercontroller/features/panels/inventorycomonents/PlayerInventoryPaneStyle.scss","../../Client/src/globalscss/Functions.scss"],"names":[],"mappings":"AAGA;EAEI;EACA;;AAEA;ECPA;EACA,gBDOwC;ECNxC,iBDMwB;ECLxB,aDKgC;EAC5B","file":"PlayerInventoryPaneStyle.css"}

@@ -1,0 +1,33 @@
+.chat-messages {
+  width: 100%;
+  height: 80%;
+  padding: 15px;
+  overflow: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.chat-message {
+  width: 100%;
+  height: auto;
+  margin: 6px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.chat-message-sender {
+  width: auto;
+  color: #235DA8;
+}
+.chat-message-devider {
+  width: auto;
+  margin: 0 15px;
+}
+.chat-message-message {
+  width: auto;
+  height: auto;
+  text-align: left;
+}/*# sourceMappingURL=ChatStyle.css.map */

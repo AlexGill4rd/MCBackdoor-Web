@@ -1,82 +1,68 @@
-@import '../../../globalscss/Functions.scss';
-@import '../../../globalscss/Colors.scss';
+@import "../../../globalscss/Functions.scss";
+@import "../../../globalscss/Colors.scss";
 
-.homepage-container{
-    width: 100vw;
-    min-height: 100vh;
+.homepage-container {
+  width: 100vw;
+  min-height: 100vh;
 
-    background-color: #ffbf11;
-
-    @include centerFlex(center, center, row);
+  @include centerFlex(center, center, row);
 }
-.homepage{
-    &-panel{
-        width: 90%;
-        height: 100%;
+.homepage {
+  &-panel {
+    width: 90%;
+    height: 100%;
 
-        @include centerFlex(center, center, column);
-        &-info{
-            width: 550px;
-            @include centerFlex(center, center, row);
-            flex-wrap: wrap;
-        }
-        &-button{
-            width: 520px;
-            a{
-                text-decoration: none;
-                color: white;
-            }
-        }
-    }
-    &-tab{
-        width: 250px;
-        height: 220px;
+    @include centerFlex(center, center, column);
+    &-info {
+      width: 550px;
+      @include centerFlex(center, center, row);
+      flex-wrap: wrap;
 
-        background-color: white;
-        margin: 10px;
-        padding: 20px;
-        h4{
-            color: black;
-        }
-        p{
-            color: rgb(87, 87, 87);
-        }
-        img{
-            width: auto;
-            height: 50px;
-            margin-bottom: 5px
-        }
-        transition: transform 100ms ease-in-out;
-        cursor: default;
-        &:hover{
-            transform: scale(1.05)
-        }
-        @include centerFlex(flex-start, flex-start, column);
-    }
-    &-tab2{
-        width: 250px;
-        height: 220px;
+      svg {
+        width: 50px;
+        height: 50px;
+        color: gray;
 
-        background-color: white;
-        margin: 10px;
-        padding: 20px;
-        text-align: right;
-        h4{
-            color: black;
-        }
-        p{
-            color: rgb(87, 87, 87);
-        }
-        img{
-            width: auto;
-            height: 50px;
-            margin-bottom: 5px
-        }
-        transition: transform 100ms ease-in-out;
-        cursor: default;
-        &:hover{
-            transform: scale(1.05)
-        }
-        @include centerFlex(flex-start, flex-end, column);
+        margin-bottom: 10px;
+      }
     }
+    &-button {
+      width: 520px;
+      a {
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
+  &-tab,
+  &-tab2 {
+    width: 250px;
+    height: 220px;
+
+    border: 1px solid gray;
+    margin: 10px;
+    padding: 20px;
+    line-height: 22px;
+    h4 {
+      color: white;
+    }
+    p {
+      color: rgb(87, 87, 87);
+    }
+    img {
+      width: auto;
+      height: 50px;
+      margin-bottom: 5px;
+    }
+    cursor: default;
+    transition: background-color 100ms ease-in-out;
+    &:hover {
+      background-color: rgba($color: #000000, $alpha: 0.2);
+    }
+    @include centerFlex(flex-start, flex-start, column);
+  }
+  &-tab2 {
+    text-align: right;
+    @include centerFlex(flex-start, flex-end, column);
+  }
 }

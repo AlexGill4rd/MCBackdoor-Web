@@ -1,0 +1,94 @@
+.plugins {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.plugins-header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.plugins-header-path {
+  border: 1px solid rgb(226, 226, 226);
+  border-radius: 10px;
+  padding: 8px 20px;
+  background-color: rgb(243, 243, 243);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.plugins-container {
+  width: 100%;
+  height: 80%;
+  margin: 20px 0;
+  overflow: hidden;
+  overflow-y: auto;
+  border-top: 1px solid rgb(218, 218, 218);
+  border-bottom: 1px solid rgb(218, 218, 218);
+}
+.plugins-container-list {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.plugins-file {
+  width: 100px;
+  height: 130px;
+  overflow: hidden;
+  text-align: center;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 100ms ease-in-out;
+}
+.plugins-file img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+}
+.plugins-file-name {
+  width: 100%;
+  height: auto;
+  font-size: 0.9em;
+  color: rgb(61, 61, 61);
+  word-wrap: break-word;
+  overflow-y: auto;
+}
+.plugins-file:hover {
+  transform: scale(1.06);
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+   supported by Chrome, Edge, Opera and Firefox */
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}/*# sourceMappingURL=PluginsStyle.css.map */

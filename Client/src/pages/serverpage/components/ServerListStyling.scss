@@ -1,0 +1,29 @@
+@import "../../../globalscss/Functions.scss";
+@import "../../../globalscss/Colors.scss";
+
+.serverlist {
+  &-filtering {
+    @include centerFlex(center, flex-start, column);
+    input {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid white;
+      color: white;
+
+      &:focus {
+        outline: none;
+        border-bottom: 1px solid rgb(119, 255, 119);
+      }
+    }
+    label {
+      margin-bottom: 5px;
+      font-size: 0.7em;
+      color: white;
+    }
+  }
+  &-list {
+    max-height: 78vh;
+    overflow-y: auto;
+    padding-right: 20px;
+  }
+}

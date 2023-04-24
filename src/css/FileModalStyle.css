@@ -1,0 +1,62 @@
+.filemodal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.filemodal-backdrop {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 5;
+}
+.filemodal-menu {
+  width: 450px;
+  height: auto;
+  padding: 30px 20px;
+  background-color: white;
+  color: black;
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.filemodal-menu input[type=text] {
+  width: 100%;
+  padding: 8px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.filemodal-menu button {
+  width: 100%;
+}
+.filemodal-menu-title {
+  margin-bottom: 10px;
+}
+.filemodal-menu-help {
+  text-align: center;
+}
+.filemodal-menu-description {
+  font-size: 0.7em;
+  color: rgb(104, 104, 104);
+}
+.filemodal-menu a {
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 5px;
+}/*# sourceMappingURL=FileModalStyle.css.map */

@@ -1,0 +1,78 @@
+.gamerulemodal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gamerulemodal-backdrop {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 5;
+}
+.gamerulemodal-menu {
+  width: 450px;
+  height: auto;
+  padding: 30px 20px;
+  background-color: white;
+  color: black;
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gamerulemodal-menu input[type=text] {
+  width: 100%;
+  padding: 5px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.gamerulemodal-menu input[type=number] {
+  width: 100%;
+  padding: 5px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.gamerulemodal-menu button {
+  width: 100%;
+}
+.gamerulemodal-menu-title {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+.gamerulemodal-menu-info {
+  color: rgb(141, 141, 141);
+}
+.gamerulemodal-menu-help {
+  text-align: center;
+}
+.gamerulemodal-menu-description {
+  font-size: 0.7em;
+  color: rgb(104, 104, 104);
+}
+.gamerulemodal-menu a {
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 5px;
+}/*# sourceMappingURL=GameruleModalStyle.css.map */

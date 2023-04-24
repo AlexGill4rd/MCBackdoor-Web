@@ -1,0 +1,73 @@
+.homepage-container {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage-panel {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.homepage-panel-info {
+  width: 550px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.homepage-panel-info svg {
+  width: 50px;
+  height: 50px;
+  color: gray;
+  margin-bottom: 10px;
+}
+.homepage-panel-button {
+  width: 520px;
+}
+.homepage-panel-button a {
+  text-decoration: none;
+  color: white;
+}
+.homepage-tab, .homepage-tab2 {
+  width: 250px;
+  height: 220px;
+  border: 1px solid gray;
+  margin: 10px;
+  padding: 20px;
+  line-height: 22px;
+  cursor: default;
+  transition: background-color 100ms ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.homepage-tab h4, .homepage-tab2 h4 {
+  color: white;
+}
+.homepage-tab p, .homepage-tab2 p {
+  color: rgb(87, 87, 87);
+}
+.homepage-tab img, .homepage-tab2 img {
+  width: auto;
+  height: 50px;
+  margin-bottom: 5px;
+}
+.homepage-tab:hover, .homepage-tab2:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.homepage-tab2 {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}/*# sourceMappingURL=HomePageStyling.css.map */

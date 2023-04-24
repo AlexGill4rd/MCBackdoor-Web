@@ -1,0 +1,35 @@
+@import "../Functions.scss";
+
+.backdoor-background {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+
+  background-color: #070707;
+  position: absolute;
+  @include centerFlex(center, center, row);
+  div:nth-child(1) {
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(
+      ellipse at left,
+      rgb(10, 10, 1) 0%,
+      #070707 70%
+    );
+    position: absolute;
+    left: 0;
+  }
+  div:nth-child(2) {
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(
+      ellipse at right,
+      rgb(15, 12, 0) 0%,
+      #070707 70%
+    );
+    position: absolute;
+    right: 0;
+  }
+  z-index: -10;
+}

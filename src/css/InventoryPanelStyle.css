@@ -1,0 +1,69 @@
+.inventorypanel-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inventorypanel {
+  max-width: 700px;
+  height: 327px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.inventorypanel-search {
+  text-align: center;
+}
+.inventorypanel-search input[type=text] {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 5px 0 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.inventorypanel-items {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.inventorypanel-selection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.inventorypanel-selection-button {
+  width: 200px;
+  height: auto;
+  background-color: #13335C;
+  color: white;
+  border-radius: 7px;
+  margin: 10px;
+  padding: 20px 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+.inventorypanel-selection-button p {
+  font-size: 4em;
+}
+.inventorypanel-selection-button:hover {
+  transform: scale(1.05);
+}/*# sourceMappingURL=InventoryPanelStyle.css.map */

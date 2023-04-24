@@ -1,0 +1,50 @@
+.spelerdata-container {
+  width: 100%;
+  height: calc(100% - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.spelerdata-data {
+  width: 100%;
+  height: auto;
+}
+.spelerdata-data-subject {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  background-color: #3180E8;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.spelerdata-data-subject-title {
+  font-size: 1.1em;
+  font-weight: 500;
+}
+.spelerdata-data-subject img {
+  height: 15px;
+  width: auto;
+  margin-right: 3px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  object-fit: cover;
+}
+.spelerdata-data-subject-hearts {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}/*# sourceMappingURL=SpelerDataPanelStyle.css.map */

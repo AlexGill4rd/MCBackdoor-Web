@@ -1,0 +1,50 @@
+.pmspampanel-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pmspampanel-form {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+.pmspampanel-form-editing {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+.pmspampanel-form-editing input {
+  width: calc(100% - 450px - 30px);
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: left;
+}
+.pmspampanel-form-editing-button {
+  width: 150px;
+  margin-left: 10px;
+}
+.pmspampanel-messagebox {
+  width: 100%;
+}
+.pmspampanel-buttons {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=PMSpamPanelStyle.css.map */

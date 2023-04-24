@@ -1,0 +1,67 @@
+.message {
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+}
+
+.playerlist-noplayers {
+  width: 100%;
+  color: white;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.playertab {
+  width: 100%;
+  height: 45px;
+  border-radius: 7px;
+  padding: 0 20px;
+  margin: 10px 0;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: transform 100ms ease-in-out;
+}
+.playertab:hover {
+  transform: scale(1.03);
+}
+.playertab-icon {
+  width: 30px;
+  height: 30px;
+  margin: 10px 0;
+}
+.playertab-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  object-fit: cover;
+}
+.playertab-playername {
+  font-size: 1em;
+}
+.playertab-verticalline {
+  width: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.playertab-ip {
+  padding: 3px 5px;
+  border-radius: 7px;
+  transition: color 100ms ease-in-out, background-color 100ms ease-in-out;
+}
+.playertab-ip:hover {
+  background-color: #3180E8;
+  color: white;
+}/*# sourceMappingURL=PlayerStyling.css.map */

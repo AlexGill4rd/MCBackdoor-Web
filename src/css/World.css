@@ -1,0 +1,30 @@
+.world {
+  width: 150px;
+  height: auto;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.world img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 100ms ease-in-out;
+}
+.world img:hover {
+  transform: scale(1.05);
+}
+.world span {
+  width: 100%;
+  text-align: center;
+  padding: 2px 8px;
+  margin-top: 8px;
+  font-size: 1em;
+  border-radius: 3px;
+  color: white;
+  background-color: #3180E8;
+}/*# sourceMappingURL=World.css.map */

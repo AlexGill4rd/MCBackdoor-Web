@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["../../Client/src/pages/servercontrollers/LoadingStyle.scss","../../Client/src/globalscss/Functions.scss","../../Client/src/globalscss/Colors.scss"],"names":[],"mappings":"AAGA;EACI;EACA;ECJA;EACA,gBDIoC;ECHpC,iBDGoB;ECFpB,aDE4B;;AAE5B;EACI;EACA,OEJC;EFKD;EACA;;AACA;EACI","file":"LoadingStyle.css"}

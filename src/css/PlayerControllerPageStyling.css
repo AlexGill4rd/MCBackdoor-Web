@@ -1,0 +1,70 @@
+.controller-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.controller-players {
+  width: 600px;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
+  padding: 20px;
+  background-color: #3180E8;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.controller-players-header {
+  height: 30px;
+  width: 100%;
+  border-bottom: 1px solid white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.controller-players-header-icon {
+  height: 100%;
+  width: auto;
+  font-size: 1.5em;
+  margin-right: 10px;
+}
+.controller-players-header-playercount {
+  width: 400px;
+  height: auto;
+  color: rgb(184, 184, 184);
+}
+.controller-players-header-back {
+  width: calc(100% - 400px - 29px);
+  text-decoration: none;
+  color: white;
+  text-align: right;
+}
+.controller-players-list {
+  width: 100%;
+  height: calc(100% - 30px);
+}
+.controller-features {
+  width: 350px;
+  max-height: 100%;
+  overflow-y: scroll;
+  padding: 20px;
+  background-color: #235DA8;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.controller-panel {
+  width: calc(100% - 950px);
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}/*# sourceMappingURL=PlayerControllerPageStyling.css.map */

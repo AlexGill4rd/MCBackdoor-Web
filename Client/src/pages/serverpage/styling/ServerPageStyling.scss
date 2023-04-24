@@ -1,19 +1,22 @@
-@import '../../../globalscss/Functions.scss';
-@import '../../../globalscss/Colors.scss';
+@import "../../../globalscss/Functions.scss";
+@import "../../../globalscss/Colors.scss";
 
-.serverpage-container{
-    width: 100vw;
-    min-height: 100vh;
+.serverpage-container {
+  width: 100vw;
+  min-height: 100vh;
 
-    background-color: $yellow-2;
-    padding: 40px 0;
-    @include centerFlex(flex-start, center, column);
-    h1{
-        color: white;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    a{
-        text-decoration: none;
-    }
+  padding: 40px 0;
+  @include centerFlex(flex-start, center, column);
+  h1 {
+    color: white;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  a {
+    text-decoration: none;
+  }
+  p {
+    color: white;
+  }
 }

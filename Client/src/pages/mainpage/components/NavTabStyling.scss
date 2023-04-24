@@ -1,0 +1,36 @@
+@import "../../../globalscss/Functions.scss";
+@import "../../../globalscss/Colors.scss";
+
+.navtab-button {
+  width: 280px;
+  height: 320px;
+
+  border: 1px solid gray;
+  margin: 20px 20px;
+  padding: 20px;
+  text-align: center;
+
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 100ms ease-in-out, border-radius 100ms ease-in-out;
+  @include centerFlex(flex-start, center, column);
+  flex-wrap: wrap;
+  &:hover {
+    transform: scale(1.05);
+  }
+  &-title {
+    color: white;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  line-height: 20px;
+  &-description {
+    color: #444444;
+    font-size: 1em;
+  }
+  img {
+    width: auto;
+    height: 70px;
+    margin-bottom: 10px;
+  }
+}

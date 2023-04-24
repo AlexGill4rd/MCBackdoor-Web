@@ -1,0 +1,11 @@
+.inventory-panel {
+  width: 500px;
+  height: 250px;
+}
+.inventory-panel-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}/*# sourceMappingURL=PlayerInventoryPaneStyle.css.map */

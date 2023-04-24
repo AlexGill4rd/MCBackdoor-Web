@@ -1,0 +1,26 @@
+.optionbutton {
+  width: 200px;
+  height: 150px;
+  background-color: white;
+  color: black;
+  padding: 15px 10px;
+  margin: 10px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 100ms ease-in-out;
+}
+.optionbutton:hover {
+  transform: scale(1.1);
+}
+.optionbutton-title {
+  font-size: 1.1em;
+}
+.optionbutton-description {
+  color: rgb(150, 150, 150);
+  font-size: 0.9em;
+}/*# sourceMappingURL=OptionButtonStyle.css.map */

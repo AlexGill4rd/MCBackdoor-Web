@@ -1,0 +1,100 @@
+.armor-customizer-container {
+  width: 100%;
+  height: 620px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.armor-customizer-container-left {
+  width: 400px;
+  height: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.armor-customizer-container-left-skin {
+  margin: 15px 0;
+}
+.armor-customizer-container-left-skin img {
+  height: auto;
+  width: 100%;
+}
+.armor-customizer-container-right {
+  width: auto;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: space-between;
+}
+.armor-customizer-container-right-header {
+  font-size: 1.2em;
+  color: rgb(75, 75, 75);
+}
+.armor-customizer-container-right-slots {
+  width: 100%;
+  height: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.armor-customizer-slot {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.armor-customizer-slot-container {
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgb(197, 197, 197);
+  background-color: rgb(250, 250, 250);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.armor-customizer-slot-container-item {
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+.armor-customizer-slot-container-item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  position: relative;
+  z-index: 1;
+}
+.armor-customizer-slot-container-item:hover {
+  background-color: rgb(230, 230, 230);
+}
+.armor-customizer-slot-name {
+  font-size: 1.2em;
+  color: rgb(75, 75, 75);
+  margin-left: 20px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.info-text {
+  color: rgb(184, 184, 184);
+  font-size: 0.9em;
+}/*# sourceMappingURL=ArmorPanelStyle.css.map */
