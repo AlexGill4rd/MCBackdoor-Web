@@ -1,11 +1,13 @@
-import { Tooltip } from "@mui/material";
+import { CircularProgress, Tooltip } from "@mui/material";
 
 import "./TeleportPanelStyle.scss";
 
 import { useEffect, useState } from "react";
 import { socket } from "../../../../../socket/socket";
+import IServer from "../../../../../interfaces/IServer";
+import IPlayer from "../../../../../interfaces/IPlayer";
 
-function TeleportPanel(props: { Server: any; player: any }) {
+function TeleportPanel(props: { server: IServer; player: IPlayer | null }) {
   const [worlds, setWorlds] = useState<any[]>([]);
 
   const [world, setWorld] = useState<string>();
@@ -37,8 +39,8 @@ function TeleportPanel(props: { Server: any; player: any }) {
     socket.emit(
       "feature:player",
       socket.id,
-      props.Server.Servername,
-      props.player.UUID,
+      props.server.id,
+      props.player?.uuid,
       "teleport",
       { Location: location }
     );
@@ -48,7 +50,7 @@ function TeleportPanel(props: { Server: any; player: any }) {
       socket.emit(
         "feature:server",
         socket.id,
-        props.Server.Servername,
+        props.server.id,
         "world-list",
         {}
       );
@@ -83,10 +85,13 @@ function TeleportPanel(props: { Server: any; player: any }) {
   function handleZChange(e: any) {
     setZ(e.target.value);
   }
+  if (props.player === null) {
+    return <CircularProgress />;
+  }
   return (
     <>
       <div className="panel-header">
-        Teleport Panel - {props.player.Displayname}
+        Teleport Panel - {props.player.displayname}
       </div>
       <div className="panel-line"></div>
       <div className="teleportpanel-container">

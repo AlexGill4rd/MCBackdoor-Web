@@ -15,7 +15,6 @@ export default function PlayerList(props: {
     function updatePlayers() {
       socket.on(`server:get-playerlist-${props.server.id}`, (players) => {
         setPlayers(players);
-        console.log(players);
       });
     }
     function loadPlayers() {

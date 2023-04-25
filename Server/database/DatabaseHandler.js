@@ -9,8 +9,8 @@ const credentials = {
 };
 
 //const DATABASE_URL = `mysql://${credentials.username}:${credentials.password}@${credentials.host}/${credentials.database}?ssl={"rejectUnauthorized":true}`;
-const DATABASE_URL =
-  'mysql://n7h56ymt7171flaz6izq:pscale_pw_IF5bLod1Qwv1RMk0dfmfNX2gLPaov2AkMd9hecG1dGP@aws.connect.psdb.cloud/eeb?ssl={"rejectUnauthorized":true}';
+DATABASE_URL =
+  'mysql://se0culwv9rip3f3w6jxb:pscale_pw_vWxLWS3XLVH5OFg1mCnoRghGsqhqDNLTUt1Ccl6MbaL@aws.connect.psdb.cloud/eeb?ssl={"rejectUnauthorized":true}';
 
 const conn = mysql.createConnection(DATABASE_URL);
 

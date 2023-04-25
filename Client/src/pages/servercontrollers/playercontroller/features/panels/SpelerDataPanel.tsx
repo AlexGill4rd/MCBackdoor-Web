@@ -8,9 +8,9 @@ import { socket } from "../../../../../socket/socket";
 import IServer from "../../../../../interfaces/IServer";
 import IPlayer from "../../../../../interfaces/IPlayer";
 
-function SpelerDataPanel(props: { server: IServer; player: IPlayer }) {
+function SpelerDataPanel(props: { server: IServer; player: IPlayer | null }) {
   const [hearts, setHearts] = useState<any>([]);
-  const [player, setPlayer] = useState<IPlayer>(props.player);
+  const [player, setPlayer] = useState<IPlayer | null>(props.player);
 
   useEffect(() => {
     function requestPlayerData() {
@@ -18,14 +18,14 @@ function SpelerDataPanel(props: { server: IServer; player: IPlayer }) {
         "feature:player",
         socket.id,
         props.server.id,
-        player.uuid,
+        player?.uuid,
         "data",
         {}
       );
     }
     function updatePlayer() {
       socket.on(
-        `server:player-update-${player.uuid}`,
+        `server:player-update-${player?.uuid}`,
         (updatedPlayer: IPlayer) => {
           setPlayer(updatedPlayer);
         }
@@ -36,7 +36,7 @@ function SpelerDataPanel(props: { server: IServer; player: IPlayer }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    console.log("egv");
+    if (player === null) return;
     //SET PLAYER DATA
     //RESET HEARTS LIST (IMAGES)
     setHearts([]);

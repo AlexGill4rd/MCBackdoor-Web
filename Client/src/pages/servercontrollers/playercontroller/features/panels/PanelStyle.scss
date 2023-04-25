@@ -1,15 +1,17 @@
-@import '/src/globalscss/Functions.scss';
-@import '/src/globalscss/Colors.scss';
+@import "/src/globalscss/Functions.scss";
+@import "/src/globalscss/Colors.scss";
 
-.panel-header{
-    width: 100%;
-    height: 40px;
+.panel-header {
+  width: 100%;
+  height: 40px;
 
-    @include centerFlex(center, center, column);
+  @include centerFlex(center, center, column);
+  color: white;
 }
-.panel-line{
-    width: 50%;
-    height: 1px;
-    margin: 20px 0 40px;
-    border-bottom: 1px solid $blue-1;
+.panel-line {
+  width: 50%;
+  height: 1px;
+  margin: 20px 0 40px;
+  border-bottom: 1px solid $blue-1;
+  color: white;
 }

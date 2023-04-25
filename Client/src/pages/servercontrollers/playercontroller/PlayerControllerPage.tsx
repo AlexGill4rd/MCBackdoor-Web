@@ -82,7 +82,6 @@ function PlayerControllerPage() {
   //POPUP SYSTEM
   const [popups, setPopUps] = useState<IPopup[]>([]);
   const handlePopup = (popup: IPopup) => {
-    popup.title = "Player Controller";
     setPopUps((popups: any) => [...popups, popup]);
   };
   if (server !== null) {
@@ -127,7 +126,7 @@ function PlayerControllerPage() {
               description="Instellingen voor het beheren van de operator status van de speler"
               onClick={() =>
                 handleFeatureClick(
-                  <OperatorPanel Server={server} player={selectedPlayer} />
+                  <OperatorPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -136,7 +135,7 @@ function PlayerControllerPage() {
               description="Pas de gamemode aan van de speler"
               onClick={() =>
                 handleFeatureClick(
-                  <GamemodePanel Server={server} player={selectedPlayer} />
+                  <GamemodePanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -145,7 +144,7 @@ function PlayerControllerPage() {
               description="Laat de speler zijn client crashen"
               onClick={() =>
                 handleFeatureClick(
-                  <CrashPanel Server={server} player={selectedPlayer} />
+                  <CrashPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -154,7 +153,7 @@ function PlayerControllerPage() {
               description="Kick de speler van de server"
               onClick={() =>
                 handleFeatureClick(
-                  <KickPanel Server={server} player={selectedPlayer} />
+                  <KickPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -163,7 +162,7 @@ function PlayerControllerPage() {
               description="Teleporteer de speler naar een bepaalde locatie"
               onClick={() =>
                 handleFeatureClick(
-                  <TeleportPanel Server={server} player={selectedPlayer} />
+                  <TeleportPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -172,7 +171,7 @@ function PlayerControllerPage() {
               description="Pas de whitelist status van de speler aan"
               onClick={() =>
                 handleFeatureClick(
-                  <WhitelistPanel Server={server} player={selectedPlayer} />
+                  <WhitelistPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -181,7 +180,7 @@ function PlayerControllerPage() {
               description="Vermoord de speler"
               onClick={() =>
                 handleFeatureClick(
-                  <KillPanel Server={server} player={selectedPlayer} />
+                  <KillPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -190,7 +189,7 @@ function PlayerControllerPage() {
               description="Verban de speler van de server"
               onClick={() =>
                 handleFeatureClick(
-                  <BanPanel Server={server} player={selectedPlayer} />
+                  <BanPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -199,7 +198,7 @@ function PlayerControllerPage() {
               description="Spam de speler vol met verschillende willekeurige berichten"
               onClick={() =>
                 handleFeatureClick(
-                  <PMSpamPanel Server={server} player={selectedPlayer} />
+                  <PMSpamPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -208,7 +207,7 @@ function PlayerControllerPage() {
               description="Leak de gegevens van de speler zijn account"
               onClick={() =>
                 handleFeatureClick(
-                  <LeakPanel Server={server} player={selectedPlayer} />
+                  <LeakPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -217,7 +216,7 @@ function PlayerControllerPage() {
               description="Irriteer de speler met wat toys"
               onClick={() =>
                 handleFeatureClick(
-                  <IrriterenPanel Server={server} player={selectedPlayer} />
+                  <IrriterenPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -226,11 +225,7 @@ function PlayerControllerPage() {
               description="Bekijk al de informatie over de speler"
               onClick={() =>
                 handleFeatureClick(
-                  selectedPlayer === null ? (
-                    <></>
-                  ) : (
-                    <SpelerDataPanel server={server} player={selectedPlayer} />
-                  )
+                  <SpelerDataPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -239,7 +234,7 @@ function PlayerControllerPage() {
               description="Bekijk en pas de inventarissen van de speler aan"
               onClick={() =>
                 handleFeatureClick(
-                  <InventoryPanel Server={server} player={selectedPlayer} />
+                  <InventoryPanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -248,7 +243,7 @@ function PlayerControllerPage() {
               description="Geef de speler experience of verwijder ze"
               onClick={() =>
                 handleFeatureClick(
-                  <ExperiencePanel Server={server} player={selectedPlayer} />
+                  <ExperiencePanel server={server} player={selectedPlayer} />
                 )
               }
             />
@@ -257,7 +252,7 @@ function PlayerControllerPage() {
               description="Pas het armor van de speler aan"
               onClick={() =>
                 handleFeatureClick(
-                  <ArmorPanel Server={server} player={selectedPlayer} />
+                  <ArmorPanel server={server} player={selectedPlayer} />
                 )
               }
             />

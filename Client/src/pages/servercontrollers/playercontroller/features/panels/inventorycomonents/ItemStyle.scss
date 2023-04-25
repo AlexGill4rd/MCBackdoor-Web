@@ -3,94 +3,97 @@
 
 $itemsize: 50px;
 .noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
 }
-.slot{
-    width: $itemsize;
-    height: $itemsize;
+.slot {
+  width: $itemsize;
+  height: $itemsize;
 
-    margin: 2px;
-    padding: 3px;
-    border: 1px solid rgb(160, 160, 160);
+  margin: 2px;
+  padding: 3px;
+  border: 1px solid rgb(160, 160, 160);
 
-    cursor: pointer;
+  cursor: pointer;
 
-    @include centerFlex(flex-start, center, column);
-    transition: background-color 100ms ease-in-out;
-    &:hover{
-        background-color: rgb(236, 236, 236);
-    }
-    img{
-        z-index: 1;
-        position: relative;
-        image-rendering: pixelated;
-        image-rendering: -moz-crisp-edges;
-        image-rendering: crisp-edges;
-    }
-    
-    &-contextmenu{
-        position: absolute;
-        z-index: 10;
-    }
-    &-context{
-        &-button{
-            span{
-                margin-left: 10px;
-                @include centerFlex(center, center, row);
-            }
-        }       
-    }
-    &-type{
-        text-transform: capitalize;
-    }
-    &-amount{
-        margin: -12px 0 0 calc($itemsize - 10px);
-    }
-    &-tooltip{
-        z-index: 10;
-        position: relative;
-        @include centerFlex(center, flex-start, column);
-    }
-    &-menu{
-        &-buttons{
-            padding: 0 5px;
-            background-color: white;
-            border: 1px solid rgb(192, 192, 192);
-            color: black;
-        }
-        &-button{
-            margin: 10px 0;
-            padding: 3px 20px;
-            border-radius: 3px;
-            cursor: pointer;
+  @include centerFlex(flex-start, center, column);
+  transition: background-color 100ms ease-in-out;
+  &:hover {
+    background-color: rgba(32, 32, 32, 0.7);
+  }
+  img {
+    z-index: 1;
+    position: relative;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
 
-            @include centerFlex(flex-start, center, row);
-            &:hover{
-                background-color: rgb(226, 226, 226);
-            }
-        }
+  &-contextmenu {
+    position: absolute;
+    z-index: 10;
+  }
+  &-context {
+    &-button {
+      span {
+        margin-left: 10px;
+        @include centerFlex(center, center, row);
+      }
     }
+  }
+  &-type {
+    text-transform: capitalize;
+  }
+  &-amount {
+    margin: -12px 0 0 calc($itemsize - 10px);
+    color: white;
+    position: relative;
+    z-index: 10;
+  }
+  &-tooltip {
+    z-index: 10;
+    position: relative;
+    @include centerFlex(center, flex-start, column);
+  }
+  &-menu {
+    &-buttons {
+      padding: 0 5px;
+      background-color: white;
+      border: 1px solid rgb(192, 192, 192);
+      color: black;
+    }
+    &-button {
+      margin: 10px 0;
+      padding: 3px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+
+      @include centerFlex(flex-start, center, row);
+      &:hover {
+        background-color: rgb(226, 226, 226);
+      }
+    }
+  }
 }
-.item{
+.item {
+  width: 100%;
+  height: 100%;
+
+  img {
     width: 100%;
-    height: 100%;
+    height: auto;
 
-    img{
-        width: 100%;
-        height: auto;
-
-        object-fit: contain;
-        image-rendering: pixelated;
-        image-rendering: -moz-crisp-edges;
-        image-rendering: crisp-edges;
-    }
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
 }
-.dragging{
-    border: 2px solid green
+.dragging {
+  border: 2px solid green;
 }
