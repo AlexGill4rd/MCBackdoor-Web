@@ -8,7 +8,7 @@ module.exports = (io) => {
   //SERVER DATA GETTERS
   const getServer = function (serverid, callback) {
     let getServerSQL = "SELECT * FROM servers WHERE id = ?";
-    connection.query(getServerSQL, [serverid.id], (error, results) => {
+    connection.query(getServerSQL, [serverid], (error, results) => {
       if (error) throw error;
       if (results.length > 0) callback(results[0]);
       else callback(null);
@@ -29,11 +29,9 @@ module.exports = (io) => {
       timeout: 1000 * 5,
       enableSRV: true,
     };
-    console.log(server.ip_address, server.port);
     util
       .status(server.ip_address, server.port, options)
       .then((result) => {
-        console.log(result);
         callback(result.favicon);
       })
       .catch((error) => callback("No favicon found"));
@@ -205,7 +203,7 @@ module.exports = (io) => {
               ],
               (error) => {
                 if (error) throw error;
-                getServerByIP(server, (server_id) => {
+                getServerID(server, (server_id) => {
                   server.id = server_id;
                   io.emit(`server:updated-server-${server_id}`, server);
                   callback({ server_id: server_id });
@@ -217,7 +215,6 @@ module.exports = (io) => {
           getServerID(server, (server_id) => {
             server.id = server_id;
             io.emit(`server:updated-server-${server_id}`, server);
-            console.log(server_id);
             callback({ server_id: server.id });
           });
         }
@@ -269,7 +266,22 @@ module.exports = (io) => {
     sqlGETplayers = sqlGETplayers.substring(0, sqlGETplayers.length - 4);
     connection.query(sqlGETplayers, (error, results) => {
       if (error) throw error;
-      io.to(clientsocketid).emit(`server:get-playerlist-${server_id}`, results); //Send request for playerlist to minecraft server
+      let correctData = [];
+      for (let i = 0; i < playerlist.length; i++) {
+        let target = [];
+        playerlist.forEach((player) => {
+          if (player.uuid === results[i].uuid) target = player;
+        });
+        if (results[i].favicon !== undefined)
+          target.favicon = results[i].favicon;
+        target.add_date = results[i].add_date;
+        correctData.push(target);
+      }
+      console.log("ja");
+      io.to(clientsocketid).emit(
+        `server:get-playerlist-${server_id}`,
+        correctData
+      ); //Send request for playerlist to minecraft server
     });
   };
 

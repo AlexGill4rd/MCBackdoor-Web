@@ -10,9 +10,9 @@
         width: 30%;
         height: 100%;
 
-        background-color: $blue-1;
+        background-color: rgb(32, 32, 32);
 
-        border-right: 3px solid $blue-2;
+        border-right: 3px solid white;
         padding: 20px;
         flex-wrap: wrap;
         @include centerFlex(center, center, row);

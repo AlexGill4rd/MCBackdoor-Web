@@ -3,28 +3,35 @@ import { useEffect, useState } from "react";
 import { socket } from "../../../../socket/socket";
 
 import "./PlayerStyling.scss";
+import IPlayer from "../../../../interfaces/IPlayer";
 
 function Player(props: {
-  player: any;
+  player: IPlayer;
   onPlayerClick: any;
-  selectedPlayer: any;
+  selectedPlayer: IPlayer | null;
 }) {
   const [background, setBackground] = useState<string>("white");
-  const [player, setPlayer] = useState<any>(props.player);
+  const [player, setPlayer] = useState<IPlayer>(props.player);
 
   useEffect(() => {
     function loadPlayerIcon() {
-      socket.on(`server:player-update-${player.UUID}`, (data) => {
+      socket.on(`server:player-update-${player.uuid}`, (data) => {
         setPlayer(data);
       });
     }
+    function updatePlayerInfo() {
+      socket.on(`server:player-update-${props.player.uuid}`, (player) => {
+        setPlayer(player);
+      });
+    }
+    updatePlayerInfo();
     loadPlayerIcon();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(
     function updateBackground() {
       if (props.selectedPlayer != null) {
-        if (props.selectedPlayer.Displayname === player.Displayname) {
+        if (props.selectedPlayer.displayname === player.displayname) {
           if (background === "lime") {
             setBackground("white");
             props.onPlayerClick(null);
@@ -46,7 +53,7 @@ function Player(props: {
     if (props.selectedPlayer === player) props.onPlayerClick(null);
     else props.onPlayerClick(player);
   }
-  if (player.Ip === undefined) {
+  if (player.ip_address === undefined) {
     return (
       <div
         className="playertab noselect"
@@ -64,21 +71,21 @@ function Player(props: {
         onClick={onPlayerClick}
       >
         <div className="playertab-icon">
-          <img src={player.Icon} alt="Player icon" />
+          <img src={player.favicon} alt="Player icon" />
         </div>
         <div className="playertab-verticalline">|</div>
-        <Tooltip title={"UUID: " + player.UUID}>
-          <div className="playertab-playername">{player.Displayname}</div>
+        <Tooltip title={"UUID: " + player.uuid}>
+          <div className="playertab-playername">{player.displayname}</div>
         </Tooltip>
         <div className="playertab-verticalline">|</div>
         <Tooltip title="Player operator status">
           <div className="playertab-status">
-            OP: {player.Op === true ? <>Ja</> : <>Neen</>}
+            OP: {player.operator_state === true ? <>Ja</> : <>Neen</>}
           </div>
         </Tooltip>
         <div className="playertab-verticalline">|</div>
         <Tooltip
-          onClick={() => copyToClipboard(player.Ip)}
+          onClick={() => copyToClipboard(player.ip_address)}
           title={
             <div style={{ textAlign: "center" }}>
               Het publiek IP van de speler
@@ -87,7 +94,7 @@ function Player(props: {
             </div>
           }
         >
-          <div className="playertab-ip">Ip: {player.Ip}</div>
+          <div className="playertab-ip">Ip: {player.ip_address}</div>
         </Tooltip>
       </div>
     );

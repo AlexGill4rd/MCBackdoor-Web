@@ -5,12 +5,12 @@
     width: 100%;
     min-height: 100vh;
 
-    background-color: $yellow-2;
     @include centerFlex(center, center, column);
     h1{
         color: white;
         margin-bottom: 20px;
         text-align: center;
+        font-size: 2em;
     }
     a{
         text-decoration: none;

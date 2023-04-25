@@ -28,17 +28,20 @@ import Loading from "../Loading";
 import SimplePopup from "../../../globaltsx/SimplePopup";
 import ArmorPanel from "./features/panels/ArmorPanel";
 import IServer from "../../../interfaces/IServer";
+import IPopup from "../../../interfaces/IPopup";
+import Background from "../../../globalscss/background/Background";
+import IPlayer from "../../../interfaces/IPlayer";
 
 function PlayerControllerPage() {
   const { serverid } = useParams();
   const [loadedPanel, setLoadedPanel] = useState<any>(null);
 
-  const [server, setServer] = useState<IServer | undefined>(undefined);
-  const [selectedPlayer, setSelectedPlayer] = useState<any>(null);
+  const [server, setServer] = useState<IServer | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
 
   useEffect(() => {
     function loadServer() {
-      socket.emit("server:get", { id: serverid }, (response: any) => {
+      socket.emit("server:get", serverid, (response: IServer) => {
         setServer(response);
       });
     }
@@ -48,8 +51,8 @@ function PlayerControllerPage() {
       });
     }
     function listenPopups() {
-      socket.on(`feature:playerpanel-log`, (message, type, error) => {
-        handlePopup(message, type, error);
+      socket.on(`feature:playerpanel-log`, (popup: IPopup) => {
+        handlePopup(popup);
       });
     }
     loadServer();
@@ -67,31 +70,28 @@ function PlayerControllerPage() {
     [server]
   );
   //Panel open
-  function handleFeatureClick(panelName: any) {
+  const handleFeatureClick = (panelName: any) => {
     if (selectedPlayer !== null && server !== null) setLoadedPanel(panelName);
-  }
-  function handlePlayerClick(player: any) {
+  };
+  const handlePlayerClick = (player: IPlayer) => {
     setLoadedPanel(null);
     setSelectedPlayer(player);
     if (player === null) setLoadedPanel(null);
-  }
+  };
 
   //POPUP SYSTEM
-  const [popups, setPopUps] = useState<any[]>([]);
-  function handlePopup(message: string, severity: string, error: string) {
-    var popup = {
-      Title: "Player Controller",
-      Description: message,
-      Severity: severity,
-    };
+  const [popups, setPopUps] = useState<IPopup[]>([]);
+  const handlePopup = (popup: IPopup) => {
+    popup.title = "Player Controller";
     setPopUps((popups: any) => [...popups, popup]);
-  }
-  if (server !== undefined) {
+  };
+  if (server !== null) {
     if (!server.state) {
       return <Loading to="/controller/servers/" />;
     } else {
       return (
         <div className="controller-container">
+          <Background />
           <div className="controller-players">
             <div className="controller-players-header">
               <div className="controller-players-header-icon">
@@ -226,7 +226,11 @@ function PlayerControllerPage() {
               description="Bekijk al de informatie over de speler"
               onClick={() =>
                 handleFeatureClick(
-                  <SpelerDataPanel Server={server} player={selectedPlayer} />
+                  selectedPlayer === null ? (
+                    <></>
+                  ) : (
+                    <SpelerDataPanel server={server} player={selectedPlayer} />
+                  )
                 )
               }
             />
@@ -267,15 +271,8 @@ function PlayerControllerPage() {
               ) //Laad panel niet in, maar geef instructie
             }
           </div>
-          {popups.map((item, i) => {
-            return (
-              <SimplePopup
-                key={i}
-                Title={item.Title}
-                Description={item.Description}
-                Severity={item.Severity}
-              />
-            );
+          {popups.map((popup, i) => {
+            return <SimplePopup key={i} popup={popup} />;
           })}
         </div>
       );

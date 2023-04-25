@@ -2,26 +2,28 @@ import { Tooltip } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import NavTab from "../mainpage/components/NavTab";
 import "./SettingSelectorStyle.scss";
+import Background from "../../globalscss/background/Background";
 
 function SettingSelector() {
   let { serverid } = useParams();
   return (
     <div className="settingselector">
+      <Background />
       <Link to="/controller/servers">
         <Tooltip title="Ga terug naar vorige pagina!">
-          <h1>Server Controller Optie's</h1>
+          <h1>Server Controller Options</h1>
         </Tooltip>
       </Link>
       <div className="settingselector-buttons">
         <NavTab
           title="Player Settings"
-          description="Voer bepaalde acties bij een speler uit. Ben ook in staat om verschillende instellingen van de speler aan te passen. Zo zal je in staat zijn de speler zijn inventaris aan te passen en veel meer."
+          description="Execute specific actions on a player and modify various settings related to them. As a result, you'll have the power to adjust the player's inventory and a host of other features."
           path={"/controller/servers/edit/player/" + serverid}
           image="/icons/controllerpage/playerpanel.png"
         />
         <NavTab
           title="Server Settings"
-          description="Wens je de server instellingen aan te passen. Of wil je bepaalde informatie van de sverer ophalen? Dat kan perfect via deze tab. Je zal in staat zijn de console van de server te bekijken en veel meer."
+          description="Do you wish to change the server settings? Or do you want to retrieve certain information from the server? You can do that perfectly through this tab. You will be able to view the console of the server and much more."
           path={"/controller/servers/edit/server/" + serverid}
           image="/icons/controllerpage/serverpanel.png"
         />

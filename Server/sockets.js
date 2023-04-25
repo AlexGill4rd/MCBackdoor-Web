@@ -1,3 +1,5 @@
+const PORT = 3001;
+const HOSTNAME = "10.150.195.29";
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
@@ -7,13 +9,15 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   maxHttpBufferSize: 1e8,
   cors: {
-    origin: "https://localhost:3000",
+    origin: "*",
+    methods: ["GET", "POST"],
   },
 });
 
 const {
   registerPlayer,
-  updatePlayer,
+  updatePlayerData,
+  updatePlayerInfo,
   getPlayerFromDatabase,
   getPlayerFromServer,
   getPlayerInventory,
@@ -51,7 +55,8 @@ const onConnection = (socket) => {
   socket.on("player:register", registerPlayer);
   socket.on("player:get-database", getPlayerFromDatabase);
   socket.on("player:get-server", getPlayerFromServer);
-  socket.on("player:update", updatePlayer);
+  socket.on("player:update", updatePlayerInfo);
+  socket.on("player:data-update", updatePlayerData);
 
   //Inventory part
   socket.on("player:response-inventory", getPlayerInventory);
@@ -95,6 +100,6 @@ const onConnection = (socket) => {
 
 io.on("connection", onConnection);
 
-httpServer.listen(3001, function () {
-  console.log("Listening on port: 3001");
+httpServer.listen(PORT, HOSTNAME, function () {
+  console.log(`Listening on port: ${HOSTNAME}:${PORT}`);
 });

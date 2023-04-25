@@ -11,6 +11,8 @@ export default interface IServer {
   software_version: string;
   java_version: string;
   max_memory: number;
+  memory_usage?: number;
+  tps?: number;
   os_arch: string;
   os_name: string;
   os_version: string;

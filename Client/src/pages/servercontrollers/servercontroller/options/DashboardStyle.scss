@@ -7,12 +7,12 @@
 
     @include centerFlex(center, center, row);
     flex-wrap: wrap;
+    color: white;
 
     &-data{
         width: 60%;
         height: 100%;
 
-        color: black;
         @include centerFlex(space-between, center, column);
         &-info{
             height: 50%;
@@ -201,7 +201,11 @@
                 margin: 10px;
                 height: auto;
                 
-                text-align: center;
+                text-align: left;
+                
+                span{
+                    color: gray;
+                }
             }
         }
         &-chat{

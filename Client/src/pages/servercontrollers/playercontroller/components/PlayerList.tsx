@@ -2,25 +2,23 @@ import { useEffect, useState } from "react";
 import IServer from "../../../../interfaces/IServer";
 import { socket } from "../../../../socket/socket";
 import Player from "./Player";
+import IPlayer from "../../../../interfaces/IPlayer";
 
-function PlayerList(props: {
+export default function PlayerList(props: {
   server: IServer;
   onPlayerClick: any;
-  selectedPlayer: any;
+  selectedPlayer: IPlayer | null;
 }) {
-  const [players, setPlayers] = useState<any>([]);
+  const [players, setPlayers] = useState<IPlayer[]>([]);
 
   useEffect(() => {
     function updatePlayers() {
       socket.on(`server:get-playerlist-${props.server.id}`, (players) => {
         setPlayers(players);
+        console.log(players);
       });
     }
-    updatePlayers();
-  }, []);
-  useEffect(
     function loadPlayers() {
-      console.log(props.server.id);
       socket.emit(
         "feature:server",
         socket.id,
@@ -28,23 +26,34 @@ function PlayerList(props: {
         "playerlist",
         {}
       );
-    },
-    [props.server]
-  );
+    }
+    loadPlayers();
+    updatePlayers();
+  }, []);
+
   if (players.length <= 0) {
-    return <div className="playerlist-noplayers">Geen spelers online!</div>;
-  } else {
-    return players.map((player: { UUID: any; Displayname: any }) => (
-      <div key={player.UUID}>
-        {
-          <Player
-            player={player}
-            onPlayerClick={props.onPlayerClick}
-            selectedPlayer={props.selectedPlayer}
-          />
-        }
+    return (
+      <div className="playerlist-noplayers">
+        There are currently no players online
       </div>
-    ));
+    );
+  } else {
+    return (
+      <div>
+        {players.map((player: IPlayer) => {
+          return (
+            <div key={player.uuid}>
+              {
+                <Player
+                  player={player}
+                  onPlayerClick={props.onPlayerClick}
+                  selectedPlayer={props.selectedPlayer}
+                />
+              }
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 }
-export default PlayerList;

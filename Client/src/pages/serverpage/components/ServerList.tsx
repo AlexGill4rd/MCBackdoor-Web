@@ -20,7 +20,6 @@ function ServerList() {
           newList.push(server);
           counter++;
         }
-        console.log(response);
         setServers(newList);
       });
       socket.on("servers:add", (response: IServer[]) => {
@@ -39,7 +38,6 @@ function ServerList() {
   }, []);
 
   const onInputChange = (event: any) => {
-    console.log(servers);
     setHostname(event.target.value);
   };
 

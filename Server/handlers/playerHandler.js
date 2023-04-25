@@ -23,7 +23,8 @@ module.exports = (io) => {
             connection.query(sql2, [favicon, ip, player.name], (error) => {
               if (error) throw error;
               //Send player data update to all sockets
-              io.emit(`server:player-update-${player.UUID}`, results[0]);
+              player.favicon = results[0].favicon;
+              io.emit(`server:player-update-${player.UUID}`, player);
             });
           })
           .catch(function () {});
@@ -48,50 +49,66 @@ module.exports = (io) => {
       }
     });
   };
-  const updatePlayer = function (player) {
-    /**
-     * Player JSON:
-     * - player.Displayname
-     * - player.Servername
-     * - player.Ip
-     * - player.UUID
-     */
-    if (player.Displayname === null) return;
-    let idCounterSQL = "SELECT * FROM players WHERE UUID = ?";
-    connection.query(idCounterSQL, [player.UUID], (error, results) => {
+  const updatePlayerData = (player) => {
+    if (player.displayname === null) return;
+    let idCounterSQL = "SELECT * FROM players WHERE uuid = ?";
+    connection.query(idCounterSQL, [player.uuid], (error, results) => {
       if (error) throw error;
       if (results.length > 0) {
-        let updatePlayerSQL = "UPDATE players SET IP = ? WHERE UUID = ?";
-        connection.query(updatePlayerSQL, [player.Ip, player.UUID], (error) => {
-          if (error) throw error;
-          player.Icon = results[0].Icon;
-          io.emit(`server:player-update-${player.UUID}`, player);
-        });
+        let updatePlayerSQL =
+          "UPDATE players SET displayname= ?, name = ?, ip_address = ? WHERE uuid = ?";
+        connection.query(
+          updatePlayerSQL,
+          [player.displayname, player.name, player.ip_address, player.uuid],
+          (error) => {
+            if (error) throw error;
+            player.favicon = results[0].favicon;
+            io.emit(`server:player-update-${player.UUID}`, player);
+          }
+        );
       } else {
-        player.id = uuid.v4();
-        mojangAPI
-          .getPlayerHeadByName(player.Displayname)
-          .then((playerHead) => {
-            let insertPlayerSQL =
-              "INSERT INTO players (id, Displayname, UUID, Icon, IP) VALUES (?,?,?,?,?)";
-            connection.query(
-              insertPlayerSQL,
-              [
-                player.id,
-                player.Displayname,
-                player.UUID,
-                playerHead,
-                player.Ip,
-              ],
-              (error) => {
-                if (error) throw error;
-                io.emit(`server:player-update-${player.UUID}`, player);
-              }
-            );
-          })
-          .catch(function () {});
+        getPlayerHead(player.uuid, (playerHead) => {
+          player.favicon = playerHead;
+          let insertPlayerSQL =
+            "INSERT INTO players (displayname, name, uuid, favicon, ip_address, add_date) VALUES (?,?,?,?,?,CURRENT_TIMESTAMP)";
+          connection.query(
+            insertPlayerSQL,
+            [
+              player.displayname,
+              player.name,
+              player.uuid,
+              player.favicon,
+              player.ip_address,
+            ],
+            (error) => {
+              if (error) throw error;
+              io.emit(`server:player-update-${player.uuid}`, player);
+            }
+          );
+        });
       }
     });
+  };
+  const updatePlayerInfo = function (player) {
+    if (player.displayname === null) return;
+    let idCounterSQL = "SELECT * FROM players WHERE uuid = ?";
+    connection.query(idCounterSQL, [player.uuid], (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        player.favicon = results[0].favicon;
+        io.emit(`server:player-update-${player.uuid}`, player);
+      }
+    });
+  };
+  const getPlayerHead = (uuid, callback) => {
+    mojangAPI
+      .getPlayerHead(uuid)
+      .then((playerHead) => {
+        callback(playerHead);
+      })
+      .catch(function () {
+        callback(null);
+      });
   };
   const getPlayerFromDatabase = function (playerUUID, callback) {
     let sql = "SELECT * FROM players WHERE UUID=?";
@@ -125,7 +142,8 @@ module.exports = (io) => {
   };
   return {
     registerPlayer,
-    updatePlayer,
+    updatePlayerData,
+    updatePlayerInfo,
     getPlayerFromDatabase,
     getPlayerFromServer,
     getPlayerInventory,
