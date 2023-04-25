@@ -1,49 +1,53 @@
 @import "../../../../../globalscss/Functions.scss";
 @import "../../../../../globalscss/Colors.scss";
 
-.spelerdata-container{
-    width: 100%;
-    height: calc(100% - 100px);
-    overflow-y: auto;
-    overflow-x: hidden;
+.spelerdata-container {
+  width: 100%;
+  height: calc(100% - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
 
-    padding: 40px;
+  padding: 40px;
 
-    @include centerFlex(center, flex-start, column);
+  @include centerFlex(center, flex-start, column);
 }
-.spelerdata-data{
+.spelerdata-data {
+  width: 100%;
+  height: auto;
+  &-subject {
     width: 100%;
     height: auto;
-    &-subject{
-        width: 100%;
-        height: auto;
 
-        margin-bottom: 10px;
-        background-color: $blue-1;
-        border-radius: 5px;
-        padding: 10px 20px;
+    margin-bottom: 10px;
+    background-color: $blue-1;
+    border-radius: 5px;
+    padding: 10px 20px;
 
-        color: white;
+    color: white;
 
-        @include centerFlex(center, flex-start, column);
-        &-title{
-            font-size: 1.1em;
-            font-weight: 500;
-        }
-        img{
-            height: 15px;
-            width: auto;
-            margin-right: 3px;
-
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-            object-fit: cover;
-        }
-        &-hearts{
-            width: 100%;
-            text-align: center;
-            @include centerFlex(space-between, center, row);
-        }
+    @include centerFlex(center, flex-start, column);
+    &-title {
+      font-size: 1.1em;
+      font-weight: 500;
     }
+    span {
+      color: rgb(218, 218, 218);
+      margin-top: 5px;
+    }
+    img {
+      height: 15px;
+      width: auto;
+      margin-right: 3px;
+
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+      object-fit: cover;
+    }
+    &-hearts {
+      width: 100%;
+      text-align: center;
+      @include centerFlex(space-between, center, row);
+    }
+  }
 }

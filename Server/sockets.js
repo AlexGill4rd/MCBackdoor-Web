@@ -1,5 +1,5 @@
 const PORT = 3001;
-const HOSTNAME = "10.150.195.29";
+const HOSTNAME = "192.168.0.244";
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");

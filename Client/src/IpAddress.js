@@ -1,6 +1,6 @@
 class IpAddress {
   constructor(props) {
-    this.ip = "10.150.195.29";
+    this.ip = "192.168.0.244";
   }
   getIP() {
     return this.ip;
