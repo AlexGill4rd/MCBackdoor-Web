@@ -277,11 +277,15 @@ module.exports = (io) => {
         target.add_date = results[i].add_date;
         correctData.push(target);
       }
-      console.log("ja");
-      io.to(clientsocketid).emit(
-        `server:get-playerlist-${server_id}`,
-        correctData
-      ); //Send request for playerlist to minecraft server
+      //Send request for playerlist to minecraft server
+      if (clientsocketid === null) {
+        io.emit(`server:get-playerlist-${server_id}`, correctData);
+      } else {
+        io.to(clientsocketid).emit(
+          `server:get-playerlist-${server_id}`,
+          correctData
+        );
+      }
     });
   };
 
