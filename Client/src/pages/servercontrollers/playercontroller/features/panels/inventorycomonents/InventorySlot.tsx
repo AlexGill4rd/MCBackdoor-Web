@@ -1,5 +1,5 @@
 import { CircularProgress, Tooltip } from "@mui/material";
-import "./ItemStyle.scss";
+import "./InventorySlotStyle.scss";
 
 import { FaTrash } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
@@ -9,13 +9,15 @@ import { FaSave } from "react-icons/fa";
 import { Menu, MenuItem, MenuDivider, MenuHeader } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import Enchanting from "./Enchanting";
-import IItem from "../../../../../../interfaces/IItemstack";
+import ISlot from "../../../../../../interfaces/ISlot";
+import { ReactElement } from "react";
+import { socket } from "../../../../../../socket/socket";
+import IServer from "../../../../../../interfaces/IServer";
 
-function Item(props: {
+function InventorySlot(props: {
+  server: IServer;
   type: string;
-  item: IItem;
-  slot: number;
-  InventoryAction: Function;
+  slot: ISlot;
   ItemStartDragging: Function;
   ItemDragDrop: any;
   ItemDragEnter: Function;
@@ -28,50 +30,49 @@ function Item(props: {
     }
     return noColorString;
   }
-  if (props.item.empty) {
+
+  if (props.slot.empty || props.slot.itemstack === undefined) {
     return (
       <div
         className="slot"
-        id={props.item.slot.toString()}
+        id={`slot-${props.slot.value}`}
         onDragOver={function (e: any) {
           e.preventDefault();
         }}
-        onDragEnter={() => props.ItemDragEnter(true, props.slot)}
+        onDragEnter={() => props.ItemDragEnter(props.slot)}
         onDrop={props.ItemDragDrop}
       ></div>
     );
   } else {
-    let displayname: any;
-    if (props.item.itemmeta !== undefined) {
-      if (props.item.itemmeta.displayname !== undefined) {
-        displayname = (
-          <>
-            <span style={{ color: "white" }}>Itemname: </span>
-            <span style={{ color: "rgb(200, 200, 200)" }}>
-              {stripColor(props.item.itemmeta.displayname)}
-            </span>
-          </>
-        );
-      }
+    let displayname: ReactElement = <></>;
+    if (props.slot.itemstack.itemmeta.displayname !== undefined) {
+      displayname = (
+        <>
+          <span style={{ color: "white" }}>Itemname: </span>
+          <span style={{ color: "rgb(200, 200, 200)" }}>
+            {stripColor(props.slot.itemstack.itemmeta.displayname)}
+          </span>
+        </>
+      );
     }
     let type = (
       <>
         <span style={{ color: "white" }}>Type: </span>
         <span style={{ color: "rgb(200, 200, 200)" }}>
-          {props.item.type.replaceAll("_", " ").toString().toLowerCase()}
+          {props.slot.itemstack.itemmeta.type
+            .replaceAll("_", " ")
+            .toString()
+            .toLowerCase()}
         </span>
       </>
     );
     let lore: string[] = [];
-    if (
-      props.item.itemmeta !== undefined &&
-      props.item.itemmeta.lore !== undefined
-    ) {
-      lore = props.item.itemmeta.lore;
-    }
+    if (props.slot.itemstack.itemmeta.lore !== undefined)
+      lore = props.slot.itemstack.itemmeta.lore;
+
     let tooltip = [
       <div key={0} className="slot-tooltip">
-        <div className="slot-title">{displayname !== "" && displayname}</div>
+        <div className="slot-title">{displayname}</div>
         <div className="slot-type">{type}</div>
         <div className="slot-lore">
           {lore.length > 0 && <div>Lore:</div>}
@@ -89,43 +90,71 @@ function Item(props: {
         </div>
       </div>,
     ];
-    var removeAction = props.type === "enderchest" ? "ender-remove" : "remove";
-    var duplicateAction =
-      props.type === "enderchest" ? "ender-duplicate" : "duplicate";
-    var dropAction = props.type === "enderchest" ? "ender-drop" : "drop";
+
+    const handleSaveSlot = (slot: ISlot) => {
+      const savePacket = {
+        server_id: props.server.id,
+        itemstack: slot.itemstack,
+        player_uuid: props.player?.uuid,
+      };
+      socket.emit("saveditem:new", saveItem);
+      socket.emit("feature:player-log", socket.id, {
+        title: "Inventory Saved",
+        message: "Item successfully saved in storage!",
+        severity: "success",
+      });
+    };
+    const inventoryAction = (action: string, slot: ISlot) => {
+      const packet = {
+        action: action,
+        slot: slot.value,
+        item: slot.itemstack,
+      };
+      socket.emit(
+        "feature:player",
+        socket.id,
+        props.server.id,
+        props.player?.uuid,
+        "inventory",
+        packet
+      );
+    };
+
     return (
       <Menu
         className="slot-contextmenu"
         menuButton={
           <Tooltip placement="top" title={tooltip} disableInteractive>
-            <div className="slot noselect" id={props.item.slot.toString()}>
+            <div className="slot noselect" id={`slot-${props.slot.value}`}>
               <div
                 className="item"
                 draggable="true"
                 onDragOver={function (e: any) {
                   e.preventDefault();
                 }}
-                onDragStart={(e) => props.ItemStartDragging(e, props.item)}
+                onDragStart={(e) => props.ItemStartDragging(e, props.slot)}
                 onDragEnter={() => props.ItemDragEnter(false)}
                 onDrop={props.ItemDragDrop}
               >
-                {props.item.itemmeta !== undefined &&
-                props.item.itemmeta.enchantments !== undefined ? (
+                {props.slot.itemstack.itemmeta !== undefined &&
+                props.slot.itemstack.itemmeta.enchants !== undefined ? (
                   <Enchanting />
                 ) : (
                   <></>
                 )}
-                {props.item.data.texture !== undefined ? (
+                {props.slot.itemstack.data?.texture !== undefined ? (
                   <img
                     style={{ width: 50, height: 50 }}
-                    src={props.item.data.texture}
+                    src={props.slot.itemstack.data.texture}
                     alt="item icon"
                   />
                 ) : (
                   <CircularProgress />
                 )}
               </div>
-              <span className="slot-amount">{props.item.amount}</span>
+              <span className="slot-amount">
+                {props.slot.itemstack.itemmeta.amount}
+              </span>
             </div>
           </Tooltip>
         }

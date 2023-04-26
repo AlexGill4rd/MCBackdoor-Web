@@ -4,19 +4,13 @@ import IPlayer from "../../../../../../interfaces/IPlayer";
 import IServer from "../../../../../../interfaces/IServer";
 import JSONitem from "../../../../../../interfaces/JSONitem";
 import { socket } from "../../../../../../socket/socket";
-import Item from "./Item";
+import InventorySlot from "./InventorySlot";
 import inventoryTextures from "../InventoryTextures.json";
 
 import "./PlayerInventoryPaneStyle.scss";
-import { InventoryAction } from "./enums/inventoryaction";
-import IItemstack from "../../../../../../interfaces/IItemstack";
 import ISlot from "../../../../../../interfaces/ISlot";
 
-function PlayerInventoryPane(props: {
-  player: IPlayer;
-  server: IServer;
-  inventoryAction: Function;
-}) {
+function PlayerInventoryPane(props: { player: IPlayer; server: IServer }) {
   let items = new Map<string, JSONitem>();
   const [inventorySlots, setInventorySlots] = useState<any>([]);
 
@@ -28,7 +22,7 @@ function PlayerInventoryPane(props: {
         props.server.id,
         props.player.uuid,
         "inventory",
-        { action: InventoryAction.get_inventory }
+        { action: "get_inventory" }
       );
     };
     const updatePlayerInventory = () => {
@@ -60,143 +54,75 @@ function PlayerInventoryPane(props: {
     updatePlayerInventory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [draggingItem, setDraggingItem] = useState<IItem | undefined>(
-    undefined
-  );
+  const [dragToSlot, setDragToSlot] = useState<ISlot | undefined>(undefined);
   const [dragElement, setDragElement] = useState<Element>();
-  const [originalSlot, setOriginalSlot] = useState<number | undefined>(
+  const [originalSlot, setOriginalSlot] = useState<ISlot | undefined>(
     undefined
   );
 
-  function handleItemStartDragging(e: any, item: IItem) {
-    setDraggingItem(item);
-    setOriginalSlot(item.slot);
+  const handleItemStartDragging = (e: any, slot: ISlot) => {
+    setOriginalSlot(slot);
     setDragElement(e.currentTarget);
     e.currentTarget.classList.add("dragging");
-  }
-  function handleDragEnter(empty: boolean, slot: number) {
-    if (empty && slot !== undefined && draggingItem !== undefined) {
-      moveItem(draggingItem, slot);
-    }
-  }
+  };
+  const handleDragEnter = (slot: ISlot) => {
+    if (!slot.empty || slot === undefined || originalSlot === undefined) return;
 
-  const moveItem = (item: IItem, slot: number) => {
-    let newInventory: any[] = inventoryItems;
+    setDragToSlot(slot);
+    moveItem(originalSlot, slot);
+  };
 
-    let moveToItem: IItem | undefined = getItemFromSlot(slot);
+  const moveItem = (from_slot: ISlot, to_slot: ISlot) => {
+    let newSlots: ISlot[] = inventorySlots;
 
-    if (moveToItem === undefined) {
-      socket.emit("feature:player-log", socket.id, {
-        title: "Inventory Error",
-        message: "Can't move to this slot",
-        severity: "error",
-      });
+    const from_slot_index = inventorySlots.indexOf(from_slot);
+    const to_slot_index = inventorySlots.indexOf(to_slot);
+
+    swapElements(newSlots, from_slot_index, to_slot_index);
+
+    setInventorySlots(newSlots);
+  };
+  const swapElements = (array: any[], index1: any, index2: any) => {
+    let temp = array[index1];
+    array[index1] = array[index2];
+    array[index2] = temp;
+  };
+  const handleItemDragDrop = () => {
+    if (
+      originalSlot === undefined ||
+      originalSlot.empty ||
+      dragToSlot === undefined ||
+      dragElement === undefined
+    )
       return;
-    }
-    if (!isItemAir(moveToItem)) return;
 
-    let moveSlotIndex: number = newInventory.indexOf(moveToItem);
-    let itemstackIndex: number = newInventory.indexOf(item);
+    var data = {
+      type: "move-inventory",
+      from_slot: originalSlot,
+      to_slot: dragToSlot.value,
+    };
+    socket.emit(
+      "feature:player",
+      socket.id,
+      props.server.id,
+      props.player.uuid,
+      "inventory",
+      data
+    );
 
-    item.slot = slot;
-
-    moveToItem = item;
-
-    newInventory[moveSlotIndex] = moveToItem;
-    newInventory[itemstackIndex] = item.slot;
-
-    let bugVar = newInventory.slice();
-    setInventoryItems(bugVar);
-  };
-  const isItemAir = (item: IItem) => {
-    return item.data.id === "minecraft:air";
-  };
-  function handleItemDragDrop() {
-    if (originalSlot !== undefined && inventoryItems !== undefined) {
-      const originalSlotItem: IItem | undefined = getItemFromSlot(originalSlot);
-      if (originalSlotItem === undefined) {
-        socket.emit("feature:player-log", socket.id, {
-          title: "Inventory Error",
-          message: "The original slot item is air!",
-          severity: "error",
-        });
-        return;
-      }
-      if (draggingItem === undefined) {
-        socket.emit("feature:player-log", socket.id, {
-          title: "Inventory Error",
-          message: "Dragging item is undefined",
-          severity: "error",
-        });
-        return;
-      }
-      if (isItemAir(originalSlotItem)) {
-        socket.emit("feature:player-log", socket.id, {
-          title: "Inventory Error",
-          message: "There already is an item on this slot",
-          severity: "error",
-        });
-        return;
-      }
-      if (dragElement === undefined) {
-        socket.emit("feature:player-log", socket.id, {
-          title: "Inventory Error",
-          message: "Drag element is undefined",
-          severity: "error",
-        });
-        return;
-      }
-      var data = {
-        type: "move-inventory",
-        from_slot: originalSlot,
-        to_slot: draggingItem.slot,
-      };
-      socket.emit(
-        "feature:player",
-        socket.id,
-        props.server.id,
-        props.player.uuid,
-        "inventory",
-        data
-      );
-
-      setDraggingItem(undefined);
-      setOriginalSlot(undefined);
-      dragElement.classList.remove("dragging");
-    }
-  }
-  const getItemFromSlot = (slot: number) => {
-    let itemFound: IItem | undefined = undefined;
-    inventoryItems.forEach((item: IItem) => {
-      if (item.slot === slot) itemFound = item;
-    });
-    return itemFound;
+    setDragToSlot(undefined);
+    setOriginalSlot(undefined);
+    dragElement.classList.remove("dragging");
   };
   return (
     <div className="inventory-panel">
       <div className="inventory-panel-items">
-        {inventoryItems.map((item: IItem, index: number) => {
-          if (item.empty) {
-            return (
-              <Item
-                key={index}
-                type={"player-inventory"}
-                slot={item.slot}
-                item={item}
-                InventoryAction={props.inventoryAction}
-                ItemStartDragging={handleItemStartDragging}
-                ItemDragDrop={handleItemDragDrop}
-                ItemDragEnter={handleDragEnter}
-              />
-            );
-          }
+        {inventorySlots.map((slot: ISlot, index: number) => {
           return (
-            <Item
-              key={index}
+            <InventorySlot
+              key={slot.value}
               type={"player-inventory"}
-              slot={item.slot}
-              item={item}
-              InventoryAction={props.inventoryAction}
+              slot={slot}
               ItemStartDragging={handleItemStartDragging}
               ItemDragDrop={handleItemDragDrop}
               ItemDragEnter={handleDragEnter}

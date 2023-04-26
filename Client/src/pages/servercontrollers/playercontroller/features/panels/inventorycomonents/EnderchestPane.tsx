@@ -5,7 +5,7 @@ import IServer from "../../../../../../interfaces/IServer";
 import JSONitem from "../../../../../../interfaces/JSONitem";
 import { socket } from "../../../../../../socket/socket";
 import "./EnderchestPaneStyle.scss";
-import Item from "./Item";
+import Item from "./InventorySlot";
 
 function EnderchestPane(props: {
   player: IPlayer;

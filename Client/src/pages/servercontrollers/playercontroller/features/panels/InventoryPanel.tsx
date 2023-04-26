@@ -13,6 +13,7 @@ import IServer from "../../../../../interfaces/IServer";
 import IPlayer from "../../../../../interfaces/IPlayer";
 import IItemstack from "../../../../../interfaces/IItemstack";
 import { InventoryAction } from "./inventorycomonents/enums/inventoryaction";
+import ISlot from "../../../../../interfaces/ISlot";
 
 function InventoryPanel(props: { server: IServer; player: IPlayer | null }) {
   const [inventoryType, setInventoryType] = useState<string | null>(null);
@@ -23,27 +24,18 @@ function InventoryPanel(props: { server: IServer; player: IPlayer | null }) {
   };
 
   //Actions performed when right clicking on item
-  const inventoryAction = (action: InventoryAction, itemstack: IItemstack) => {
+  const inventoryAction = (action: InventoryAction, slot: ISlot) => {
+    if (slot.itemstack === undefined) return;
     switch (action) {
       case InventoryAction.save_item: {
-        const saveItem = {
-          server_id: props.server.id,
-          itemstack: itemstack,
-          player_uuid: props.player?.uuid,
-        };
-        socket.emit("saveditem:new", saveItem);
-        socket.emit("feature:player-log", socket.id, {
-          title: "Inventory Saved",
-          message: "Item successfully saved in storage!",
-          severity: "success",
-        });
+        
         break;
       }
       default: {
         const packet = {
           action: action,
-          slot: itemstack.slot,
-          item: itemstack,
+          slot: slot.value,
+          item: slot.itemstack,
         };
         socket.emit(
           "feature:player",
@@ -94,17 +86,16 @@ function InventoryPanel(props: { server: IServer; player: IPlayer | null }) {
         </div>
         {inventoryType === "default" &&
           <PlayerInventoryPane
+          server={props.server}
             player={props.player}
             server={props.server}
-            inventoryAction={inventoryAction}
           />
         )}
         {inventoryType === "enderchest" ? (
           <EnderchestPane
-            player={props.player}
+          server={props.server}
+          player={props.player}
             server={props.server}
-            itemList={items}
-            inventoryAction={inventoryAction}
           />
         ) : (
           <></>
