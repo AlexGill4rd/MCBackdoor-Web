@@ -3,17 +3,13 @@ import { CircularProgress, Tooltip } from "@mui/material";
 import "./PanelStyle.scss";
 import "./InventoryPanelStyle.scss";
 
-import { useEffect, useState } from "react";
-import { socket } from "../../../../../socket/socket";
-import PlayerInventoryPane from "./inventorycomonents/PlayerInventoryPane";
+import { useState } from "react";
+import PlayerInventoryPanel from "./inventorycomonents/PlayerInventoryPanel";
 import SavedItemsPane from "./inventorycomonents/SavedItemsPane";
-import EnderchestPane from "./inventorycomonents/EnderchestPane";
+import EnderchestPanel from "./inventorycomonents/EnderchestPanel";
 
 import IServer from "../../../../../interfaces/IServer";
 import IPlayer from "../../../../../interfaces/IPlayer";
-import IItemstack from "../../../../../interfaces/IItemstack";
-import { InventoryAction } from "./inventorycomonents/enums/inventoryaction";
-import ISlot from "../../../../../interfaces/ISlot";
 
 function InventoryPanel(props: { server: IServer; player: IPlayer | null }) {
   const [inventoryType, setInventoryType] = useState<string | null>(null);
@@ -23,31 +19,6 @@ function InventoryPanel(props: { server: IServer; player: IPlayer | null }) {
     setInventoryType(type);
   };
 
-  //Actions performed when right clicking on item
-  const inventoryAction = (action: InventoryAction, slot: ISlot) => {
-    if (slot.itemstack === undefined) return;
-    switch (action) {
-      case InventoryAction.save_item: {
-        
-        break;
-      }
-      default: {
-        const packet = {
-          action: action,
-          slot: slot.value,
-          item: slot.itemstack,
-        };
-        socket.emit(
-          "feature:player",
-          socket.id,
-          props.server.id,
-          props.player?.uuid,
-          "inventory",
-          packet
-        );
-      }
-    }
-  }
   if (props.player === null) {
     return <CircularProgress />;
   }
@@ -84,27 +55,13 @@ function InventoryPanel(props: { server: IServer; player: IPlayer | null }) {
             </div>
           </Tooltip>
         </div>
-        {inventoryType === "default" &&
-          <PlayerInventoryPane
-          server={props.server}
-            player={props.player}
-            server={props.server}
-          />
+        {inventoryType === "default" && (
+          <PlayerInventoryPanel server={props.server} player={props.player} />
         )}
-        {inventoryType === "enderchest" ? (
-          <EnderchestPane
-          server={props.server}
-          player={props.player}
-            server={props.server}
-          />
-        ) : (
-          <></>
+        {inventoryType === "enderchest" && (
+          <EnderchestPanel server={props.server} player={props.player} />
         )}
-        {inventoryType === "saved" ? (
-          <SavedItemsPane player={props.player} />
-        ) : (
-          <></>
-        )}
+        {inventoryType === "saved" && <SavedItemsPane player={props.player} />}
       </div>
     </>
   );

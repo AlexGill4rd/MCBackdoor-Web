@@ -7,10 +7,13 @@ import { socket } from "../../../../../../socket/socket";
 import InventorySlot from "./InventorySlot";
 import inventoryTextures from "../InventoryTextures.json";
 
-import "./PlayerInventoryPaneStyle.scss";
+import "./PlayerInventoryPanelStyle.scss";
 import ISlot from "../../../../../../interfaces/ISlot";
 
-function PlayerInventoryPane(props: { player: IPlayer; server: IServer }) {
+export default function PlayerInventoryPanel(props: {
+  player: IPlayer;
+  server: IServer;
+}) {
   let items = new Map<string, JSONitem>();
   const [inventorySlots, setInventorySlots] = useState<any>([]);
 
@@ -22,7 +25,7 @@ function PlayerInventoryPane(props: { player: IPlayer; server: IServer }) {
         props.server.id,
         props.player.uuid,
         "inventory",
-        { action: "get_inventory" }
+        { action: "get-inventory" }
       );
     };
     const updatePlayerInventory = () => {
@@ -36,7 +39,7 @@ function PlayerInventoryPane(props: { player: IPlayer; server: IServer }) {
               try {
                 slot.itemstack = JSON.parse(slot.itemstack);
                 slot.itemstack.data = items.get(
-                  `minecraft:${slot.itemstack.itemmeta.type.toLowerCase()}`
+                  `minecraft:${slot.itemstack.type.toLowerCase()}`
                 );
               } catch {}
             }
@@ -66,39 +69,52 @@ function PlayerInventoryPane(props: { player: IPlayer; server: IServer }) {
     e.currentTarget.classList.add("dragging");
   };
   const handleDragEnter = (slot: ISlot) => {
-    if (!slot.empty || slot === undefined || originalSlot === undefined) return;
+    if (slot === undefined || originalSlot === undefined) return;
 
     setDragToSlot(slot);
     moveItem(originalSlot, slot);
   };
 
   const moveItem = (from_slot: ISlot, to_slot: ISlot) => {
+    if (
+      from_slot === undefined ||
+      to_slot === undefined ||
+      from_slot.itemstack === undefined
+    )
+      return;
     let newSlots: ISlot[] = inventorySlots;
 
-    const from_slot_index = inventorySlots.indexOf(from_slot);
-    const to_slot_index = inventorySlots.indexOf(to_slot);
+    const copy_from_itemstack = JSON.parse(JSON.stringify(from_slot.itemstack));
 
-    swapElements(newSlots, from_slot_index, to_slot_index);
+    if (to_slot.empty) {
+      from_slot.empty = true;
+      delete from_slot.itemstack;
+    } else {
+      from_slot.itemstack = to_slot.itemstack;
+      from_slot.empty = false;
+    }
+
+    to_slot.itemstack = copy_from_itemstack;
+    to_slot.empty = false;
 
     setInventorySlots(newSlots);
   };
-  const swapElements = (array: any[], index1: any, index2: any) => {
-    let temp = array[index1];
-    array[index1] = array[index2];
-    array[index2] = temp;
+
+  const handleDragLeave = () => {
+    if (originalSlot === undefined || dragToSlot === undefined) return;
+    moveItem(dragToSlot, originalSlot);
   };
   const handleItemDragDrop = () => {
     if (
       originalSlot === undefined ||
-      originalSlot.empty ||
       dragToSlot === undefined ||
       dragElement === undefined
     )
       return;
 
     var data = {
-      type: "move-inventory",
-      from_slot: originalSlot,
+      action: "move-inventory",
+      from_slot: originalSlot.value,
       to_slot: dragToSlot.value,
     };
     socket.emit(
@@ -122,10 +138,12 @@ function PlayerInventoryPane(props: { player: IPlayer; server: IServer }) {
             <InventorySlot
               key={slot.value}
               type={"player-inventory"}
+              player={props.player}
               slot={slot}
               ItemStartDragging={handleItemStartDragging}
               ItemDragDrop={handleItemDragDrop}
               ItemDragEnter={handleDragEnter}
+              ItemDragLeave={handleDragLeave}
             />
           );
         })}
@@ -133,4 +151,3 @@ function PlayerInventoryPane(props: { player: IPlayer; server: IServer }) {
     </div>
   );
 }
-export default PlayerInventoryPane;

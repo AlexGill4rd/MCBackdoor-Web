@@ -12,15 +12,16 @@ import Enchanting from "./Enchanting";
 import ISlot from "../../../../../../interfaces/ISlot";
 import { ReactElement } from "react";
 import { socket } from "../../../../../../socket/socket";
-import IServer from "../../../../../../interfaces/IServer";
+import IPlayer from "../../../../../../interfaces/IPlayer";
 
-function InventorySlot(props: {
-  server: IServer;
+export default function InventorySlot(props: {
+  player: IPlayer;
   type: string;
   slot: ISlot;
   ItemStartDragging: Function;
   ItemDragDrop: any;
   ItemDragEnter: Function;
+  ItemDragLeave: Function;
 }) {
   function stripColor(string: string) {
     var noColorString = "";
@@ -45,7 +46,7 @@ function InventorySlot(props: {
     );
   } else {
     let displayname: ReactElement = <></>;
-    if (props.slot.itemstack.itemmeta.displayname !== undefined) {
+    if (props.slot.itemstack.itemmeta?.displayname !== undefined) {
       displayname = (
         <>
           <span style={{ color: "white" }}>Itemname: </span>
@@ -59,7 +60,7 @@ function InventorySlot(props: {
       <>
         <span style={{ color: "white" }}>Type: </span>
         <span style={{ color: "rgb(200, 200, 200)" }}>
-          {props.slot.itemstack.itemmeta.type
+          {props.slot.itemstack.type
             .replaceAll("_", " ")
             .toString()
             .toLowerCase()}
@@ -67,7 +68,7 @@ function InventorySlot(props: {
       </>
     );
     let lore: string[] = [];
-    if (props.slot.itemstack.itemmeta.lore !== undefined)
+    if (props.slot.itemstack.itemmeta?.lore !== undefined)
       lore = props.slot.itemstack.itemmeta.lore;
 
     let tooltip = [
@@ -93,11 +94,11 @@ function InventorySlot(props: {
 
     const handleSaveSlot = (slot: ISlot) => {
       const savePacket = {
-        server_id: props.server.id,
+        server_id: props.player.server.id,
         itemstack: slot.itemstack,
-        player_uuid: props.player?.uuid,
+        player_uuid: props.player.uuid,
       };
-      socket.emit("saveditem:new", saveItem);
+      socket.emit("saveditem:new", savePacket);
       socket.emit("feature:player-log", socket.id, {
         title: "Inventory Saved",
         message: "Item successfully saved in storage!",
@@ -113,7 +114,7 @@ function InventorySlot(props: {
       socket.emit(
         "feature:player",
         socket.id,
-        props.server.id,
+        props.player.server.id,
         props.player?.uuid,
         "inventory",
         packet
@@ -133,8 +134,9 @@ function InventorySlot(props: {
                   e.preventDefault();
                 }}
                 onDragStart={(e) => props.ItemStartDragging(e, props.slot)}
-                onDragEnter={() => props.ItemDragEnter(false)}
+                onDragEnter={() => props.ItemDragEnter(props.slot)}
                 onDrop={props.ItemDragDrop}
+                onDragLeave={() => props.ItemDragLeave()}
               >
                 {props.slot.itemstack.itemmeta !== undefined &&
                 props.slot.itemstack.itemmeta.enchants !== undefined ? (
@@ -152,9 +154,7 @@ function InventorySlot(props: {
                   <CircularProgress />
                 )}
               </div>
-              <span className="slot-amount">
-                {props.slot.itemstack.itemmeta.amount}
-              </span>
+              <span className="slot-amount">{props.slot.itemstack.amount}</span>
             </div>
           </Tooltip>
         }
@@ -162,21 +162,38 @@ function InventorySlot(props: {
         <MenuHeader>Optie's</MenuHeader>
         <MenuItem
           className="slot-context-button"
-          onClick={() => props.InventoryAction(removeAction, props.item)}
+          onClick={() =>
+            inventoryAction(
+              props.type === "player-inventory" ? "remove" : "ender-remove",
+              props.slot
+            )
+          }
         >
           <FaTrash />
           <span>Remove Item</span>
         </MenuItem>
         <MenuItem
           className="slot-context-button"
-          onClick={() => props.InventoryAction(duplicateAction, props.item)}
+          onClick={() =>
+            inventoryAction(
+              props.type === "player-inventory"
+                ? "duplicate"
+                : "ender-duplicate",
+              props.slot
+            )
+          }
         >
           <FaCopy />
           <span>Duplicate item</span>
         </MenuItem>
         <MenuItem
           className="slot-context-button"
-          onClick={() => props.InventoryAction(dropAction, props.item)}
+          onClick={() =>
+            inventoryAction(
+              props.type === "player-inventory" ? "drop" : "ender-drop",
+              props.slot
+            )
+          }
         >
           <FaQuidditch />
           <span>Drop Item</span>
@@ -185,7 +202,7 @@ function InventorySlot(props: {
         <MenuHeader>Opslaan</MenuHeader>
         <MenuItem
           className="slot-context-button"
-          onClick={() => props.InventoryAction("save", props.item)}
+          onClick={() => handleSaveSlot(props.slot)}
         >
           <FaSave />
           <span>Save Item</span>
@@ -194,4 +211,3 @@ function InventorySlot(props: {
     );
   }
 }
-export default Item;

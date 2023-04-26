@@ -1,8 +1,8 @@
 export default interface IItemstack {
-  itemmeta: {
-    type: string;
+  amount: number;
+  type: string;
+  itemmeta?: {
     displayname?: string;
-    amount: number;
     data?: string;
     lore?: string[];
     enchants?: string[];
